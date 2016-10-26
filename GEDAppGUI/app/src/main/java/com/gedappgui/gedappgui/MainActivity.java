@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     /** Called when the user clicks the Settings button */
     public void gotToSettings(View view) {
-        setContentView(R.layout.settings_main);
+        setContentView(R.layout.activity_main);
     }
 
     /*@Override
