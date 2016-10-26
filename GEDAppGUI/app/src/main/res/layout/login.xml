@@ -19,7 +19,8 @@
         android:gravity="center"
         android:textSize="20sp" />
 
-    <EditText android:id="@+id/username_message"
+    <EditText
+        android:id="@+id/username_message"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:hint="@string/username_message" />

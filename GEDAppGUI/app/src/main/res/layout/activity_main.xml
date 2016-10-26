@@ -25,7 +25,6 @@
         android:scaleType="center"
         android:id="@+id/sprite_speechBubble"
         android:layout_toRightOf="@id/sprite_homeScreen"
-        android:text="@string/sprite_greeting"
         android:background="@drawable/speech_bubble" />
 
     <Button

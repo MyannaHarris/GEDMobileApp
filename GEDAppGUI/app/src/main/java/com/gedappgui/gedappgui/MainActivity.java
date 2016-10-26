@@ -3,24 +3,33 @@ package com.gedappgui.gedappgui;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-
-    public static boolean login = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!login)
+        if (!((MyApplication) this.getApplication()).getLoginStatus())
             setContentView(R.layout.login);
-        else
+        else {
             setContentView(R.layout.activity_main);
+            TextView greetingText = (TextView)findViewById(R.id.sprite_speechBubble);
+            greetingText.setText(((MyApplication) this.getApplication()).getName());
+        }
     }
 
     /** Called when the user clicks the Login button */
     public void setLogin(View view) {
-        login = true;
+        ((MyApplication) this.getApplication()).setLoginStatus(true);
+        EditText username = (EditText)findViewById(R.id.username_message);
+        ((MyApplication) this.getApplication()).setName(username.getText().toString());
         setContentView(R.layout.activity_main);
+        TextView greetingText = (TextView)findViewById(R.id.sprite_speechBubble);
+        String greeting = "Hello " + ((MyApplication) this.getApplication()).getName();
+        greeting += "!\nWelcome to the app.";
+        greetingText.setText(greeting);
     }
 
     /** Called when the user clicks the Home button */
