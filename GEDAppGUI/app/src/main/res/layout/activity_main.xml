@@ -32,7 +32,8 @@
         android:scaleType="centerCrop"
         android:paddingBottom="@dimen/picture_padding"
         android:src="@drawable/layers"
-        android:contentDescription="@string/sprite" />
+        android:contentDescription="@string/sprite"
+        android:onClick="gotToSprite" />
 
     <TextView
         android:layout_height="200dp"

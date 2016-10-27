@@ -50,6 +50,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    /** Called when the user clicks the Sprite */
+    public void gotToSprite(View view) {
+        Intent intent = new Intent(this, Sprite.class);
+        startActivity(intent);
+    }
+
     /** Called when the user clicks the Continue Lesson button */
     public void gotToContinueLesson(View view) {
         Intent intent = new Intent(this, LearnConcepts.class);
