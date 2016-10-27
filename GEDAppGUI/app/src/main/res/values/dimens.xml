@@ -1,3 +1,17 @@
+<!--
+ dimens.xml
+
+ Dimension variables for app
+
+ Worked on by:
+ Myanna Harris
+ Kristina Spring
+ Jasmine Jans
+ Jimmy Sherman
+
+ Last Edit: 10-26-16
+-->
+
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>

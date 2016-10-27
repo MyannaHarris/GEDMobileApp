@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--
+ layers.xml
+
+ List of image layers for sprite
+
+ Worked on by:
+ Myanna Harris
+ Kristina Spring
+ Jasmine Jans
+ Jimmy Sherman
+
+ Last Edit: 10-26-16
+-->
+
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <bitmap android:src="@drawable/squish"

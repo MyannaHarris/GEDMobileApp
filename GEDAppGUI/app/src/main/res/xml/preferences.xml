@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+ preferences.xml
+
+ Preference screen for app settings
+
+ Worked on by:
+ Myanna Harris
+ Kristina Spring
+ Jasmine Jans
+ Jimmy Sherman
+
+ Last Edit: 10-26-16
+-->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/settings">
+
+    <CheckBoxPreference
+        android:key="sound_preference"
+        android:title="@string/sound_title"
+        android:summary="@string/sound_summary" />
+
+    <EditTextPreference
+        android:key="username_preference"
+        android:title="@string/username_title"
+        android:summary="@string/username_summary" />
+
+</PreferenceScreen>

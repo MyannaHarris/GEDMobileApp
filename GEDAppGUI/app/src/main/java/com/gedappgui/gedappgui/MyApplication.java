@@ -1,3 +1,18 @@
+/*
+ * MyApplication.java
+ *
+ * Global variables
+ *
+ * Worked on by:
+ * Myanna Harris
+ * Kristina Spring
+ * Jasmine Jans
+ * Jimmy Sherman
+ *
+ * Last Edit: 10-26-16
+ *
+ */
+
 package com.gedappgui.gedappgui;
 
 import android.app.Application;

@@ -1,5 +1,21 @@
+/*
+ * MainActivity.java
+ *
+ * Home screen activity
+ *
+ * Worked on by:
+ * Myanna Harris
+ * Kristina Spring
+ * Jasmine Jans
+ * Jimmy Sherman
+ *
+ * Last Edit: 10-26-16
+ *
+ */
+
 package com.gedappgui.gedappgui;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,25 +27,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!((MyApplication) this.getApplication()).getLoginStatus())
-            setContentView(R.layout.login);
+        if (!((MyApplication) this.getApplication()).getLoginStatus()) {
+            Intent intent = new Intent(this, Login.class);
+            startActivity(intent);
+        }
         else {
             setContentView(R.layout.activity_main);
             TextView greetingText = (TextView)findViewById(R.id.sprite_speechBubble);
-            greetingText.setText(((MyApplication) this.getApplication()).getName());
+            String greeting = "Hello " + ((MyApplication) this.getApplication()).getName();
+            greeting += "!\nWelcome to the app.";
+            greetingText.setText(greeting);
         }
     }
 
-    /** Called when the user clicks the Login button */
-    public void setLogin(View view) {
-        ((MyApplication) this.getApplication()).setLoginStatus(true);
-        EditText username = (EditText)findViewById(R.id.username_message);
-        ((MyApplication) this.getApplication()).setName(username.getText().toString());
-        setContentView(R.layout.activity_main);
-        TextView greetingText = (TextView)findViewById(R.id.sprite_speechBubble);
-        String greeting = "Hello " + ((MyApplication) this.getApplication()).getName();
-        greeting += "!\nWelcome to the app.";
-        greetingText.setText(greeting);
+    @Override
+    public void onBackPressed() {
+        // Do nothing when back pressed from home screen
     }
 
     /** Called when the user clicks the Home button */
@@ -39,37 +52,37 @@ public class MainActivity extends AppCompatActivity {
 
     /** Called when the user clicks the Continue Lesson button */
     public void gotToContinueLesson(View view) {
-        setContentView(R.layout.activity_main);
+        Intent intent = new Intent(this, LearnConcepts.class);
+        startActivity(intent);
     }
 
     /** Called when the user clicks the Learn button */
     public void gotToLearn(View view) {
-        setContentView(R.layout.activity_main);
+        Intent intent = new Intent(this, LearnConcepts.class);
+        startActivity(intent);
     }
 
     /** Called when the user clicks the Play button */
     public void gotToPlay(View view) {
-        setContentView(R.layout.activity_main);
+        Intent intent = new Intent(this, Play.class);
+        startActivity(intent);
     }
 
     /** Called when the user clicks the Achievements button */
     public void gotToAchievements(View view) {
-        setContentView(R.layout.activity_main);
+        Intent intent = new Intent(this, Achievements.class);
+        startActivity(intent);
     }
 
     /** Called when the user clicks the Tools button */
     public void gotToTools(View view) {
-        setContentView(R.layout.activity_main);
+        Intent intent = new Intent(this, Tools.class);
+        startActivity(intent);
     }
 
     /** Called when the user clicks the Settings button */
     public void gotToSettings(View view) {
-        setContentView(R.layout.activity_main);
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
     }
-
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.settings, menu);
-        return true;
-    }*/
 }
