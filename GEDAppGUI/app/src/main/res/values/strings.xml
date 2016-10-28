@@ -25,6 +25,12 @@
     <string name="tools">Tools</string>
     <string name="settings">Settings</string>
 
+    <!-- Lesson buttons and text -->
+    <string name="lesson">Lesson Name</string>
+    <string name="lessonSummary">Lesson Summary</string>
+    <string name="lessonSteps">Lesson Steps</string>
+    <string name="lessonExample">Lesson Example</string>
+    <string name="lessonQuestions">Lesson Questions</string>
 
     <!-- Login page -->
     <string name="login">Login</string>

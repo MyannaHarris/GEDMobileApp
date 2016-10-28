@@ -37,6 +37,21 @@
         <activity
             android:name=".Sprite"
             android:label="@string/sprite" />
+        <activity
+            android:name=".LearnLessons"
+            android:label="Lessons" />
+        <activity
+            android:name=".LessonSummary"
+            android:label="@string/lessonSummary" />
+        <activity
+            android:name=".LessonSteps"
+            android:label="@string/lessonSteps" />
+        <activity
+            android:name=".LessonExample"
+            android:label="@string/lessonExample" />
+        <activity
+            android:name=".Question"
+            android:label="@string/lessonQuestions" />
     </application>
 
 </manifest>
