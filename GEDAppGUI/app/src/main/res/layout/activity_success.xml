@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.gedappgui.gedappgui.GameIntro">
+
+
+    <TextView
+        android:text="Congratulations!"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/congratulations"
+        android:textSize="30sp" />
+
+    <TextView
+        android:text="Pick your sprite accessory:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/congratulations"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:id="@+id/accessory_choice"
+        android:textSize="18sp" />
+
+    <Button
+        android:text="To Sprite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/to_sprite"
+        android:textSize="18sp"
+        android:onClick="goToSprite"
+        android:layout_marginBottom="16dp"
+        android:layout_above="@+id/to_concepts"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="To Concepts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/to_concepts"
+        android:textSize="18sp"
+        android:onClick="goToConcepts"
+        android:layout_marginBottom="9dp"
+        android:layout_above="@+id/to_lesson"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="To Next Lesson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/to_lesson"
+        android:textSize="18sp"
+        android:onClick="goToNextLesson"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp" />
+
+    <CheckedTextView
+        android:text="Accessory 1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/accessory_1"
+        android:layout_below="@+id/accessory_choice"
+        android:layout_alignLeft="@+id/accessory_2"
+        android:layout_alignStart="@+id/accessory_2"
+        android:layout_marginTop="29dp"
+        android:checkMarkTint="@color/colorPrimaryDark"
+        android:checked="false" />
+
+    <CheckedTextView
+        android:text="Accessory 2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/accessory_2"
+        android:layout_below="@+id/accessory_1"
+        android:layout_alignLeft="@+id/accessory_3"
+        android:layout_alignStart="@+id/accessory_3"
+        android:layout_marginTop="19dp"
+        android:checkMarkTint="@color/colorPrimaryDark"
+        android:checked="false" />
+
+    <CheckedTextView
+        android:text="Accessory 3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/accessory_3"
+        android:layout_below="@+id/accessory_2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:checked="false"
+        android:checkMarkTint="@color/colorPrimaryDark" />
+
+    <ImageButton
+        app:srcCompat="@drawable/home_button"
+        android:id="@+id/home"
+        android:scaleType="fitCenter"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginRight="262dp"
+        android:layout_marginEnd="262dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="14dp"
+        android:onClick="goHome"/>
+
+</RelativeLayout>

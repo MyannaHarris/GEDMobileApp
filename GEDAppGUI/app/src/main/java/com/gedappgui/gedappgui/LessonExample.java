@@ -13,7 +13,7 @@ public class LessonExample extends AppCompatActivity {
         setContentView(R.layout.activity_lesson_example);
     }
     public void gotToLessonGame(View view) {
-        Intent intent = new Intent(this, Question.class);
+        Intent intent = new Intent(this, GameIntro.class);
         startActivity(intent);
     }
 }
