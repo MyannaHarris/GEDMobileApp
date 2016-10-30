@@ -2,8 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gedappgui.gedappgui">
 
-    <uses-permission android:name="android.permission.VIBRATE" />
-
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
