@@ -15,6 +15,7 @@
 -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -24,15 +25,122 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.gedappgui.gedappgui.Sprite">
 
+    <ImageButton
+        app:srcCompat="@drawable/squish"
+        android:id="@+id/imageButton2"
+        android:layout_width="50dp"
+        android:cropToPadding="false"
+        android:adjustViewBounds="false"
+        android:layout_height="50dp"
+        android:layout_alignTop="@+id/imageButton"
+        android:layout_alignRight="@+id/sprite_homeScreen"
+        android:layout_alignEnd="@+id/sprite_homeScreen" />
+
+    <ImageButton
+        app:srcCompat="@drawable/squish"
+        android:id="@+id/imageButton"
+        android:layout_width="50dp"
+        android:cropToPadding="false"
+        android:adjustViewBounds="false"
+        android:layout_height="50dp"
+        android:layout_alignTop="@+id/imageButton3"
+        android:layout_centerHorizontal="true" />
+
+    <ImageButton
+        app:srcCompat="@drawable/squish"
+        android:id="@+id/imageButton3"
+        android:layout_width="50dp"
+        android:cropToPadding="false"
+        android:adjustViewBounds="false"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/imageButton6"
+        android:layout_alignStart="@+id/imageButton6" />
+
+    <ImageButton
+        app:srcCompat="@drawable/squish"
+        android:id="@+id/imageButton4"
+        android:layout_width="50dp"
+        android:cropToPadding="false"
+        android:adjustViewBounds="false"
+        android:layout_height="50dp"
+        android:layout_alignTop="@+id/imageButton6"
+        android:layout_alignLeft="@+id/imageButton"
+        android:layout_alignStart="@+id/imageButton" />
+
+    <ImageButton
+        app:srcCompat="@drawable/squish"
+        android:id="@+id/imageButton5"
+        android:layout_width="50dp"
+        android:cropToPadding="false"
+        android:adjustViewBounds="false"
+        android:layout_height="50dp"
+        android:layout_alignTop="@+id/imageButton4"
+        android:layout_alignLeft="@+id/imageButton2"
+        android:layout_alignStart="@+id/imageButton2" />
+
+    <ImageButton
+        app:srcCompat="@drawable/squish"
+        android:id="@+id/imageButton6"
+        android:layout_width="50dp"
+        android:cropToPadding="false"
+        android:adjustViewBounds="false"
+        android:layout_height="50dp"
+        android:layout_marginBottom="34dp"
+        android:layout_above="@+id/imageButton3"
+        android:layout_alignLeft="@+id/sprite_homeScreen"
+        android:layout_alignStart="@+id/sprite_homeScreen" />
+
     <ImageView
-        android:layout_width="300dp"
-        android:layout_height="300dp"
         android:id="@+id/sprite_homeScreen"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:scaleType="centerCrop"
         android:paddingBottom="@dimen/picture_padding"
         android:src="@drawable/layers"
-        android:contentDescription="@string/sprite" />
+        android:contentDescription="@string/sprite"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="Glasses"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sprite_homeScreen"
+        android:layout_alignLeft="@+id/sprite_homeScreen"
+        android:layout_alignStart="@+id/sprite_homeScreen"
+        android:id="@+id/button4"
+        android:layout_width="125dp"
+        style="@style/Widget.AppCompat.Button.Borderless" />
+
+    <Button
+        android:text="Shirts"
+        android:layout_height="wrap_content"
+        android:id="@+id/button"
+        android:layout_width="125dp"
+        android:layout_below="@+id/sprite_homeScreen"
+        android:layout_toRightOf="@+id/button4"
+        android:layout_toEndOf="@+id/button4"
+        style="@style/Base.Widget.AppCompat.Button.Borderless" />
+
+    <Button
+        android:text="Bling"
+        android:layout_height="wrap_content"
+        android:id="@+id/button2"
+        android:layout_width="125dp"
+        android:layout_below="@+id/button4"
+        android:layout_alignLeft="@+id/imageButton6"
+        android:layout_alignStart="@+id/imageButton6"
+        style="@style/Base.Widget.AppCompat.Button.Borderless" />
+
+    <Button
+        android:text="Hats"
+        android:layout_height="wrap_content"
+        android:id="@+id/button3"
+        android:layout_width="125dp"
+        android:layout_alignBaseline="@+id/button2"
+        android:layout_alignBottom="@+id/button2"
+        android:layout_toRightOf="@+id/button2"
+        android:layout_toEndOf="@+id/button2"
+        style="@style/Base.Widget.AppCompat.Button.Borderless" />
 
 </RelativeLayout>
