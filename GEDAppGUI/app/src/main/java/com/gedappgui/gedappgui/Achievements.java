@@ -26,6 +26,7 @@ public class Achievements extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_achievements);
+        DailyNotification.notify(this, "testing", 333);
     }
 
     public void goHome(View view) {
