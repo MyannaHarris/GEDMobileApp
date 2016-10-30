@@ -28,11 +28,26 @@
             android:name=".Play"
             android:label="@string/play" />
         <activity
+            android:name=".Game"
+            android:label="Game" />
+        <activity
+            android:name=".GameIntro"
+            android:label="Game Intro" />
+        <activity
+            android:name=".GameEnd"
+            android:label="Game End" />
+        <activity
+            android:name=".Success"
+            android:label="Success" />
+        <activity
             android:name=".Achievements"
             android:label="@string/achievements" />
         <activity
             android:name=".Tools"
             android:label="@string/tools" />
+        <activity
+            android:name=".ToolSample"
+            android:label="@string/toolSample" />
         <activity
             android:name=".Login"
             android:label="@string/login" />

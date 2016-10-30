@@ -143,4 +143,15 @@
         android:layout_toEndOf="@+id/button2"
         style="@style/Base.Widget.AppCompat.Button.Borderless" />
 
+    <ImageButton
+        app:srcCompat="@drawable/home_button"
+        android:id="@+id/home"
+        android:scaleType="fitCenter"
+        android:layout_width="65dp"
+        android:onClick="goHome"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_height="65dp" />
+
 </RelativeLayout>

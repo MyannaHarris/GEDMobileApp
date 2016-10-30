@@ -45,11 +45,6 @@ public class MainActivity extends AppCompatActivity {
         // Do nothing when back pressed from home screen
     }
 
-    /** Called when the user clicks the Home button */
-    public void goHome(View view) {
-        setContentView(R.layout.activity_main);
-    }
-
     /** Called when the user clicks the Sprite */
     public void gotToSprite(View view) {
         Intent intent = new Intent(this, Sprite.class);

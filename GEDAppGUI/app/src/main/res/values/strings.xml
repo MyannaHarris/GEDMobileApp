@@ -25,6 +25,9 @@
     <string name="tools">Tools</string>
     <string name="settings">Settings</string>
 
+    <!-- Tool buttons and text -->
+    <string name="toolSample">Tool Sample</string>
+
     <!-- Lesson buttons and text -->
     <string name="lesson">Lesson Name</string>
     <string name="lessonSummary">Lesson Summary</string>
