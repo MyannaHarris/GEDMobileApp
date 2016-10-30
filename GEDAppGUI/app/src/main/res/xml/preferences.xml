@@ -26,5 +26,9 @@
         android:key="username_preference"
         android:title="@string/username_title"
         android:summary="@string/username_summary" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:title="Send a notification every 24 hours"
+        android:key="check_box_preference_1" />
 
 </PreferenceScreen>
