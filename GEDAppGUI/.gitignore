@@ -6,3 +6,11 @@
 .DS_Store
 /build
 /captures
+/.idea/
+/.idea/copyright/
+/gradle/wrapper/
+build.gradle
+gradle.properties
+gradlew
+gradlew.bat
+settings.gradle
