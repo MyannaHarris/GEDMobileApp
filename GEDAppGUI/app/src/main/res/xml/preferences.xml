@@ -24,8 +24,10 @@
 
     <EditTextPreference
         android:key="username_preference"
+        android:id="@+id/namePref"
         android:title="@string/username_title"
-        android:summary="@string/username_summary" />
+        android:summary="@string/username_summary"
+        />
     <CheckBoxPreference
         android:defaultValue="false"
         android:title="Send a notification every 24 hours"

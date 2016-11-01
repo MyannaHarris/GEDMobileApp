@@ -18,6 +18,8 @@ package com.gedappgui.gedappgui;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.view.View;
+import android.widget.TextView;
 
 /**
  * Created by myannaharris on 10/26/16.
@@ -34,5 +36,13 @@ public class SettingsActivity extends PreferenceActivity {
         getFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new SettingsFragment())
                 .commit();
+    }
+
+    public void updateName(View view) {
+        TextView greetingText = (TextView)findViewById(R.id.namePref);
+        String name = greetingText.getText().toString();
+        if (name!=null && name!="") {
+            ((MyApplication) this.getApplication()).setName(name);
+        }
     }
 }
