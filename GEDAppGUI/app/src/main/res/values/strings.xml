@@ -9,7 +9,7 @@
  Jasmine Jans
  Jimmy Sherman
 
- Last Edit: 10-26-16
+ Last Edit: 10-31-16
 -->
 
 <resources>
@@ -60,6 +60,7 @@
     <!-- Text size-->
     <string name="text_size_title">Change Text Size</string>
     <string name="text_size_summary">Select app text size.</string>
+    <string name="text_size_default">Medium</string>
 
     <!-- Reset App -->
     <string name="reset_app_title">Reset App</string>

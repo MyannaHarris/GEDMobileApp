@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+ array.xml
+
+ Array variables for app
+
+ Worked on by:
+ Myanna Harris
+ Kristina Spring
+ Jasmine Jans
+ Jimmy Sherman
+
+ Last Edit: 10-31-16
+-->
+
+<resources>
+
+    <!-- Settings arrays -->
+
+    <!-- Text size arrays -->
+    <string-array name="text_sizes">
+        <item>"Small"</item>
+        <item>"Medium"</item>
+        <item>"Large"</item>
+    </string-array>
+
+    <string-array name="text_size_values">
+        <item>"1"</item>
+        <item>"2"</item>
+        <item>"3"</item>
+    </string-array>
+</resources>
