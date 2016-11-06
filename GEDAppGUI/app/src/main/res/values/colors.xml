@@ -18,4 +18,6 @@
     <color name="colorPrimary">#261059</color>
     <color name="colorPrimaryDark">#6f309f</color>
     <color name="colorAccent">#ccff7b</color>
+    <color name="colorBackgroundDark">#ca330450</color>
+    <color name="colorButtonLogin">#c2ffffff</color>
 </resources>

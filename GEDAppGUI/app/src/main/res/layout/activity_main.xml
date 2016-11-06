@@ -43,6 +43,15 @@
         android:layout_toRightOf="@id/sprite_homeScreen"
         android:background="@drawable/speech_bubble" />
 
+    <GridView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sprite_homeScreen"
+        android:numColumns="2"
+        android:gravity="center">
+
+    </GridView>
+
     <Button
         android:layout_width="150dp"
         android:layout_height="wrap_content"

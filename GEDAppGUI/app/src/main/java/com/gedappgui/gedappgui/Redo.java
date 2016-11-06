@@ -1,18 +1,3 @@
-/*
- * LearnConcepts.java
- *
- * Learn Concepts page activity
- *
- * Worked on by:
- * Myanna Harris
- * Kristina Spring
- * Jasmine Jans
- * Jimmy Sherman
- *
- * Last Edit: 10-26-16
- *
- */
-
 package com.gedappgui.gedappgui;
 
 import android.content.Intent;
@@ -23,14 +8,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-public class LearnConcepts extends AppCompatActivity {
+public class Redo extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_learn_concepts);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setContentView(R.layout.activity_redo);
     }
 
     /* 
@@ -50,6 +33,18 @@ public class LearnConcepts extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
+    /*
+     * Listens for the back button on the bottom navigation bar
+     * Stops app from allowing the back button to do anything
+     */
+    @Override
+    public void onBackPressed() {
+        // Do nothing when back pressed from home screen
+    }
+
+    /*
+     * Sets what menu will be in the action bar
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -57,6 +52,10 @@ public class LearnConcepts extends AppCompatActivity {
         return true;
     }
 
+    /*
+     * Listens for selections from the menu in the action bar
+     * Does action corresponding to selected item
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -81,9 +80,8 @@ public class LearnConcepts extends AppCompatActivity {
         return true;
     }
 
-    public void gotToLesson(View view) {
-        Intent intent = new Intent(this, LearnLessons.class);
+    public void goToRedoExample(View view) {
+        Intent intent = new Intent(this, RedoExample.class);
         startActivity(intent);
     }
-
 }

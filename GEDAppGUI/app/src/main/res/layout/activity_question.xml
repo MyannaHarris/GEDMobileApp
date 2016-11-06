@@ -14,7 +14,25 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Move on"
-        android:id="@+id/button"
+        android:text="Move on successfully"
+        android:id="@+id/success_button"
         android:onClick="goToSuccess"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Retry"
+        android:id="@+id/retry_button"
+        android:onClick="goToRedo"/>
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="
+        This will be a question having to do
+        with the lesson material. These are
+        meant to be assessments so students
+        can't continue on to the next lesson
+        until they pass a certain number of
+        higher level questions." />
 </LinearLayout>

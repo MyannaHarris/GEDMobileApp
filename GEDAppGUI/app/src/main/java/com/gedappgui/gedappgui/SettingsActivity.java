@@ -15,9 +15,13 @@
 
 package com.gedappgui.gedappgui;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.TextView;
 
@@ -36,6 +40,9 @@ public class SettingsActivity extends PreferenceActivity {
         getFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new SettingsFragment())
                 .commit();
+
+        // Enable the Up button
+        //getActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public void updateName(View view) {

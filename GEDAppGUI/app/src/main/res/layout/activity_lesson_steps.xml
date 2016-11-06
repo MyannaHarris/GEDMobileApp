@@ -18,7 +18,14 @@
         android:layout_marginRight="@dimen/button_horiz_margin"
         android:layout_marginBottom="@dimen/button_vert_margin"
         android:layout_marginTop="@dimen/button_vert_margin"
-        android:text="@string/lessonExample"
+        android:text="@string/lessonExampleButton"
         android:onClick="gotToLessonExample" />
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="
+        This will show the student a step-by-step
+        explanation of the lesson material." />
 
 </LinearLayout>
