@@ -15,12 +15,54 @@
 <resources>
 
     <!-- Base application theme. -->
-    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
+    <!--Normal theme with medium font size-->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorButtonNormal">@color/colorButton</item>
+        <item name="android:textViewStyle">@style/TextViewStyle</item>
+        <item name="android:textColorHint">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/colorBackgroundDark</item>
+        <item name="android:editTextStyle">@style/EditTextStyle</item>
+        <!--<item name="android:textSize">16sp</item>-->
+    </style>
+
+    <!--Small theme with small font size-->
+    <style name="AppThemeSmall" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorButtonNormal">@color/colorButton</item>
+        <item name="android:textViewStyle">@style/TextViewStyle</item>
+        <item name="android:textColorHint">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/colorBackgroundDark</item>
+        <item name="android:editTextStyle">@style/EditTextStyle</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <!--Large theme with large font size-->
+    <style name="AppThemeLarge" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorButtonNormal">@color/colorButton</item>
+        <item name="android:textViewStyle">@style/TextViewStyle</item>
+        <item name="android:textColorHint">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/colorBackgroundDark</item>
+        <item name="android:editTextStyle">@style/EditTextStyle</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="TextViewStyle" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/colorBodyText</item>
+    </style>
+
+    <style name="EditTextStyle" parent="android:Widget.EditText">
+        <item name="android:textColor">@color/colorBodyText</item>
     </style>
 
 </resources>

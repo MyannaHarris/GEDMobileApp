@@ -33,7 +33,7 @@
         android:paddingBottom="@dimen/picture_padding"
         android:src="@drawable/layers"
         android:contentDescription="@string/sprite"
-        android:onClick="gotToSprite" />
+        android:onClick="gotToSprite"/>
 
     <TextView
         android:layout_height="200dp"
@@ -41,28 +41,20 @@
         android:scaleType="center"
         android:id="@+id/sprite_speechBubble"
         android:layout_toRightOf="@id/sprite_homeScreen"
-        android:background="@drawable/speech_bubble" />
+        android:background="@drawable/speech_bubble"
+        android:textColor="@color/colorPrimaryDark"/>
 
     <GridView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/sprite_homeScreen"
         android:numColumns="2"
-        android:gravity="center">
+        android:gravity="center"
+        android:stretchMode="columnWidth"
+        android:columnWidth="60dp">
 
     </GridView>
 
-    <Button
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/sprite_homeScreen"
-        android:id="@+id/continue_button"
-        android:layout_alignParentLeft="true"
-        android:layout_marginRight="@dimen/button_horiz_margin"
-        android:layout_marginBottom="@dimen/button_vert_margin"
-        android:layout_marginTop="@dimen/button_vert_margin"
-        android:text="@string/continue_lesson"
-        android:onClick="gotToContinueLesson" />
     <Button
         android:layout_width="150dp"
         android:layout_height="wrap_content"
@@ -73,18 +65,18 @@
         android:layout_marginBottom="@dimen/button_vert_margin"
         android:layout_marginTop="@dimen/button_vert_margin"
         android:text="@string/achievements"
-        android:onClick="gotToAchievements" />
+        android:onClick="gotToAchievements"/>
     <Button
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/continue_button"
+        android:layout_below="@id/sprite_homeScreen"
         android:id="@+id/learn_button"
         android:layout_alignParentLeft="true"
         android:layout_marginRight="@dimen/button_horiz_margin"
         android:layout_marginBottom="@dimen/button_vert_margin"
         android:layout_marginTop="@dimen/button_vert_margin"
         android:text="@string/learn"
-        android:onClick="gotToLearn" />
+        android:onClick="gotToLearn"/>
     <Button
         android:layout_width="150dp"
         android:layout_height="wrap_content"
@@ -95,7 +87,7 @@
         android:layout_marginBottom="@dimen/button_vert_margin"
         android:layout_marginTop="@dimen/button_vert_margin"
         android:text="@string/tools"
-        android:onClick="gotToTools" />
+        android:onClick="gotToTools"/>
     <Button
         android:layout_width="150dp"
         android:layout_height="wrap_content"
@@ -106,7 +98,20 @@
         android:layout_marginBottom="@dimen/button_vert_margin"
         android:layout_marginTop="@dimen/button_vert_margin"
         android:text="@string/play"
-        android:onClick="gotToPlay" />
+        android:onClick="gotToPlay"/>
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/play_button"
+        android:id="@+id/continue_button"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="@dimen/button_horiz_margin"
+        android:layout_marginBottom="@dimen/button_vert_margin"
+        android:layout_marginTop="@dimen/button_vert_margin"
+        android:text="@string/continue_lesson"
+        android:onClick="gotToContinueLesson" />
+
     <Button
         android:layout_width="150dp"
         android:layout_height="wrap_content"

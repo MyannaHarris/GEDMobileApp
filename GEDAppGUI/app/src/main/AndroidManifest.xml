@@ -14,7 +14,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop">
             <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,23 +25,43 @@
         <activity
             android:name=".SettingsActivity"
             android:label="@string/settings"
-            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".LearnConcepts"
             android:label="@string/lessonConcepts"
             android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+
+        </activity>
         <activity
             android:name=".Play"
             android:label="@string/play"
             android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+
+        </activity>
         <activity
             android:name=".Game"
             android:label="Game"
             android:parentActivityName=".GameIntro"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".GameIntro" />
+
+        </activity>
         <activity
             android:name=".GameIntro"
             android:label="Game Intro"
@@ -57,17 +78,38 @@
             android:name=".Achievements"
             android:label="@string/achievements"
             android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+
+        </activity>
         <activity
             android:name=".Tools"
             android:label="@string/tools"
             android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+
+        </activity>
         <activity
             android:name=".ToolSample"
             android:label="@string/toolSample"
             android:parentActivityName=".Tools"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Tools" />
+
+        </activity>
         <activity
             android:name=".Login"
             android:label="@string/login"
@@ -76,27 +118,62 @@
             android:name=".Sprite"
             android:label="@string/sprite"
             android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+
+        </activity>
         <activity
             android:name=".LearnLessons"
             android:label="@string/lessonNames"
             android:parentActivityName=".LearnConcepts"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".LearnConcepts" />
+
+        </activity>
         <activity
             android:name=".LessonSummary"
             android:label="@string/lessonSummary"
             android:parentActivityName=".LearnLessons"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".LearnLessons" />
+
+        </activity>
         <activity
             android:name=".LessonSteps"
             android:label="@string/lessonSteps"
             android:parentActivityName=".LessonSummary"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".LessonSummary" />
+
+        </activity>
         <activity
             android:name=".LessonExample"
             android:label="@string/lessonExample"
             android:parentActivityName=".LessonSteps"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".LessonSteps" />
+
+        </activity>
         <activity
             android:name=".Question"
             android:label="@string/lessonQuestions"
@@ -109,6 +186,9 @@
             android:name=".RedoExample"
             android:label="Example"
             android:screenOrientation="portrait"/>
+        <uses-permission android:name="android.permission.VIBRATE" />
+        <uses-permission android:name="android.permission.WAKE_LOCK" />
+        <receiver android:name=".Receiver" />
     </application>
 
 </manifest>

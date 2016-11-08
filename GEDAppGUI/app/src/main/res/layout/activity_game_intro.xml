@@ -17,7 +17,8 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/welcome"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:textColor="@color/colorHeader1"/>
 
     <TextView
         android:text="Instructions:"
@@ -27,7 +28,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
         android:id="@+id/instruction_label"
-        android:textSize="18sp" />
+        android:textSize="18sp"/>
 
     <TextView
         android:text="1. 2. 3. 4."
@@ -36,7 +37,7 @@
         android:layout_below="@id/instruction_label"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="24dp"
-        android:id="@+id/instructions" />
+        android:id="@+id/instructions"/>
 
     <Button
         android:text="@string/play"

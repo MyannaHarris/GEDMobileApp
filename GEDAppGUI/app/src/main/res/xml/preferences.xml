@@ -15,29 +15,32 @@
 -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:title="@string/settings">
+    android:title="@string/settings"
+    android:id="@+id/settings_layout"
+    android:background="@color/colorBackgroundDark">
 
     <CheckBoxPreference
         android:key="sound_preference"
         android:title="@string/sound_title"
-        android:summary="@string/sound_summary" />
+        android:summary="@string/sound_summary"/>
 
     <EditTextPreference
         android:key="username_preference"
         android:id="@+id/namePref"
         android:title="@string/username_title"
         android:summary="@string/username_summary"
-        />
+        android:hint="Name"
+        android:defaultValue=""/>
     <CheckBoxPreference
         android:defaultValue="false"
         android:title="Send a notification every 24 hours"
-        android:key="notification_preference" />
+        android:key="notification_preference"/>
     <ListPreference
         android:key="text_size_preference"
         android:title="@string/text_size_title"
         android:dialogTitle="@string/text_size_summary"
         android:entries="@array/text_sizes"
         android:entryValues="@array/text_size_values"
-        android:defaultValue="@string/text_size_default" />
+        android:defaultValue="@string/text_size_default"/>
 
 </PreferenceScreen>

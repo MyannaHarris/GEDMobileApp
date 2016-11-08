@@ -15,9 +15,11 @@
 -->
 
 <resources>
-    <color name="colorPrimary">#261059</color>
-    <color name="colorPrimaryDark">#6f309f</color>
-    <color name="colorAccent">#ccff7b</color>
-    <color name="colorBackgroundDark">#ca330450</color>
-    <color name="colorButtonLogin">#c2ffffff</color>
+    <color name="colorPrimary">#1d0c43</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#55aaea</color>
+    <color name="colorBackgroundDark">#4b3d53</color>
+    <color name="colorButton">#c2ffffff</color>
+    <color name="colorHeader1">#ccff7b</color>
+    <color name="colorBodyText">#b995cc</color>
 </resources>

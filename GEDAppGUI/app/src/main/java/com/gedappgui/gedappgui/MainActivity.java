@@ -3,34 +3,31 @@
  *
  * Home screen activity
  *
+ * Main screen for app
+ * Has links to learn, play, achievements, sprite, and tools
+ * Has links to settings and continue lesson in action bar
+ *
  * Worked on by:
  * Myanna Harris
  * Kristina Spring
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 11-5-16
+ * Last Edit: 11-6-16
  *
  */
 
 package com.gedappgui.gedappgui;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.support.v4.view.GestureDetectorCompat;
-import android.support.v4.view.MotionEventCompat;
+import android.media.AudioManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,27 +38,87 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        //String username = sharedPref.getString("username", "default value");
-
         if (!((MyApplication) this.getApplication()).getLoginStatus()) {
             // Show login first time the app is opened
             Intent intent = new Intent(this, Login.class);
             startActivity(intent);
         }
         else {
+
+            // Could be used to change text size..
+            /*String currTheme = ((MyApplication) this.getApplication()).getCurrTheme();
+            switch(currTheme) {
+                case "Medium":
+                    setTheme(R.style.AppTheme);
+                    break;
+                case "Small":
+                    setTheme(R.style.AppThemeSmall);
+                    break;
+                case "Large":
+                    setTheme(R.style.AppThemeLarge);
+                    break;
+                default:
+                    setTheme(R.style.AppTheme);
+                    break;
+            }*/
+
             // Show home screen whenever app is opened after that
             setContentView(R.layout.activity_main);
+
+            // Allow user to control audio with volume buttons on phone
+            setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        }
+
+    }
+
+    /*Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what==1)
+                recreate();
+        }
+    };*/
+
+
+    /*
+     * Re-checks the username that the app needs to print when homescreen is opened
+     * Called after onCreate on first creation
+     * Called every time this activity gets the focus
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (((MyApplication) this.getApplication()).getLoginStatus()) {
+
+            /*String currTheme = ((MyApplication) this.getApplication()).getCurrTheme();
+            switch(currTheme) {
+                case "Medium":
+                    setTheme(R.style.AppTheme);
+                    break;
+                case "Small":
+                    setTheme(R.style.AppThemeSmall);
+                    break;
+                case "Large":
+                    setTheme(R.style.AppThemeLarge);
+                    break;
+                default:
+                    setTheme(R.style.AppTheme);
+                    break;
+            }
+            Message msg = handler.obtainMessage();
+            msg.what = 1;
+            handler.sendMessage(msg);*/
+
             TextView greetingText = (TextView)findViewById(R.id.sprite_speechBubble);
             String greeting = "Hello " + ((MyApplication) this.getApplication()).getName();
             greeting += "!\nWelcome to the app.";
             greetingText.setText(greeting);
         }
-
     }
 
     /* 
-     * Shows and hides the bottom navigation bar when user flings on screen 
+     * Shows and hides the bottom navigation bar when user swipes at it on screen
+     * Called when the focus of the window changes to this activity
      */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -79,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
     /*
      * Sets what menu will be in the action bar
+     * mainmenu has the settings button and continue lesson button
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -90,6 +148,8 @@ public class MainActivity extends AppCompatActivity {
     /*
      * Listens for selections from the menu in the action bar
      * Does action corresponding to selected item
+     * continue lesson = goes to beginning of current lesson
+     * settings = goes to settings page
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -113,11 +173,14 @@ public class MainActivity extends AppCompatActivity {
 
     /*
      * Listens for the back button on the bottom navigation bar
-     * Stops app from allowing the back button to do anything
+     * leaves app if pressed
      */
     @Override
     public void onBackPressed() {
-        // Do nothing when back pressed from home screen
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     /*
@@ -126,15 +189,6 @@ public class MainActivity extends AppCompatActivity {
     /** Called when the user clicks the Sprite */
     public void gotToSprite(View view) {
         Intent intent = new Intent(this, Sprite.class);
-        startActivity(intent);
-    }
-
-    /*
-     * Opens Last lesson worked on (Lesson Summary) view when button is clicked
-     */
-    /** Called when the user clicks the Continue Lesson button */
-    public void gotToContinueLesson(View view) {
-        Intent intent = new Intent(this, LessonSummary.class);
         startActivity(intent);
     }
 
@@ -174,12 +228,15 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /*
-     * Opens Settings view when button is clicked
-     */
     /** Called when the user clicks the Settings button */
     public void gotToSettings(View view) {
         Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
+    /** Called when the user clicks the Continue Lesson button */
+    public void gotToContinueLesson(View view) {
+        Intent intent = new Intent(this, LessonSummary.class);
         startActivity(intent);
     }
 }
