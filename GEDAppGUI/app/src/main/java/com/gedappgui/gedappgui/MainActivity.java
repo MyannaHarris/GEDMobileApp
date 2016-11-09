@@ -29,7 +29,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.FileOutputStream;
+
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
 public class MainActivity extends AppCompatActivity {
+
+    //private File file;
 
     /*
      * Starts the first activity and shows corresponding view on screen
@@ -69,7 +80,35 @@ public class MainActivity extends AppCompatActivity {
             setVolumeControlStream(AudioManager.STREAM_MUSIC);
         }
 
+        /*try {
+            file = new File(this.getApplication().getFilesDir(), "copy.db");
+            copy();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        SQLiteDatabase db = openOrCreateDatabase(file.getPath(), MODE_PRIVATE, null);
+        Cursor c = db.rawQuery("SELECT * FROM test", null);
+        c.moveToFirst();
+        //c.moveToNext();
+        System.out.println(c.getString(0));
+        c.close();
+        db.close();*/
     }
+
+    /*public void copy() throws IOException {
+
+        InputStream in = getApplicationContext().getAssets().open("test.db");
+        OutputStream out = new FileOutputStream(file);
+
+        // Transfer bytes from in to out
+        byte[] buf = new byte[1024];
+        int len;
+        while ((len = in.read(buf)) > 0) {
+            out.write(buf, 0, len);
+        }
+        in.close();
+        out.close();
+    }*/
 
     /*Handler handler = new Handler() {
         @Override
