@@ -19,8 +19,10 @@
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#55aaea</color>
     <color name="colorBackgroundDark">#4e4a53</color>
-    <color name="colorButton">#cccccc</color>
-    <color name="colorHeader1">#6f429c</color>
+    <color name="colorButton">#3c3445</color>
+    <color name="colorHeader1">#3c3445</color>
     <color name="colorBodyText">#cccccc</color>
-    <color name="colorButtonText">#000000</color>
+    <color name="colorButtonText">#cccccc</color>
+    <color name="colorMenuText">#55aaea</color>
+    <color name="colorMenuBackground">#4e4a53</color>
 </resources>

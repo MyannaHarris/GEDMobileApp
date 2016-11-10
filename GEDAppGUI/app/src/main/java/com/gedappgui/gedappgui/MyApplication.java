@@ -44,9 +44,6 @@ public class MyApplication extends Application {
     // Saves the current volume for when the app is unmuted
     private int currVolume = 0;
 
-    // Saves the wanted text size
-    private String currTheme = "Medium";
-
     // Notification date-time
     private int day = 7; // 7, starts at 1
     private int month = 10; // November, starts at 0
@@ -99,19 +96,6 @@ public class MyApplication extends Application {
 
                 }
             }
-            else if (key.equals("text_size_preference")) {
-                // Change text size
-                String prefList = prefs.getString("text_size_preference", "Medium");
-                if (prefList.equals("Small")) {
-                    setCurrTheme("Small");
-                }
-                else if (prefList.equals("Medium")) {
-                    setCurrTheme("Medium");
-                }
-                else {
-                    setCurrTheme("Large");
-                }
-            }
         }
     };
 
@@ -149,14 +133,6 @@ public class MyApplication extends Application {
 
     public void setCurrVolume(int newVolume) {
         this.currVolume = newVolume;
-    }
-
-    public String getCurrTheme() {
-        return name;
-    }
-
-    public void setCurrTheme(String newTheme) {
-        this.currTheme = newTheme;
     }
 
     private void scheduleNotification(Notification notification) {

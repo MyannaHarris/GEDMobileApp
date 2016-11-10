@@ -35,12 +35,5 @@
         android:defaultValue="false"
         android:title="Send a notification every 24 hours"
         android:key="notification_preference"/>
-    <ListPreference
-        android:key="text_size_preference"
-        android:title="@string/text_size_title"
-        android:dialogTitle="@string/text_size_summary"
-        android:entries="@array/text_sizes"
-        android:entryValues="@array/text_size_values"
-        android:defaultValue="@string/text_size_default"/>
 
 </PreferenceScreen>
