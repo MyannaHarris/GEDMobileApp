@@ -14,30 +14,37 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         tools:context="com.gedappgui.gedappgui.LessonSummary">
 
-        <VideoView
-        android:id="@+id/summary_video_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/lessonSummary_title"
+            android:text="Lesson Title"
+            android:layout_alignParentTop="true"
+            android:gravity="center"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorHeader1"/>
+
+        <TextView
+            android:id="@+id/lessonSummary_text"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_below="@id/lessonSummary_title"
+            android:text="
+            This will be a short summary of what
+            the lesson is about." />
 
         <Button
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/lessonSteps"
-            android:layout_below="@id/summary_video_view"
+            android:layout_below="@id/lessonSummary_text"
             android:layout_alignParentLeft="true"
             android:layout_marginRight="@dimen/button_horiz_margin"
             android:layout_marginBottom="@dimen/button_vert_margin"
             android:layout_marginTop="@dimen/button_vert_margin"
             android:text="@string/lessonStepsButton"
-            android:onClick="gotToLessonSteps" />
-
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_below="@id/lessonSteps"
-            android:text="
-            This will be a short summary of what
-            the lesson is about." />
+            android:onClick="gotToLessonSteps"
+            android:layout_centerHorizontal="true"/>
     </RelativeLayout>
 </ScrollView>

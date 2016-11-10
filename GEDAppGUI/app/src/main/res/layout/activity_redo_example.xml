@@ -12,7 +12,7 @@
     tools:context="com.gedappgui.gedappgui.RedoExample">
 
     <Button
-        android:layout_width="150dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/redoLessonGame"
         android:layout_alignParentLeft="true"
