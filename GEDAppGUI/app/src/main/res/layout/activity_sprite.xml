@@ -81,7 +81,21 @@
         style="@style/Base.Widget.AppCompat.Button.Borderless"
         android:onClick="showHats" />
 
-    <ImageButton
+    <GridView
+        android:id="@+id/sprite_gridView"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/sprite_hats"
+        android:numColumns="3"
+        android:gravity="center"
+        android:verticalSpacing="10dp"
+        android:stretchMode="columnWidth"
+        android:columnWidth="60dp">
+
+    </GridView>
+
+    <!--<ImageButton
         app:srcCompat="@drawable/squish"
         android:id="@+id/accessory_1"
         android:layout_width="50dp"
@@ -155,6 +169,6 @@
         android:layout_below="@id/sprite_hats"
         android:layout_alignLeft="@id/accessory_6"
         android:layout_alignStart="@id/accessory_6"
-        android:onClick="addAccessory"/>
+        android:onClick="addAccessory"/>-->
 
 </RelativeLayout>

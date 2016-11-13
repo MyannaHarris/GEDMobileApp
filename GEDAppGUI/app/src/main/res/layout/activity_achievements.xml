@@ -25,16 +25,32 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.gedappgui.gedappgui.Achievements">
 
+    <GridView
+        android:id="@+id/achievements_gridView"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:numColumns="3"
+        android:gravity="center"
+        android:verticalSpacing="20dp"
+        android:stretchMode="columnWidth"
+        android:columnWidth="60dp">
+
+    </GridView>
+
     <TextView
         android:hint="Achievement description"
+        android:layout_marginTop="20dp"
         android:layout_width="400dp"
+        android:layout_below="@id/achievements_gridView"
         android:id="@+id/achievement_description"
         android:layout_height="150dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"/>
 
-    <ImageButton
+    <!--<ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@android:drawable/btn_star_big_on"
@@ -127,6 +143,6 @@
         android:layout_alignTop="@id/achievement_8"
         android:layout_alignLeft="@id/achievement_6"
         android:layout_alignStart="@id/achievement_6"
-        android:onClick="showAchievementDescription"/>
+        android:onClick="showAchievementDescription"/>-->
 
 </RelativeLayout>

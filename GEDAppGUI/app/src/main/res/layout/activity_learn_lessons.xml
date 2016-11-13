@@ -27,10 +27,6 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_columnSpan="2"
-        android:text="
-        This will show a 'path' of math
-        lessons from the GED that a student can select.
-        They will then be taken into the selected lesson.
-        Lessons start at the lesson summary." />
+        android:text="This will show a 'path' of math lessons from the GED that a student can select. They will then be taken into the selected lesson. Lessons start at the lesson summary." />
 
 </GridLayout>

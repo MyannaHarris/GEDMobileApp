@@ -30,8 +30,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.GridView;
+import android.widget.TextView;
 
 public class Sprite extends AppCompatActivity {
+
+    // Accessories gridview
+    GridView gridview;
 
     /*
      * Starts the activity and shows corresponding view on screen
@@ -39,6 +45,7 @@ public class Sprite extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_sprite);
 
         // Allow homaAsUpIndicator (back arrow) to desplay on action bar
@@ -46,6 +53,81 @@ public class Sprite extends AppCompatActivity {
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+        gridview = (GridView) this.findViewById(R.id.sprite_gridView);
+        Integer[] buttonPictures = {
+                R.drawable.example_picture,
+                R.drawable.example_picture,
+                R.drawable.example_picture,
+                R.drawable.example_picture,
+                R.drawable.example_picture,
+                R.drawable.example_picture
+        };
+        gridview.setAdapter(new ButtonAdapter(this, buttonPictures));
+    }
+
+    /*
+     * Registers onItemClickListener
+     * Called after onCreate on first creation
+     * Called every time this activity gets the focus
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // *************************************************************************************
+        // ****** Could create problems when all the different glasses, hats, etc work *********
+        // *************************************************************************************
+
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView parent, View v, int position, long id) {
+                String test = "";
+
+                // Preform a function based on the position
+                switch (position) {
+                    case 0:
+                        test = "test 1";
+                        break;
+                    case 1:
+                        test = "test 2";
+                        break;
+                    case 2:
+                        test = "test 3";
+                        break;
+                    case 3:
+                        test = "test 4";
+                        break;
+                    case 4:
+                        test = "test 4";
+                        break;
+                    case 5:
+                        test = "test 4";
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+
+    /*
+     * UnRegisters onItemClickListener
+     * Called every time this activity loses the focus
+     */
+    @Override
+    protected void onPause() {
+        super.onPause();
+        gridview.setOnItemClickListener(null);
+    }
+
+    /*
+     * UnRegisters onItemClickListener
+     * Called every time this activity is destroyed
+     */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        gridview.setOnItemClickListener(null);
     }
 
     /* 
@@ -89,12 +171,14 @@ public class Sprite extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
+                gridview.setOnItemClickListener(null);
                 Intent intentHomeSprite = new Intent(this, MainActivity.class);
                 intentHomeSprite.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intentHomeSprite);
                 return true;
             // action with ID action_refresh was selected
             case R.id.action_home:
+                gridview.setOnItemClickListener(null);
                 Intent intentHome = new Intent(this, MainActivity.class);
                 intentHome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intentHome);
@@ -116,7 +200,44 @@ public class Sprite extends AppCompatActivity {
      * Shows glasses accessories
      */
     public void showGlasses(View view) {
+        Integer[] buttonPictures = {
+                R.drawable.home_button,
+                R.drawable.example_picture,
+                R.drawable.example_picture,
+                R.drawable.example_picture,
+                R.drawable.example_picture,
+                R.drawable.example_picture
+        };
+        gridview.setAdapter(new ButtonAdapter(this, buttonPictures));
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView parent, View v, int position, long id) {
+                String test = "";
 
+                // Preform a function based on the position
+                switch (position) {
+                    case 0:
+                        test = "test 1";
+                        break;
+                    case 1:
+                        test = "test 2";
+                        break;
+                    case 2:
+                        test = "test 3";
+                        break;
+                    case 3:
+                        test = "test 4";
+                        break;
+                    case 4:
+                        test = "test 4";
+                        break;
+                    case 5:
+                        test = "test 4";
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
     }
 
     /*
@@ -124,7 +245,44 @@ public class Sprite extends AppCompatActivity {
      * Shows shirt accessories
      */
     public void showShirts(View view) {
+        Integer[] buttonPictures = {
+                R.drawable.example_picture,
+                R.drawable.home_button,
+                R.drawable.example_picture,
+                R.drawable.example_picture,
+                R.drawable.example_picture,
+                R.drawable.example_picture
+        };
+        gridview.setAdapter(new ButtonAdapter(this, buttonPictures));
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView parent, View v, int position, long id) {
+                String test = "";
 
+                // Preform a function based on the position
+                switch (position) {
+                    case 0:
+                        test = "test 1";
+                        break;
+                    case 1:
+                        test = "test 2";
+                        break;
+                    case 2:
+                        test = "test 3";
+                        break;
+                    case 3:
+                        test = "test 4";
+                        break;
+                    case 4:
+                        test = "test 4";
+                        break;
+                    case 5:
+                        test = "test 4";
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
     }
 
     /*
@@ -132,7 +290,44 @@ public class Sprite extends AppCompatActivity {
      * Shows bling accessories
      */
     public void showBling(View view) {
+        Integer[] buttonPictures = {
+                R.drawable.example_picture,
+                R.drawable.example_picture,
+                R.drawable.home_button,
+                R.drawable.example_picture,
+                R.drawable.example_picture,
+                R.drawable.example_picture
+        };
+        gridview.setAdapter(new ButtonAdapter(this, buttonPictures));
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView parent, View v, int position, long id) {
+                String test = "";
 
+                // Preform a function based on the position
+                switch (position) {
+                    case 0:
+                        test = "test 1";
+                        break;
+                    case 1:
+                        test = "test 2";
+                        break;
+                    case 2:
+                        test = "test 3";
+                        break;
+                    case 3:
+                        test = "test 4";
+                        break;
+                    case 4:
+                        test = "test 4";
+                        break;
+                    case 5:
+                        test = "test 4";
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
     }
 
     /*
@@ -140,7 +335,44 @@ public class Sprite extends AppCompatActivity {
      * Shows hat accessories
      */
     public void showHats(View view) {
+        Integer[] buttonPictures = {
+                R.drawable.example_picture,
+                R.drawable.example_picture,
+                R.drawable.example_picture,
+                R.drawable.home_button,
+                R.drawable.example_picture,
+                R.drawable.example_picture
+        };
+        gridview.setAdapter(new ButtonAdapter(this, buttonPictures));
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView parent, View v, int position, long id) {
+                String test = "";
 
+                // Preform a function based on the position
+                switch (position) {
+                    case 0:
+                        test = "test 1";
+                        break;
+                    case 1:
+                        test = "test 2";
+                        break;
+                    case 2:
+                        test = "test 3";
+                        break;
+                    case 3:
+                        test = "test 4";
+                        break;
+                    case 4:
+                        test = "test 4";
+                        break;
+                    case 5:
+                        test = "test 4";
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
     }
 
     /*

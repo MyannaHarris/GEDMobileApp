@@ -26,9 +26,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.TextView;
 
 public class Achievements extends AppCompatActivity {
+
+    // Gridview
+    GridView gridview;
 
     /*
      * Starts the activity and shows corresponding view on screen
@@ -44,6 +49,91 @@ public class Achievements extends AppCompatActivity {
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+        gridview = (GridView) findViewById(R.id.achievements_gridView);
+        Integer[] buttonPictures = {
+                R.drawable.example_picture,
+                R.drawable.example_picture,
+                R.drawable.example_picture,
+                R.drawable.example_picture,
+                R.drawable.example_picture,
+                R.drawable.example_picture,
+                R.drawable.example_picture,
+                R.drawable.example_picture,
+                R.drawable.example_picture
+        };
+        gridview.setAdapter(new ButtonAdapter(this, buttonPictures));
+    }
+
+    /*
+     * Registers onItemClickListener
+     * Called after onCreate on first creation
+     * Called every time this activity gets the focus
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView parent, View v, int position, long id) {
+                TextView achievementText = (TextView)findViewById(R.id.achievement_description);
+                String achievementDesc = "";
+
+                // Preform a function based on the position
+                switch (position) {
+                    case 0:
+                        achievementDesc = "Achievement 1";
+                        break;
+                    case 1:
+                        achievementDesc = "Achievement 2";
+                        break;
+                    case 2:
+                        achievementDesc = "Achievement 3";
+                        break;
+                    case 3:
+                        achievementDesc = "Achievement 4";
+                        break;
+                    case 4:
+                        achievementDesc = "Achievement 5";
+                        break;
+                    case 5:
+                        achievementDesc = "Achievement 6";
+                        break;
+                    case 6:
+                        achievementDesc = "Achievement 7";
+                        break;
+                    case 7:
+                        achievementDesc = "Achievement 8";
+                        break;
+                    case 8:
+                        achievementDesc = "Achievement 9";
+                        break;
+                    default:
+                        break;
+                }
+
+                achievementText.setText(achievementDesc);
+            }
+        });
+    }
+
+    /*
+     * UnRegisters onItemClickListener
+     * Called every time this activity loses the focus
+     */
+    @Override
+    protected void onPause() {
+        super.onPause();
+        gridview.setOnItemClickListener(null);
+    }
+
+    /*
+     * UnRegisters onItemClickListener
+     * Called every time this activity is destroyed
+     */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        gridview.setOnItemClickListener(null);
     }
 
     /* 
@@ -87,12 +177,14 @@ public class Achievements extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
+                gridview.setOnItemClickListener(null);
                 Intent intentHomeAchievement = new Intent(this, MainActivity.class);
                 intentHomeAchievement.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intentHomeAchievement);
                 return true;
             // action with ID action_refresh was selected
             case R.id.action_home:
+                gridview.setOnItemClickListener(null);
                 Intent intentHome = new Intent(this, MainActivity.class);
                 intentHome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intentHome);
@@ -113,7 +205,7 @@ public class Achievements extends AppCompatActivity {
      * Called when the user clicks an achievement
      * Sets text for achievement description
      */
-    public void showAchievementDescription(View view) {
+    /*public void showAchievementDescription(View view) {
 
         TextView achievementText = (TextView)findViewById(R.id.achievement_description);
         String achievementDesc = "";
@@ -151,5 +243,5 @@ public class Achievements extends AppCompatActivity {
         }
 
         achievementText.setText(achievementDesc);
-    }
+    }*/
 }

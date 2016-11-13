@@ -36,9 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_centerHorizontal="true"
-            android:text="
-            This will show the student a step-by-step
-            explanation of the lesson material." />
+            android:text="This will show the student a step-by-step explanation of the lesson material." />
 
         <Button
             android:layout_below="@id/advice_text"

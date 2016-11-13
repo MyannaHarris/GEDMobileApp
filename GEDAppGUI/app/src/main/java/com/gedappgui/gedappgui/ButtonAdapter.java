@@ -5,9 +5,12 @@ import android.content.Intent;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /**
@@ -17,15 +20,18 @@ import android.widget.TextView;
 public class ButtonAdapter extends BaseAdapter {
 
     private Context mContext;
+    private Integer[] imageIds;
 
     // Gets the context so it can be used later
-    public ButtonAdapter(Context c) {
+    public ButtonAdapter(Context c, Integer[] buttonNames) {
+
         mContext = c;
+        imageIds = buttonNames;
     }
 
     @Override
     public int getCount() {
-        return homeButtons.length;
+        return imageIds.length;
     }
 
     @Override
@@ -40,29 +46,22 @@ public class ButtonAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        TextView btn;
+
+        ImageView imageView;
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
-            btn = new TextView(mContext);
-            btn.setLayoutParams(new GridView.LayoutParams(100, 55));
-            btn.setPadding(8, 8, 8, 8);
+            imageView = new ImageView(mContext);
+            imageView.setLayoutParams(
+                    new GridView.LayoutParams(GridView.LayoutParams.MATCH_PARENT,
+                        GridView.LayoutParams.MATCH_PARENT));
+            //new GridView.LayoutParams(85, 85));
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setPadding(8, 8, 8, 8);
+        } else {
+            imageView = (ImageView) convertView;
         }
-        else {
-            btn = (TextView) convertView;
-        }
-        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        btn.setLayoutParams(params);
 
-        btn.setText(homeButtons[position]);
-        // homeButtons is an array of strings
-        btn.setId(position + 1);
-        btn.setGravity(Gravity.CENTER);
-        //btn.setTextSize(sp, 20);
-
-        return btn;
+        imageView.setImageResource(imageIds[position]);
+        return imageView;
     }
-
-    private String[] homeButtons = {
-            "Continue Lesson", "Achievements", "Learn", "Tools", "Play", "Settings"};
 }
