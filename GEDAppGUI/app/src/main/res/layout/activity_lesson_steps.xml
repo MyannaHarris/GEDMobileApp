@@ -17,20 +17,12 @@
         <WebView
             android:id="@+id/example_web_view"
             android:layout_width="match_parent"
-            android:layout_height="200dp"/>
-
-        <VideoView
-            android:layout_marginTop="20dp"
-            android:layout_below="@id/example_web_view"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:id="@+id/example_video_view"
-            android:layout_centerHorizontal="true"/>
+            android:layout_height="wrap_content"/>
 
         <ImageView
             android:id="@+id/example_image_view"
             android:layout_marginTop="20dp"
-            android:layout_below="@id/example_video_view"
+            android:layout_below="@id/example_web_view"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_centerHorizontal="true"/>
