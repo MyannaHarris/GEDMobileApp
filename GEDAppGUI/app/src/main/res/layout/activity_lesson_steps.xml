@@ -14,8 +14,14 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         tools:context="com.gedappgui.gedappgui.LessonSteps">
 
+        <WebView
+            android:id="@+id/example_web_view"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"/>
+
         <VideoView
             android:layout_marginTop="20dp"
+            android:layout_below="@id/example_web_view"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:id="@+id/example_video_view"

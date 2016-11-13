@@ -177,14 +177,12 @@ public class Achievements extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                gridview.setOnItemClickListener(null);
                 Intent intentHomeAchievement = new Intent(this, MainActivity.class);
                 intentHomeAchievement.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intentHomeAchievement);
                 return true;
             // action with ID action_refresh was selected
             case R.id.action_home:
-                gridview.setOnItemClickListener(null);
                 Intent intentHome = new Intent(this, MainActivity.class);
                 intentHome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intentHome);

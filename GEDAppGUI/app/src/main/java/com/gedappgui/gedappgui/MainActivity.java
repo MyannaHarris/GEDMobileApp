@@ -45,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
 
     //private File file;
 
+    // Gridview
+    //GridView gridview;
+
     /*
      * Starts the first activity and shows corresponding view on screen
      */
@@ -65,8 +68,11 @@ public class MainActivity extends AppCompatActivity {
             // Allow user to control audio with volume buttons on phone
             setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-            /*GridView gridview = (GridView) findViewById(R.id.home_gridView);
-            gridview.setAdapter(new ButtonAdapter(this));
+            /*gridview = (GridView) findViewById(R.id.home_gridView);
+            String[] buttonNames = {
+                    ""
+            };
+            gridview.setAdapter(new TextViewAdapter(this, buttonNames));
             gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView parent, View v, int position, long id) {
                     // Preform a function based on the position

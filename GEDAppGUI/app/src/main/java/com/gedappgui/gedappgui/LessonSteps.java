@@ -33,6 +33,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
@@ -72,6 +74,17 @@ public class LessonSteps extends AppCompatActivity {
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
+        // Will take user to internet
+        //WebView webView = (WebView) findViewById(R.id.example_web_view);
+        //webView.loadUrl("https://youtu.be/kpCJyQ2usJ4");
+
+        //Will keep in app
+        /*WebView webView = (WebView) findViewById(R.id.example_web_view);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setLoadWithOverviewMode(true);
+        webView.getSettings().setUseWideViewPort(true);
+        webView.setWebViewClient(new WebViewClient());*/
+
         /*VideoView stepsVideoView = (VideoView)findViewById(R.id.example_video_view);
         String vidAddress = "https://ia601407.us.archive.org/28/items/MathOddAndEven/mathoe_512kb.mp4";
         stepsVideoView.setVideoPath(vidAddress);
@@ -107,7 +120,7 @@ public class LessonSteps extends AppCompatActivity {
 
     }
 
-    @Override
+    /*@Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("Loc", videoView.getCurrentPosition());
@@ -182,7 +195,7 @@ public class LessonSteps extends AppCompatActivity {
             }
             return id;
         }
-    }
+    }*/
 
     /* 
      * Shows and hides the bottom navigation bar when user swipes at it on screen

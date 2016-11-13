@@ -1,37 +1,32 @@
 package com.gedappgui.gedappgui;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /**
- * Created by myannaharris on 11/10/16.
+ * Created by myannaharris on 11/12/16.
  */
 
-public class ButtonAdapter extends BaseAdapter {
+public class TextViewAdapter extends BaseAdapter {
 
     private Context mContext;
-    private Integer[] imageIds;
+    private String[] buttonText;
 
     // Gets the context so it can be used later
-    public ButtonAdapter(Context c, Integer[] buttonNames) {
+    public TextViewAdapter(Context c, String[] buttonNames) {
 
         mContext = c;
-        imageIds = buttonNames;
+        buttonText = buttonNames;
     }
 
     @Override
     public int getCount() {
-        return imageIds.length;
+        return buttonText.length;
     }
 
     @Override
@@ -47,20 +42,26 @@ public class ButtonAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ImageView imageView;
+        TextView btn;
+
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
-            imageView = new ImageView(mContext);
-            imageView.setLayoutParams(
+            btn = new TextView(mContext);
+            btn.setLayoutParams(
                     new GridView.LayoutParams(GridView.LayoutParams.MATCH_PARENT,
-                        GridView.LayoutParams.MATCH_PARENT));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setPadding(8, 8, 8, 8);
-        } else {
-            imageView = (ImageView) convertView;
+                            GridView.LayoutParams.MATCH_PARENT));
+            btn.setPadding(8, 8, 8, 8);
+        }
+        else {
+            btn = (TextView) convertView;
         }
 
-        imageView.setImageResource(imageIds[position]);
-        return imageView;
+        btn.setText(buttonText[position]);
+        // homeButtons is an array of strings
+        // btn.setId(position + 1);
+        btn.setGravity(Gravity.CENTER);
+        //btn.setTextSize(sp, 20);
+
+        return btn;
     }
 }
