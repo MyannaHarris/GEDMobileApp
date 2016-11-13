@@ -14,99 +14,117 @@
  Last Edit: 10-26-16
 -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.GridLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:grid="http://schemas.android.com/apk/res-auto"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:layout_centerHorizontal="true"
+    android:padding="4dp"
+
+    grid:alignmentMode="alignBounds"
+    grid:columnCount="2"
+    grid:rowOrderPreserved="false"
+    grid:useDefaultMargins="true"
     tools:context="com.gedappgui.gedappgui.MainActivity">
 
     <ImageView
-        android:layout_width="200dp"
+        android:layout_width="0dp"
         android:layout_height="250dp"
+        grid:layout_columnWeight="1"
+        grid:layout_gravity="fill_horizontal"
+
+        android:gravity="center"
         android:id="@+id/sprite_homeScreen"
-        android:layout_alignParentTop="true"
         android:scaleType="centerCrop"
-        android:paddingBottom="@dimen/picture_padding"
         android:src="@drawable/layers"
         android:contentDescription="@string/sprite"
-        android:onClick="gotToSprite" />
+        android:onClick="gotToSprite"/>
 
     <TextView
+        android:layout_width="0dp"
         android:layout_height="200dp"
-        android:layout_width="150dp"
+        grid:layout_columnWeight="1"
+        grid:layout_gravity="fill_horizontal"
+
         android:scaleType="center"
         android:id="@+id/sprite_speechBubble"
-        android:layout_toRightOf="@id/sprite_homeScreen"
-        android:background="@drawable/speech_bubble" />
+        android:background="@drawable/speech_bubble"
+        android:textColor="@color/colorPrimaryDark"/>
+
+    <!--<GridView
+        android:id="@+id/home_gridView"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sprite_homeScreen"
+        android:numColumns="2"
+        android:gravity="center"
+        android:stretchMode="columnWidth"
+        android:columnWidth="60dp">
+
+    </GridView>-->
 
     <Button
-        android:layout_width="150dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/sprite_homeScreen"
+        grid:layout_columnWeight="1"
+        grid:layout_gravity="fill_horizontal"
+
         android:id="@+id/continue_button"
-        android:layout_alignParentLeft="true"
-        android:layout_marginRight="@dimen/button_horiz_margin"
-        android:layout_marginBottom="@dimen/button_vert_margin"
-        android:layout_marginTop="@dimen/button_vert_margin"
         android:text="@string/continue_lesson"
         android:onClick="gotToContinueLesson" />
+
     <Button
-        android:layout_width="150dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/sprite_homeScreen"
-        android:id="@+id/achievements_button"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/button_horiz_margin"
-        android:layout_marginBottom="@dimen/button_vert_margin"
-        android:layout_marginTop="@dimen/button_vert_margin"
-        android:text="@string/achievements"
-        android:onClick="gotToAchievements" />
-    <Button
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/continue_button"
+        grid:layout_columnWeight="1"
+        grid:layout_gravity="fill_horizontal"
+
         android:id="@+id/learn_button"
-        android:layout_alignParentLeft="true"
-        android:layout_marginRight="@dimen/button_horiz_margin"
-        android:layout_marginBottom="@dimen/button_vert_margin"
-        android:layout_marginTop="@dimen/button_vert_margin"
         android:text="@string/learn"
-        android:onClick="gotToLearn" />
+        android:onClick="gotToLearn"/>
+
     <Button
-        android:layout_width="150dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/achievements_button"
-        android:id="@+id/tools_button"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/button_horiz_margin"
-        android:layout_marginBottom="@dimen/button_vert_margin"
-        android:layout_marginTop="@dimen/button_vert_margin"
-        android:text="@string/tools"
-        android:onClick="gotToTools" />
+        grid:layout_columnWeight="1"
+        grid:layout_gravity="fill_horizontal"
+
+        android:id="@+id/achievements_button"
+        android:text="@string/achievements"
+        android:onClick="gotToAchievements"/>
+
     <Button
-        android:layout_width="150dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/learn_button"
+        grid:layout_columnWeight="1"
+        grid:layout_gravity="fill_horizontal"
+
         android:id="@+id/play_button"
-        android:layout_alignParentLeft="true"
-        android:layout_marginRight="@dimen/button_horiz_margin"
-        android:layout_marginBottom="@dimen/button_vert_margin"
-        android:layout_marginTop="@dimen/button_vert_margin"
         android:text="@string/play"
-        android:onClick="gotToPlay" />
+        android:onClick="gotToPlay"/>
+
     <Button
-        android:layout_width="150dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tools_button"
+        grid:layout_columnWeight="1"
+        grid:layout_gravity="fill_horizontal"
+
+        android:id="@+id/tools_button"
+        android:text="@string/tools"
+        android:onClick="gotToTools"/>
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        grid:layout_columnWeight="1"
+        grid:layout_gravity="fill_horizontal"
+
         android:id="@+id/settings_button"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/button_horiz_margin"
-        android:layout_marginBottom="@dimen/button_vert_margin"
-        android:layout_marginTop="@dimen/button_vert_margin"
         android:text="@string/settings"
         android:onClick="gotToSettings" />
-</RelativeLayout>
+
+</android.support.v7.widget.GridLayout>

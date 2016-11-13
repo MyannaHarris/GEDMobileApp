@@ -20,4 +20,29 @@
             android:scaleType="centerCrop"
             android:gravity="top" />
     </item>
+    <!--<item android:height="10dp"
+        android:width="10dp"
+        android:id="@+id/accessory_picture_1"
+        android:alpha="0">
+        <bitmap android:src="@drawable/example_picture"
+            android:scaleType="centerCrop"
+            android:gravity="clip_horizontal|clip_vertical|left|top"/>
+    </item>
+    <item android:height="10dp"
+        android:width="10dp"
+        android:id="@+id/accessory_picture_2"
+        android:alpha="0">
+
+        <bitmap android:src="@drawable/example_picture"
+            android:scaleType="centerCrop"
+            android:gravity="clip_horizontal|clip_vertical|right|top" />
+    </item>
+    <item android:height="10dp"
+        android:width="10dp"
+        android:id="@+id/accessory_picture_3"
+        android:alpha="0">
+        <bitmap android:src="@drawable/example_picture"
+            android:scaleType="centerCrop"
+            android:gravity="clip_horizontal|clip_vertical|right|bottom" />
+    </item>-->
 </layer-list>

@@ -18,7 +18,8 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/congratulations"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:textColor="@color/colorHeader1"/>
 
     <TextView
         android:text="You accomplished:"
@@ -28,7 +29,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
         android:id="@+id/accomplished"
-        android:textSize="18sp" />
+        android:textSize="18sp"/>
 
     <TextView
         android:text="accomplishments..."
@@ -37,7 +38,7 @@
         android:layout_below="@id/accomplished"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="24dp"
-        android:id="@+id/accomplishments" />
+        android:id="@+id/accomplishments"/>
 
     <Button
         android:text="Move On"
@@ -47,6 +48,6 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/move_on"
         android:textSize="18sp"
-        android:onClick="goToQuestions"/>
+        android:onClick="goToNext"/>
 
 </RelativeLayout>

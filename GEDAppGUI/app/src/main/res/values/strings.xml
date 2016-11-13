@@ -29,16 +29,27 @@
     <string name="toolSample">Tool Sample</string>
 
     <!-- Lesson buttons and text -->
-    <string name="lesson">Lesson Name</string>
+    <string name="lessonConcepts">Math Concepts</string>
+    <string name="lessonConcept">Open Math Concept 1</string>
+    <string name="lessonNames">Math Lessons</string>
+    <string name="lessonName">Open Math Lesson 1</string>
     <string name="lessonSummary">Lesson Summary</string>
-    <string name="lessonSteps">Lesson Steps</string>
-    <string name="lessonExample">Lesson Example</string>
+    <string name="lessonSummaryButton">Open Lesson Summary</string>
+    <string name="lessonSteps">Explanation</string>
+    <string name="lessonStepsButton">Open Step-by-step Explanation</string>
+    <string name="lessonExample">Example</string>
+    <string name="lessonExampleButton">Open Example</string>
     <string name="lessonQuestions">Lesson Questions</string>
+    <string name="lessonQuestionsButton">Open Lesson Questions</string>
+    <string name="lessonGameButton">Open Lesson Game</string>
 
     <!-- Login page -->
     <string name="login">Login</string>
     <string name="login_question">What should we call you?</string>
     <string name="username_message">Name</string>
+
+    <!-- Game -->
+    <string name="redo_screen">Let\'s cover a few more things before you move on.</string>
 
 
     <!-- Settings strings START -->
@@ -75,7 +86,8 @@
 
     <!-- Notifications -->
     <string name="daily_notification_title_template">%1$s</string>
-    <string name="daily_notification_placeholder_text_template">You said %1$s.  The best way learn a skill is to practice every day!
+    <string name="daily_notification_placeholder_text_template">You said %1$s.
+        The best way learn a skill is to practice every day!
     </string>
 
     <string name="action_share">Share</string>

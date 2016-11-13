@@ -18,7 +18,13 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/welcome"
-        android:textSize="30sp" />
+        android:textSize="30sp"/>
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_below="@id/welcome"
+        android:text="This will be a game to help the student solidify their knowledge of the concept." />
 
     <Button
         android:text="Move On"
@@ -29,13 +35,4 @@
         android:id="@+id/move_on"
         android:textSize="18sp"
         android:onClick="goToGameEnd"/>
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/play"
-        android:textSize="18sp"
-        android:onClick="goBackToPlay"
-        app:srcCompat="?attr/homeAsUpIndicator" />
 </RelativeLayout>

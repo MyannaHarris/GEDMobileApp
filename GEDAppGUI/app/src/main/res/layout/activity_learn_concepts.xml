@@ -23,34 +23,24 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:columnCount="2"
     tools:context="com.gedappgui.gedappgui.LearnConcepts">
 
     <Button
-        android:layout_width="150dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/lesson"
+        android:id="@+id/lessonConceptButton"
         android:layout_alignParentLeft="true"
         android:layout_marginRight="@dimen/button_horiz_margin"
         android:layout_marginBottom="@dimen/button_vert_margin"
         android:layout_marginTop="@dimen/button_vert_margin"
-        android:text="@string/lesson"
-        android:onClick="gotToLesson" />
+        android:text="@string/lessonConcept"
+        android:onClick="gotToLesson"/>
 
-    <ImageButton
-        android:id="@+id/home"
-        android:scaleType="centerCrop"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:layout_marginRight="262dp"
-        android:layout_marginEnd="262dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="14dp"
-        android:onClick="goHome"
-        app:srcCompat="@drawable/home_button"
-        android:layout_row="8"
-        android:layout_column="0"
-        android:elevation="0dp" />
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_columnSpan="2"
+        android:text="This will show a 'path' of math concepts from the GED that a student can select. They will then be taken to a list of the lessons in the concept." />
 
 </GridLayout>

@@ -1,17 +1,16 @@
 /*
- * GameEnd.java
+ * Redo.java
  *
- * GameEnd page activity
+ * Redo page activity
  *
- * View that displays how a student did during the game
+ * Tells the student they did good
+ * but need to revisit some material before moving on
  *
  * Worked on by:
  * Myanna Harris
  * Kristina Spring
  * Jasmine Jans
  * Jimmy Sherman
- *
- * Created by jasminejans on 10/29/16.
  *
  * Last Edit: 11-6-16
  *
@@ -22,18 +21,14 @@ package com.gedappgui.gedappgui;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-public class GameEnd extends AppCompatActivity {
-
-    // int to hold whether to go to questions or play next
-    // 0 = questions, 1 = play
-    private int nextActivity;
+public class Redo extends AppCompatActivity {
 
     /*
      * Starts the activity and shows corresponding view on screen
@@ -42,13 +37,10 @@ public class GameEnd extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_game_end);
+        setContentView(R.layout.activity_redo);
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
-
-        // Get next_activity value from intent to decide next activity after game
-        nextActivity = getIntent().getIntExtra("next_activity", -1);
     }
 
     /* 
@@ -117,18 +109,12 @@ public class GameEnd extends AppCompatActivity {
     }
 
     /*
-     * Goes to the expected next activity
-     * If Play called the game then it goes to play
-     * Otherwise it goes to Question
+     * Called when move on button clicked
+     * Opens the RedoExample page
      */
-    public void goToNext(View view) {
-        if (nextActivity == 1) {
-            Intent intent = new Intent(this, Play.class);
-            startActivity(intent);
-        }
-        else {
-            Intent intent = new Intent(this, Question.class);
-            startActivity(intent);
-        }
+    public void goToRedoExample(View view) {
+        Intent intent = new Intent(this, RedoExample.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }

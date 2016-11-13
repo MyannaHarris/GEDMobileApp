@@ -26,33 +26,6 @@ Last Edit: 10-29-16
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.gedappgui.gedappgui.ToolSample">
 
-    <ImageButton
-        app:srcCompat="@drawable/home_button"
-        android:id="@+id/home"
-        android:scaleType="fitCenter"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_marginRight="262dp"
-        android:layout_marginEnd="262dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="14dp"
-        android:onClick="goHome"/>
-
-    <ImageButton
-        android:layout_height="75dp"
-        app:srcCompat="?android:attr/homeAsUpIndicator"
-        android:id="@+id/imageButton7"
-        android:scaleType="centerCrop"
-        android:layout_alignTop="@id/home"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="14dp"
-        android:onClick="backToTools"
-        android:layout_width="75dp" />
-
     <TextView
         android:text="Decimals"
         android:layout_height="wrap_content"

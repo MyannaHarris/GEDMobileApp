@@ -10,15 +10,21 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.gedappgui.gedappgui.LessonExample">
+
     <Button
-        android:layout_width="150dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/lessonGame"
         android:layout_alignParentLeft="true"
         android:layout_marginRight="@dimen/button_horiz_margin"
         android:layout_marginBottom="@dimen/button_vert_margin"
         android:layout_marginTop="@dimen/button_vert_margin"
-        android:text="@string/lessonQuestions"
+        android:text="@string/lessonGameButton"
         android:onClick="gotToLessonGame" />
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="This will take a student through an example problem for the lesson." />
 
 </LinearLayout>
