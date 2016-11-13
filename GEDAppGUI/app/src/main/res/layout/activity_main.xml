@@ -44,7 +44,9 @@
         android:background="@drawable/speech_bubble"
         android:textColor="@color/colorPrimaryDark"/>
 
-    <GridView
+    <!--<GridView
+        android:id="@+id/home_gridView"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/sprite_homeScreen"
@@ -53,7 +55,7 @@
         android:stretchMode="columnWidth"
         android:columnWidth="60dp">
 
-    </GridView>
+    </GridView>-->
 
     <Button
         android:layout_width="150dp"

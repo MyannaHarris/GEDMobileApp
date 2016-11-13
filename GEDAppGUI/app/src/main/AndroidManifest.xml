@@ -3,6 +3,8 @@
     package="com.gedappgui.gedappgui">
 
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".MyApplication"
@@ -186,9 +188,8 @@
             android:name=".RedoExample"
             android:label="Example"
             android:screenOrientation="portrait"/>
-        <uses-permission android:name="android.permission.VIBRATE" />
-        <uses-permission android:name="android.permission.WAKE_LOCK" />
-        <receiver android:name=".Receiver" />
+        <receiver
+            android:name=".Receiver" />
     </application>
 
 </manifest>

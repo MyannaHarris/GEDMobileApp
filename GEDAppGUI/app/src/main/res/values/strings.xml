@@ -35,7 +35,7 @@
     <string name="lessonName">Open Math Lesson 1</string>
     <string name="lessonSummary">Lesson Summary</string>
     <string name="lessonSummaryButton">Open Lesson Summary</string>
-    <string name="lessonSteps">Step-by-step Explanation</string>
+    <string name="lessonSteps">Explanation</string>
     <string name="lessonStepsButton">Open Step-by-step Explanation</string>
     <string name="lessonExample">Example</string>
     <string name="lessonExampleButton">Open Example</string>

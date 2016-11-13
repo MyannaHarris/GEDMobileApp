@@ -26,6 +26,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.MediaController;
+import android.widget.VideoView;
+
+import java.io.IOException;
 
 public class LessonSteps extends AppCompatActivity {
 
@@ -42,6 +46,14 @@ public class LessonSteps extends AppCompatActivity {
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+        /*VideoView stepsVideoView = (VideoView)findViewById(R.id.example_video_view);
+        String vidAddress = "https://ia601407.us.archive.org/28/items/MathOddAndEven/mathoe_512kb.mp4";
+        stepsVideoView.setVideoPath(vidAddress);
+        MediaController mediaController = new MediaController(this);
+        mediaController.setAnchorView(stepsVideoView);
+        stepsVideoView.setMediaController(mediaController);
+        stepsVideoView.start();*/
     }
 
     /* 

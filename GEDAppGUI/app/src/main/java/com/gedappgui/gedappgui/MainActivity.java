@@ -28,6 +28,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.TextView;
 
 import java.io.File;
@@ -62,6 +64,42 @@ public class MainActivity extends AppCompatActivity {
 
             // Allow user to control audio with volume buttons on phone
             setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+            /*GridView gridview = (GridView) findViewById(R.id.home_gridView);
+            gridview.setAdapter(new ButtonAdapter(this));
+            gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView parent, View v, int position, long id) {
+                    // Preform a function based on the position
+                    switch (position) {
+                        case 0:
+                            Intent intentContinue = new Intent(MainActivity.this, LessonSummary.class);
+                            startActivity(intentContinue);
+                            break;
+                        case 1:
+                            Intent intentAchievements = new Intent(MainActivity.this, Achievements.class);
+                            startActivity(intentAchievements);
+                            break;
+                        case 2:
+                            Intent intentLearn = new Intent(MainActivity.this, LearnConcepts.class);
+                            startActivity(intentLearn);
+                            break;
+                        case 3:
+                            Intent intentTools = new Intent(MainActivity.this, Tools.class);
+                            startActivity(intentTools);
+                            break;
+                        case 4:
+                            Intent intentPlay = new Intent(MainActivity.this, Play.class);
+                            startActivity(intentPlay);
+                            break;
+                        case 5:
+                            Intent intentSettings = new Intent(MainActivity.this, SettingsActivity.class);
+                            startActivity(intentSettings);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            });*/
         }
 
         /*try {

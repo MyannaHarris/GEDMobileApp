@@ -15,20 +15,23 @@
         tools:context="com.gedappgui.gedappgui.LessonSteps">
 
         <VideoView
+            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="200dp"
             android:id="@+id/example_video_view"
             android:layout_centerHorizontal="true"/>
 
         <ImageView
             android:id="@+id/example_image_view"
+            android:layout_marginTop="20dp"
             android:layout_below="@id/example_video_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="150dp"
             android:layout_centerHorizontal="true"/>
 
         <TextView
             android:id="@+id/advice_text"
+            android:layout_marginTop="20dp"
             android:layout_below="@id/example_image_view"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
