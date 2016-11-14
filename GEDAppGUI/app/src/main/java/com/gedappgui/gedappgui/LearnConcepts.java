@@ -28,8 +28,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-public class LearnConcepts extends AppCompatActivity {
+import java.io.File;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
+public class LearnConcepts extends AppCompatActivity {
+    File file;
     /*
      * Starts the activity and shows corresponding view on screen
      */
@@ -43,6 +47,31 @@ public class LearnConcepts extends AppCompatActivity {
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+    }
+
+    /*
+        Opens the apps database in a file that the class can now read
+     */
+    public SQLiteDatabase openDB() {
+        //file = new File(getExternalFilesDir(Environment.getDataDirectory().getAbsolutePath()).getAbsolutePath(), "GEDPrep.db");
+        file = new File(this.getApplication().getFilesDir(), "GEDPrep.db");
+        return openOrCreateDatabase(file.getPath(), MODE_PRIVATE, null);
+    }
+
+    /*
+        An example for a specific query you may want to implement
+        in this Activity. All queries should follow this structure.
+     */
+    public void testQuery(SQLiteDatabase db){
+        //db.insert("test", String "0", ContentValues values)
+        db.execSQL("INSERT INTO test(ID) VALUES (2)");
+        Cursor c = db.rawQuery("SELECT * FROM test", null);
+
+        while (c.moveToNext()) {
+            System.out.println(c.getString(0));
+        }
+
+        c.close();
     }
 
     /* 
