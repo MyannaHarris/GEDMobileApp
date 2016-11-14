@@ -12,7 +12,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 11-6-16
+ * Last Edit: 11-13-16
  *
  */
 
@@ -23,13 +23,22 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayout;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+
 
 public class LearnConcepts extends AppCompatActivity {
 
+    GridLayout gridlayout;
     /*
      * Starts the activity and shows corresponding view on screen
      */
@@ -43,6 +52,20 @@ public class LearnConcepts extends AppCompatActivity {
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+        gridlayout = (GridLayout) findViewById(R.id.concepts_gridView);
+        //gridlayout.setLayoutParams(WRAP_CONTENT);
+
+        //this won't be necessary once it's hooked up to the db
+        ArrayList conceptNames = new ArrayList();
+        conceptNames.add("Algebra Basics");
+        conceptNames.add("Intermediate Algebra I");
+        conceptNames.add("Intermediate Algebra II");
+        conceptNames.add("Advanced Algebra");
+
+        //put things in the gridlayout
+        setGridInfo(conceptNames);
+
     }
 
     /* 
@@ -115,6 +138,98 @@ public class LearnConcepts extends AppCompatActivity {
     public void gotToLesson(View view) {
         Intent intent = new Intent(this, LearnLessons.class);
         startActivity(intent);
+    }
+
+    public void setGridInfo(ArrayList titles) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int maxWidth = metrics.widthPixels/2;
+
+        int totalConcepts = titles.size();
+        for (int row = 0; row < totalConcepts; row++) {
+
+            GridLayout.Spec thisRow = GridLayout.spec(row, 1);
+            GridLayout.Spec col0 = GridLayout.spec(0, 1);
+            GridLayout.Spec col1 = GridLayout.spec(1, 1);
+            GridLayout.LayoutParams gridLayoutParam0 = new GridLayout.LayoutParams(thisRow, col0);
+            GridLayout.LayoutParams gridLayoutParam1 = new GridLayout.LayoutParams(thisRow, col1);
+            TextView conceptName = createConceptName(titles.get(row).toString(), maxWidth, (row%2));
+            ImageView conceptImg = createConceptImg(row, (totalConcepts-1), (row%2), maxWidth);
+
+            if (row % 2 == 0) {
+                gridLayoutParam0.setGravity(Gravity.FILL_HORIZONTAL|Gravity.CENTER_VERTICAL|Gravity.CLIP_VERTICAL);
+                gridLayoutParam1.setGravity(Gravity.START|Gravity.CENTER_VERTICAL|Gravity.CLIP_VERTICAL);
+                gridlayout.addView(conceptName,gridLayoutParam1);
+                gridlayout.addView(conceptImg,gridLayoutParam0);
+            }
+            else {
+                gridLayoutParam0.setGravity(Gravity.END|Gravity.CENTER_VERTICAL|Gravity.CLIP_VERTICAL);
+                gridLayoutParam1.setGravity(Gravity.FILL_HORIZONTAL|Gravity.CENTER_VERTICAL|Gravity.CLIP_VERTICAL);
+                gridlayout.addView(conceptName,gridLayoutParam0);
+                gridlayout.addView(conceptImg,gridLayoutParam1);
+            }
+        }
+    }
+
+    public TextView createConceptName(String title, int maxWidth, int odd) {
+        TextView conceptName = new TextView(this);
+        if (odd == 1) {
+            conceptName.setGravity(Gravity.RIGHT);
+        }
+        conceptName.setWidth(maxWidth);
+        conceptName.setTextSize(26);
+        conceptName.setText(title);
+        conceptName.setHorizontallyScrolling(false);
+        conceptName.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on click
+
+                Intent activityChangeIntent = new Intent(LearnConcepts.this, LearnLessons.class);
+
+                // currentContext.startActivity(activityChangeIntent);
+
+                LearnConcepts.this.startActivity(activityChangeIntent);
+            }
+        });
+        return conceptName;
+    }
+
+    public ImageView createConceptImg(int index, int max, int odd, int maxWidth) {
+        ImageView conceptImg = new ImageView(this);
+        conceptImg.setMaxWidth(maxWidth);
+        conceptImg.setAdjustViewBounds(true);
+        conceptImg.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        conceptImg.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on click
+
+                Intent activityChangeIntent = new Intent(LearnConcepts.this, LearnLessons.class);
+
+                // currentContext.startActivity(activityChangeIntent);
+
+                LearnConcepts.this.startActivity(activityChangeIntent);
+            }
+        });
+        if (odd == 0) {
+            if (index == 0) {
+                conceptImg.setImageResource(R.drawable.star_start);
+            }
+            else if (index == max) {
+                conceptImg.setImageResource(R.drawable.star_end_left);
+            }
+            else {
+                conceptImg.setImageResource(R.drawable.star_mid_left);
+            }
+        }
+        else {
+            if (index == max) {
+                conceptImg.setImageResource(R.drawable.star_end_right);
+            }
+            else {
+                conceptImg.setImageResource(R.drawable.star_mid_right);
+            }
+        }
+        return conceptImg;
     }
 
 }
