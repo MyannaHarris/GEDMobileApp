@@ -16,7 +16,7 @@
 
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
-        <bitmap android:src="@drawable/squish"
+        <bitmap android:src="@drawable/dragon4"
             android:scaleType="centerCrop"
             android:gravity="top" />
     </item>
