@@ -19,6 +19,7 @@
 package com.gedappgui.gedappgui;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.media.AudioManager;
 import android.os.Build;
 import android.support.v4.content.IntentCompat;
@@ -26,7 +27,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -55,6 +58,32 @@ public class Login extends AppCompatActivity {
                     return false;
                 }
                 return false;
+            }
+        });
+
+        getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(
+                new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+
+                Button button = (Button) findViewById(R.id.login_button);
+
+                Rect r = new Rect();
+                getWindow().getDecorView().getWindowVisibleDisplayFrame(r);
+                int screenHeight = getWindow().getDecorView().getRootView().getHeight();
+
+                // r.bottom is the position above soft keypad or device button.
+                // if keypad is shown, the r.bottom is smaller than that before.
+                int keypadHeight = screenHeight - r.bottom;
+
+                if (keypadHeight > screenHeight * 0.15) { // 0.15 ratio is perhaps enough to determine keypad height.
+                    // keyboard is opened
+                    button.setEnabled(false);
+                }
+                else {
+                    // keyboard is closed
+                    button.setEnabled(true);
+                }
             }
         });
     }

@@ -73,9 +73,10 @@
         grid:layout_columnWeight="1"
         grid:layout_gravity="fill_horizontal"
 
-        android:id="@+id/achievements_button"
-        android:text="@string/achievements"
-        android:onClick="gotToAchievements"/>
+        android:id="@+id/continue_button"
+        android:text="@string/continue_lesson"
+        android:onClick="gotToContinueLesson" />
+
     <Button
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -85,15 +86,17 @@
         android:id="@+id/learn_button"
         android:text="@string/learn"
         android:onClick="gotToLearn"/>
+
     <Button
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         grid:layout_columnWeight="1"
         grid:layout_gravity="fill_horizontal"
 
-        android:id="@+id/tools_button"
-        android:text="@string/tools"
-        android:onClick="gotToTools"/>
+        android:id="@+id/achievements_button"
+        android:text="@string/achievements"
+        android:onClick="gotToAchievements"/>
+
     <Button
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -110,9 +113,9 @@
         grid:layout_columnWeight="1"
         grid:layout_gravity="fill_horizontal"
 
-        android:id="@+id/continue_button"
-        android:text="@string/continue_lesson"
-        android:onClick="gotToContinueLesson" />
+        android:id="@+id/tools_button"
+        android:text="@string/tools"
+        android:onClick="gotToTools"/>
 
     <Button
         android:layout_width="0dp"
@@ -123,4 +126,5 @@
         android:id="@+id/settings_button"
         android:text="@string/settings"
         android:onClick="gotToSettings" />
+
 </android.support.v7.widget.GridLayout>

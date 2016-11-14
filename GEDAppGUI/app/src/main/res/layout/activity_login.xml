@@ -58,7 +58,7 @@
     <Button
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:id="@+id/continue_button"
+        android:id="@+id/login_button"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/button_vert_margin"
         android:layout_marginTop="@dimen/button_vert_margin"

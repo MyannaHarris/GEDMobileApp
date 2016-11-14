@@ -1,17 +1,28 @@
+/*
+ * ButonAdapter.java
+ *
+ * Buton Adapter
+ *
+ * Adapter to fill gridview with imageviews
+ *
+ * Worked on by:
+ * Myanna Harris
+ * Kristina Spring
+ * Jasmine Jans
+ * Jimmy Sherman
+ *
+ * Last Edit: 11-13-16
+ *
+ */
+
 package com.gedappgui.gedappgui;
 
 import android.content.Context;
-import android.content.Intent;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 /**
  * Created by myannaharris on 11/10/16.

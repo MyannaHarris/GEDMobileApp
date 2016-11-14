@@ -1,3 +1,20 @@
+/*
+ * TextViewAdapter.java
+ *
+ * TextView Adapter
+ *
+ * Adapter to fill gridview with TextViews
+ *
+ * Worked on by:
+ * Myanna Harris
+ * Kristina Spring
+ * Jasmine Jans
+ * Jimmy Sherman
+ *
+ * Last Edit: 11-13-16
+ *
+ */
+
 package com.gedappgui.gedappgui;
 
 import android.content.Context;
