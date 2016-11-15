@@ -12,7 +12,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 11-13-16
+ * Last Edit: 11-14-16
  *
  */
 
@@ -41,6 +41,9 @@ public class LearnConcepts extends AppCompatActivity {
     GridLayout gridlayout;
     /*
      * Starts the activity and shows corresponding view on screen
+     * TO COME: Gets concept information from the database
+     *   then passes information to setGridInfo, a function to dynamically add to
+     *   the GridLayout
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,14 +135,12 @@ public class LearnConcepts extends AppCompatActivity {
     }
 
     /*
-     * Called whena concept button is clicked
-     * Opens the lesson "trail" page
+     * Dynamically adds views to the GridLayout - one row per concept
+     * Each concept has an ImageView, holding the image to create the "path"
+     *   and a TextView, holding the concept name; the order of the views is
+     *   decided by whether the row is even or not
+     * Calls createConceptName and createConceptImg to actually make the views
      */
-    public void gotToLesson(View view) {
-        Intent intent = new Intent(this, LearnLessons.class);
-        startActivity(intent);
-    }
-
     public void setGridInfo(ArrayList titles) {
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -153,28 +154,37 @@ public class LearnConcepts extends AppCompatActivity {
             GridLayout.Spec col1 = GridLayout.spec(1, 1);
             GridLayout.LayoutParams gridLayoutParam0 = new GridLayout.LayoutParams(thisRow, col0);
             GridLayout.LayoutParams gridLayoutParam1 = new GridLayout.LayoutParams(thisRow, col1);
+            int viewGravity = Gravity.FILL_HORIZONTAL|Gravity.CENTER_VERTICAL;
+            gridLayoutParam0.setGravity(viewGravity);
+            gridLayoutParam1.setGravity(viewGravity);
+
             TextView conceptName = createConceptName(titles.get(row).toString(), maxWidth, (row%2));
             ImageView conceptImg = createConceptImg(row, (totalConcepts-1), (row%2), maxWidth);
 
             if (row % 2 == 0) {
-                gridLayoutParam0.setGravity(Gravity.FILL_HORIZONTAL|Gravity.CENTER_VERTICAL|Gravity.CLIP_VERTICAL);
-                gridLayoutParam1.setGravity(Gravity.START|Gravity.CENTER_VERTICAL|Gravity.CLIP_VERTICAL);
                 gridlayout.addView(conceptName,gridLayoutParam1);
                 gridlayout.addView(conceptImg,gridLayoutParam0);
             }
             else {
-                gridLayoutParam0.setGravity(Gravity.END|Gravity.CENTER_VERTICAL|Gravity.CLIP_VERTICAL);
-                gridLayoutParam1.setGravity(Gravity.FILL_HORIZONTAL|Gravity.CENTER_VERTICAL|Gravity.CLIP_VERTICAL);
                 gridlayout.addView(conceptName,gridLayoutParam0);
                 gridlayout.addView(conceptImg,gridLayoutParam1);
             }
         }
     }
 
+    /*
+     * Creates a TextView for the concept name that links to the lessons page
+     * title is the text that is put into the view,
+     * maxWidth makes sure the text stays on its half of the screen
+     * odd determines if the text is aligned to the left or to the right
+     */
     public TextView createConceptName(String title, int maxWidth, int odd) {
         TextView conceptName = new TextView(this);
         if (odd == 1) {
             conceptName.setGravity(Gravity.RIGHT);
+        }
+        else {
+            conceptName.setGravity(Gravity.LEFT);
         }
         conceptName.setWidth(maxWidth);
         conceptName.setTextSize(26);
@@ -194,6 +204,15 @@ public class LearnConcepts extends AppCompatActivity {
         return conceptName;
     }
 
+    /*
+     * Creates an ImageView for the image that links to the lessons page
+     * What image is used is determined by what row the image is being added to:
+     *     there is an image for the first row
+     *     there is an image for odd middle rows
+     *     there is an image for even middle rows
+     *     there are two images for the last row, depending on whether it is even or odd
+     * maxWidth is used to make sure the image does not exceed more than half of the screen
+     */
     public ImageView createConceptImg(int index, int max, int odd, int maxWidth) {
         ImageView conceptImg = new ImageView(this);
         conceptImg.setMaxWidth(maxWidth);
