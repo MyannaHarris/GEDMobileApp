@@ -135,6 +135,9 @@ public class MyApplication extends Application {
         this.currVolume = newVolume;
     }
 
+    /*
+     * Schedules a notification for a future time
+     */
     private void scheduleNotification(Notification notification) {
         Intent notificationIntent = new Intent(getApplicationContext(), Receiver.class);
         notificationIntent.putExtra(Receiver.NOTIFICATION, notification);
@@ -158,6 +161,9 @@ public class MyApplication extends Application {
         }
     }
 
+    /*
+     * Creates a notification to remind the user to study math
+     */
     private Notification getNotification() {
 
         Intent myIntent = new Intent();

@@ -43,9 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
     //private File file;
 
-    // Gridview
-    //GridView gridview;
-
     /*
      * Starts the first activity and shows corresponding view on screen
      */
@@ -67,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
             setVolumeControlStream(AudioManager.STREAM_MUSIC);
         }
 
+        // Copy and access database
         /*try {
             file = new File(this.getApplication().getFilesDir(), "copy.db");
             copy();
@@ -82,6 +80,9 @@ public class MainActivity extends AppCompatActivity {
         db.close();*/
     }
 
+    /*
+     * Copy our database into local storage
+     */
     /*public void copy() throws IOException {
 
         InputStream in = getApplicationContext().getAssets().open("test.db");
@@ -184,8 +185,8 @@ public class MainActivity extends AppCompatActivity {
 
     /*
      * Opens Sprite view when button is clicked
+     * Called when the user clicks the Sprite
      */
-    /** Called when the user clicks the Sprite */
     public void gotToSprite(View view) {
         Intent intent = new Intent(this, Sprite.class);
         startActivity(intent);
@@ -193,8 +194,8 @@ public class MainActivity extends AppCompatActivity {
 
     /*
      * Opens Learn (Concepts) view when button is clicked
+     * Called when the user clicks the Learn button
      */
-    /** Called when the user clicks the Learn button */
     public void gotToLearn(View view) {
         Intent intent = new Intent(this, LearnConcepts.class);
         startActivity(intent);
@@ -202,8 +203,8 @@ public class MainActivity extends AppCompatActivity {
 
     /*
      * Opens Play (Games) view when button is clicked
+     * Called when the user clicks the Play button
      */
-    /** Called when the user clicks the Play button */
     public void gotToPlay(View view) {
         Intent intent = new Intent(this, Play.class);
         startActivity(intent);
@@ -211,8 +212,8 @@ public class MainActivity extends AppCompatActivity {
 
     /*
      * Opens Achievements view when button is clicked
+     * Called when the user clicks the Achievements button
      */
-    /** Called when the user clicks the Achievements button */
     public void gotToAchievements(View view) {
         Intent intent = new Intent(this, Achievements.class);
         startActivity(intent);
@@ -220,20 +221,26 @@ public class MainActivity extends AppCompatActivity {
 
     /*
      * Opens Tools view when button is clicked
+     * Called when the user clicks the Tools button
      */
-    /** Called when the user clicks the Tools button */
     public void gotToTools(View view) {
         Intent intent = new Intent(this, Tools.class);
         startActivity(intent);
     }
 
-    /** Called when the user clicks the Settings button */
+    /*
+     * Opens Settings view when button is clicked
+     * Called when the user clicks the Settings button
+     */
     public void gotToSettings(View view) {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
 
-    /** Called when the user clicks the Continue Lesson button */
+    /*
+     * Opens Lesson Summary view when button is clicked
+     * Called when the user clicks the Continue Lesson button
+     */
     public void gotToContinueLesson(View view) {
         Intent intent = new Intent(this, LessonSummary.class);
         startActivity(intent);

@@ -27,8 +27,13 @@ import android.content.Intent;
 
 public class Receiver extends BroadcastReceiver {
 
+    // Intent extra key
     public static String NOTIFICATION = "notification";
 
+    /*
+     * Called when a request is received
+     * Sends notification when received
+     */
     public void onReceive(Context context, Intent intent) {
 
         NotificationManager notificationManager =
