@@ -99,20 +99,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-        // Copy and access database
-        /*try {
-            file = new File(this.getApplication().getFilesDir(), "copy.db");
-            copy();
-        } catch (IOException e) {
-            e.printStackTrace();
+    /* Checks if external storage is available write
+    public boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            return true;
         }
         return false;
     }
 
-    /*
-     * Copy our database into local storage
-     */
-    /*public void copy() throws IOException {
+    Checks if external storage is available to read
+    public boolean isExternalStorageReadable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state) ||
+                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+            return true;
+        }
+        return false;
+    } */
+
+
 
     /* copies the database in the assets folder into the new db in either
        external storage or local app storage */
