@@ -41,7 +41,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
-    //private File file;
+    private File file;
 
     // Gridview
     //GridView gridview;
@@ -54,6 +54,40 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         if (!((MyApplication) this.getApplication()).getLoginStatus()) {
+            //tries to load database on first login
+            try {
+                //check for availability of the external storage
+                //keep in mind external storage is public
+                /*if(isExternalStorageReadable() && isExternalStorageWritable()) {
+                    //copies the database file in assets to a new file in external storage
+                    file = new File(getExternalFilesDir(Environment.getDataDirectory().getAbsolutePath()).getAbsolutePath(), "GEDPrep.db");
+                    System.out.println("external");
+                    copy();
+                }
+                else{*/
+                //if external is not available we must copy to local app storage that is at risk of being cleared
+                file = new File(this.getApplication().getFilesDir(), "GEDPrep.db");
+                copy();
+                System.out.println("local");
+
+                //send a popup here maybe that notifies the user of the risks?
+                //System.out.println("fail");
+                //}
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            SQLiteDatabase db = openOrCreateDatabase(file.getPath(), MODE_PRIVATE, null);
+            Cursor c = db.rawQuery("SELECT * FROM test", null);
+
+            //gets all the values saved from the query in the cursor
+            while (c.moveToNext()) {
+                System.out.println(c.getString(0));
+            }
+
+            c.close();
+            db.close();
+
             // Show login first time the app is opened
             Intent intent = new Intent(this, Login.class);
             startActivity(intent);
@@ -66,36 +100,47 @@ public class MainActivity extends AppCompatActivity {
             // Allow user to control audio with volume buttons on phone
             setVolumeControlStream(AudioManager.STREAM_MUSIC);
         }
-
-        /*try {
-            file = new File(this.getApplication().getFilesDir(), "copy.db");
-            copy();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        SQLiteDatabase db = openOrCreateDatabase(file.getPath(), MODE_PRIVATE, null);
-        Cursor c = db.rawQuery("SELECT * FROM test", null);
-        c.moveToFirst();
-        //c.moveToNext();
-        System.out.println(c.getString(0));
-        c.close();
-        db.close();*/
     }
 
-    /*public void copy() throws IOException {
+    /* Checks if external storage is available write
+    public boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            return true;
+        }
+        return false;
+    }
 
+    Checks if external storage is available to read
+    public boolean isExternalStorageReadable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state) ||
+                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+            return true;
+        }
+        return false;
+    } */
+
+    /* copies the database in the assets folder into the new db in either
+       external storage or local app storage */
+    public void copy() throws IOException {
+
+        //sets the existing DB int the assets folder to be copied as the input
         InputStream in = getApplicationContext().getAssets().open("test.db");
         OutputStream out = new FileOutputStream(file);
 
-        // Transfer bytes from in to out
-        byte[] buf = new byte[1024];
+        // Transfers all bytes from in to out
+        byte[] buffer = new byte[1024];
         int len;
-        while ((len = in.read(buf)) > 0) {
-            out.write(buf, 0, len);
+
+
+        while ((len = in.read(buffer)) > 0) {
+            out.write(buffer, 0, len);
         }
+
         in.close();
         out.close();
-    }*/
+    }
 
 
     /*
