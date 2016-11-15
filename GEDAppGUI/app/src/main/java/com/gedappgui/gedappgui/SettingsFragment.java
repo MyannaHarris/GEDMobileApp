@@ -19,7 +19,6 @@ package com.gedappgui.gedappgui;
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
-import android.widget.EditText;
 
 public class SettingsFragment extends PreferenceFragment {
 

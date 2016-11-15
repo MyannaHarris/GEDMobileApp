@@ -32,7 +32,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.TextView;
 
 public class Sprite extends AppCompatActivity {
 
@@ -48,12 +47,13 @@ public class Sprite extends AppCompatActivity {
 
         setContentView(R.layout.activity_sprite);
 
-        // Allow homaAsUpIndicator (back arrow) to desplay on action bar
+        // Allow homeAsUpIndicator (back arrow) to desplay on action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
+        // Fill gridview with sprite accessories
         gridview = (GridView) this.findViewById(R.id.sprite_gridView);
         Integer[] buttonPictures = {
                 R.drawable.example_picture,
@@ -64,21 +64,6 @@ public class Sprite extends AppCompatActivity {
                 R.drawable.example_picture
         };
         gridview.setAdapter(new ButtonAdapter(this, buttonPictures));
-    }
-
-    /*
-     * Registers onItemClickListener
-     * Called after onCreate on first creation
-     * Called every time this activity gets the focus
-     */
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        // *************************************************************************************
-        // ****** Could create problems when all the different glasses, hats, etc work *********
-        // *************************************************************************************
-
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 String test = "";
@@ -108,26 +93,6 @@ public class Sprite extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    /*
-     * UnRegisters onItemClickListener
-     * Called every time this activity loses the focus
-     */
-    @Override
-    protected void onPause() {
-        super.onPause();
-        gridview.setOnItemClickListener(null);
-    }
-
-    /*
-     * UnRegisters onItemClickListener
-     * Called every time this activity is destroyed
-     */
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        gridview.setOnItemClickListener(null);
     }
 
     /* 

@@ -61,6 +61,8 @@ public class Login extends AppCompatActivity {
             }
         });
 
+        // Disable login button while keyboard is open
+        // Re-enable it when keyboard closes
         getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override

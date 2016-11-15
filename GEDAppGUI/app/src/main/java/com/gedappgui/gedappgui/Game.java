@@ -45,7 +45,7 @@ public class Game extends AppCompatActivity {
 
         setContentView(R.layout.activity_game);
 
-        // Allow homaAsUpIndicator (back arrow) to desplay on action bar
+        // Allow homeAsUpIndicator (back arrow) to desplay on action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Allow user to control audio with volume buttons on phone
@@ -70,7 +70,7 @@ public class Game extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
-        else {
+        else if (hasFocus){
             // Maybe to get full screen
             /*getWindow().getDecorView().setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE

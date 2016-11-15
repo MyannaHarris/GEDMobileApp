@@ -24,37 +24,54 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
-/**
- * Created by myannaharris on 11/10/16.
- */
-
 public class ButtonAdapter extends BaseAdapter {
 
+    // Hold context of activity that called adapter
     private Context mContext;
+    // Hold the ids of the images from the drawable folder
     private Integer[] imageIds;
 
-    // Gets the context so it can be used later
+    /*
+     * Constructor
+     * Gets the context and image ids so they can be used later
+     */
     public ButtonAdapter(Context c, Integer[] buttonNames) {
 
         mContext = c;
         imageIds = buttonNames;
     }
 
+    /*
+     * Gets the number of itams to put in the view
+     * returns imageIds.length
+     */
     @Override
     public int getCount() {
         return imageIds.length;
     }
 
+    /*
+     * Does not do anything but needed to implement BaseAdapter
+     * returns null
+     */
     @Override
     public Object getItem(int position) {
         return null;
     }
 
+    /*
+     * Does not do anything but needed to implement BaseAdapter
+     * returns the position sent to the method
+     */
     @Override
     public long getItemId(int position) {
         return position;
     }
 
+    /*
+     * Creates the components for the adapter
+     * returns an imageview
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
