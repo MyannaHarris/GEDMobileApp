@@ -11,7 +11,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 11-6-16
+ * Last Edit: 11-14-16
  *
  */
 
@@ -44,12 +44,13 @@ public class Achievements extends AppCompatActivity {
 
         setContentView(R.layout.activity_achievements);
 
-        // Allow homaAsUpIndicator (back arrow) to desplay on action bar
+        // Allow homeAsUpIndicator (back arrow) to desplay on action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
+        // Fill gridview with achievements
         gridview = (GridView) findViewById(R.id.achievements_gridView);
         Integer[] buttonPictures = {
                 R.drawable.example_picture,
@@ -63,16 +64,6 @@ public class Achievements extends AppCompatActivity {
                 R.drawable.example_picture
         };
         gridview.setAdapter(new ButtonAdapter(this, buttonPictures));
-    }
-
-    /*
-     * Registers onItemClickListener
-     * Called after onCreate on first creation
-     * Called every time this activity gets the focus
-     */
-    @Override
-    protected void onResume() {
-        super.onResume();
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 TextView achievementText = (TextView)findViewById(R.id.achievement_description);
@@ -114,26 +105,6 @@ public class Achievements extends AppCompatActivity {
                 achievementText.setText(achievementDesc);
             }
         });
-    }
-
-    /*
-     * UnRegisters onItemClickListener
-     * Called every time this activity loses the focus
-     */
-    @Override
-    protected void onPause() {
-        super.onPause();
-        gridview.setOnItemClickListener(null);
-    }
-
-    /*
-     * UnRegisters onItemClickListener
-     * Called every time this activity is destroyed
-     */
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        gridview.setOnItemClickListener(null);
     }
 
     /* 
@@ -198,48 +169,4 @@ public class Achievements extends AppCompatActivity {
 
         return true;
     }
-
-    /*
-     * Called when the user clicks an achievement
-     * Sets text for achievement description
-     */
-    /*public void showAchievementDescription(View view) {
-
-        TextView achievementText = (TextView)findViewById(R.id.achievement_description);
-        String achievementDesc = "";
-
-        switch(view.getId()) {
-            case R.id.achievement_1:
-                achievementDesc = "Achievement 1";
-                break;
-            case R.id.achievement_2:
-                achievementDesc = "Achievement 2";
-                break;
-            case R.id.achievement_3:
-                achievementDesc = "Achievement 3";
-                break;
-            case R.id.achievement_4:
-                achievementDesc = "Achievement 4";
-                break;
-            case R.id.achievement_5:
-                achievementDesc = "Achievement 5";
-                break;
-            case R.id.achievement_6:
-                achievementDesc = "Achievement 6";
-                break;
-            case R.id.achievement_7:
-                achievementDesc = "Achievement 7";
-                break;
-            case R.id.achievement_8:
-                achievementDesc = "Achievement 8";
-                break;
-            case R.id.achievement_9:
-                achievementDesc = "Achievement 9";
-                break;
-            default:
-                break;
-        }
-
-        achievementText.setText(achievementDesc);
-    }*/
 }

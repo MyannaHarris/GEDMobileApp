@@ -45,7 +45,7 @@ public class GameIntro extends AppCompatActivity {
 
         setContentView(R.layout.activity_game_intro);
 
-        // Allow homaAsUpIndicator (back arrow) to desplay on action bar
+        // Allow homeAsUpIndicator (back arrow) to desplay on action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Allow user to control audio with volume buttons on phone
