@@ -47,10 +47,21 @@ public class LessonExample extends AppCompatActivity {
 
 
         DatabaseHelper db = new DatabaseHelper(this);
-        int current_lesson = 1;
+        setExamples(db);
+    }
+
+    /* 
+     * Takes a DatabaseHelper object and queries the database for example 1 and example 2 and then
+     * places the text into the screen.
+     */
+    private void setExamples(DatabaseHelper db){
+        int current_lesson = db.selectCurrentLessonID();
         String example_1 = db.selectLessonExample1(current_lesson);
+        String example_2 = db.selectLessonExample2(current_lesson);
         TextView ex_1 = (TextView) findViewById(R.id.example_1);
+        TextView ex_2 = (TextView) findViewById(R.id.example_2);
         ex_1.setText(example_1);
+        ex_2.setText(example_2);
     }
 
     /* 
