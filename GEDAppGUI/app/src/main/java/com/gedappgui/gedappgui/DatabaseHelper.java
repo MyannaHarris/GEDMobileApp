@@ -144,7 +144,7 @@ public class DatabaseHelper{
             System.out.println("exists");
             checkDB.close();
         }
-
+         //return false; //used for overwriting database on emulator
         return dbExists;
     }
 
@@ -155,7 +155,7 @@ public class DatabaseHelper{
     private void copyDatabase() throws IOException{
 
         //Open your local db as the input stream
-        InputStream myInput = myContext.getApplicationContext().getAssets().open("gedv31.db");
+        InputStream myInput = myContext.getApplicationContext().getAssets().open("gedV4.db");
 
         //Open the empty db as the output stream
         OutputStream myOutput = new FileOutputStream(file);
@@ -213,7 +213,7 @@ public class DatabaseHelper{
         c.close();
         close();
 
-        System.out.print(count);
+        System.out.println(count);
         return count == 0;
     }
 
