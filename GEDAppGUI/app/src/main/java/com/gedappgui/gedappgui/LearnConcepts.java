@@ -42,6 +42,7 @@ import java.util.ArrayList;
 
 public class LearnConcepts extends AppCompatActivity {
     File file;
+    private DatabaseHelper dbHelper;
 
     GridLayout gridlayout;
     /*
@@ -54,6 +55,7 @@ public class LearnConcepts extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learn_concepts);
+        dbHelper = new DatabaseHelper(this);
 
         // Allow homeAsUpIndicator (back arrow) to display on action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -64,12 +66,7 @@ public class LearnConcepts extends AppCompatActivity {
         gridlayout = (GridLayout) findViewById(R.id.concepts_gridView);
         //gridlayout.setLayoutParams(WRAP_CONTENT);
 
-        //this won't be necessary once it's hooked up to the db
-        ArrayList conceptNames = new ArrayList();
-        conceptNames.add("Algebra Basics");
-        conceptNames.add("Intermediate Algebra I");
-        conceptNames.add("Intermediate Algebra II");
-        conceptNames.add("Advanced Algebra");
+        ArrayList<String> conceptNames = dbHelper.selectConcepts();
 
         //put things in the gridlayout
         setGridInfo(conceptNames);
