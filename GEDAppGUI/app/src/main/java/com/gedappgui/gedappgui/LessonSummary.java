@@ -27,7 +27,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.io.File;
+import java.util.ArrayList;
+
 public class LessonSummary extends AppCompatActivity {
+
+    private DatabaseHelper dbHelper;
 
     /*
      * Starts the activity and shows corresponding view on screen
@@ -42,6 +47,18 @@ public class LessonSummary extends AppCompatActivity {
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+        dbHelper = new DatabaseHelper(this);
+        ArrayList<String> test = dbHelper.selectConcepts();
+        System.out.println(test);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        dbHelper = new DatabaseHelper(this);
+        ArrayList<String> test = dbHelper.selectConcepts();
+        System.out.println(test);
     }
 
     /* 

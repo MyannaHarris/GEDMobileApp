@@ -45,7 +45,8 @@ public class DatabaseHelper{
     /**
      * Constructor
      *
-     * Takes and keeps a reference of the passed context in order to access the application internal storage.
+     * Takes and keeps a reference of the passed context
+     * in order to access the application internal storage.
      * @param context the context from the Activity class creating a DatabaseHelper object
      */
     public DatabaseHelper(Context context){
@@ -66,7 +67,8 @@ public class DatabaseHelper{
                     copy();
                 }
                 else{*/
-            //if external is not available we must copy to local app storage that is at risk of being cleared
+            //if external is not available
+            // we must copy to local app storage that is at risk of being cleared
 
             //send a popup here maybe that notifies the user of the risks?
             //System.out.println("fail");
@@ -105,15 +107,18 @@ public class DatabaseHelper{
         SQLiteDatabase db_Read;
 
         if(!dbExist){
-            //By calling this method an empty database will be created into the default system path
-            //of your application so we are gonna be able to overwrite that database with our database.
-            db_Read = SQLiteDatabase.openDatabase(file.getPath(), null, SQLiteDatabase.CREATE_IF_NECESSARY);
+            System.out.println("should not exist");
+            // By calling this method an empty database will be created into the default system
+            // path of your application so we are gonna be able to overwrite that database
+            // with our database.
+            db_Read = SQLiteDatabase.openDatabase(
+                    file.getPath(), null, SQLiteDatabase.CREATE_IF_NECESSARY);
             db_Read.close();
 
             try {
                 copyDatabase();
             } catch (IOException e) {
-                throw new Error("Error copying database");
+                throw new Error("Error copying database \n" + e);
             }
         }
     }
@@ -127,16 +132,20 @@ public class DatabaseHelper{
         SQLiteDatabase checkDB = null;
 
         try{
-            checkDB = SQLiteDatabase.openDatabase(file.getPath(), null, SQLiteDatabase.OPEN_READWRITE);
+            checkDB = SQLiteDatabase.openDatabase(
+                    file.getPath(), null, SQLiteDatabase.OPEN_READWRITE);
         }catch(SQLiteException e){
             System.out.println("Database doesn't exist yet.");
         }
 
-        if(checkDB != null){
+        boolean dbExists = checkDB != null;
+
+        if(dbExists){
+            System.out.println("exists");
             checkDB.close();
         }
 
-        return checkDB != null;
+        return dbExists;
     }
 
     /**
@@ -146,7 +155,7 @@ public class DatabaseHelper{
     private void copyDatabase() throws IOException{
 
         //Open your local db as the input stream
-        InputStream myInput = myContext.getAssets().open("gedV31.db");
+        InputStream myInput = myContext.getApplicationContext().getAssets().open("gedv31.db");
 
         //Open the empty db as the output stream
         OutputStream myOutput = new FileOutputStream(file);
@@ -173,7 +182,8 @@ public class DatabaseHelper{
     private void open() throws SQLException{
         //Open the database
         try {
-            myDatabase = SQLiteDatabase.openDatabase(file.getPath(), null, SQLiteDatabase.OPEN_READWRITE);
+            myDatabase = SQLiteDatabase.openDatabase(
+                    file.getPath(), null, SQLiteDatabase.OPEN_READWRITE);
         }
         catch(SQLiteException e) {
             System.out.println("cannot open database");

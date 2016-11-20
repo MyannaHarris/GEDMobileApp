@@ -85,9 +85,7 @@ public class LessonExample extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                Intent intentSteps = new Intent(this, LessonSteps.class);
-                intentSteps.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intentSteps);
+                finish();
                 return true;
             // action with ID action_refresh was selected
             case R.id.action_home:

@@ -52,16 +52,16 @@ public class MainActivity extends AppCompatActivity {
 
         if (!((MyApplication) this.getApplication()).getLoginStatus()) {
             //tries to load database on first login
-            try {
+            /*try {
                 //check for availability of the external storage
                 //keep in mind external storage is public
-                /*if(isExternalStorageReadable() && isExternalStorageWritable()) {
+                //if(isExternalStorageReadable() && isExternalStorageWritable()) {
                     //copies the database file in assets to a new file in external storage
-                    file = new File(getExternalFilesDir(Environment.getDataDirectory().getAbsolutePath()).getAbsolutePath(), "GEDPrep.db");
-                    System.out.println("external");
-                    copy();
-                }
-                else{*/
+                    //file = new File(getExternalFilesDir(Environment.getDataDirectory().getAbsolutePath()).getAbsolutePath(), "GEDPrep.db");
+                    //System.out.println("external");
+                    //copy();
+                //}
+                //else{
                 //if external is not available we must copy to local app storage that is at risk of being cleared
                 file = new File(this.getApplication().getFilesDir(), "GEDPrep.db");
                 copy();
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             c.close();
-            db.close();
+            db.close();*/
 
             // Show login first time the app is opened
             Intent intent = new Intent(this, Login.class);
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
     /* copies the database in the assets folder into the new db in either
        external storage or local app storage */
-    public void copy() throws IOException {
+    /*public void copy() throws IOException {
 
         //sets the existing DB int the assets folder to be copied as the input
         InputStream in = getApplicationContext().getAssets().open("test.db");
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
 
         in.close();
         out.close();
-    }
+    }*/
 
 
     /*

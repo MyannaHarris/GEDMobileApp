@@ -104,9 +104,7 @@ public class Game extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                Intent intentGameIntro = new Intent(this, GameIntro.class);
-                intentGameIntro.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intentGameIntro);
+                finish();
                 return true;
             // action with ID action_refresh was selected
             case R.id.action_home:
