@@ -12,7 +12,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 11-6-16
+ * Last Edit: 11-20-16
  *
  */
 
@@ -48,7 +48,7 @@ public class Login extends AppCompatActivity {
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-        // Don't shoe the action bar with the icecream menu
+        // Don't shoe the action bar with the ice cream menu
         getSupportActionBar().hide();
 
         // Exits keyboard when user hits enter on it
@@ -132,9 +132,11 @@ public class Login extends AppCompatActivity {
         ((MyApplication) this.getApplication()).setLoginStatus(true);
 
         EditText username = (EditText)findViewById(R.id.username_editText);
+
+        //sets the global username to the new name
         ((MyApplication) this.getApplication()).setName(username.getText().toString());
 
-        //Inserting the user information in the user table
+        //Inserting the user information in the user table and setting the username in the database
         db.insertUser(username.getText().toString());
 
         Intent intent = new Intent(this, MainActivity.class);

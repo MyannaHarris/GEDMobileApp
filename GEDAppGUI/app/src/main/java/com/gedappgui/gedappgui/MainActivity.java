@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         //if (((MyApplication) this.getApplication()).getLoginStatus()) {
         if(!db.firstTimeLogin()){
             TextView greetingText = (TextView)findViewById(R.id.sprite_speechBubble);
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             //without the DB
             //String greeting = "Hello " + ((MyApplication) this.getApplication()).getName();
 
-            //with the DB
+            //with the DB pulling information
             String greeting = "Hello " + db.selectUsername();
 
             greeting += "!\nWelcome to the app.";
