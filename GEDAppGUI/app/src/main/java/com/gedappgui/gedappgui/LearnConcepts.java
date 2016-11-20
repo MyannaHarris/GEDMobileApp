@@ -66,21 +66,7 @@ public class LearnConcepts extends AppCompatActivity {
 
         gridlayout = (GridLayout) findViewById(R.id.concepts_gridView);
         //gridlayout.setLayoutParams(WRAP_CONTENT);
-
-        try {
-            file = new File(this.getApplication().getFilesDir(), "copy.db");
-            copy();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        SQLiteDatabase db = openOrCreateDatabase(file.getPath(), MODE_PRIVATE, null);
-        Cursor c = db.rawQuery("SELECT * FROM Concepts", null);
-        ArrayList conceptNames = new ArrayList();
-        while (c.moveToNext()) {
-            conceptNames.add(c.getString(c.getColumnIndex("concept_name")));
-        }
-        c.close();
-        db.close();
+        ArrayList<String> conceptNames = new ArrayList<>();
 
         //put things in the gridlayout
         setGridInfo(conceptNames);
