@@ -26,12 +26,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 public class LessonExample extends AppCompatActivity {
 
     /*
      * Starts the activity and shows corresponding view on screen
      */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +44,13 @@ public class LessonExample extends AppCompatActivity {
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+
+        DatabaseHelper db = new DatabaseHelper(this);
+        int current_lesson = 1;
+        String example_1 = db.selectLessonExample1(current_lesson);
+        TextView ex_1 = (TextView) findViewById(R.id.example_1);
+        ex_1.setText(example_1);
     }
 
     /* 
