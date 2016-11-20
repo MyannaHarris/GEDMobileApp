@@ -19,6 +19,8 @@
 package com.gedappgui.gedappgui;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.AudioManager;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -33,11 +35,17 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 
 public class LearnConcepts extends AppCompatActivity {
 
+    private File file;
     GridLayout gridlayout;
     /*
      * Starts the activity and shows corresponding view on screen
@@ -59,16 +67,44 @@ public class LearnConcepts extends AppCompatActivity {
         gridlayout = (GridLayout) findViewById(R.id.concepts_gridView);
         //gridlayout.setLayoutParams(WRAP_CONTENT);
 
-        //this won't be necessary once it's hooked up to the db
+        try {
+            file = new File(this.getApplication().getFilesDir(), "copy.db");
+            copy();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        SQLiteDatabase db = openOrCreateDatabase(file.getPath(), MODE_PRIVATE, null);
+        Cursor c = db.rawQuery("SELECT * FROM Concepts", null);
         ArrayList conceptNames = new ArrayList();
-        conceptNames.add("Algebra Basics");
-        conceptNames.add("Intermediate Algebra I");
-        conceptNames.add("Intermediate Algebra II");
-        conceptNames.add("Advanced Algebra");
+        while (c.moveToNext()) {
+            conceptNames.add(c.getString(c.getColumnIndex("concept_name")));
+        }
+        c.close();
+        db.close();
 
         //put things in the gridlayout
         setGridInfo(conceptNames);
 
+    }
+
+
+
+    /*
+     * Copy our database into local storage
+     */
+    public void copy() throws IOException {
+
+        InputStream in = getApplicationContext().getAssets().open("test.db");
+        OutputStream out = new FileOutputStream(file);
+
+        // Transfer bytes from in to out
+        byte[] buf = new byte[1024];
+        int len;
+        while ((len = in.read(buf)) > 0) {
+            out.write(buf, 0, len);
+        }
+        in.close();
+        out.close();
     }
 
     /* 

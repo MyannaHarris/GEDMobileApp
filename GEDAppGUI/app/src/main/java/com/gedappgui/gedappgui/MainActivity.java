@@ -72,10 +72,10 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         SQLiteDatabase db = openOrCreateDatabase(file.getPath(), MODE_PRIVATE, null);
-        Cursor c = db.rawQuery("SELECT * FROM test", null);
+        Cursor c = db.rawQuery("SELECT * FROM Concepts", null);
         c.moveToFirst();
         //c.moveToNext();
-        System.out.println(c.getString(0));
+        System.out.println(c.getString(c.getColumnIndex("concept_name")));
         c.close();
         db.close();*/
     }
