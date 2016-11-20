@@ -85,9 +85,7 @@ public class ToolSample extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                Intent intentTools = new Intent(this, Tools.class);
-                intentTools.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intentTools);
+                finish();
                 return true;
             // action with ID action_refresh was selected
             case R.id.action_home:

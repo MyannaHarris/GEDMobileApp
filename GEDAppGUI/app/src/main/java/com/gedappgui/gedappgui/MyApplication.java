@@ -32,11 +32,17 @@ import java.util.Calendar;
 
 public class MyApplication extends Application {
 
+    //database and file globals here
+    //1 file for accessing local asset, and one for in local storage
+    //put copy function in here
+    //look for way to set something off on app start
+    //object of database class in here as well (getters and setters)
+
     // User's name
     private String name = "";
 
     // Whether the use has logged in
-    private boolean loginStatus = false;
+    private static boolean loginStatus = false;
 
     // the preferences set in settings
     private SharedPreferences prefs;

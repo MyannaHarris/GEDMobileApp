@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
        //if (!((MyApplication) this.getApplication()).getLoginStatus()) {
        if (db.firstTimeLogin()){
             // Show login first time the app is opened
-            //DatabaseHelper database = new DatabaseHelper(this);
             Intent intent = new Intent(this, Login.class);
             startActivity(intent);
         }
