@@ -34,7 +34,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class Login extends AppCompatActivity {
-
+    DatabaseHelper db;
     /*
      * Starts the Login activity and shows corresponding view on screen
      */
@@ -42,6 +42,8 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        db = new DatabaseHelper(this);
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -131,6 +133,9 @@ public class Login extends AppCompatActivity {
 
         EditText username = (EditText)findViewById(R.id.username_editText);
         ((MyApplication) this.getApplication()).setName(username.getText().toString());
+
+        //Inserting the user information in the user table
+        db.insertUser(username.getText().toString());
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK |

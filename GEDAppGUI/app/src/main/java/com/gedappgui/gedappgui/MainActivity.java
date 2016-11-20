@@ -13,7 +13,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 11-6-16
+ * Last Edit: 11-20-16
  *
  */
 
@@ -30,19 +30,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.FileOutputStream;
-
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
 public class MainActivity extends AppCompatActivity {
-
-    private File file;
-
+    DatabaseHelper db;
     /*
      * Starts the first activity and shows corresponding view on screen
      */
@@ -50,95 +40,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (!((MyApplication) this.getApplication()).getLoginStatus()) {
-            //tries to load database on first login
-            try {
-                //check for availability of the external storage
-                //keep in mind external storage is public
-                /*if(isExternalStorageReadable() && isExternalStorageWritable()) {
-                    //copies the database file in assets to a new file in external storage
-                    file = new File(getExternalFilesDir(Environment.getDataDirectory().getAbsolutePath()).getAbsolutePath(), "GEDPrep.db");
-                    System.out.println("external");
-                    copy();
-                }
-                else{*/
-                //if external is not available we must copy to local app storage that is at risk of being cleared
-                file = new File(this.getApplication().getFilesDir(), "GEDPrep.db");
-                copy();
-                System.out.println("local");
+        db = new DatabaseHelper(this);
 
-                //send a popup here maybe that notifies the user of the risks?
-                //System.out.println("fail");
-                //}
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            SQLiteDatabase db = openOrCreateDatabase(file.getPath(), MODE_PRIVATE, null);
-            Cursor c = db.rawQuery("SELECT * FROM test", null);
-
-            //gets all the values saved from the query in the cursor
-            while (c.moveToNext()) {
-                System.out.println(c.getString(0));
-            }
-
-            c.close();
-            db.close();
-
+       //if (!((MyApplication) this.getApplication()).getLoginStatus()) {
+       if (db.firstTimeLogin()){
             // Show login first time the app is opened
+            //DatabaseHelper database = new DatabaseHelper(this);
             Intent intent = new Intent(this, Login.class);
             startActivity(intent);
         }
         else {
-
             // Show home screen whenever app is opened after that
             setContentView(R.layout.activity_main);
 
             // Allow user to control audio with volume buttons on phone
             setVolumeControlStream(AudioManager.STREAM_MUSIC);
         }
-    }
-
-    /* Checks if external storage is available write
-    public boolean isExternalStorageWritable() {
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            return true;
-        }
-        return false;
-    }
-
-    Checks if external storage is available to read
-    public boolean isExternalStorageReadable() {
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state) ||
-                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-            return true;
-        }
-        return false;
-    } */
-
-
-
-    /* copies the database in the assets folder into the new db in either
-       external storage or local app storage */
-    public void copy() throws IOException {
-
-        //sets the existing DB int the assets folder to be copied as the input
-        InputStream in = getApplicationContext().getAssets().open("test.db");
-        OutputStream out = new FileOutputStream(file);
-
-        // Transfers all bytes from in to out
-        byte[] buffer = new byte[1024];
-        int len;
-
-
-        while ((len = in.read(buffer)) > 0) {
-            out.write(buffer, 0, len);
-        }
-
-        in.close();
-        out.close();
     }
 
 
@@ -150,10 +67,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (((MyApplication) this.getApplication()).getLoginStatus()) {
-
+        //if (((MyApplication) this.getApplication()).getLoginStatus()) {
+        if(!db.firstTimeLogin()){
             TextView greetingText = (TextView)findViewById(R.id.sprite_speechBubble);
-            String greeting = "Hello " + ((MyApplication) this.getApplication()).getName();
+
+            //without the DB
+            //String greeting = "Hello " + ((MyApplication) this.getApplication()).getName();
+
+            //with the DB
+            String greeting = "Hello " + db.selectUsername();
+
             greeting += "!\nWelcome to the app.";
             greetingText.setText(greeting);
         }
@@ -262,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, Achievements.class);
         startActivity(intent);
     }
+
 
     /*
      * Opens Tools view when button is clicked
