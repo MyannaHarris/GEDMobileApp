@@ -1,32 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<!--
+ activity_learn_concepts.xml
+
+ Learn concepts screen layout
+
+ Worked on by:
+ Myanna Harris
+ Kristina Spring
+ Jasmine Jans
+ Jimmy Sherman
+
+ Last Edit: 11-14-16
+-->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_learn_lessons"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:columnCount="2"
     tools:context="com.gedappgui.gedappgui.LearnLessons">
 
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/lessonButton"
-        android:layout_alignParentLeft="true"
-        android:layout_marginRight="@dimen/button_horiz_margin"
-        android:layout_marginBottom="@dimen/button_vert_margin"
-        android:layout_marginTop="@dimen/button_vert_margin"
-        android:text="@string/lessonName"
-        android:onClick="gotToLessonSummary" />
-
-    <TextView
-        android:layout_height="wrap_content"
+    <android.support.v7.widget.GridLayout
+        android:id="@+id/lessons_gridView"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_columnSpan="2"
-        android:text="This will show a 'path' of math lessons from the GED that a student can select. They will then be taken into the selected lesson. Lessons start at the lesson summary." />
+        android:layout_height="wrap_content"
+        android:numColumns="2"
+        android:gravity="center"
+        android:verticalSpacing="20dp"
+        android:stretchMode="columnWidth"
+        android:columnWidth="60dp">
 
-</GridLayout>
+    </android.support.v7.widget.GridLayout>
+
+</ScrollView>
