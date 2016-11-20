@@ -106,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return false;
-    }
 
     Checks if external storage is available to read
     public boolean isExternalStorageReadable() {
