@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:id="@+id/lessonSummary_title"
-            android:text="Lesson Title"
+            android:text=""
             android:layout_alignParentTop="true"
             android:gravity="center"
             android:textSize="40sp"
@@ -29,8 +29,9 @@
             android:id="@+id/lessonSummary_text"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:textSize="20sp"
             android:layout_below="@id/lessonSummary_title"
-            android:text="This will be a short summary of what the lesson is about." />
+            android:text="" />
 
         <Button
             android:layout_width="wrap_content"

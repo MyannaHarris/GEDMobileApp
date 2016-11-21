@@ -336,10 +336,12 @@ public class DatabaseHelper{
     public ArrayList<String> selectLessons(int concept_id){
         open();
 
-        Cursor c = myDatabase.rawQuery("SELECT lesson_name FROM user_lessons JOIN lessons " +
+       /* Cursor c = myDatabase.rawQuery("SELECT lesson_name FROM user_lessons JOIN lessons " +
                 "ON lessons.lesson_id = user_lessons.lesson_id WHERE concept_id = " + concept_id +
                 " AND datetime_started != NULL", null);
-
+*/
+        Cursor c = myDatabase.rawQuery("SELECT lesson_name FROM user_lessons JOIN lessons " +
+                "ON lessons.lesson_id = user_lessons.lesson_id WHERE concept_id = " + concept_id, null);
         ArrayList<String> lessonNames = new ArrayList<>();
 
         while(c.moveToNext()){
@@ -350,6 +352,26 @@ public class DatabaseHelper{
         close();
 
         return lessonNames;
+    }
+
+    /**
+     * Query to select a lesson given concept id and offset
+     * @param concept_id the id of the concept the user is looking at
+     * @param offset the nth lesson to be returned
+     * @return a lesson id from the given concept
+     */
+    public int selectLessonID(int concept_id, int offset) {
+        open();
+
+        Cursor c = myDatabase.rawQuery("SELECT lesson_id FROM lessons WHERE concept_id = " +
+                concept_id + " LIMIT 1 OFFSET " + offset, null);
+        c.moveToFirst();
+        int id = c.getInt(0);
+
+        c.close();
+        close();
+
+        return id;
     }
 
     /**
@@ -414,7 +436,7 @@ public class DatabaseHelper{
     public String selectLessonAdvice(int lesson_id){
         open();
 
-        Cursor c = myDatabase.rawQuery("SELECT lesson_summary FROM lessons WHERE lesson_id = " + lesson_id, null);
+        Cursor c = myDatabase.rawQuery("SELECT advice FROM lessons WHERE lesson_id = " + lesson_id, null);
         c.moveToFirst();
         String summary = c.getString(0);
 

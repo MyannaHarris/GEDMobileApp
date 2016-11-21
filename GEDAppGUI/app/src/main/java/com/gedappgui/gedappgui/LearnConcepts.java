@@ -41,7 +41,6 @@ public class LearnConcepts extends AppCompatActivity {
 
     private DatabaseHelper dbHelper;
 
-    private File file;
     GridLayout gridlayout;
     /*
      * Starts the activity and shows corresponding view on screen
@@ -158,7 +157,7 @@ public class LearnConcepts extends AppCompatActivity {
             gridLayoutParam0.setGravity(viewGravity);
             gridLayoutParam1.setGravity(viewGravity);
 
-            TextView conceptName = createConceptName(titles.get(row).toString(), maxWidth, (row%2));
+            TextView conceptName = createConceptName(row, titles.get(row).toString(), maxWidth, (row%2));
             ImageView conceptImg = createConceptImg(row, (totalConcepts-1), (row%2), maxWidth);
 
             if (row % 2 == 0) {
@@ -178,7 +177,8 @@ public class LearnConcepts extends AppCompatActivity {
      * maxWidth makes sure the text stays on its half of the screen
      * odd determines if the text is aligned to the left or to the right
      */
-    public TextView createConceptName(String title, int maxWidth, int odd) {
+    public TextView createConceptName(int index, String title, int maxWidth, int odd) {
+        final int conceptID = index+1;
         TextView conceptName = new TextView(this);
         if (odd == 1) {
             conceptName.setGravity(Gravity.RIGHT);
@@ -195,6 +195,7 @@ public class LearnConcepts extends AppCompatActivity {
                 // Perform action on click
 
                 Intent activityChangeIntent = new Intent(LearnConcepts.this, LearnLessons.class);
+                activityChangeIntent.putExtra("conceptID",conceptID);
 
                 // currentContext.startActivity(activityChangeIntent);
 
@@ -214,6 +215,7 @@ public class LearnConcepts extends AppCompatActivity {
      * maxWidth is used to make sure the image does not exceed more than half of the screen
      */
     public ImageView createConceptImg(int index, int max, int odd, int maxWidth) {
+        final int conceptID = index+1;
         ImageView conceptImg = new ImageView(this);
         conceptImg.setMaxWidth(maxWidth);
         conceptImg.setAdjustViewBounds(true);
@@ -223,6 +225,7 @@ public class LearnConcepts extends AppCompatActivity {
                 // Perform action on click
 
                 Intent activityChangeIntent = new Intent(LearnConcepts.this, LearnLessons.class);
+                activityChangeIntent.putExtra("conceptID",conceptID);
 
                 // currentContext.startActivity(activityChangeIntent);
 
