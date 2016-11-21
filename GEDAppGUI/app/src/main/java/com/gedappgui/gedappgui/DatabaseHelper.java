@@ -439,7 +439,7 @@ public class DatabaseHelper{
      */
     public String selectLessonAdvice(int lesson_id){
         open();
-        
+
         Cursor c = myDatabase.rawQuery("SELECT advice FROM lessons WHERE lesson_id = " + lesson_id, null);
         c.moveToFirst();
         String summary = c.getString(0);

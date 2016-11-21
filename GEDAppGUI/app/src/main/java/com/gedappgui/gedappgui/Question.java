@@ -159,6 +159,7 @@ public class Question extends AppCompatActivity {
 
             // Check if answer is correct
             if (selectedString.equals(correctAnswerStr)) {
+                correctAnswers += 1;
                 ((RadioButton) radioGroup.getChildAt(selectedAnswer-1)).setTextColor(Color.GREEN);
             } else {
                 ((RadioButton) radioGroup.getChildAt(selectedAnswer-1)).setTextColor(Color.RED);
