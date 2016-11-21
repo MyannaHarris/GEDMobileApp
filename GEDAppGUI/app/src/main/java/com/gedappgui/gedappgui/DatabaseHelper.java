@@ -145,7 +145,7 @@ public class DatabaseHelper{
             System.out.println("exists");
             checkDB.close();
         }
-
+         //return false; //used for overwriting database on emulator
         return dbExists;
     }
 
@@ -156,7 +156,7 @@ public class DatabaseHelper{
     private void copyDatabase() throws IOException{
 
         //Open your local db as the input stream
-        InputStream myInput = myContext.getApplicationContext().getAssets().open("gedv31.db");
+        InputStream myInput = myContext.getApplicationContext().getAssets().open("gedV4.db");
 
         //Open the empty db as the output stream
         OutputStream myOutput = new FileOutputStream(file);
@@ -214,7 +214,7 @@ public class DatabaseHelper{
         c.close();
         close();
 
-        System.out.print(count);
+        System.out.println(count);
         return count == 0;
     }
 
@@ -337,10 +337,12 @@ public class DatabaseHelper{
     public ArrayList<String> selectLessons(int concept_id){
         open();
 
-        Cursor c = myDatabase.rawQuery("SELECT lesson_name FROM user_lessons JOIN lessons " +
+       /* Cursor c = myDatabase.rawQuery("SELECT lesson_name FROM user_lessons JOIN lessons " +
                 "ON lessons.lesson_id = user_lessons.lesson_id WHERE concept_id = " + concept_id +
                 " AND datetime_started != NULL", null);
-
+        */
+        Cursor c = myDatabase.rawQuery("SELECT lesson_name FROM user_lessons JOIN lessons " +
+                "ON lessons.lesson_id = user_lessons.lesson_id WHERE concept_id = " + concept_id, null);
         ArrayList<String> lessonNames = new ArrayList<>();
 
         while(c.moveToNext()){
@@ -351,6 +353,26 @@ public class DatabaseHelper{
         close();
 
         return lessonNames;
+    }
+
+    /**
+     * Query to select a lesson given concept id and offset
+     * @param concept_id the id of the concept the user is looking at
+     * @param offset the nth lesson to be returned
+     * @return a lesson id from the given concept
+     */
+    public int selectLessonID(int concept_id, int offset) {
+        open();
+
+        Cursor c = myDatabase.rawQuery("SELECT lesson_id FROM lessons WHERE concept_id = " +
+                concept_id + " LIMIT 1 OFFSET " + offset, null);
+        c.moveToFirst();
+        int id = c.getInt(0);
+
+        c.close();
+        close();
+
+        return id;
     }
 
     /**
@@ -417,9 +439,8 @@ public class DatabaseHelper{
      */
     public String selectLessonAdvice(int lesson_id){
         open();
-
-        Cursor c = myDatabase.rawQuery("SELECT lesson_summary FROM lessons WHERE lesson_id = " +
-                lesson_id, null);
+        
+        Cursor c = myDatabase.rawQuery("SELECT advice FROM lessons WHERE lesson_id = " + lesson_id, null);
         c.moveToFirst();
         String summary = c.getString(0);
 

@@ -32,9 +32,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.widget.TextView;
 
 public class LessonSteps extends AppCompatActivity {
-
+    DatabaseHelper dbHelper;
+    int conceptID;
+    int lessonID;
     /*
      * Starts the activity and shows corresponding view on screen
      */
@@ -42,6 +45,10 @@ public class LessonSteps extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lesson_steps);
+        dbHelper = new DatabaseHelper(this);
+        Intent mIntent = getIntent();
+        conceptID = mIntent.getIntExtra("conceptID", 0);
+        lessonID = mIntent.getIntExtra("lessonID", 0);
 
         // Allow homeAsUpIndicator (back arrow) to desplay on action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -50,11 +57,21 @@ public class LessonSteps extends AppCompatActivity {
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         // Play youtube video from lesson
+        String videoURL = dbHelper.selectVideoURL(lessonID);
         WebView webView = (WebView) findViewById(R.id.example_web_view);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebChromeClient(new WebChromeClient());
-        String playVideo= "<html><body><iframe class=\"youtube-player\" type=\"text/html\" width=\"100%\" height=\"400\" src=\"http://www.youtube.com/embed/G3wLQz-LgrM/?vq=small\" frameborder=\"0\"></body></html>";
+        String playVideo= "<html><body><iframe class=\"youtube-player\" type=\"text/html\" width=\"100%\" height=\"400\" src=\"http://www.youtube.com/embed/" + videoURL + "/?vq=small\" frameborder=\"0\"></body></html>";
         webView.loadData(playVideo, "text/html", "utf-8");
+
+        // Set image to correct image
+        String lessonImg = dbHelper.selectPictureName(lessonID);
+
+        // Set text to correct text
+        String lessonAdvice = dbHelper.selectLessonAdvice(lessonID);
+        TextView advice = (TextView) findViewById(R.id.advice_text);
+        advice.setText(lessonAdvice);
+
 
     }
 
@@ -125,6 +142,8 @@ public class LessonSteps extends AppCompatActivity {
      */
     public void gotToLessonExample(View view) {
         Intent intent = new Intent(this, LessonExample.class);
+        intent.putExtra("conceptID",conceptID);
+        intent.putExtra("lessonID",lessonID);
         startActivity(intent);
     }
 }

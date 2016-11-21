@@ -37,6 +37,8 @@ import java.util.ArrayList;
 
 public class LearnLessons extends AppCompatActivity {
     GridLayout gridlayout;
+    DatabaseHelper dbHelper;
+    int conceptID;
 
     /*
      * Starts the activity and shows corresponding view on screen
@@ -44,7 +46,11 @@ public class LearnLessons extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_learn_lessons);
+        dbHelper = new DatabaseHelper(this);
+        Intent mIntent = getIntent();
+        conceptID = mIntent.getIntExtra("conceptID", 0);
 
         // Allow homeAsUpIndicator (back arrow) to desplay on action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -54,11 +60,11 @@ public class LearnLessons extends AppCompatActivity {
 
         gridlayout = (GridLayout) findViewById(R.id.lessons_gridView);
 
-        ArrayList<String> lessonNames = new ArrayList<>();
+        ArrayList<String> lessonNames = dbHelper.selectLessons(conceptID);
 
         //query in the lessons given the concept
-        lessonNames.add("Lesson 1");
-        lessonNames.add("Lesson 2");
+        //lessonNames.add("Lesson 1");
+        //lessonNames.add("Lesson 2");
 
         //put things in the gridlayout
         setGridInfo(lessonNames);
@@ -148,9 +154,9 @@ public class LearnLessons extends AppCompatActivity {
             int viewGravity = Gravity.FILL_HORIZONTAL|Gravity.CENTER_VERTICAL;
             gridLayoutParam0.setGravity(viewGravity);
             gridLayoutParam1.setGravity(viewGravity);
-
-            TextView conceptName = createLessonName(titles.get(row).toString(), maxWidth, (row%2));
-            ImageView conceptImg = createLessonImg(row, (totalConcepts-1), (row%2), maxWidth);
+            String title = titles.get(row).toString();
+            TextView conceptName = createLessonName(row, title, maxWidth, (row%2));
+            ImageView conceptImg = createLessonImg(row, title, (totalConcepts-1), (row%2), maxWidth);
 
             if (row % 2 == 0) {
                 gridlayout.addView(conceptName,gridLayoutParam1);
@@ -169,8 +175,10 @@ public class LearnLessons extends AppCompatActivity {
      * maxWidth makes sure the text stays on its half of the screen
      * odd determines if the text is aligned to the left or to the right
      */
-    public TextView createLessonName(String title, int maxWidth, int odd) {
+    public TextView createLessonName(int index, String title, int maxWidth, int odd) {
         TextView lessonName = new TextView(this);
+        final int offset = index;
+        final String lessonTitle = title;
         if (odd == 1) {
             lessonName.setGravity(Gravity.RIGHT);
         }
@@ -186,6 +194,9 @@ public class LearnLessons extends AppCompatActivity {
                 // Perform action on click
 
                 Intent activityChangeIntent = new Intent(LearnLessons.this, LessonSummary.class);
+                activityChangeIntent.putExtra("conceptID",conceptID);
+                activityChangeIntent.putExtra("offset",offset);
+                activityChangeIntent.putExtra("lessonTitle",lessonTitle);
 
                 // currentContext.startActivity(activityChangeIntent);
 
@@ -204,7 +215,9 @@ public class LearnLessons extends AppCompatActivity {
      *     there are two images for the last row, depending on whether it is even or odd
      * maxWidth is used to make sure the image does not exceed more than half of the screen
      */
-    public ImageView createLessonImg(int index, int max, int odd, int maxWidth) {
+    public ImageView createLessonImg(int index, String title, int max, int odd, int maxWidth) {
+        final int offset = index;
+        final String lessonTitle = title;
         ImageView lessonImg = new ImageView(this);
         lessonImg.setMaxWidth(maxWidth);
         lessonImg.setAdjustViewBounds(true);
@@ -214,6 +227,9 @@ public class LearnLessons extends AppCompatActivity {
                 // Perform action on click
 
                 Intent activityChangeIntent = new Intent(LearnLessons.this, LessonSummary.class);
+                activityChangeIntent.putExtra("conceptID",conceptID);
+                activityChangeIntent.putExtra("offset",offset);
+                activityChangeIntent.putExtra("lessonTitle",lessonTitle);
 
                 // currentContext.startActivity(activityChangeIntent);
 

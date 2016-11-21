@@ -26,6 +26,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -33,6 +34,9 @@ import java.util.ArrayList;
 public class LessonSummary extends AppCompatActivity {
 
     private DatabaseHelper dbHelper;
+    int conceptID;
+    int lessonOffset;
+    int lessonID;
 
     /*
      * Starts the activity and shows corresponding view on screen
@@ -41,24 +45,30 @@ public class LessonSummary extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lesson_summary);
+        dbHelper = new DatabaseHelper(this);
+        Intent mIntent = getIntent();
+        conceptID = mIntent.getIntExtra("conceptID", 0);
+        String lessonTitle = mIntent.getStringExtra("lessonTitle");
+        if (mIntent.getExtras().containsKey("lessonID")) {
+            lessonID = mIntent.getIntExtra("lessonID", 0);
+        }
+        else {
+            lessonOffset = mIntent.getIntExtra("offset", 0);
+            lessonID = dbHelper.selectLessonID(conceptID,lessonOffset);
+        }
 
-        // Allow homeAsUpIndicator (back arrow) to desplay on action bar
+        // Allow homeAsUpIndicator (back arrow) to display on action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-        dbHelper = new DatabaseHelper(this);
-        ArrayList<String> test = dbHelper.selectConcepts();
-        System.out.println(test);
-    }
+        TextView title = (TextView) findViewById(R.id.lessonSummary_title);
+        title.setText(lessonTitle);
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        dbHelper = new DatabaseHelper(this);
-        ArrayList<String> test = dbHelper.selectConcepts();
-        System.out.println(test);
+        String lessonSummary = dbHelper.selectLessonSummary(lessonID);
+        TextView summary = (TextView) findViewById(R.id.lessonSummary_text);
+        summary.setText(lessonSummary);
     }
 
     /* 
@@ -103,6 +113,7 @@ public class LessonSummary extends AppCompatActivity {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 Intent intentLessons = new Intent(this, LearnLessons.class);
+                intentLessons.putExtra("conceptID",conceptID);
                 intentLessons.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intentLessons);
                 return true;
@@ -130,6 +141,8 @@ public class LessonSummary extends AppCompatActivity {
      */
     public void gotToLessonSteps(View view) {
         Intent intent = new Intent(this, LessonSteps.class);
+        intent.putExtra("conceptID",conceptID);
+        intent.putExtra("lessonID",lessonID);
         startActivity(intent);
     }
 }
