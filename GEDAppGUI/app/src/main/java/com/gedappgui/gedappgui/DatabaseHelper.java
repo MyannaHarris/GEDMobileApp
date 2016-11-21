@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class DatabaseHelper{
 
@@ -360,7 +361,8 @@ public class DatabaseHelper{
     public String selectLessonSummary(int lesson_id){
         open();
 
-        Cursor c = myDatabase.rawQuery("SELECT lesson_summary FROM lessons WHERE lesson_id = " + lesson_id, null);
+        Cursor c = myDatabase.rawQuery("SELECT lesson_summary FROM lessons WHERE lesson_id = " +
+                lesson_id, null);
         c.moveToFirst();
         String summary = c.getString(0);
 
@@ -378,7 +380,8 @@ public class DatabaseHelper{
     public String selectLessonExample1(int lesson_id){
         open();
 
-        Cursor c = myDatabase.rawQuery("SELECT example_1 FROM lessons WHERE lesson_id = " + lesson_id, null);
+        Cursor c = myDatabase.rawQuery("SELECT example_1 FROM lessons WHERE lesson_id = " +
+                lesson_id, null);
         c.moveToFirst();
         String example = c.getString(0);
 
@@ -396,7 +399,8 @@ public class DatabaseHelper{
     public String selectLessonExample2(int lesson_id){
         open();
 
-        Cursor c = myDatabase.rawQuery("SELECT example_2 FROM lessons WHERE lesson_id = " + lesson_id, null);
+        Cursor c = myDatabase.rawQuery("SELECT example_2 FROM lessons WHERE lesson_id = " +
+                lesson_id, null);
         c.moveToFirst();
         String example = c.getString(0);
 
@@ -414,7 +418,8 @@ public class DatabaseHelper{
     public String selectLessonAdvice(int lesson_id){
         open();
 
-        Cursor c = myDatabase.rawQuery("SELECT lesson_summary FROM lessons WHERE lesson_id = " + lesson_id, null);
+        Cursor c = myDatabase.rawQuery("SELECT lesson_summary FROM lessons WHERE lesson_id = " +
+                lesson_id, null);
         c.moveToFirst();
         String summary = c.getString(0);
 
@@ -432,7 +437,8 @@ public class DatabaseHelper{
     public String selectVideoURL(int lesson_id){
         open();
 
-        Cursor c = myDatabase.rawQuery("SELECT url FROM lessons WHERE lesson_id = " + lesson_id, null);
+        Cursor c = myDatabase.rawQuery("SELECT url FROM lessons WHERE lesson_id = " +
+                lesson_id, null);
         c.moveToFirst();
         String url = c.getString(0);
 
@@ -450,7 +456,8 @@ public class DatabaseHelper{
     public String selectPictureName(int lesson_id){
         open();
 
-        Cursor c = myDatabase.rawQuery("SELECT picture_name FROM lessons WHERE lesson_id = " + lesson_id, null);
+        Cursor c = myDatabase.rawQuery("SELECT picture_name FROM lessons WHERE lesson_id = " +
+                lesson_id, null);
         c.moveToFirst();
         String pictureName = c.getString(0);
 
@@ -460,14 +467,56 @@ public class DatabaseHelper{
         return pictureName;
     }
 
-    /*
-        Query to select question text
+    /**
+     * Query to select question text
      */
+    public ArrayList<String> selectQuestionTexts(int lesson_id){
+        open();
 
+        Cursor c = myDatabase.rawQuery("SELECT question_text " +
+                "FROM question_template WHERE lesson_id = " + lesson_id, null);
 
-    /*
-        Query to select question answers
+        ArrayList<String> questionText = new ArrayList<>();
+
+        while(c.moveToNext()){
+            questionText.add(c.getString(0));
+        }
+
+        c.close();
+        close();
+
+        return questionText;
+    }
+
+    /**
+     * Query to select question answers
      */
+    public ArrayList<ArrayList<String>> selectQuestionAnswers(int lesson_id){
+        open();
+
+        Cursor c = myDatabase.rawQuery("SELECT answer_1, answer_2, answer_3, answer_4, " +
+                "correct_answer " +
+                "FROM Answers " + "JOIN question_template " +
+                "ON question_template.question_id = Answers.question_id " +
+                        " WHERE lesson_id = " + lesson_id, null);
+
+        ArrayList<ArrayList<String>> lessonQustions = new ArrayList<>();
+
+        while(c.moveToNext()){
+            ArrayList<String> row = new ArrayList<String>();
+            row.add(c.getString(0));
+            row.add(c.getString(1));
+            row.add(c.getString(2));
+            row.add(c.getString(3));
+            row.add(c.getString(4));
+            lessonQustions.add(row);
+        }
+
+        c.close();
+        close();
+
+        return lessonQustions;
+    }
 
 
     //@Override

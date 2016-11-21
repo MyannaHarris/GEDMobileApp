@@ -18,13 +18,33 @@
 package com.gedappgui.gedappgui;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class Question extends AppCompatActivity {
+
+    private int selectedAnswer = 0;
+    private DatabaseHelper dbHelper;
+    private int correctAnswers = 0;
+    private int numQuestion = 0;
+    private String correctAnswerStr = "";
+
+    private int lesson_id = 1;
+    ArrayList<Integer> tempRandomArray = new ArrayList<Integer>();
+    ArrayList<String> questionTexts;
+    ArrayList<ArrayList<String>> questionAnswers;
 
     /*
      * Starts the activity and shows corresponding view on screen
@@ -36,6 +56,35 @@ public class Question extends AppCompatActivity {
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+        // Get question group info
+        dbHelper = new DatabaseHelper(this);
+        questionTexts = dbHelper.selectQuestionTexts(lesson_id);
+        questionAnswers = dbHelper.selectQuestionAnswers(lesson_id);
+
+        // Randomly order questions
+        for (int i = 0; i < questionTexts.size(); i++) {
+            tempRandomArray.add(i);
+        }
+        Collections.shuffle(tempRandomArray);
+
+        // Put new question text up
+        String text = questionTexts.get(tempRandomArray.get(numQuestion));
+        TextView questionTextView = (TextView) findViewById(R.id.question_textView);
+        questionTextView.setText(text);
+        questionTextView.setTextSize(20);
+
+        // set radio buttons
+        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.question_answer_group);
+        for (int i = 0; i < radioGroup.getChildCount(); i++) {
+            String textAnswer = questionAnswers.get(tempRandomArray.get(numQuestion)).get(i);
+            ((RadioButton) radioGroup.getChildAt(i)).setText(textAnswer);
+            ((RadioButton) radioGroup.getChildAt(i)).setTextSize(20);
+        }
+
+        // Save what the new correct answer should be
+        int lastIdx = questionAnswers.get(tempRandomArray.get(numQuestion)).size() - 1;
+        correctAnswerStr = questionAnswers.get(tempRandomArray.get(numQuestion)).get(lastIdx);
     }
 
     /* 
@@ -83,5 +132,121 @@ public class Question extends AppCompatActivity {
         Intent intent = new Intent(this, Redo.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
+
+    /*
+     * Called when user submits answer
+     * Shows whether answer was correct
+     */
+    public void evaluateAnswer(View view) {
+        Button submitButton = (Button) view;
+
+        if (selectedAnswer > 0 && submitButton.getText().equals("Submit")) {
+            // If an swer has been selected, submit and check it
+
+            // disable radio buttons
+            RadioGroup radioGroup = (RadioGroup) findViewById(R.id.question_answer_group);
+            for (int i = 0; i < radioGroup.getChildCount(); i++) {
+                ((RadioButton) radioGroup.getChildAt(i)).setEnabled(false);
+            }
+
+            // Change submit button's text
+            submitButton.setText("Continue");
+
+            // Get selected answer for comparison
+            String selectedString =
+                    questionAnswers.get(tempRandomArray.get(numQuestion)).get(selectedAnswer-1);
+
+            // Check if answer is correct
+            if (selectedString.equals(correctAnswerStr)) {
+                ((RadioButton) radioGroup.getChildAt(selectedAnswer-1)).setTextColor(Color.GREEN);
+            } else {
+                ((RadioButton) radioGroup.getChildAt(selectedAnswer-1)).setTextColor(Color.RED);
+            }
+            System.out.println(correctAnswers);
+
+            // Clear out selected answer
+            selectedAnswer = 0;
+
+            // Check if user has tried all questions
+            // Fail if tried all and still not passed
+            if (numQuestion == questionTexts.size()-1) {
+                Intent intent = new Intent(this, Redo.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            } else {
+                numQuestion += 1;
+            }
+
+        } else if (submitButton.getText().equals("Continue")) {
+            // If button is used to continue
+
+            // If 3 questions were gotten right, pass and move on to success
+            if (correctAnswers == 3) {
+                Intent intent = new Intent(this, Success.class);
+                intent.putExtra("lesson_id", lesson_id);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+
+            // else
+            // get new question
+
+            // Put new question text up
+            String text = questionTexts.get(tempRandomArray.get(numQuestion));
+            TextView questionTextView = (TextView) findViewById(R.id.question_textView);
+            questionTextView.setText(text);
+
+            // Set radio buttons
+            RadioGroup radioGroup = (RadioGroup) findViewById(R.id.question_answer_group);
+            for (int i = 0; i < radioGroup.getChildCount(); i++) {
+                String textAnswer = questionAnswers.get(tempRandomArray.get(numQuestion)).get(i);
+                ((RadioButton) radioGroup.getChildAt(i)).setText(textAnswer);
+                ((RadioButton) radioGroup.getChildAt(i)).setEnabled(true);
+                ((RadioButton) radioGroup.getChildAt(i)).setChecked(false);
+                ((RadioButton) radioGroup.getChildAt(i)).setTextColor(Color.parseColor("#cccccc"));
+            }
+
+            radioGroup.setBackgroundColor(Color.TRANSPARENT);
+
+            // Save what the new correct answer should be
+            int lastIdx = questionAnswers.get(tempRandomArray.get(numQuestion)).size() - 1;
+            correctAnswerStr = questionAnswers.get(tempRandomArray.get(numQuestion)).get(lastIdx);
+
+            submitButton.setText("Submit");
+
+
+        }
+    }
+
+    /*
+     * Called when selects an answer
+     * Saves what answer was selected
+     */
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.question_answer1:
+                if (checked)
+                    selectedAnswer = 1;
+                    break;
+            case R.id.question_answer2:
+                if (checked)
+                    selectedAnswer = 2;
+                    break;
+            case R.id.question_answer3:
+                if (checked)
+                    selectedAnswer = 3;
+                    break;
+            case R.id.question_answer4:
+                if (checked)
+                    selectedAnswer = 4;
+                    break;
+            default:
+                break;
+        }
     }
 }
