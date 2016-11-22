@@ -69,6 +69,13 @@ public class LessonSummary extends AppCompatActivity {
         String lessonSummary = dbHelper.selectLessonSummary(lessonID);
         TextView summary = (TextView) findViewById(R.id.lessonSummary_text);
         summary.setText(lessonSummary);
+
+        //make current lesson this one...because we're on it now
+        System.out.println("prev lesson: "+dbHelper.selectCurrentLessonID());
+        if (dbHelper.selectCurrentLessonID() != lessonID) {
+            dbHelper.updateCurrentLessonID(lessonID);
+        }
+        System.out.println("curr lesson: "+dbHelper.selectCurrentLessonID());
     }
 
     /* 

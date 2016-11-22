@@ -41,7 +41,8 @@ public class Question extends AppCompatActivity {
     private int numQuestion = 0;
     private String correctAnswerStr = "";
 
-    private int lesson_id = 1;
+    private int lessonID = 1;
+    int conceptID;
     ArrayList<Integer> tempRandomArray = new ArrayList<Integer>();
     ArrayList<String> questionTexts;
     ArrayList<ArrayList<String>> questionAnswers;
@@ -53,14 +54,17 @@ public class Question extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
+        Intent mIntent = getIntent();
+        conceptID = mIntent.getIntExtra("conceptID", 0);
+        lessonID = mIntent.getIntExtra("lessonID", 0);
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         // Get question group info
         dbHelper = new DatabaseHelper(this);
-        questionTexts = dbHelper.selectQuestionTexts(lesson_id);
-        questionAnswers = dbHelper.selectQuestionAnswers(lesson_id);
+        questionTexts = dbHelper.selectQuestionTexts(lessonID);
+        questionAnswers = dbHelper.selectQuestionAnswers(lessonID);
 
         // Randomly order questions
         for (int i = 0; i < questionTexts.size(); i++) {
@@ -120,6 +124,8 @@ public class Question extends AppCompatActivity {
      */
     public void goToSuccess(View view) {
         Intent intent = new Intent(this, Success.class);
+        intent.putExtra("conceptID",conceptID);
+        intent.putExtra("lessonID",lessonID);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
@@ -130,6 +136,8 @@ public class Question extends AppCompatActivity {
      */
     public void goToRedo(View view) {
         Intent intent = new Intent(this, Redo.class);
+        intent.putExtra("conceptID",conceptID);
+        intent.putExtra("lessonID",lessonID);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
@@ -173,6 +181,8 @@ public class Question extends AppCompatActivity {
             // Fail if tried all and still not passed
             if (numQuestion == questionTexts.size()-1) {
                 Intent intent = new Intent(this, Redo.class);
+                intent.putExtra("conceptID",conceptID);
+                intent.putExtra("lessonID",lessonID);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             } else {
@@ -185,7 +195,8 @@ public class Question extends AppCompatActivity {
             // If 3 questions were gotten right, pass and move on to success
             if (correctAnswers == 3) {
                 Intent intent = new Intent(this, Success.class);
-                intent.putExtra("lesson_id", lesson_id);
+                intent.putExtra("lessonID", lessonID);
+                intent.putExtra("conceptID", conceptID);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }

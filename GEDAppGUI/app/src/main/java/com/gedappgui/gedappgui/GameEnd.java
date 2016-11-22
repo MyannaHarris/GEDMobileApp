@@ -30,7 +30,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 public class GameEnd extends AppCompatActivity {
-
+    int conceptID;
+    int lessonID;
     // int to hold whether to go to questions or play next
     // 0 = questions, 1 = play
     private int nextActivity;
@@ -43,6 +44,9 @@ public class GameEnd extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_game_end);
+        Intent mIntent = getIntent();
+        conceptID = mIntent.getIntExtra("conceptID", 0);
+        lessonID = mIntent.getIntExtra("lessonID", 0);
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -124,10 +128,14 @@ public class GameEnd extends AppCompatActivity {
     public void goToNext(View view) {
         if (nextActivity == 1) {
             Intent intent = new Intent(this, Play.class);
+            intent.putExtra("conceptID",conceptID);
+            intent.putExtra("lessonID",lessonID);
             startActivity(intent);
         }
         else {
             Intent intent = new Intent(this, Question.class);
+            intent.putExtra("conceptID",conceptID);
+            intent.putExtra("lessonID",lessonID);
             startActivity(intent);
         }
     }

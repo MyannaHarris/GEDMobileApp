@@ -29,7 +29,8 @@ import android.view.View;
 import android.widget.TextView;
 
 public class LessonExample extends AppCompatActivity {
-
+    int conceptID;
+    int lessonID;
     /*
      * Starts the activity and shows corresponding view on screen
      */
@@ -38,6 +39,9 @@ public class LessonExample extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lesson_example);
+        Intent mIntent = getIntent();
+        conceptID = mIntent.getIntExtra("conceptID", 0);
+        lessonID = mIntent.getIntExtra("lessonID", 0);
 
         // Allow homeAsUpIndicator (back arrow) to desplay on action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -134,6 +138,8 @@ public class LessonExample extends AppCompatActivity {
     public void gotToLessonGame(View view) {
         Intent intent = new Intent(this, GameIntro.class);
         intent.putExtra("next_activity", 0);
+        intent.putExtra("conceptID",conceptID);
+        intent.putExtra("lessonID",lessonID);
         startActivity(intent);
     }
 }

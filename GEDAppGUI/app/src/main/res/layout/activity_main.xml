@@ -51,7 +51,7 @@
             android:gravity="center"
             android:id="@+id/sprite_homeScreen"
             android:scaleType="fitCenter"
-            android:background="@color/colorWhite"
+
             android:src="@drawable/layers"
             android:contentDescription="@string/sprite"
             android:onClick="gotToSprite"/>

@@ -62,11 +62,11 @@ public class LearnConcepts extends AppCompatActivity {
 
         gridlayout = (GridLayout) findViewById(R.id.concepts_gridView);
         //gridlayout.setLayoutParams(WRAP_CONTENT);
-
+        ArrayList<String> concepts = dbHelper.selectUnlockedConcepts();
         ArrayList<String> conceptNames = dbHelper.selectConcepts();
 
         //put things in the gridlayout
-        setGridInfo(conceptNames);
+        setGridInfo(concepts);
 
     }
 

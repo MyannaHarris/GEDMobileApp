@@ -145,7 +145,7 @@ public class DatabaseHelper{
             System.out.println("exists");
             checkDB.close();
         }
-         //return false; //used for overwriting database on emulator
+        //return false; //used for overwriting database on emulator
         return dbExists;
     }
 
@@ -228,6 +228,8 @@ public class DatabaseHelper{
         //currently makes the last played att NULL
         myDatabase.execSQL("INSERT INTO User VALUES ( 1 , '" + username + "', 1, datetime('NOW'))");
 
+        //need to add lesson one as started
+
         close();
     }
 
@@ -306,6 +308,33 @@ public class DatabaseHelper{
         close();*/
 
         return selectInt("current_lesson", "user");
+    }
+
+    /**
+     * Query that updates the user's current lesson
+     * @param lesson_id the new current lesson
+     */
+    public void updateCurrentLessonID(int lesson_id) {
+        open();
+        myDatabase.execSQL("UPDATE user SET current_lesson="+lesson_id);
+        close();
+    }
+
+    /**
+     * Query to select concept names of unlocked lessons and returns them in array list
+     * @return an ArrayList of concept names
+     */
+    public ArrayList<String> selectUnlockedConcepts() {
+        open();
+        ArrayList<String> concepts = new ArrayList<>();
+        Cursor c = myDatabase.rawQuery("SELECT DISTINCT concept_names FROM user_lessons NATURAL " +
+                "JOIN lessons NATURAL JOIN concepts", null);
+
+        while(c.moveToNext()){
+            concepts.add(c.getString(0));
+        }
+        close();
+        return concepts;
     }
 
     /**
@@ -548,6 +577,29 @@ public class DatabaseHelper{
             }catch (IOException e){
                 throw new Error("Error copying database");
             }
+    }
+
+    /**
+     * Method to update user_lessons to unlock next lesson, also sets current lesson to next lesson
+     * @param lessonID of the lesson completed
+     */
+    public void lessonCompleted(int lessonID) {
+        //mark lesson as complete and add next lesson
+        // need to add a check so we are not adding lessons that already exist
+        open();
+        int newLessonID = lessonID + 1;
+        Cursor c = myDatabase.rawQuery("SELECT count(lesson_id) FROM user_lessons WHERE lesson_id="
+                + newLessonID,null);
+        c.moveToFirst();
+        int test = c.getInt(0);
+        if (test < 1) {
+            String query = "INSERT INTO user_lessons(user_id, lesson_id, datetime_started) VALUES(1,"+newLessonID+",date('now'))";
+            myDatabase.execSQL(query);
+        }
+        //myDatabase.rawQuery("INSERT INTO user_lessons VALUES(1,"+lessonID+",NULL,NULL)", null);
+        //change current lesson
+        myDatabase.execSQL("UPDATE user SET current_lesson="+newLessonID);
+        close();
     }
 
 }

@@ -31,7 +31,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 public class Success extends AppCompatActivity {
-
+    DatabaseHelper dbHelper;
+    int lessonID;
+    int conceptID;
     /*
      * Starts the activity and shows corresponding view on screen
      */
@@ -39,6 +41,13 @@ public class Success extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_success);
+        Intent mIntent = getIntent();
+        conceptID = mIntent.getIntExtra("conceptID", 0);
+        lessonID = mIntent.getIntExtra("lessonID", 0);
+
+        dbHelper = new DatabaseHelper(this);
+        dbHelper.lessonCompleted(lessonID);
+        System.out.print("success");
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -125,6 +134,7 @@ public class Success extends AppCompatActivity {
      */
     public void goToNextLesson(View view) {
         Intent intent = new Intent(this, LearnLessons.class);
+        intent.putExtra("conceptID",conceptID);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }

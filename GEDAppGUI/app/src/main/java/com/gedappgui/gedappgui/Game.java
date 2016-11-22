@@ -31,7 +31,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 public class Game extends AppCompatActivity {
-
+    int conceptID;
+    int lessonID;
     // int to hold whether to go to questions or play next
     // 0 = questions, 1 = play
     private int nextActivity;
@@ -44,6 +45,9 @@ public class Game extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_game);
+        Intent mIntent = getIntent();
+        conceptID = mIntent.getIntExtra("conceptID", 0);
+        lessonID = mIntent.getIntExtra("lessonID", 0);
 
         // Allow homeAsUpIndicator (back arrow) to desplay on action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -133,6 +137,8 @@ public class Game extends AppCompatActivity {
     public void goToGameEnd(View view) {
         Intent intent = new Intent(this, GameEnd.class);
         intent.putExtra("next_activity", nextActivity);
+        intent.putExtra("conceptID",conceptID);
+        intent.putExtra("lessonID",lessonID);
         startActivity(intent);
     }
 }
