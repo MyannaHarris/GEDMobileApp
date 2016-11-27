@@ -33,6 +33,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     DatabaseHelper db;
+
     /*
      * Starts the first activity and shows corresponding view on screen
      */
@@ -123,8 +124,18 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // action with ID action_refresh was selected
             case R.id.action_continueLesson:
-                Intent intentContinue = new Intent(this, LessonSummary.class);
-                startActivity(intentContinue);
+
+                Intent intentContinue = new Intent(MainActivity.this, LessonSummary.class);
+
+                final int lessonID = db.selectCurrentLessonID();
+                final String lessonTitle = db.selectLessonTitle(lessonID);
+                final int conceptID = db.selectConceptID(lessonID);
+
+                intentContinue.putExtra("conceptID",conceptID);
+                intentContinue.putExtra("lessonTitle",lessonTitle);
+                intentContinue.putExtra("lessonTitle",lessonID);
+
+                MainActivity.this.startActivity(intentContinue);
                 break;
             // action with ID action_settings was selected
             case R.id.action_settings:
@@ -210,7 +221,19 @@ public class MainActivity extends AppCompatActivity {
      * Called when the user clicks the Continue Lesson button
      */
     public void gotToContinueLesson(View view) {
-        Intent intent = new Intent(this, LessonSummary.class);
-        startActivity(intent);
+        Intent intentSummary = new Intent(MainActivity.this, LessonSummary.class);
+
+        final int lessonID = db.selectCurrentLessonID();
+        System.out.println(lessonID);
+        final String lessonTitle = db.selectLessonTitle(lessonID);
+        System.out.println(lessonTitle);
+        final int conceptID = db.selectConceptID(lessonID);
+        System.out.println(conceptID);
+
+        intentSummary.putExtra("lessonTitle", lessonTitle);
+        intentSummary.putExtra("conceptID",conceptID);
+        intentSummary.putExtra("lessonID",lessonID);
+
+        MainActivity.this.startActivity(intentSummary);
     }
 }

@@ -292,6 +292,24 @@ public class DatabaseHelper{
     }
 
     /**
+     * Query that selects the lesson name of the given lesson id
+     * @param lesson_id the id of the lesson who's name you want to select
+     * @return the name of the lesson of the corresponding lesson id
+     */
+    public String selectLessonTitle(int lesson_id){
+        open();
+
+        Cursor c = myDatabase.rawQuery("SELECT lesson_name FROM lessons WHERE lesson_id = " + lesson_id, null);
+        c.moveToFirst();
+        String lessonName = c.getString(0);
+
+        c.close();
+        close();
+
+        return lessonName;
+    }
+
+    /**
      * Query that selects the current lesson from the user table
      * @return the lessonID of the current lesson
      */
@@ -341,20 +359,19 @@ public class DatabaseHelper{
      * Query to select ALL concept names and returns them in array list
      * @return an ArrayList of all the concept names
      */
-    public ArrayList<String> selectConcepts(){
+    public int selectConceptID(int lesson_id){
         open();
 
-        ArrayList<String> concepts = new ArrayList<>();
-        Cursor c = myDatabase.rawQuery("SELECT concept_names FROM concepts", null);
+        Cursor c = myDatabase.rawQuery("SELECT DISTINCT concept_id FROM concepts NATURAL " +
+                "JOIN lessons WHERE lessons.lesson_id = " + lesson_id, null);
 
-        while(c.moveToNext()){
-            concepts.add(c.getString(0));
-        }
+        c.moveToFirst();
+        int conceptID = c.getInt(0);
 
         c.close();
         close();
 
-        return concepts;
+        return conceptID;
     }
 
     /**
