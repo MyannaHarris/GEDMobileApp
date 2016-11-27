@@ -72,6 +72,15 @@ public class Tools extends AppCompatActivity {
     }
 
     /*
+     * Called by a tool being selected
+     * Opens fraction to decimal tool
+     */
+    public void goTofracdectool(View view) {
+        Intent intent = new Intent(this, FractionToDecimalTool.class);
+        startActivity(intent);
+    }
+
+    /*
      * Sets what menu will be in the action bar
      * homeonlymenu has the settings button and the home button
      */

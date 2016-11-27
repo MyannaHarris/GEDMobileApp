@@ -26,24 +26,24 @@ Last Edit: 10-29-16
     tools:context="com.gedappgui.gedappgui.Tools">
 
     <Button
-        android:id="@+id/Tool"
+        android:id="@+id/fracdectool"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/toolSample"
+        android:text="Fractions to Decimals"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:onClick="gotToToolSample"/>
+        android:onClick="goTofracdectool"/>
 
     <Button
         android:id="@+id/Tool1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/toolSample"
-        android:layout_below="@id/Tool"
+        android:onClick="gotToToolSample"
+        android:layout_below="@+id/fracdectool"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:onClick="gotToToolSample"/>
+        android:layout_alignParentStart="true" />
 
     <Button
         android:id="@+id/Tool2"
@@ -54,5 +54,7 @@ Last Edit: 10-29-16
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:onClick="gotToToolSample" />
+
+
 
 </RelativeLayout>
