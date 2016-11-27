@@ -375,6 +375,63 @@ public class DatabaseHelper{
     }
 
     /**
+     * Gets the description of the achievement with the given id
+     * @param achievement_id the id of the achievement we want
+     * @return the description of the achievement with the given id
+     */
+    String selectAchievementDesc(int achievement_id){
+        open();
+
+        Cursor c = myDatabase.rawQuery("SELECT achievements_desc FROM Achievements WHERE achievement_id = " + achievement_id, null);
+
+        c.moveToFirst();
+        String desc = c.getString(0);
+
+        c.close();
+        close();
+
+        return desc;
+    }
+
+    /**
+     * Gets the image name of the achievement with the given id
+     * @param achievement_id the id of the achievement we want
+     * @return the image name of the achievement with the given id
+     */
+    String selectAchievementImg(int achievement_id){
+        open();
+
+        Cursor c = myDatabase.rawQuery("SELECT achievement_img FROM Achievements WHERE achievement_id = " + achievement_id, null);
+
+        c.moveToFirst();
+        String img = c.getString(0);
+
+        c.close();
+        close();
+
+        return img;
+    }
+
+    /**
+     * Gets the name of the achievement with the given id
+     * @param achievement_id the id of the achievement we want
+     * @return the name of the achievement with the given id
+     */
+    String selectAchievementName(int achievement_id){
+        open();
+
+        Cursor c = myDatabase.rawQuery("SELECT achievement_name FROM Achievements WHERE achievement_id = " + achievement_id, null);
+
+        c.moveToFirst();
+        String name = c.getString(0);
+
+        c.close();
+        close();
+
+        return name;
+    }
+
+    /**
      * Query to select all lessons given concept id that are completes/in progress
      * in an array list
      * @param concept_id the id of the concept the user is looking at

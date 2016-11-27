@@ -143,5 +143,9 @@ public class Login extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK |
                 IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+
+        Intent achievement = new Intent(this, AchievementPopUp.class);
+        achievement.putExtra("achievementID", 1);
+        startActivity(achievement);
     }
 }
