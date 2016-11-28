@@ -19,4 +19,5 @@
     <dimen name="picture_padding">30dp</dimen>
     <dimen name="button_vert_margin">10dp</dimen>
     <dimen name="button_horiz_margin">5dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>
