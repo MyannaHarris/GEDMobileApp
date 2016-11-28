@@ -238,21 +238,21 @@ public class LearnLessons extends AppCompatActivity {
         });
         if (odd == 0) {
             if (index == 0) {
-                lessonImg.setImageResource(R.drawable.star_start);
+                lessonImg.setImageResource(R.drawable.goldbag_start);
             }
             else if (index == max) {
-                lessonImg.setImageResource(R.drawable.star_end_left);
+                lessonImg.setImageResource(R.drawable.goldbag_end_odd);
             }
             else {
-                lessonImg.setImageResource(R.drawable.star_mid_left);
+                lessonImg.setImageResource(R.drawable.goldbag_mid_odd);
             }
         }
         else {
             if (index == max) {
-                lessonImg.setImageResource(R.drawable.star_end_right);
+                lessonImg.setImageResource(R.drawable.goldbag_end_even);
             }
             else {
-                lessonImg.setImageResource(R.drawable.star_mid_right);
+                lessonImg.setImageResource(R.drawable.goldbag_mid_even);
             }
         }
         return lessonImg;

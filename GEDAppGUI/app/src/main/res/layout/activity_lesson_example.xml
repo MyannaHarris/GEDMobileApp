@@ -25,7 +25,8 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:id="@+id/example_1"
-        android:text="Initial" />
+        android:text="Initial"
+        android:textSize="20sp"/>
 
     <TextView
         android:text="Example 2"
@@ -40,7 +41,8 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:id="@+id/example_2"
-        android:layout_weight="0.04" />
+        android:layout_weight="0.04"
+        android:textSize="20sp"/>
 
     <Button
         android:layout_width="wrap_content"

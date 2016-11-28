@@ -30,6 +30,9 @@ import android.view.View;
 
 public class Redo extends AppCompatActivity {
 
+    int lessonID;
+    int conceptID;
+
     /*
      * Starts the activity and shows corresponding view on screen
      */
@@ -41,6 +44,10 @@ public class Redo extends AppCompatActivity {
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+        Intent mIntent = getIntent();
+        conceptID = mIntent.getIntExtra("conceptID", 0);
+        lessonID = mIntent.getIntExtra("lessonID", 0);
     }
 
     /* 
@@ -114,6 +121,8 @@ public class Redo extends AppCompatActivity {
      */
     public void goToRedoExample(View view) {
         Intent intent = new Intent(this, RedoExample.class);
+        intent.putExtra("lessonID", lessonID);
+        intent.putExtra("conceptID", conceptID);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }

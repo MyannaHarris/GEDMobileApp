@@ -185,7 +185,11 @@
             android:name=".AchievementPopUp"
             android:label="@string/title_activity_achievement_pop_up"
             android:theme="@style/AppTheme.PopUpTheme" />
-            //android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+            android:name=".FractionToDecimalTool"
+            android:label="@string/title_activity_frac_to_dec_tool"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

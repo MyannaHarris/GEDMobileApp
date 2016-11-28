@@ -228,7 +228,8 @@ public class DatabaseHelper{
         //currently makes the last played att NULL
         myDatabase.execSQL("INSERT INTO User VALUES ( 1 , '" + username + "', 1, datetime('NOW'))");
 
-        //need to add lesson one as started
+        String insertQuery = "INSERT INTO user_lessons(user_id, lesson_id, datetime_started) VALUES(1,1,date('now'))";
+        myDatabase.execSQL(insertQuery);
 
         close();
     }
@@ -658,22 +659,49 @@ public class DatabaseHelper{
      * @param lessonID of the lesson completed
      */
     public void lessonCompleted(int lessonID) {
-        //mark lesson as complete and add next lesson
-        // need to add a check so we are not adding lessons that already exist
         open();
+        // set time for completed lesson
+        String updateQuery = "UPDATE user_lessons SET datetime_finished=date('now') WHERE lesson_id="
+                + lessonID;
+        myDatabase.execSQL(updateQuery);
         int newLessonID = lessonID + 1;
+        // if next lesson is not already in user_lessons, add it
         Cursor c = myDatabase.rawQuery("SELECT count(lesson_id) FROM user_lessons WHERE lesson_id="
                 + newLessonID,null);
         c.moveToFirst();
         int test = c.getInt(0);
         if (test < 1) {
-            String query = "INSERT INTO user_lessons(user_id, lesson_id, datetime_started) VALUES(1,"+newLessonID+",date('now'))";
-            myDatabase.execSQL(query);
+            String insertQuery = "INSERT INTO user_lessons(user_id, lesson_id, datetime_started) VALUES(1,"+newLessonID+",date('now'))";
+            myDatabase.execSQL(insertQuery);
         }
-        //myDatabase.rawQuery("INSERT INTO user_lessons VALUES(1,"+lessonID+",NULL,NULL)", null);
         //change current lesson
         myDatabase.execSQL("UPDATE user SET current_lesson="+newLessonID);
         close();
     }
+
+    /**
+     * Method to update what accessory is on sprite
+     * @param lessonID of the lesson completed
+     */
+    /*public void isWearing(int lessonID) {
+        open();
+        // set time for completed lesson
+        String updateQuery = "UPDATE user_lessons SET datetime_finished=date('now') WHERE lesson_id="
+                + lessonID;
+        myDatabase.execSQL(updateQuery);
+        int newLessonID = lessonID + 1;
+        // if next lesson is not already in user_lessons, add it
+        Cursor c = myDatabase.rawQuery("SELECT count(lesson_id) FROM user_lessons WHERE lesson_id="
+                + newLessonID,null);
+        c.moveToFirst();
+        int test = c.getInt(0);
+        if (test < 1) {
+            String insertQuery = "INSERT INTO user_lessons(user_id, lesson_id, datetime_started) VALUES(1,"+newLessonID+",date('now'))";
+            myDatabase.execSQL(insertQuery);
+        }
+        //change current lesson
+        myDatabase.execSQL("UPDATE user SET current_lesson="+newLessonID);
+        close();
+    }*/
 
 }

@@ -11,38 +11,43 @@
  Jasmine Jans
  Jimmy Sherman
 
- Last Edit: 10-26-16
+ Last Edit: 11-27-16
 -->
 
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
-        <bitmap android:src="@drawable/dragon_circle"
+        <bitmap android:src="@drawable/sprite_dragon_circle"
             android:scaleType="centerCrop"
             android:gravity="top" />
     </item>
-    <!--<item android:height="10dp"
-        android:width="10dp"
-        android:id="@+id/accessory_picture_1"
-        android:alpha="0">
-        <bitmap android:src="@drawable/example_picture"
+    <item
+        android:id="@+id/accessory_hat">
+        <bitmap android:src="@drawable/sprite_blank"
             android:scaleType="centerCrop"
-            android:gravity="clip_horizontal|clip_vertical|left|top"/>
+            android:gravity="top"/>
     </item>
-    <item android:height="10dp"
-        android:width="10dp"
-        android:id="@+id/accessory_picture_2"
-        android:alpha="0">
-
-        <bitmap android:src="@drawable/example_picture"
+    <item
+        android:id="@+id/accessory_shirt">
+        <bitmap android:src="@drawable/sprite_blank"
             android:scaleType="centerCrop"
-            android:gravity="clip_horizontal|clip_vertical|right|top" />
+            android:gravity="top"/>
     </item>
-    <item android:height="10dp"
-        android:width="10dp"
-        android:id="@+id/accessory_picture_3"
-        android:alpha="0">
-        <bitmap android:src="@drawable/example_picture"
+    <item
+        android:id="@+id/accessory_glasses">
+        <bitmap android:src="@drawable/sprite_blank"
             android:scaleType="centerCrop"
-            android:gravity="clip_horizontal|clip_vertical|right|bottom" />
-    </item>-->
+            android:gravity="top"/>
+    </item>
+    <item
+        android:id="@+id/accessory_handItem">
+        <bitmap android:src="@drawable/sprite_blank"
+            android:scaleType="centerCrop"
+            android:gravity="top"/>
+    </item>
+    <item
+        android:id="@+id/accessory_wingItem">
+        <bitmap android:src="@drawable/sprite_blank"
+            android:scaleType="centerCrop"
+            android:gravity="top"/>
+    </item>
 </layer-list>

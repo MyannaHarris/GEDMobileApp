@@ -13,26 +13,36 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 11-20-16
+ * Last Edit: 11-27-16
  *
  */
 
 package com.gedappgui.gedappgui;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.LayerDrawable;
 import android.media.AudioManager;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
 public class MainActivity extends AppCompatActivity {
+    // Database
     DatabaseHelper db;
+
+    // Sprite image
+    LayerDrawable spriteDrawable;
+    ImageView spriteImage;
 
     /*
      * Starts the first activity and shows corresponding view on screen
@@ -43,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
 
         db = new DatabaseHelper(this);
 
-       //if (!((MyApplication) this.getApplication()).getLoginStatus()) {
-       if (db.firstTimeLogin()){
+        //if (!((MyApplication) this.getApplication()).getLoginStatus()) {
+        if (db.firstTimeLogin()){
             // Show login first time the app is opened
             Intent intent = new Intent(this, Login.class);
             startActivity(intent);
@@ -55,12 +65,19 @@ public class MainActivity extends AppCompatActivity {
 
             // Allow user to control audio with volume buttons on phone
             setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+            spriteImage = (ImageView)findViewById(R.id.sprite_homeScreen);
+
+            ((MyApplication) this.getApplication()).setSpriteDrawable(
+                    (LayerDrawable) ContextCompat.getDrawable(this, R.drawable.layers)
+            );
         }
     }
 
 
     /*
      * Re-checks the username that the app needs to print when homescreen is opened
+     * Set sprite image
      * Called after onCreate on first creation
      * Called every time this activity gets the focus
      */
@@ -80,6 +97,10 @@ public class MainActivity extends AppCompatActivity {
 
             greeting += "!\nWelcome to the app.";
             greetingText.setText(greeting);
+
+            // Sprite image
+            spriteDrawable = ((MyApplication) this.getApplication()).getSpriteDrawable();
+            spriteImage.setImageDrawable(spriteDrawable);
         }
     }
 

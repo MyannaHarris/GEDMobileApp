@@ -63,7 +63,6 @@ public class LearnConcepts extends AppCompatActivity {
         gridlayout = (GridLayout) findViewById(R.id.concepts_gridView);
         //gridlayout.setLayoutParams(WRAP_CONTENT);
         ArrayList<String> concepts = dbHelper.selectUnlockedConcepts();
-        ArrayList<String> conceptNames = dbHelper.selectConcepts();
 
         //put things in the gridlayout
         setGridInfo(concepts);
@@ -234,21 +233,21 @@ public class LearnConcepts extends AppCompatActivity {
         });
         if (odd == 0) {
             if (index == 0) {
-                conceptImg.setImageResource(R.drawable.star_start);
+                conceptImg.setImageResource(R.drawable.goldchest_start);
             }
             else if (index == max) {
-                conceptImg.setImageResource(R.drawable.star_end_left);
+                conceptImg.setImageResource(R.drawable.goldchest_end_odd);
             }
             else {
-                conceptImg.setImageResource(R.drawable.star_mid_left);
+                conceptImg.setImageResource(R.drawable.goldchest_mid_odd);
             }
         }
         else {
             if (index == max) {
-                conceptImg.setImageResource(R.drawable.star_end_right);
+                conceptImg.setImageResource(R.drawable.goldchest_end_even);
             }
             else {
-                conceptImg.setImageResource(R.drawable.star_mid_right);
+                conceptImg.setImageResource(R.drawable.goldchest_mid_even);
             }
         }
         return conceptImg;
