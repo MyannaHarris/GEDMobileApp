@@ -228,7 +228,8 @@ public class DatabaseHelper{
         //currently makes the last played att NULL
         myDatabase.execSQL("INSERT INTO User VALUES ( 1 , '" + username + "', 1, datetime('NOW'))");
 
-        //need to add lesson one as started
+        String insertQuery = "INSERT INTO user_lessons(user_id, lesson_id, datetime_started) VALUES(1,1,date('now'))";
+        myDatabase.execSQL(insertQuery);
 
         close();
     }
@@ -608,7 +609,7 @@ public class DatabaseHelper{
      * Method to update what accessory is on sprite
      * @param lessonID of the lesson completed
      */
-    /*public void lessonCompleted(int lessonID) {
+    /*public void isWearing(int lessonID) {
         open();
         // set time for completed lesson
         String updateQuery = "UPDATE user_lessons SET datetime_finished=date('now') WHERE lesson_id="
