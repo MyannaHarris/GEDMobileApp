@@ -11,7 +11,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 11-13-16
+ * Last Edit: 11-27-16
  *
  */
 
@@ -80,8 +80,7 @@ public class ButtonAdapter extends BaseAdapter {
             // if it's not recycled, initialize some attributes
             imageView = new ImageView(mContext);
             imageView.setLayoutParams(
-                    new GridView.LayoutParams(GridView.LayoutParams.MATCH_PARENT,
-                        GridView.LayoutParams.MATCH_PARENT));
+                    new GridView.LayoutParams(255, 255));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setPadding(8, 8, 8, 8);
         } else {

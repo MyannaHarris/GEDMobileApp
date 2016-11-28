@@ -6,7 +6,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import static org.mockito.Mockito.*;
 
 import static org.junit.Assert.*;
 
@@ -15,13 +14,23 @@ import static org.junit.Assert.*;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ExampleUnitTest {
+
     @Mock
     Context mMockContext;
-/*
+
     @Test
     public void username_isCorrect() throws Exception {
-        ((MyApplication) mMockContext.getApplicationContext()).setName("test");
-        String test = ((MyApplication) mMockContext.getApplicationContext()).getName();
-        assertEquals(test, "test");
-    }*/
+        MyApplication myApp = new MyApplication();
+        myApp.setName("TestName");
+        String test = myApp.getName();
+        assertEquals(test, "TestName");
+    }
+
+    @Test
+    public void username_isCorrect2() throws Exception {
+        MyApplication myApp = new MyApplication();
+        myApp.setName("testIncorrect");
+        String test = myApp.getName();
+        assertEquals(test, "testIncorrect");
+    }
 }

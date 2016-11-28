@@ -19,6 +19,7 @@ package com.gedappgui.gedappgui;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
@@ -218,8 +219,6 @@ public class Question extends AppCompatActivity {
                 ((RadioButton) radioGroup.getChildAt(i)).setChecked(false);
                 ((RadioButton) radioGroup.getChildAt(i)).setTextColor(Color.parseColor("#cccccc"));
             }
-
-            radioGroup.setBackgroundColor(Color.TRANSPARENT);
 
             // Save what the new correct answer should be
             int lastIdx = questionAnswers.get(tempRandomArray.get(numQuestion)).size() - 1;

@@ -15,13 +15,16 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 11-6-16
+ * Last Edit: 11-26-16
  *
  */
 
 package com.gedappgui.gedappgui;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -32,7 +35,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 public class LessonSteps extends AppCompatActivity {
     DatabaseHelper dbHelper;
@@ -66,6 +73,10 @@ public class LessonSteps extends AppCompatActivity {
 
         // Set image to correct image
         String lessonImg = dbHelper.selectPictureName(lessonID);
+        Bitmap lesson_img = getBitmapFromAsset(lessonImg);
+
+        ImageView lesson_imageView = (ImageView) findViewById(R.id.example_image_view);
+        lesson_imageView.setImageBitmap(lesson_img);
 
         // Set text to correct text
         String lessonAdvice = dbHelper.selectLessonAdvice(lessonID);
@@ -73,6 +84,19 @@ public class LessonSteps extends AppCompatActivity {
         advice.setText(lessonAdvice);
 
 
+    }
+
+    private Bitmap getBitmapFromAsset(String strName)
+    {
+        AssetManager assetManager = getAssets();
+        InputStream istr = null;
+        try {
+            istr = assetManager.open("lesson_pics/" + strName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Bitmap bitmap = BitmapFactory.decodeStream(istr);
+        return bitmap;
     }
 
     /* 

@@ -11,7 +11,7 @@
  *
  * Created by myannaharris on 10/26/16.
  *
- * Last Edit: 11-6-16
+ * Last Edit: 11-27-16
  *
  */
 
@@ -24,7 +24,11 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.drawable.LayerDrawable;
 import android.media.AudioManager;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
@@ -59,6 +63,9 @@ public class MyApplication extends Application {
     private boolean sendNotification = false;
     private AlarmManager alarmManager;
     private PendingIntent pendingIntent;
+
+    // sprite layers
+    private LayerDrawable spriteDrawable;
 
     // Listens for the preferences changing in the settings
     SharedPreferences.OnSharedPreferenceChangeListener listener =
@@ -139,6 +146,14 @@ public class MyApplication extends Application {
 
     public void setCurrVolume(int newVolume) {
         this.currVolume = newVolume;
+    }
+
+    public LayerDrawable getSpriteDrawable() {
+        return spriteDrawable;
+    }
+
+    public void setSpriteDrawable(LayerDrawable newDrawable) {
+        this.spriteDrawable = newDrawable;
     }
 
     /*

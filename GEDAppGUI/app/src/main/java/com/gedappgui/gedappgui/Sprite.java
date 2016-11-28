@@ -12,7 +12,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 11-6-16
+ * Last Edit: 11-27-16
  *
  */
 
@@ -32,11 +32,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 
 public class Sprite extends AppCompatActivity {
 
     // Accessories gridview
     GridView gridview;
+    LayerDrawable spriteDrawable;
+    ImageView spriteImage;
 
     /*
      * Starts the activity and shows corresponding view on screen
@@ -53,46 +56,123 @@ public class Sprite extends AppCompatActivity {
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
+        spriteDrawable = ((MyApplication) this.getApplication()).getSpriteDrawable();
+        spriteImage = (ImageView)findViewById(R.id.sprite_spriteScreen);
+
         // Fill gridview with sprite accessories
+        // First show glasses
         gridview = (GridView) this.findViewById(R.id.sprite_gridView);
         Integer[] buttonPictures = {
-                R.drawable.example_picture,
-                R.drawable.example_picture,
-                R.drawable.example_picture,
-                R.drawable.example_picture,
+                R.drawable.sprite_glasses,
+                R.drawable.sprite_monocle,
+                R.drawable.sprite_nerdglasses,
+                R.drawable.sprite_roundglasses,
                 R.drawable.example_picture,
                 R.drawable.example_picture
         };
         gridview.setAdapter(new ButtonAdapter(this, buttonPictures));
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
-                String test = "";
+                Drawable newItem;
+                Drawable blankItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                        R.drawable.sprite_blank);
+                Drawable oldItem = spriteDrawable.findDrawableByLayerId(R.id.accessory_glasses);
 
                 // Preform a function based on the position
                 switch (position) {
                     case 0:
-                        test = "test 1";
+                        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                                R.drawable.sprite_glasses);
+                        if (newItem.getConstantState().equals(oldItem.getConstantState())) {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_glasses, blankItem);
+                        } else {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_glasses, newItem);
+                        }
+                        spriteImage.setImageDrawable(spriteDrawable);
+                        spriteImage.invalidate();
                         break;
                     case 1:
-                        test = "test 2";
+                        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                                R.drawable.sprite_monocle);
+                        if (newItem.getConstantState().equals(oldItem.getConstantState())) {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_glasses, blankItem);
+                        } else {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_glasses, newItem);
+                        }
+                        spriteImage.setImageDrawable(spriteDrawable);
+                        spriteImage.invalidate();
                         break;
                     case 2:
-                        test = "test 3";
+                        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                                R.drawable.sprite_nerdglasses);
+                        if (newItem.getConstantState().equals(oldItem.getConstantState())) {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_glasses, blankItem);
+                        } else {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_glasses, newItem);
+                        }
+                        spriteImage.setImageDrawable(spriteDrawable);
+                        spriteImage.invalidate();
                         break;
                     case 3:
-                        test = "test 4";
+                        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                                R.drawable.sprite_roundglasses);
+                        if (newItem.getConstantState().equals(oldItem.getConstantState())) {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_glasses, blankItem);
+                        } else {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_glasses, newItem);
+                        }
+                        spriteImage.setImageDrawable(spriteDrawable);
+                        spriteImage.invalidate();
                         break;
                     case 4:
-                        test = "test 4";
+                        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                                R.drawable.sprite_blank);
+                        if (newItem.getConstantState().equals(oldItem.getConstantState())) {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_glasses, blankItem);
+                        } else {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_glasses, newItem);
+                        }
+                        spriteImage.setImageDrawable(spriteDrawable);
+                        spriteImage.invalidate();
                         break;
                     case 5:
-                        test = "test 4";
+                        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                                R.drawable.sprite_blank);
+                        if (newItem.getConstantState().equals(oldItem.getConstantState())) {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_glasses, blankItem);
+                        } else {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_glasses, newItem);
+                        }
+                        spriteImage.setImageDrawable(spriteDrawable);
+                        spriteImage.invalidate();
                         break;
                     default:
                         break;
                 }
             }
         });
+    }
+
+    /*
+     * sets the sprite drawable
+     * Called after onCreate on first creation
+     * Called every time this activity gets the focus
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        spriteImage.setImageDrawable(spriteDrawable);
+    }
+
+    /*
+     * sets the sprite drawable global variable
+     * Called when activity loses focus
+     */
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ((MyApplication)
+                Sprite.this.getApplication()).setSpriteDrawable(spriteDrawable);
     }
 
     /* 
@@ -165,37 +245,88 @@ public class Sprite extends AppCompatActivity {
      */
     public void showGlasses(View view) {
         Integer[] buttonPictures = {
-                R.drawable.home_button,
-                R.drawable.example_picture,
-                R.drawable.example_picture,
-                R.drawable.example_picture,
+                R.drawable.sprite_glasses,
+                R.drawable.sprite_monocle,
+                R.drawable.sprite_nerdglasses,
+                R.drawable.sprite_roundglasses,
                 R.drawable.example_picture,
                 R.drawable.example_picture
         };
         gridview.setAdapter(new ButtonAdapter(this, buttonPictures));
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
-                String test = "";
+                Drawable newItem;
+                Drawable blankItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                        R.drawable.sprite_blank);
+                Drawable oldItem = spriteDrawable.findDrawableByLayerId(R.id.accessory_glasses);
 
                 // Preform a function based on the position
                 switch (position) {
                     case 0:
-                        test = "test 1";
+                        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                                R.drawable.sprite_glasses);
+                        if (newItem.getConstantState().equals(oldItem.getConstantState())) {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_glasses, blankItem);
+                        } else {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_glasses, newItem);
+                        }
+                        spriteImage.setImageDrawable(spriteDrawable);
+                        spriteImage.invalidate();
                         break;
                     case 1:
-                        test = "test 2";
+                        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                                R.drawable.sprite_monocle);
+                        if (newItem.getConstantState().equals(oldItem.getConstantState())) {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_glasses, blankItem);
+                        } else {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_glasses, newItem);
+                        }
+                        spriteImage.setImageDrawable(spriteDrawable);
+                        spriteImage.invalidate();
                         break;
                     case 2:
-                        test = "test 3";
+                        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                                R.drawable.sprite_nerdglasses);
+                        if (newItem.getConstantState().equals(oldItem.getConstantState())) {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_glasses, blankItem);
+                        } else {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_glasses, newItem);
+                        }
+                        spriteImage.setImageDrawable(spriteDrawable);
+                        spriteImage.invalidate();
                         break;
                     case 3:
-                        test = "test 4";
+                        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                                R.drawable.sprite_roundglasses);
+                        if (newItem.getConstantState().equals(oldItem.getConstantState())) {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_glasses, blankItem);
+                        } else {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_glasses, newItem);
+                        }
+                        spriteImage.setImageDrawable(spriteDrawable);
+                        spriteImage.invalidate();
                         break;
                     case 4:
-                        test = "test 4";
+                        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                                R.drawable.sprite_blank);
+                        if (newItem.getConstantState().equals(oldItem.getConstantState())) {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_glasses, blankItem);
+                        } else {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_glasses, newItem);
+                        }
+                        spriteImage.setImageDrawable(spriteDrawable);
+                        spriteImage.invalidate();
                         break;
                     case 5:
-                        test = "test 4";
+                        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                                R.drawable.sprite_blank);
+                        if (newItem.getConstantState().equals(oldItem.getConstantState())) {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_glasses, blankItem);
+                        } else {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_glasses, newItem);
+                        }
+                        spriteImage.setImageDrawable(spriteDrawable);
+                        spriteImage.invalidate();
                         break;
                     default:
                         break;
@@ -210,37 +341,88 @@ public class Sprite extends AppCompatActivity {
      */
     public void showShirts(View view) {
         Integer[] buttonPictures = {
-                R.drawable.example_picture,
-                R.drawable.home_button,
-                R.drawable.example_picture,
-                R.drawable.example_picture,
+                R.drawable.sprite_shirt_long,
+                R.drawable.sprite_shirt_long_green,
+                R.drawable.sprite_shirt_short,
+                R.drawable.sprite_shirt_short_red,
                 R.drawable.example_picture,
                 R.drawable.example_picture
         };
         gridview.setAdapter(new ButtonAdapter(this, buttonPictures));
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
-                String test = "";
+                Drawable newItem;
+                Drawable blankItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                        R.drawable.sprite_blank);
+                Drawable oldItem = spriteDrawable.findDrawableByLayerId(R.id.accessory_shirt);
 
                 // Preform a function based on the position
                 switch (position) {
                     case 0:
-                        test = "test 1";
+                        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                                R.drawable.sprite_shirt_long);
+                        if (newItem.getConstantState().equals(oldItem.getConstantState())) {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_shirt, blankItem);
+                        } else {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_shirt, newItem);
+                        }
+                        spriteImage.setImageDrawable(spriteDrawable);
+                        spriteImage.invalidate();
                         break;
                     case 1:
-                        test = "test 2";
+                        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                                R.drawable.sprite_shirt_long_green);
+                        if (newItem.getConstantState().equals(oldItem.getConstantState())) {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_shirt, blankItem);
+                        } else {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_shirt, newItem);
+                        }
+                        spriteImage.setImageDrawable(spriteDrawable);
+                        spriteImage.invalidate();
                         break;
                     case 2:
-                        test = "test 3";
+                        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                                R.drawable.sprite_shirt_short);
+                        if (newItem.getConstantState().equals(oldItem.getConstantState())) {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_shirt, blankItem);
+                        } else {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_shirt, newItem);
+                        }
+                        spriteImage.setImageDrawable(spriteDrawable);
+                        spriteImage.invalidate();
                         break;
                     case 3:
-                        test = "test 4";
+                        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                                R.drawable.sprite_shirt_short_red);
+                        if (newItem.getConstantState().equals(oldItem.getConstantState())) {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_shirt, blankItem);
+                        } else {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_shirt, newItem);
+                        }
+                        spriteImage.setImageDrawable(spriteDrawable);
+                        spriteImage.invalidate();
                         break;
                     case 4:
-                        test = "test 4";
+                        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                                R.drawable.sprite_blank);
+                        if (newItem.getConstantState().equals(oldItem.getConstantState())) {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_shirt, blankItem);
+                        } else {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_shirt, newItem);
+                        }
+                        spriteImage.setImageDrawable(spriteDrawable);
+                        spriteImage.invalidate();
                         break;
                     case 5:
-                        test = "test 4";
+                        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                                R.drawable.sprite_blank);
+                        if (newItem.getConstantState().equals(oldItem.getConstantState())) {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_shirt, blankItem);
+                        } else {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_shirt, newItem);
+                        }
+                        spriteImage.setImageDrawable(spriteDrawable);
+                        spriteImage.invalidate();
                         break;
                     default:
                         break;
@@ -253,11 +435,11 @@ public class Sprite extends AppCompatActivity {
      * Called from bling button
      * Shows bling accessories
      */
-    public void showBling(View view) {
+    public void showSpecial(View view) {
         Integer[] buttonPictures = {
-                R.drawable.example_picture,
-                R.drawable.example_picture,
-                R.drawable.home_button,
+                R.drawable.sprite_cane,
+                R.drawable.sprite_partyhat,
+                R.drawable.sprite_redribbonhat,
                 R.drawable.example_picture,
                 R.drawable.example_picture,
                 R.drawable.example_picture
@@ -265,27 +447,84 @@ public class Sprite extends AppCompatActivity {
         gridview.setAdapter(new ButtonAdapter(this, buttonPictures));
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
-                String test = "";
+                Drawable newItem;
+                Drawable blankItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                        R.drawable.sprite_blank);
+                Drawable oldItem;
 
                 // Preform a function based on the position
                 switch (position) {
                     case 0:
-                        test = "test 1";
+                        oldItem = spriteDrawable.findDrawableByLayerId(R.id.accessory_handItem);
+                        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                                R.drawable.sprite_cane);
+                        if (newItem.getConstantState().equals(oldItem.getConstantState())) {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_handItem, blankItem);
+                        } else {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_handItem, newItem);
+                        }
+                        spriteImage.setImageDrawable(spriteDrawable);
+                        spriteImage.invalidate();
                         break;
                     case 1:
-                        test = "test 2";
+                        oldItem = spriteDrawable.findDrawableByLayerId(R.id.accessory_hat);
+                        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                                R.drawable.sprite_partyhat);
+                        if (newItem.getConstantState().equals(oldItem.getConstantState())) {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_hat, blankItem);
+                        } else {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_hat, newItem);
+                        }
+                        spriteImage.setImageDrawable(spriteDrawable);
+                        spriteImage.invalidate();
                         break;
                     case 2:
-                        test = "test 3";
+                        oldItem = spriteDrawable.findDrawableByLayerId(R.id.accessory_hat);
+                        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                                R.drawable.sprite_redribbonhat);
+                        if (newItem.getConstantState().equals(oldItem.getConstantState())) {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_hat, blankItem);
+                        } else {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_hat, newItem);
+                        }
+                        spriteImage.setImageDrawable(spriteDrawable);
+                        spriteImage.invalidate();
                         break;
                     case 3:
-                        test = "test 4";
+                        oldItem = spriteDrawable.findDrawableByLayerId(R.id.accessory_shirt);
+                        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                                R.drawable.sprite_blank);
+                        if (newItem.getConstantState().equals(oldItem.getConstantState())) {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_shirt, blankItem);
+                        } else {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_shirt, newItem);
+                        }
+                        spriteImage.setImageDrawable(spriteDrawable);
+                        spriteImage.invalidate();
                         break;
                     case 4:
-                        test = "test 4";
+                        oldItem = spriteDrawable.findDrawableByLayerId(R.id.accessory_handItem);
+                        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                                R.drawable.sprite_blank);
+                        if (newItem.getConstantState().equals(oldItem.getConstantState())) {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_handItem, blankItem);
+                        } else {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_handItem, newItem);
+                        }
+                        spriteImage.setImageDrawable(spriteDrawable);
+                        spriteImage.invalidate();
                         break;
                     case 5:
-                        test = "test 4";
+                        oldItem = spriteDrawable.findDrawableByLayerId(R.id.accessory_wingItem);
+                        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                                R.drawable.sprite_blank);
+                        if (newItem.getConstantState().equals(oldItem.getConstantState())) {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_wingItem, blankItem);
+                        } else {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_wingItem, newItem);
+                        }
+                        spriteImage.setImageDrawable(spriteDrawable);
+                        spriteImage.invalidate();
                         break;
                     default:
                         break;
@@ -300,37 +539,88 @@ public class Sprite extends AppCompatActivity {
      */
     public void showHats(View view) {
         Integer[] buttonPictures = {
-                R.drawable.example_picture,
-                R.drawable.example_picture,
-                R.drawable.example_picture,
-                R.drawable.home_button,
-                R.drawable.example_picture,
-                R.drawable.example_picture
+                R.drawable.sprite_brownhat,
+                R.drawable.sprite_hat_baseball,
+                R.drawable.sprite_hat_baseball_camo,
+                R.drawable.sprite_hat_baseball_red,
+                R.drawable.sprite_tophat,
+                R.drawable.sprite_ribbonhat
         };
         gridview.setAdapter(new ButtonAdapter(this, buttonPictures));
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
-                String test = "";
+                Drawable newItem;
+                Drawable blankItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                        R.drawable.sprite_blank);
+                Drawable oldItem = spriteDrawable.findDrawableByLayerId(R.id.accessory_hat);
 
                 // Preform a function based on the position
                 switch (position) {
                     case 0:
-                        test = "test 1";
+                        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                                R.drawable.sprite_brownhat);
+                        if (newItem.getConstantState().equals(oldItem.getConstantState())) {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_hat, blankItem);
+                        } else {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_hat, newItem);
+                        }
+                        spriteImage.setImageDrawable(spriteDrawable);
+                        spriteImage.invalidate();
                         break;
                     case 1:
-                        test = "test 2";
+                        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                                R.drawable.sprite_hat_baseball);
+                        if (newItem.getConstantState().equals(oldItem.getConstantState())) {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_hat, blankItem);
+                        } else {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_hat, newItem);
+                        }
+                        spriteImage.setImageDrawable(spriteDrawable);
+                        spriteImage.invalidate();
                         break;
                     case 2:
-                        test = "test 3";
+                        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                                R.drawable.sprite_hat_baseball_camo);
+                        if (newItem.getConstantState().equals(oldItem.getConstantState())) {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_hat, blankItem);
+                        } else {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_hat, newItem);
+                        }
+                        spriteImage.setImageDrawable(spriteDrawable);
+                        spriteImage.invalidate();
                         break;
                     case 3:
-                        test = "test 4";
+                        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                                R.drawable.sprite_hat_baseball_red);
+                        if (newItem.getConstantState().equals(oldItem.getConstantState())) {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_hat, blankItem);
+                        } else {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_hat, newItem);
+                        }
+                        spriteImage.setImageDrawable(spriteDrawable);
+                        spriteImage.invalidate();
                         break;
                     case 4:
-                        test = "test 4";
+                        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                                R.drawable.sprite_tophat);
+                        if (newItem.getConstantState().equals(oldItem.getConstantState())) {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_hat, blankItem);
+                        } else {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_hat, newItem);
+                        }
+                        spriteImage.setImageDrawable(spriteDrawable);
+                        spriteImage.invalidate();
                         break;
                     case 5:
-                        test = "test 4";
+                        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                                R.drawable.sprite_ribbonhat);
+                        if (newItem.getConstantState().equals(oldItem.getConstantState())) {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_hat, blankItem);
+                        } else {
+                            spriteDrawable.setDrawableByLayerId(R.id.accessory_hat, newItem);
+                        }
+                        spriteImage.setImageDrawable(spriteDrawable);
+                        spriteImage.invalidate();
                         break;
                     default:
                         break;
