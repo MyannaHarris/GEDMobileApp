@@ -188,8 +188,7 @@
 
         <activity
             android:name=".FractionToDecimalTool"
-            android:label="@string/title_activity_frac_to_dec_tool"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_frac_to_dec_tool" />
     </application>
 
 </manifest>
