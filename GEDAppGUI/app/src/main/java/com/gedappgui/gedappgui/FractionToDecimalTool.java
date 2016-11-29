@@ -130,14 +130,15 @@ public class FractionToDecimalTool extends AppCompatActivity {
         return "Invalid input, Example inputs: 1/2, 13/7";
     }
 
-    /* 
-     * Shows and hides the bottom navigation bar when user swipes at it on screen
-     * Called when the focus of the window changes to this activity
+    /*
+     * hides bottom navigation bar
+     * Called after onCreate on first creation
+     * Called every time this activity gets the focus
      */
     @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus && Build.VERSION.SDK_INT >= 19) {
+    protected void onResume() {
+        super.onResume();
+        if (Build.VERSION.SDK_INT >= 19) {
             getWindow().getDecorView().setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                             //View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -147,6 +148,7 @@ public class FractionToDecimalTool extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
+
 
     /*
      * Sets what menu will be in the action bar

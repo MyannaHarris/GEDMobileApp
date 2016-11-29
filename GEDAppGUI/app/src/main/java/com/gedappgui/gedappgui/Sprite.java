@@ -155,6 +155,7 @@ public class Sprite extends AppCompatActivity {
 
     /*
      * sets the sprite drawable
+     * hides bottom navigation bar
      * Called after onCreate on first creation
      * Called every time this activity gets the focus
      */
@@ -162,6 +163,15 @@ public class Sprite extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         spriteImage.setImageDrawable(spriteDrawable);
+        if (Build.VERSION.SDK_INT >= 19) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            //View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            //| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            //| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
     /*
@@ -173,24 +183,6 @@ public class Sprite extends AppCompatActivity {
         super.onPause();
         ((MyApplication)
                 Sprite.this.getApplication()).setSpriteDrawable(spriteDrawable);
-    }
-
-    /* 
-     * Shows and hides the bottom navigation bar when user swipes at it on screen
-     * Called when the focus of the window changes to this activity
-     */
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus && Build.VERSION.SDK_INT >= 19) {
-            getWindow().getDecorView().setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            //View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            //| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            //| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
     /*
