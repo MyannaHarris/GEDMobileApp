@@ -73,9 +73,14 @@ public class MyApplication extends Application {
         public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
             if (key.equals("username_preference")) {
                 // Change username
-                String newName = prefs.getString("username_preference","");
+                String newName = prefs.getString("username_preference", "");
                 if (!newName.equals(""))
                     setName(newName);
+                Intent achievement = new Intent(getApplicationContext(), AchievementPopUp.class);
+                achievement.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                achievement.putExtra("achievementID", 2);
+                startActivity(achievement);
+
             }
             else if (key.equals("sound_preference")) {
                 // Mute sound
