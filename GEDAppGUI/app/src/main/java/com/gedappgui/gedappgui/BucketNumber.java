@@ -100,7 +100,7 @@ public class BucketNumber {
         detectCollision.left = x;
         detectCollision.top = y;
         detectCollision.right = x + strLegth;
-        detectCollision.bottom = y + textHeight;
+        detectCollision.bottom = y + 30;
     }
 
     //adding a setter to x coordinate so that we can change it after collision

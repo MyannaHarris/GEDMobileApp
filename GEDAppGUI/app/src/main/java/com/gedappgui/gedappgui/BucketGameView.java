@@ -26,6 +26,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.os.CountDownTimer;
 import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -64,7 +65,10 @@ public class BucketGameView extends SurfaceView implements Runnable  {
     private int currAnswerIdx = 0;
     private String question;
     private int screenXVar;
+    private int screenYVar;
     private int questionHeight;
+    private boolean showResult = false;
+    private boolean correctAnswer = false;
 
     //Class constructor
     public BucketGameView(Context context, int screenX, int screenY, String[] texts,
@@ -75,6 +79,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
         numberCount = texts.length;
         answers = answersStr;
         screenXVar = screenX;
+        screenYVar = screenY;
 
         conceptID = conceptIDp;
         lessonID = lessonIDp;
@@ -132,7 +137,8 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                 numbers[i].setX(-200);
                 if (answers[currAnswerIdx].equals(numbers[i].getText())) {
 
-                    question.replaceFirst("[_]", numbers[i].getText());
+                    question = question.replaceFirst("[_]", numbers[i].getText());
+                    correctAnswer = true;
 
                     currAnswerIdx += 1;
                     if (currAnswerIdx >= answers.length) {
@@ -144,6 +150,8 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                         context.startActivity(intent);
                     }
                 }
+
+                showResult = true;
             }
         }
     }
@@ -172,6 +180,31 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                         numbers[i].getY(),
                         paint
                 );
+            }
+
+            // Tell user whether they caught correct number
+            if (showResult) {
+
+                /*if (correctAnswer) {
+                    paint.setColor(Color.GREEN);
+                    canvas.drawText(
+                            "CORRECT",
+                            (screenXVar / 2 - (int)paint.measureText("CORRECT") / 2),
+                            (screenYVar / 2),
+                            paint
+                    );
+                    paint.setColor(Color.WHITE);
+                } else {
+                    paint.setColor(Color.RED);
+                    canvas.drawText(
+                            "INCORRECT",
+                            (screenXVar / 2 - (int)paint.measureText("INCORRECT") / 2),
+                            (screenYVar / 2),
+                            paint
+                    );
+                    paint.setColor(Color.WHITE);
+                }*/
+                showResult = false;
             }
 
             //Drawing the player
