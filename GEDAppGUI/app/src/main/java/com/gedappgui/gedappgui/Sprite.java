@@ -67,8 +67,8 @@ public class Sprite extends AppCompatActivity {
                 R.drawable.sprite_monocle,
                 R.drawable.sprite_nerdglasses,
                 R.drawable.sprite_roundglasses,
-                R.drawable.example_picture,
-                R.drawable.example_picture
+                R.drawable.sprite_fancyglasses,
+                R.drawable.sprite_grannyglasses
         };
         gridview.setAdapter(new ButtonAdapter(this, buttonPictures));
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -126,7 +126,7 @@ public class Sprite extends AppCompatActivity {
                         break;
                     case 4:
                         newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
-                                R.drawable.sprite_blank);
+                                R.drawable.sprite_fancyglasses);
                         if (newItem.getConstantState().equals(oldItem.getConstantState())) {
                             spriteDrawable.setDrawableByLayerId(R.id.accessory_glasses, blankItem);
                         } else {
@@ -137,7 +137,7 @@ public class Sprite extends AppCompatActivity {
                         break;
                     case 5:
                         newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
-                                R.drawable.sprite_blank);
+                                R.drawable.sprite_grannyglasses);
                         if (newItem.getConstantState().equals(oldItem.getConstantState())) {
                             spriteDrawable.setDrawableByLayerId(R.id.accessory_glasses, blankItem);
                         } else {
@@ -164,6 +164,24 @@ public class Sprite extends AppCompatActivity {
         super.onResume();
         spriteImage.setImageDrawable(spriteDrawable);
         if (Build.VERSION.SDK_INT >= 19) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            //View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            //| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            //| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
+    }
+
+    /* 
+     * Shows and hides the bottom navigation bar when user swipes at it on screen
+     * Called when the focus of the window changes to this activity
+     */
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus && Build.VERSION.SDK_INT >= 19) {
             getWindow().getDecorView().setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                             //View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -241,8 +259,8 @@ public class Sprite extends AppCompatActivity {
                 R.drawable.sprite_monocle,
                 R.drawable.sprite_nerdglasses,
                 R.drawable.sprite_roundglasses,
-                R.drawable.example_picture,
-                R.drawable.example_picture
+                R.drawable.sprite_fancyglasses,
+                R.drawable.sprite_grannyglasses
         };
         gridview.setAdapter(new ButtonAdapter(this, buttonPictures));
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -300,7 +318,7 @@ public class Sprite extends AppCompatActivity {
                         break;
                     case 4:
                         newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
-                                R.drawable.sprite_blank);
+                                R.drawable.sprite_fancyglasses);
                         if (newItem.getConstantState().equals(oldItem.getConstantState())) {
                             spriteDrawable.setDrawableByLayerId(R.id.accessory_glasses, blankItem);
                         } else {
@@ -311,7 +329,7 @@ public class Sprite extends AppCompatActivity {
                         break;
                     case 5:
                         newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
-                                R.drawable.sprite_blank);
+                                R.drawable.sprite_grannyglasses);
                         if (newItem.getConstantState().equals(oldItem.getConstantState())) {
                             spriteDrawable.setDrawableByLayerId(R.id.accessory_glasses, blankItem);
                         } else {
@@ -337,8 +355,8 @@ public class Sprite extends AppCompatActivity {
                 R.drawable.sprite_shirt_long_green,
                 R.drawable.sprite_shirt_short,
                 R.drawable.sprite_shirt_short_red,
-                R.drawable.example_picture,
-                R.drawable.example_picture
+                R.drawable.sprite_fancyshirt,
+                R.drawable.sprite_tropicalshirt
         };
         gridview.setAdapter(new ButtonAdapter(this, buttonPictures));
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -396,7 +414,7 @@ public class Sprite extends AppCompatActivity {
                         break;
                     case 4:
                         newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
-                                R.drawable.sprite_blank);
+                                R.drawable.sprite_fancyshirt);
                         if (newItem.getConstantState().equals(oldItem.getConstantState())) {
                             spriteDrawable.setDrawableByLayerId(R.id.accessory_shirt, blankItem);
                         } else {
@@ -407,7 +425,7 @@ public class Sprite extends AppCompatActivity {
                         break;
                     case 5:
                         newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
-                                R.drawable.sprite_blank);
+                                R.drawable.sprite_tropicalshirt);
                         if (newItem.getConstantState().equals(oldItem.getConstantState())) {
                             spriteDrawable.setDrawableByLayerId(R.id.accessory_shirt, blankItem);
                         } else {
@@ -432,9 +450,9 @@ public class Sprite extends AppCompatActivity {
                 R.drawable.sprite_cane,
                 R.drawable.sprite_partyhat,
                 R.drawable.sprite_redribbonhat,
-                R.drawable.example_picture,
-                R.drawable.example_picture,
-                R.drawable.example_picture
+                R.drawable.sprite_armor,
+                R.drawable.sprite_sword,
+                R.drawable.sprite_treasure
         };
         gridview.setAdapter(new ButtonAdapter(this, buttonPictures));
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -485,7 +503,7 @@ public class Sprite extends AppCompatActivity {
                     case 3:
                         oldItem = spriteDrawable.findDrawableByLayerId(R.id.accessory_shirt);
                         newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
-                                R.drawable.sprite_blank);
+                                R.drawable.sprite_armor);
                         if (newItem.getConstantState().equals(oldItem.getConstantState())) {
                             spriteDrawable.setDrawableByLayerId(R.id.accessory_shirt, blankItem);
                         } else {
@@ -497,7 +515,7 @@ public class Sprite extends AppCompatActivity {
                     case 4:
                         oldItem = spriteDrawable.findDrawableByLayerId(R.id.accessory_handItem);
                         newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
-                                R.drawable.sprite_blank);
+                                R.drawable.sprite_sword);
                         if (newItem.getConstantState().equals(oldItem.getConstantState())) {
                             spriteDrawable.setDrawableByLayerId(R.id.accessory_handItem, blankItem);
                         } else {
@@ -509,7 +527,7 @@ public class Sprite extends AppCompatActivity {
                     case 5:
                         oldItem = spriteDrawable.findDrawableByLayerId(R.id.accessory_wingItem);
                         newItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
-                                R.drawable.sprite_blank);
+                                R.drawable.sprite_treasure);
                         if (newItem.getConstantState().equals(oldItem.getConstantState())) {
                             spriteDrawable.setDrawableByLayerId(R.id.accessory_wingItem, blankItem);
                         } else {
@@ -619,86 +637,5 @@ public class Sprite extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    /*
-     * called when an accessory is selected
-     * Puts accessory on sprite
-     */
-    public void addAccessory(View view) {
-        /*LayerDrawable layerList =
-                (LayerDrawable) ContextCompat.getDrawable(this, R.drawable.layers);
-        Drawable layer;
-
-        switch(view.getId()) {
-            case R.id.accessory_1:
-                layer =  layerList.findDrawableByLayerId(R.id.accessory_picture_1);
-                if (layer.isVisible()==true)
-                {
-                    layer.setAlpha(0);
-                }
-                else
-                {
-                    layer.setAlpha(255);
-                }
-                break;
-            case R.id.accessory_2:
-                layer =  layerList.findDrawableByLayerId(R.id.accessory_picture_2);
-                if (layer.isVisible()==true)
-                {
-                    layer.setAlpha(0);
-                }
-                else
-                {
-                    layer.setAlpha(255);
-                }
-                break;
-            case R.id.accessory_3:
-                layer =  layerList.findDrawableByLayerId(R.id.accessory_picture_3);
-                if (layer.isVisible()==true)
-                {
-                    layer.setAlpha(0);
-                }
-                else
-                {
-                    layer.setAlpha(255);
-                }
-                break;
-            case R.id.accessory_4:
-                layer =  layerList.findDrawableByLayerId(R.id.accessory_picture_1);
-                if (layer.isVisible()==true)
-                {
-                    layer.setAlpha(0);
-                }
-                else
-                {
-                    layer.setAlpha(255);
-                }
-                break;
-            case R.id.accessory_5:
-                layer =  layerList.findDrawableByLayerId(R.id.accessory_picture_2);
-                if (layer.isVisible()==true)
-                {
-                    layer.setAlpha(0);
-                }
-                else
-                {
-                    layer.setAlpha(255);
-                }
-                break;
-            case R.id.accessory_6:
-                layer =  layerList.findDrawableByLayerId(R.id.accessory_picture_3);
-                if (layer.isVisible()==true)
-                {
-                    layer.setAlpha(0);
-                }
-                else
-                {
-                    layer.setAlpha(255);
-                }
-                break;
-            default:
-                break;
-        }*/
     }
 }

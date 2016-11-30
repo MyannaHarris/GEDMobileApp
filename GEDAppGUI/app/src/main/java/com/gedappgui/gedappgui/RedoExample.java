@@ -69,6 +69,24 @@ public class RedoExample extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
+    /* 
+     * Shows and hides the bottom navigation bar when user swipes at it on screen
+     * Called when the focus of the window changes to this activity
+     */
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus && Build.VERSION.SDK_INT >= 19) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            //View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            //| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            //| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
+    }
+
     /*
      * Listens for the back button on the bottom navigation bar
      * Stops app from allowing the back button to do anything
@@ -128,6 +146,7 @@ public class RedoExample extends AppCompatActivity {
         intent.putExtra("lessonID", lessonID);
         intent.putExtra("conceptID", conceptID);
         intent.putExtra("next_activity", 0);
+        intent.putExtra("gameName", "");
         startActivity(intent);
     }
 }

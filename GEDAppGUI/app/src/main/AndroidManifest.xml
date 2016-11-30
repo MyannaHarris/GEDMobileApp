@@ -55,7 +55,8 @@
             android:name=".Game"
             android:label="Game"
             android:parentActivityName=".GameIntro"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data

@@ -29,6 +29,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 public class GameIntro extends AppCompatActivity {
     int conceptID;
@@ -36,6 +37,9 @@ public class GameIntro extends AppCompatActivity {
     // int to hold whether to go to questions or play next
     // 0 = questions, 1 = play
     private int nextActivity;
+
+    // Game name to load correct game
+    private String gameName;
 
     /*
      * Starts the activity and shows corresponding view on screen
@@ -56,7 +60,16 @@ public class GameIntro extends AppCompatActivity {
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         // Get next_activity value from intent to decide next activity after game
-        nextActivity = getIntent().getIntExtra("next_activity", -1);
+        nextActivity = mIntent.getIntExtra("next_activity", 1);
+
+        // Get game to load
+        gameName = mIntent.getStringExtra("gameName");
+
+        if (gameName.equals("bucketGame")) {
+            TextView instructions = (TextView) findViewById(R.id.instructions);
+            String instruct = "Swipe left and right to move character and catch correct numbers.";
+            instructions.setText(instruct);
+        }
     }
 
     /*
@@ -78,6 +91,24 @@ public class GameIntro extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
+    /* 
+     * Shows and hides the bottom navigation bar when user swipes at it on screen
+     * Called when the focus of the window changes to this activity
+     */
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus && Build.VERSION.SDK_INT >= 19) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            //View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            //| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            //| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
+    }
+
     /*
      * Called when Play button clicked
      * Goes to the game activity
@@ -89,6 +120,7 @@ public class GameIntro extends AppCompatActivity {
         intent.putExtra("next_activity", nextActivity);
         intent.putExtra("conceptID",conceptID);
         intent.putExtra("lessonID",lessonID);
+        intent.putExtra("gameName", gameName);
         startActivity(intent);
     }
 

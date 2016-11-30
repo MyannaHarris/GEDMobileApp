@@ -26,21 +26,21 @@
     tools:context="com.gedappgui.gedappgui.Play">
 
     <Button
-        android:id="@+id/Game"
+        android:id="@+id/BucketGame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Game"
+        android:text="Bucket Game"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:onClick="goToGame"/>
+        android:onClick="goToBucketGame"/>
 
     <Button
         android:id="@+id/Game1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Game1"
-        android:layout_below="@id/Game"
+        android:layout_below="@id/BucketGame"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:onClick="goToGame"/>

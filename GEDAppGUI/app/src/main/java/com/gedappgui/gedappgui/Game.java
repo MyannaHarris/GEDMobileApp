@@ -21,10 +21,14 @@
 package com.gedappgui.gedappgui;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,6 +40,10 @@ public class Game extends AppCompatActivity {
     // int to hold whether to go to questions or play next
     // 0 = questions, 1 = play
     private int nextActivity;
+
+    // Game name to load correct game
+    private String gameName;
+    private BucketGameView bucketGameView;
 
     /*
      * Starts the activity and shows corresponding view on screen
@@ -49,14 +57,35 @@ public class Game extends AppCompatActivity {
         conceptID = mIntent.getIntExtra("conceptID", 0);
         lessonID = mIntent.getIntExtra("lessonID", 0);
 
-        // Allow homeAsUpIndicator (back arrow) to desplay on action bar
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         // Get next_activity value from intent to decide next activity after game
-        nextActivity = getIntent().getIntExtra("next_activity", -1);
+        nextActivity = mIntent.getIntExtra("next_activity", 1);
+
+        // Get game to load
+        gameName = mIntent.getStringExtra("gameName");
+
+        if (gameName.equals("bucketGame")) {
+
+            //Getting display object
+            Display display = getWindowManager().getDefaultDisplay();
+
+            //Getting the screen resolution into point object
+            Point size = new Point();
+            display.getSize(size);
+
+            //Initializing game view object
+            //this time we are also passing the screen size to the GameView constructor
+            String[] texts = {
+                    "1", "2", "3", "4", "5"
+            };
+            String[] answers = {"3", "5"};
+            String question = "_ * _ = 15";
+            bucketGameView = new BucketGameView(this, size.x, size.y, texts, answers,
+                    conceptID, lessonID, nextActivity, question);
+            setContentView(bucketGameView);
+        }
     }
 
     /*
@@ -75,49 +104,34 @@ public class Game extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
+
+        if (bucketGameView != null)
+            bucketGameView.resume();
     }
 
-    /*
-     * Sets what menu will be in the action bar
-     * homeonlymenu has the settings button and the home button
+    /* 
+     * Shows and hides the bottom navigation bar when user swipes at it on screen
+     * Called when the focus of the window changes to this activity
      */
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.homeonlymenu, menu);
-        return true;
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus && Build.VERSION.SDK_INT >= 19) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /*
-     * Listens for selections from the menu in the action bar
-     * Does action corresponding to selected item
-     * home = goes to homescreen
-     * settings = goes to settings page
-     * android.R.id.home = go to the activity that called the current activity
-     */
+    //pausing the game when activity is paused
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                finish();
-                return true;
-            // action with ID action_refresh was selected
-            case R.id.action_home:
-                Intent intentHome = new Intent(this, MainActivity.class);
-                intentHome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intentHome);
-                break;
-            // action with ID action_settings was selected
-            case R.id.action_settings:
-                Intent intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
-                break;
-            default:
-                break;
-        }
-
-        return true;
+    protected void onPause() {
+        super.onPause();
+        if (bucketGameView != null)
+            bucketGameView.pause();
     }
 
     /*

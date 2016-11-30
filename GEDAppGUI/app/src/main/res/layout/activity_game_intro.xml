@@ -18,6 +18,7 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/welcome"
         android:textSize="30sp"
+        android:textAlignment="center"
         android:textColor="@color/colorHeader1"/>
 
     <TextView
@@ -28,7 +29,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
         android:id="@+id/instruction_label"
-        android:textSize="18sp"/>
+        android:textAlignment="center"
+        android:textSize="20sp"/>
 
     <TextView
         android:text="1. 2. 3. 4."
@@ -37,6 +39,8 @@
         android:layout_below="@id/instruction_label"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="24dp"
+        android:textAlignment="center"
+        android:textSize="20sp"
         android:id="@+id/instructions"/>
 
     <Button
