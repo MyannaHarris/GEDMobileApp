@@ -100,10 +100,10 @@ public class MainActivity extends AppCompatActivity {
             TextView greetingText = (TextView)findViewById(R.id.sprite_speechBubble);
 
             //without the DB
-            //String greeting = "Hello " + ((MyApplication) this.getApplication()).getName();
+            String greeting = "Hello " + ((MyApplication) this.getApplication()).getName();
 
             //with the DB pulling information
-            String greeting = "Hello " + db.selectUsername();
+            //String greeting = "Hello " + db.selectUsername();
 
             greeting += "!\nWelcome to the app.";
             greetingText.setText(greeting);

@@ -12,7 +12,7 @@
  * Jimmy Sherman
  * Kristina Spring
  *
- * Last Edit: 11-17-16
+ * Last Edit: 11-29-16
  *
  */
 
@@ -31,7 +31,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class DatabaseHelper{
 
@@ -225,13 +224,40 @@ public class DatabaseHelper{
     public void insertUser(String username){
         open();
 
-        //currently makes the last played att NULL
         myDatabase.execSQL("INSERT INTO User VALUES ( 1 , '" + username + "', 1, datetime('NOW'))");
 
-        String insertQuery = "INSERT INTO user_lessons(user_id, lesson_id, datetime_started) VALUES(1,1,date('now'))";
+        String insertQuery = "INSERT INTO user_lessons(user_id, lesson_id, datetime_started) VALUES(1,1,date('NOW'))";
         myDatabase.execSQL(insertQuery);
 
         close();
+    }
+
+    /**
+     * Add the achievmenet id of the just earned achievement to the user_achievements table
+     * @param achievement_id the id of the achievement you want to add
+     */
+    public void insertAchievement(int achievement_id){
+        open();
+
+        myDatabase.execSQL("INSERT INTO user_achievements(user_id, achievement_id, datetime_started) VALUES (1, " + achievement_id + ", datetime('NOW'))");
+
+        close();
+    }
+
+    /**
+     * Check to see if the achievement has already been achieved
+     * @param achievement_id the id of the achievement that may be awarded
+     * @return true if the achievement is already earned, false otherwise
+     */
+    public boolean achievementExists(int achievement_id){
+        open();
+        Cursor cursor = myDatabase.rawQuery("Select * from user_achievements where achievement_id = " + achievement_id, null);
+        if(cursor.getCount() <= 0){
+            cursor.close();
+            return false;
+        }
+        cursor.close();
+        return true;
     }
 
     /**

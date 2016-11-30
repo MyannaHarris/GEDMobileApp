@@ -11,7 +11,7 @@
  *
  * Created by myannaharris on 10/26/16.
  *
- * Last Edit: 11-27-16
+ * Last Edit: 11-29-16
  *
  */
 
@@ -73,9 +73,16 @@ public class MyApplication extends Application {
         public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
             if (key.equals("username_preference")) {
                 // Change username
-                String newName = prefs.getString("username_preference","");
-                if (!newName.equals(""))
+                String newName = prefs.getString("username_preference", "");
+                if (!newName.equals("")) {
                     setName(newName);
+
+                    //gives an achievement if they change their username for the first time
+                    Intent achievement = new Intent(getApplicationContext(), AchievementPopUp.class);
+                    achievement.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    achievement.putExtra("achievementID", 2);
+                    startActivity(achievement);
+                }
             }
             else if (key.equals("sound_preference")) {
                 // Mute sound

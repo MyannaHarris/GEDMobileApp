@@ -22,10 +22,12 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -40,6 +42,28 @@ public class FractionToDecimalTool extends AppCompatActivity {
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+        EditText fraction_text = (EditText)findViewById(R.id.FractionInput);
+        fraction_text.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    return false;
+                }
+                return false;
+            }
+        });
+
+        EditText decimal_text = (EditText)findViewById(R.id.DecimalInput);
+        decimal_text.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    return false;
+                }
+                return false;
+            }
+        });
     }
 
     /*
@@ -57,6 +81,8 @@ public class FractionToDecimalTool extends AppCompatActivity {
         String decimal = decimal_text.getText().toString();
         TextView decimal_answer = (TextView)findViewById(R.id.DecimalAnswer);
         decimal_answer.setText(evaluateDecimal(decimal));
+
+
     }
 
     /*
