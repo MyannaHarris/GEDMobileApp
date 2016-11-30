@@ -49,7 +49,9 @@ public class AchievementPopUp extends AppCompatActivity {
 
             setUpPopUp(desc, img, name);
         }
-        finish();
+        else {
+            finish();
+        }
     }
 
     private void setUpPopUp(String desc, String img, String name){
@@ -89,5 +91,9 @@ public class AchievementPopUp extends AppCompatActivity {
 
         Bitmap bitmap = BitmapFactory.decodeStream(in);
         return bitmap;
+    }
+
+    public void exitPopUp(View view) {
+        finish();
     }
 }
