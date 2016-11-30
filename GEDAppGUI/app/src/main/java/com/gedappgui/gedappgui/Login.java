@@ -12,7 +12,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 11-20-16
+ * Last Edit: 11-28-16
  *
  */
 
@@ -145,6 +145,7 @@ public class Login extends AppCompatActivity {
                 IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
 
+        //gives an achievement if the user is logging in for the first time
         Intent achievement = new Intent(this, AchievementPopUp.class);
         achievement.putExtra("achievementID", 1);
         startActivity(achievement);

@@ -12,7 +12,7 @@
  * Jimmy Sherman
  * Kristina Spring
  *
- * Last Edit: 11-17-16
+ * Last Edit: 11-29-16
  *
  */
 
@@ -31,7 +31,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class DatabaseHelper{
 

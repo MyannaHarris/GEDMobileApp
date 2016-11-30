@@ -1,13 +1,27 @@
+/*
+ * AchievementPopUp.java
+ *
+ * The activity to display a popup for when achievements are earned in the app
+ *
+ * Worked on by:
+ * Myanna Harris
+ * Kristina Spring
+ * Jasmine Jans
+ * Jimmy Sherman
+ *
+ * Created by jjans on 11/25/16.
+ *
+ * Last Edit: 11-29-16
+ *
+ */
+
 package com.gedappgui.gedappgui;
 
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.util.DisplayMetrics;
 import android.content.Intent;
@@ -30,6 +44,7 @@ public class AchievementPopUp extends AppCompatActivity {
         Intent mIntent = getIntent();
         achievementID = mIntent.getIntExtra("achievementID", 0);
 
+        //only executes the pop up if the achievement hasn't been earned yet
         if(!db.achievementExists(achievementID)) {
             setContentView(R.layout.activity_pop_up);
 
@@ -37,23 +52,31 @@ public class AchievementPopUp extends AppCompatActivity {
             String img = db.selectAchievementImg(achievementID);
             String name = db.selectAchievementName(achievementID);
 
+            //adds the achievement to the user achievements table
             db.insertAchievement(achievementID);
 
+            //makes the activity smaller and appear on top of the previous activity
             DisplayMetrics dm = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(dm);
-
             int width = dm.widthPixels;
             int height = dm.heightPixels;
-
             getWindow().setLayout((int) (width * .5), (int) (height * .5));
 
+            //adds the correct text data to the UI
             setUpPopUp(desc, img, name);
         }
+        //the achievement has already been earned
         else {
             finish();
         }
     }
 
+    /**
+     * Adds the correct text from the database to the popup user interface
+     * @param desc the description string of the achievement
+     * @param img the image name string of the achievement
+     * @param name the name string of the achievement
+     */
     private void setUpPopUp(String desc, String img, String name){
 
         TextView description = (TextView) findViewById(R.id.achievement_desc);
@@ -62,8 +85,9 @@ public class AchievementPopUp extends AppCompatActivity {
         TextView a_name = (TextView) findViewById(R.id.achievement_name);
         a_name.setText(name);
 
-        // get correct image
+        // get correct image from database
         //Bitmap achievementImg = getFromAssets(img);
+        //placeholder image for now
         Bitmap achievementImg = getFromAssets("achievement_badge.png");
 
         ImageView lesson_imageView = (ImageView) findViewById(R.id.achievement_badge);
@@ -76,7 +100,7 @@ public class AchievementPopUp extends AppCompatActivity {
      * @param imgName the name of the image you want
      * @return the
      *
-     * used from Myannas code in LessonSteps
+     * modified Myanna's code from LessonSteps
      */
     private Bitmap getFromAssets(String imgName)
     {
@@ -93,6 +117,10 @@ public class AchievementPopUp extends AppCompatActivity {
         return bitmap;
     }
 
+    /**
+     * exits the activity and returns to the previous where this activity was called
+     * @param view the view of the activity
+     */
     public void exitPopUp(View view) {
         finish();
     }
