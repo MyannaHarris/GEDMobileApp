@@ -69,6 +69,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
     private int questionHeight;
     private boolean showResult = false;
     private boolean correctAnswer = false;
+    private int showResultTimer = 10;
 
     //Class constructor
     public BucketGameView(Context context, int screenX, int screenY, String[] texts,
@@ -185,7 +186,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
             // Tell user whether they caught correct number
             if (showResult) {
 
-                /*if (correctAnswer) {
+                if (correctAnswer) {
                     paint.setColor(Color.GREEN);
                     canvas.drawText(
                             "CORRECT",
@@ -194,6 +195,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                             paint
                     );
                     paint.setColor(Color.WHITE);
+                    correctAnswer = false;
                 } else {
                     paint.setColor(Color.RED);
                     canvas.drawText(
@@ -203,8 +205,12 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                             paint
                     );
                     paint.setColor(Color.WHITE);
-                }*/
-                showResult = false;
+                }
+                showResultTimer -= 1;
+                if (showResultTimer == 0) {
+                    showResult = false;
+                    showResultTimer = 10;
+                }
             }
 
             //Drawing the player
