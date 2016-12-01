@@ -92,7 +92,7 @@ public class FractionToDecimalTool extends AppCompatActivity {
        Returns a string object, the answer if valid and an error string if invalid.
 
      */
-    private String evaluateDecimal(String decimal) {
+    public static String evaluateDecimal(String decimal) {
         if (decimal.equals("")){
             return "";
         }
@@ -115,7 +115,7 @@ public class FractionToDecimalTool extends AppCompatActivity {
         Helper function for finding the greatest common divisor of the numerator and denominator
 
      */
-    private int gcd_convert(int top, int bottom){
+    public static int gcd_convert(int top, int bottom){
         if (bottom == 0){
             return top;
         }
@@ -128,7 +128,7 @@ public class FractionToDecimalTool extends AppCompatActivity {
     * outputs error strings if the string is invalid or the answer as a
     * string object.
     */
-    private String evaluateFraction(String fraction) {
+    public static String evaluateFraction(String fraction) {
         double numerator;
         double denominator;
         if (fraction.equals("")){
