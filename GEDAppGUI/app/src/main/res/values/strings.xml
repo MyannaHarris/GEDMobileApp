@@ -9,7 +9,7 @@
  Jasmine Jans
  Jimmy Sherman
 
- Last Edit: 10-31-16
+ Last Edit: 12-1-16
 -->
 
 <resources>
@@ -42,6 +42,7 @@
     <string name="lessonQuestions">Lesson Questions</string>
     <string name="lessonQuestionsButton">Open Lesson Questions</string>
     <string name="lessonGameButton">Open Lesson Game</string>
+    <string name="next">Next</string>
 
     <!-- Login page -->
     <string name="login">Login</string>

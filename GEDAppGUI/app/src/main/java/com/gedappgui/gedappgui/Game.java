@@ -34,6 +34,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.ArrayList;
+
 public class Game extends AppCompatActivity {
     int conceptID;
     int lessonID;
@@ -77,10 +79,15 @@ public class Game extends AppCompatActivity {
 
             //Initializing game view object
             //this time we are also passing the screen size to the GameView constructor
-            String[] texts = {
-                    "1", "2", "3", "4", "5"
-            };
-            String[] answers = {"3", "5"};
+            ArrayList<String> texts = new ArrayList<String>();
+            texts.add("1");
+            texts.add("2");
+            texts.add("3");
+            texts.add("4");
+            texts.add("5");
+            ArrayList<String> answers = new ArrayList<String>();
+            answers.add("3");
+            answers.add("5");
             String question = "_ * _ = 15";
             bucketGameView = new BucketGameView(this, size.x, size.y, texts, answers,
                     conceptID, lessonID, nextActivity, question);
