@@ -21,7 +21,7 @@
         android:textSize="30sp" />
 
     <TextView
-        android:text="Pick your sprite accessory:"
+        android:text="@string/noNewAccessory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/congratulations"
@@ -62,38 +62,13 @@
         android:layout_marginBottom="16dp"
         android:layout_above="@id/to_concepts"
         android:layout_centerHorizontal="true" />
-
-    <CheckedTextView
-        android:text="Accessory 1"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.GridLayout
+        android:id="@+id/accessory_options"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/accessory_choice_1"
-        android:layout_below="@id/accessory_choice"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="29dp"
-        android:checkMarkTint="@color/colorPrimaryDark"
-        android:checked="false" />
-
-    <CheckedTextView
-        android:text="Accessory 2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/accessory_choice_2"
-        android:layout_below="@id/accessory_choice_1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="19dp"
-        android:checkMarkTint="@color/colorPrimaryDark"
-        android:checked="false" />
-
-    <CheckedTextView
-        android:text="Accessory 3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/accessory_choice_3"
-        android:layout_below="@id/accessory_choice_2"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:checked="false"
-        android:checkMarkTint="@color/colorPrimaryDark" />
+        android:numColumns="3"
+        android:gravity="center"
+        android:layout_below="@id/accessory_choice"></android.support.v7.widget.GridLayout>
 
 </RelativeLayout>

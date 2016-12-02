@@ -27,7 +27,7 @@
         android:text="This will be a game to help the student solidify their knowledge of the concept." />
 
     <Button
-        android:text="Move On"
+        android:text="@string/next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

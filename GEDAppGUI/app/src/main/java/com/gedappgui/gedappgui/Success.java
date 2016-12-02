@@ -25,15 +25,24 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayout;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class Success extends AppCompatActivity {
     DatabaseHelper dbHelper;
     int lessonID;
     int conceptID;
+    GridLayout gridlayout;
+    int accessoryGiven = 0;
     /*
      * Starts the activity and shows corresponding view on screen
      */
@@ -45,12 +54,34 @@ public class Success extends AppCompatActivity {
         conceptID = mIntent.getIntExtra("conceptID", 0);
         lessonID = mIntent.getIntExtra("lessonID", 0);
 
+        ArrayList<Integer> accessories = new ArrayList<>();
+        ArrayList<Integer> accessoryIDs = new ArrayList<>();
+
         dbHelper = new DatabaseHelper(this);
+
+        if (!(dbHelper.isLessonAlreadyStarted(lessonID+1))) {
+            TextView pickText = (TextView) findViewById(R.id.accessory_choice);
+            pickText.setText("Pick your sprite accessory:");
+            //will be replaced by dbHelper call
+            accessories.add(R.drawable.sprite_nerdglasses);
+            accessories.add(R.drawable.sprite_shirt_long);
+            accessories.add(R.drawable.sprite_partyhat);
+
+            //will be replaced by dbHelper call
+            accessoryIDs.add(18);
+            accessoryIDs.add(23);
+            accessoryIDs.add(19);
+        }
+
         dbHelper.lessonCompleted(lessonID);
-        System.out.print("success");
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+        gridlayout = (GridLayout) findViewById(R.id.accessory_options);
+
+        //put things in the gridlayout
+        setAccessoryInfo(accessories, accessoryIDs);
     }
 
     /*
@@ -121,12 +152,14 @@ public class Success extends AppCompatActivity {
         switch (item.getItemId()) {
             // action with ID action_refresh was selected
             case R.id.action_home:
+                giveUserItem();
                 Intent intentHome = new Intent(this, MainActivity.class);
                 intentHome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intentHome);
                 break;
             // action with ID action_settings was selected
             case R.id.action_settings:
+                giveUserItem();
                 Intent intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 break;
@@ -142,6 +175,7 @@ public class Success extends AppCompatActivity {
      * Opens concepts page
      */
     public void goToConcepts(View view) {
+        giveUserItem();
         Intent intent = new Intent(this, LearnConcepts.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
@@ -152,8 +186,10 @@ public class Success extends AppCompatActivity {
      * Opens next lessons summary page
      */
     public void goToNextLesson(View view) {
-        Intent intent = new Intent(this, LearnLessons.class);
+        giveUserItem();
+        Intent intent = new Intent(this, LessonSummary.class);
         intent.putExtra("conceptID",conceptID);
+        intent.putExtra("lessonID",lessonID+1);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
@@ -163,7 +199,47 @@ public class Success extends AppCompatActivity {
      * Opens sprite page
      */
     public void goToSprite(View view) {
+        giveUserItem();
         Intent intent = new Intent(this, Sprite.class);
         startActivity(intent);
+    }
+    public void setAccessoryInfo(ArrayList<Integer> accessories, ArrayList<Integer> accessoryIDs) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int maxWidth = metrics.widthPixels/3;
+        int length = accessories.size();
+
+        GridLayout.Spec thisRow = GridLayout.spec(0, 1);
+
+        for (int i = 0; i < length; i++) {
+            GridLayout.Spec col = GridLayout.spec(i,1);
+            GridLayout.LayoutParams gridLayoutParam0 = new GridLayout.LayoutParams(thisRow, col);
+            gridLayoutParam0.setGravity(Gravity.FILL_HORIZONTAL|Gravity.CENTER_VERTICAL);
+            ImageView img = createAccessoryImage(accessories.get(i), accessoryIDs.get(i), maxWidth);
+            gridlayout.addView(img,gridLayoutParam0);
+        }
+
+
+    }
+
+    ImageView createAccessoryImage(Integer img, int id, int maxWidth) {
+        final int finalID = id;
+        ImageView imgView = new ImageView(this);
+        imgView.setMaxWidth(maxWidth);
+        imgView.setAdjustViewBounds(true);
+        imgView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        imgView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on click
+                accessoryGiven = finalID;
+                System.out.println(accessoryGiven);
+            }
+        });
+        imgView.setImageResource(img);
+        return imgView;
+    }
+
+    void giveUserItem() {
+        dbHelper.giveAccessory(accessoryGiven);
     }
 }

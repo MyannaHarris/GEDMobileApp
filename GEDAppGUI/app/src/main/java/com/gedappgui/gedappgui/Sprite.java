@@ -40,6 +40,7 @@ public class Sprite extends AppCompatActivity {
     GridView gridview;
     LayerDrawable spriteDrawable;
     ImageView spriteImage;
+    DatabaseHelper dbHelper;
 
     /*
      * Starts the activity and shows corresponding view on screen

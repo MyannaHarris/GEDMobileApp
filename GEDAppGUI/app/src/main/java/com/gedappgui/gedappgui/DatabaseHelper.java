@@ -651,7 +651,7 @@ public class DatabaseHelper{
                 "ON question_template.question_id = Answers.question_id " +
                         " WHERE lesson_id = " + lesson_id, null);
 
-        ArrayList<ArrayList<String>> lessonQustions = new ArrayList<>();
+        ArrayList<ArrayList<String>> lessonQuestions = new ArrayList<>();
 
         while(c.moveToNext()){
             ArrayList<String> row = new ArrayList<String>();
@@ -660,13 +660,13 @@ public class DatabaseHelper{
             row.add(c.getString(2));
             row.add(c.getString(3));
             row.add(c.getString(4));
-            lessonQustions.add(row);
+            lessonQuestions.add(row);
         }
 
         c.close();
         close();
 
-        return lessonQustions;
+        return lessonQuestions;
     }
 
 
@@ -705,7 +705,7 @@ public class DatabaseHelper{
         close();
     }
 
-    /**
+    /*/**
      * Method to update what accessory is on sprite
      * @param lessonID of the lesson completed
      */
@@ -729,5 +729,27 @@ public class DatabaseHelper{
         myDatabase.execSQL("UPDATE user SET current_lesson="+newLessonID);
         close();
     }*/
+
+    void giveAccessory(int id) {
+        open();
+        String insertQuery = "INSERT INTO user_accessories(user_id, accesssory_id, currently_wearing) VALUES(1,"+id+",0)";
+        System.out.println(insertQuery);
+        //myDatabase.execSQL(insertQuery);
+        close();
+    }
+
+    boolean isLessonAlreadyStarted(int id) {
+        open();
+        boolean isComplete = false;
+        Cursor c = myDatabase.rawQuery("SELECT count(lesson_id) FROM user_lessons WHERE lesson_id="
+                + id,null);
+        c.moveToFirst();
+        int test = c.getInt(0);
+        if (test > 0) {
+            isComplete = true;
+        }
+        close();
+        return isComplete;
+    }
 
 }

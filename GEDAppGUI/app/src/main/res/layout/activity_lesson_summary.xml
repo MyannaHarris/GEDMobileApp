@@ -42,7 +42,7 @@
             android:layout_marginRight="@dimen/button_horiz_margin"
             android:layout_marginBottom="@dimen/button_vert_margin"
             android:layout_marginTop="@dimen/button_vert_margin"
-            android:text="@string/lessonStepsButton"
+            android:text="@string/next"
             android:onClick="gotToLessonSteps"
             android:layout_centerHorizontal="true"/>
     </RelativeLayout>
