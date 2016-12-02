@@ -40,11 +40,15 @@ import android.widget.TextView;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 
 public class LessonSteps extends AppCompatActivity {
     DatabaseHelper dbHelper;
     int conceptID;
     int lessonID;
+
+    // Deal with video
+    private WebView webView;
     /*
      * Starts the activity and shows corresponding view on screen
      */
@@ -65,7 +69,7 @@ public class LessonSteps extends AppCompatActivity {
 
         // Play youtube video from lesson
         String videoURL = dbHelper.selectVideoURL(lessonID);
-        WebView webView = (WebView) findViewById(R.id.example_web_view);
+        webView = (WebView) findViewById(R.id.example_web_view);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebChromeClient(new WebChromeClient());
         String playVideo= "<html><body><iframe class=\"youtube-player\" type=\"text/html\" width=\"100%\" height=\"400\" src=\"http://www.youtube.com/embed/" + videoURL + "/?vq=small\" frameborder=\"0\"></body></html>";
@@ -116,6 +120,20 @@ public class LessonSteps extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
+
+        webView.onResume();
+    }
+
+    /*
+     * hides bottom navigation bar
+     * Called after onCreate on first creation
+     * Called every time this activity gets the focus
+     */
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        webView.onPause();
     }
 
     /* 

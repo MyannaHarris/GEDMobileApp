@@ -19,6 +19,7 @@
         android:id="@+id/example1_header"
         android:textSize="30sp"
         android:textColor="@color/colorHeader1"
+        android:paddingTop="10dp"
         />
 
     <TextView
@@ -26,7 +27,9 @@
         android:layout_width="match_parent"
         android:id="@+id/example_1"
         android:text="Initial"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"/>
 
     <TextView
         android:text="Example 2"
@@ -34,7 +37,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/example2_header"
         android:textSize="30sp"
-        android:textColor="@color/colorHeader1"/>
+        android:textColor="@color/colorHeader1"
+        android:paddingTop="10dp"/>
 
     <TextView
         android:text="TextView"
@@ -42,16 +46,19 @@
         android:layout_width="match_parent"
         android:id="@+id/example_2"
         android:layout_weight="0.04"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"/>
 
     <Button
+        android:paddingTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/lessonGame"
-        android:layout_alignParentLeft="true"
         android:layout_marginRight="@dimen/button_horiz_margin"
         android:layout_marginBottom="@dimen/button_vert_margin"
         android:layout_marginTop="@dimen/button_vert_margin"
+        android:layout_gravity="center"
         android:text="@string/next"
         android:onClick="gotToLessonGame" />
 

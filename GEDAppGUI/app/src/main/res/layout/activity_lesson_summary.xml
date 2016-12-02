@@ -34,16 +34,16 @@
             android:text="" />
 
         <Button
+            android:paddingTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/lessonSteps"
-            android:layout_below="@id/lessonSummary_text"
-            android:layout_alignParentLeft="true"
             android:layout_marginRight="@dimen/button_horiz_margin"
             android:layout_marginBottom="@dimen/button_vert_margin"
             android:layout_marginTop="@dimen/button_vert_margin"
             android:text="@string/next"
             android:onClick="gotToLessonSteps"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/lessonSummary_text"/>
     </RelativeLayout>
 </ScrollView>

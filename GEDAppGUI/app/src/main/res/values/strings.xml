@@ -9,7 +9,7 @@
  Jasmine Jans
  Jimmy Sherman
 
- Last Edit: 10-31-16
+ Last Edit: 12-1-16
 -->
 
 <resources>
@@ -29,9 +29,9 @@
     <string name="toolSample">Tool Sample</string>
 
     <!-- Lesson buttons and text -->
+    <string name="next">Next</string>
     <string name="lessonConcepts">Math Concepts</string>
     <string name="lessonConcept">Open Math Concept 1</string>
-    <string name="next">Next</string>
     <string name="lessonNames">Math Lessons</string>
     <string name="lessonSummary">Lesson Summary</string>
     <string name="lessonSteps">Explanation</string>

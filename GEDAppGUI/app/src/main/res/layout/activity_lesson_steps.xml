@@ -38,11 +38,11 @@
             android:text="" />
 
         <Button
+            android:paddingTop="10dp"
             android:layout_below="@id/advice_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/lessonExample"
-            android:layout_alignParentLeft="true"
             android:layout_marginRight="@dimen/button_horiz_margin"
             android:layout_marginBottom="@dimen/button_vert_margin"
             android:layout_marginTop="@dimen/button_vert_margin"

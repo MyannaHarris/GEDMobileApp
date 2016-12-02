@@ -127,7 +127,7 @@ public class DatabaseHelper{
      * Checks if the database already exist
      * @return true if it exists, false if it doesn't
      */
-    private boolean checkDatabase(){
+    public boolean checkDatabase(){
         System.out.println("checking database");
         SQLiteDatabase checkDB = null;
 
