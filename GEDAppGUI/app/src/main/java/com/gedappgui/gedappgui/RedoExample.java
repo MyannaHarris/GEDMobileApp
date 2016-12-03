@@ -27,6 +27,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class RedoExample extends AppCompatActivity {
 
@@ -48,8 +51,22 @@ public class RedoExample extends AppCompatActivity {
         Intent mIntent = getIntent();
         conceptID = mIntent.getIntExtra("conceptID", 0);
         lessonID = mIntent.getIntExtra("lessonID", 0);
+        DatabaseHelper db = new DatabaseHelper(this);
+        setRedos(db, lessonID);
     }
-
+    /*
+        Sets the redo examples using the database
+     */
+    public void setRedos(DatabaseHelper db, int lesson_id){
+        ArrayList<String> redos = new ArrayList<>();
+        redos = db.selectRedos(lesson_id);
+        TextView redo_1 = (TextView) findViewById(R.id.redo1_text);
+        TextView redo_2 = (TextView) findViewById(R.id.redo2_text);
+        TextView redo_3 = (TextView) findViewById(R.id.redo3_text);
+        redo_1.setText(redos.get(0));
+        redo_2.setText(redos.get(1));
+        redo_3.setText(redos.get(2));
+    }
     /*
      * hides bottom navigation bar
      * Called after onCreate on first creation

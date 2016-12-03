@@ -617,7 +617,27 @@ public class DatabaseHelper{
 
         return pictureName;
     }
+    /**
+     * Query to select redo examples from Review table
+     */
+    public ArrayList<String> selectRedos(int lesson_id){
+        open();
 
+        Cursor c = myDatabase.rawQuery("SELECT review_1, review_2, review_3 " +
+                "FROM Reviews " + "WHERE lesson_id = " + lesson_id, null);
+
+        ArrayList<String> redos = new ArrayList<>();
+        c.moveToFirst();
+        redos.add(c.getString(0));
+        redos.add(c.getString(1));
+        redos.add(c.getString(2));
+
+        c.close();
+        close();
+
+        return redos;
+
+    }
     /**
      * Query to select question text
      */

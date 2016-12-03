@@ -44,7 +44,8 @@
         android:ems="10"
         android:id="@+id/DecimalInput"
         android:layout_below="@+id/textView2"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:maxLength="7"/>
 
     <TextView
         android:text="Fraction to Decimal"
@@ -76,7 +77,8 @@
         android:id="@+id/FractionInput"
         android:layout_below="@+id/FractionConvertHint"
         android:layout_alignLeft="@+id/DecimalInput"
-        android:layout_alignStart="@+id/DecimalInput" />
+        android:layout_alignStart="@+id/DecimalInput"
+        android:maxLength="10"/>
 
     <TextView
         android:text="Decimal To Fraction"
