@@ -32,6 +32,9 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class BucketGameView extends SurfaceView implements Runnable  {
 
     int conceptID;
@@ -61,8 +64,9 @@ public class BucketGameView extends SurfaceView implements Runnable  {
     private int numberCount = 5;
 
     //Answers
-    private String[] answers;
-    private int currAnswerIdx = 0;
+    private ArrayList<String> answers;
+    private int correctAnswers = 0;
+    private int numAnswers = 0;
     private String question;
     private int screenXVar;
     private int screenYVar;
@@ -71,14 +75,20 @@ public class BucketGameView extends SurfaceView implements Runnable  {
     private boolean correctAnswer = false;
     private int showResultTimer = 10;
 
+    // Limit FPS
+    private long startTime;
+    private long endTime;
+
     //Class constructor
-    public BucketGameView(Context context, int screenX, int screenY, String[] texts,
-                          String[] answersStr, int conceptIDp, int lessonIDp, int nextActivityp,
+    public BucketGameView(Context context, int screenX, int screenY, ArrayList<String> texts,
+                          ArrayList<String> answersStr, int conceptIDp, int lessonIDp,
+                          int nextActivityp,
                           String questionp) {
         super(context);
 
-        numberCount = texts.length;
+        numberCount = texts.size();
         answers = answersStr;
+        numAnswers = answers.size();
         screenXVar = screenX;
         screenYVar = screenY;
 
@@ -105,14 +115,28 @@ public class BucketGameView extends SurfaceView implements Runnable  {
         //initializing number object array
         numbers = new BucketNumber[numberCount];
         for(int i=0; i<numberCount; i++){
-            numbers[i] = new BucketNumber(context, screenX, screenY, texts[i],
-                    (int)paint.measureText(texts[i]), questionHeight);
+            numbers[i] = new BucketNumber(context, screenX, screenY, texts.get(i),
+                    (int)paint.measureText(texts.get(i)), questionHeight);
         }
+
+        // Save start time to limit fps
+        startTime = System.currentTimeMillis();
     }
 
     @Override
     public void run() {
         while (playing) {
+            // limit fps
+            endTime = System.currentTimeMillis();
+            long dt = endTime - startTime;
+            if (dt < 50)
+                try {
+                    Thread.sleep(50 - dt);
+                } catch (InterruptedException e) {
+                }
+            startTime = System.currentTimeMillis();
+
+
             //to update the frame
             update();
 
@@ -136,13 +160,15 @@ public class BucketGameView extends SurfaceView implements Runnable  {
             if (Rect.intersects(bucket.getDetectCollision(), numbers[i].getDetectCollision())) {
                 //moving enemy outside the left edge
                 numbers[i].setX(-200);
-                if (answers[currAnswerIdx].equals(numbers[i].getText())) {
+                if (answers.contains(numbers[i].getText())) {
+
+                    answers.remove(numbers[i].getText());
 
                     question = question.replaceFirst("[_]", numbers[i].getText());
                     correctAnswer = true;
 
-                    currAnswerIdx += 1;
-                    if (currAnswerIdx >= answers.length) {
+                    correctAnswers += 1;
+                    if (correctAnswers >= numAnswers) {
                         Context context = getContext();
                         Intent intent = new Intent(context, GameEnd.class);
                         intent.putExtra("next_activity", nextActivity);
@@ -195,7 +221,6 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                             paint
                     );
                     paint.setColor(Color.WHITE);
-                    correctAnswer = false;
                 } else {
                     paint.setColor(Color.RED);
                     canvas.drawText(
@@ -210,6 +235,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                 if (showResultTimer == 0) {
                     showResult = false;
                     showResultTimer = 10;
+                    correctAnswer = false;
                 }
             }
 

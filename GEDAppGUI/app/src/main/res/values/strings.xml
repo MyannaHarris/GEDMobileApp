@@ -9,7 +9,7 @@
  Jasmine Jans
  Jimmy Sherman
 
- Last Edit: 10-31-16
+ Last Edit: 12-1-16
 -->
 
 <resources>
@@ -29,19 +29,17 @@
     <string name="toolSample">Tool Sample</string>
 
     <!-- Lesson buttons and text -->
+    <string name="next">Next</string>
     <string name="lessonConcepts">Math Concepts</string>
     <string name="lessonConcept">Open Math Concept 1</string>
     <string name="lessonNames">Math Lessons</string>
-    <string name="lessonName">Open Math Lesson 1</string>
     <string name="lessonSummary">Lesson Summary</string>
-    <string name="lessonSummaryButton">Open Lesson Summary</string>
     <string name="lessonSteps">Explanation</string>
-    <string name="lessonStepsButton">Open Step-by-step Explanation</string>
     <string name="lessonExample">Example</string>
-    <string name="lessonExampleButton">Open Example</string>
     <string name="lessonQuestions">Lesson Questions</string>
-    <string name="lessonQuestionsButton">Open Lesson Questions</string>
     <string name="lessonGameButton">Open Lesson Game</string>
+    <string name="noNewAccessory">You finished the lesson! Unfortunately, you\'ve already received
+        an accessory for this lesson. Complete a new lesson to earn more accessories!</string>
 
     <!-- Login page -->
     <string name="login">Login</string>

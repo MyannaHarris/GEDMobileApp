@@ -38,15 +38,15 @@
             android:text="" />
 
         <Button
+            android:paddingTop="10dp"
             android:layout_below="@id/advice_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/lessonExample"
-            android:layout_alignParentLeft="true"
             android:layout_marginRight="@dimen/button_horiz_margin"
             android:layout_marginBottom="@dimen/button_vert_margin"
             android:layout_marginTop="@dimen/button_vert_margin"
-            android:text="@string/lessonExampleButton"
+            android:text="@string/next"
             android:onClick="gotToLessonExample"
             android:layout_centerHorizontal="true"/>
 

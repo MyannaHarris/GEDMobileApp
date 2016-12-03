@@ -231,11 +231,11 @@ public class Question extends AppCompatActivity {
 
             // Set radio buttons
             RadioGroup radioGroup = (RadioGroup) findViewById(R.id.question_answer_group);
+            radioGroup.clearCheck();
             for (int i = 0; i < radioGroup.getChildCount(); i++) {
                 String textAnswer = questionAnswers.get(tempRandomArray.get(numQuestion)).get(i);
                 ((RadioButton) radioGroup.getChildAt(i)).setText(textAnswer);
                 ((RadioButton) radioGroup.getChildAt(i)).setEnabled(true);
-                ((RadioButton) radioGroup.getChildAt(i)).setChecked(false);
                 ((RadioButton) radioGroup.getChildAt(i)).setTextColor(Color.parseColor("#cccccc"));
             }
 
