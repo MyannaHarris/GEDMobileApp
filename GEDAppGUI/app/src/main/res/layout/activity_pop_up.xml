@@ -41,7 +41,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/achievement_badge"
-        android:layout_below="@id/achievement_name"/>
+        android:layout_below="@id/achievement_name"
+        android:layout_centerHorizontal="true"/>
 
     <TextView
         android:text="achievement description"

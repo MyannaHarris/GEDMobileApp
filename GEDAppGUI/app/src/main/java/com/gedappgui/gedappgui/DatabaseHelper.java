@@ -239,7 +239,7 @@ public class DatabaseHelper{
     public void insertAchievement(int achievement_id){
         open();
 
-        myDatabase.execSQL("INSERT INTO user_achievements(user_id, achievement_id, datetime_started) VALUES (1, " + achievement_id + ", datetime('NOW'))");
+        myDatabase.execSQL("INSERT INTO user_achievements(user_id, achievement_id, datetime_started) VALUES ( 1, " + achievement_id + ", datetime('NOW'))");
 
         close();
     }
@@ -258,6 +258,57 @@ public class DatabaseHelper{
         }
         cursor.close();
         return true;
+    }
+
+    /**
+     *
+     * @return an arraylist of all the earned achievements image names
+     */
+    public ArrayList<String> selectAchievementsImgs(){
+        open();
+        ArrayList<String> achievementImgs = new ArrayList<>();
+        Cursor c = myDatabase.rawQuery("SELECT DISTINCT achievement_img FROM Achievements NATURAL " +
+                "JOIN user_achievements WHERE achievement_id = achievement_id", null);
+
+        while(c.moveToNext()){
+            achievementImgs.add(c.getString(0));
+        }
+        close();
+        return achievementImgs;
+    }
+
+    /**
+     *
+     * @return an arraylist of all the earned achievements names
+     */
+    public ArrayList<String> selectAchievementsNames(){
+        open();
+        ArrayList<String> achievementName = new ArrayList<>();
+        Cursor c = myDatabase.rawQuery("SELECT DISTINCT achievement_name FROM Achievements NATURAL " +
+                "JOIN user_achievements WHERE achievement_id = achievement_id", null);
+
+        while(c.moveToNext()){
+            achievementName.add(c.getString(0));
+        }
+        close();
+        return achievementName;
+    }
+
+    /**
+     *
+     * @return an arraylist of all the earned achievements descriptions
+     */
+    public ArrayList<String> selectAchievementsDesc(){
+        open();
+        ArrayList<String> achievementDesc = new ArrayList<>();
+        Cursor c = myDatabase.rawQuery("SELECT DISTINCT achievement_desc FROM Achievements NATURAL " +
+                "JOIN user_achievements WHERE achievement_id = achievement_id", null);
+
+        while(c.moveToNext()){
+            achievementDesc.add(c.getString(0));
+        }
+        close();
+        return achievementDesc;
     }
 
     /**

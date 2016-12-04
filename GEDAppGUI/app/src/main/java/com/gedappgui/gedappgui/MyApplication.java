@@ -105,6 +105,12 @@ public class MyApplication extends Application {
                 if (isChecked) {
                     sendNotification = true;
                     scheduleNotification(getNotification());
+                    //gives an achievement if they change their username for the first time
+
+                    Intent achievement = new Intent(getApplicationContext(), AchievementPopUp.class);
+                    achievement.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    achievement.putExtra("achievementID", 3);
+                    startActivity(achievement);
                 }
                 else {
                     sendNotification = false;

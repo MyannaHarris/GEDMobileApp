@@ -18,6 +18,9 @@
 package com.gedappgui.gedappgui;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -30,10 +33,16 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+
 public class Achievements extends AppCompatActivity {
 
     // Gridview
     GridView gridview;
+
+    DatabaseHelper db;
 
     /*
      * Starts the activity and shows corresponding view on screen
@@ -44,6 +53,8 @@ public class Achievements extends AppCompatActivity {
 
         setContentView(R.layout.activity_achievements);
 
+        db = new DatabaseHelper(this);
+
         // Allow homeAsUpIndicator (back arrow) to desplay on action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -52,6 +63,15 @@ public class Achievements extends AppCompatActivity {
 
         // Fill gridview with achievements
         gridview = (GridView) findViewById(R.id.achievements_gridView);
+
+        /*ArrayList<String> images = db.selectAchievementsImgs();
+
+        Bitmap[] buttonPictures = new Bitmap[images.size()];
+
+        for(int i = 0; i < images.size(); i++){
+            buttonPictures[i] = getFromAssets(images.get(i));
+        }*/
+
         Integer[] buttonPictures = {
                 R.drawable.example_picture,
                 R.drawable.example_picture,
@@ -63,7 +83,9 @@ public class Achievements extends AppCompatActivity {
                 R.drawable.example_picture,
                 R.drawable.example_picture
         };
+
         gridview.setAdapter(new ButtonAdapter(this, buttonPictures));
+
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 TextView achievementText = (TextView)findViewById(R.id.achievement_description);
@@ -106,6 +128,28 @@ public class Achievements extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Returns a bitmap of the image with the given name found in the assets folder
+     * @param imgName the name of the image you want
+     * @return the
+     *
+     * modified Myanna's code from LessonSteps
+     */
+   /* private Bitmap getFromAssets(String imgName)
+    {
+        AssetManager assetManager = getAssets();
+        InputStream in = null;
+
+        try {
+            in = assetManager.open("achievement_pics/" + imgName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Bitmap bitmap = BitmapFactory.decodeStream(in);
+        return bitmap;
+    }*/
 
     /*
      * hides bottom navigation bar

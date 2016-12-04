@@ -75,6 +75,15 @@ public class Success extends AppCompatActivity {
 
         dbHelper.lessonCompleted(lessonID);
 
+        //Achievement for the first lesson completion
+        if(!dbHelper.achievementExists(8)){
+            //gives an achievement if they change their username for the first time
+            Intent achievement = new Intent(getApplicationContext(), AchievementPopUp.class);
+            achievement.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            achievement.putExtra("achievementID", 8);
+            startActivity(achievement);
+        }
+
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
