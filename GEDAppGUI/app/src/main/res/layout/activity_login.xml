@@ -53,7 +53,8 @@
         android:imeOptions="actionDone"
         android:maxLines="1"
         android:inputType="text"
-        android:textColor="@color/colorBodyText"/>
+        android:textColor="@color/colorBodyText"
+        android:maxLength="10"/>
 
     <Button
         android:layout_width="200dp"
