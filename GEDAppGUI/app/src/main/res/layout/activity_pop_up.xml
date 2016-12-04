@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/achievement_name"
         android:textStyle="normal|bold"
-        android:textSize="36sp"
+        android:textSize="32sp"
         android:layout_centerHorizontal="true"
         android:textAlignment="center" />
 

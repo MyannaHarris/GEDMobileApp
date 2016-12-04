@@ -19,8 +19,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.gedappgui.gedappgui.MainActivity">
 
@@ -45,7 +45,7 @@
         <ImageView
             android:layout_width="0dp"
             android:layout_height="250dp"
-            grid:layout_columnWeight="3"
+            grid:layout_columnWeight="4"
             grid:layout_gravity="fill_horizontal"
 
             android:gravity="center"
@@ -59,7 +59,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="200dp"
-            grid:layout_columnWeight="2"
+            grid:layout_columnWeight="3"
             grid:layout_gravity="fill_horizontal"
 
             android:scaleType="center"
