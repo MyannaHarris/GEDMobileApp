@@ -803,9 +803,9 @@ public class DatabaseHelper{
 
     void giveAccessory(int id) {
         open();
-        String insertQuery = "INSERT INTO user_accessories(user_id, accesssory_id, currently_wearing) VALUES(1,"+id+",0)";
+        String insertQuery = "INSERT INTO user_accessories(user_id, accessory_id, currently_wearing) VALUES(1,"+id+",0)";
         System.out.println(insertQuery);
-        //myDatabase.execSQL(insertQuery);
+        myDatabase.execSQL(insertQuery);
         close();
     }
 
