@@ -63,7 +63,7 @@ public class AchievementPopUp extends AppCompatActivity {
             getWindow().setLayout((int) (width * .5), (int) (height * .3));
 
             //adds the correct text data to the UI
-            setUpPopUp(desc, img, name);
+            setUpPopUp(desc, img, name, width);
         }
         //the achievement has already been earned
         else {
@@ -77,10 +77,11 @@ public class AchievementPopUp extends AppCompatActivity {
      * @param img the image name string of the achievement
      * @param name the name string of the achievement
      */
-    private void setUpPopUp(String desc, String img, String name){
+    private void setUpPopUp(String desc, String img, String name, int width){
 
         TextView description = (TextView) findViewById(R.id.achievement_desc);
         description.setText(desc);
+        description.setTextSize((width)/25);
 
         TextView a_name = (TextView) findViewById(R.id.achievement_name);
         a_name.setText(name);
