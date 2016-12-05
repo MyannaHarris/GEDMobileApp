@@ -61,7 +61,7 @@ public class AchievementPopUp extends AppCompatActivity {
             getWindowManager().getDefaultDisplay().getMetrics(dm);
             int width = dm.widthPixels;
             int height = dm.heightPixels;
-            getWindow().setLayout((int) (width * .5), (int) (height * .3));
+            getWindow().setLayout((int) (width * .8), (int) (height * .3));
 
             //adds the correct text data to the UI
             setUpPopUp(desc, img, name);
@@ -83,11 +83,12 @@ public class AchievementPopUp extends AppCompatActivity {
         TextView description = (TextView) findViewById(R.id.achievement_desc);
         description.setText(desc);
         //description.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(20));
-        description.setTextSize(TypedValue.COMPLEX_UNIT_SP, (float)(20));
+        description.setTextSize(TypedValue.COMPLEX_UNIT_SP, (float)(40));
 
         TextView a_name = (TextView) findViewById(R.id.achievement_name);
         a_name.setText(name);
-        a_name.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(40));
+        //a_name.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(40));
+        a_name.setTextSize(TypedValue.COMPLEX_UNIT_SP, (float)(60));
 
         // get correct image from database
         Bitmap achievementImg = getFromAssets(img);
