@@ -55,7 +55,6 @@ public class Success extends AppCompatActivity {
         lessonID = mIntent.getIntExtra("lessonID", 0);
 
         ArrayList<Integer> accessories = new ArrayList<>();
-        ArrayList<Integer> accessoryIDs = new ArrayList<>();
 
         dbHelper = new DatabaseHelper(this);
 
@@ -63,14 +62,14 @@ public class Success extends AppCompatActivity {
             TextView pickText = (TextView) findViewById(R.id.accessory_choice);
             pickText.setText("Pick your sprite accessory:");
             //will be replaced by dbHelper call
+            accessories.add(18);
             accessories.add(R.drawable.sprite_nerdglasses);
+            accessories.add(23);
             accessories.add(R.drawable.sprite_shirt_long);
+            accessories.add(19);
             accessories.add(R.drawable.sprite_partyhat);
 
             //will be replaced by dbHelper call
-            accessoryIDs.add(18);
-            accessoryIDs.add(23);
-            accessoryIDs.add(19);
         }
 
         dbHelper.lessonCompleted(lessonID);
@@ -90,7 +89,7 @@ public class Success extends AppCompatActivity {
         gridlayout = (GridLayout) findViewById(R.id.accessory_options);
 
         //put things in the gridlayout
-        setAccessoryInfo(accessories, accessoryIDs);
+        setAccessoryInfo(accessories);
     }
 
     /*
@@ -212,11 +211,11 @@ public class Success extends AppCompatActivity {
         Intent intent = new Intent(this, Sprite.class);
         startActivity(intent);
     }
-    public void setAccessoryInfo(ArrayList<Integer> accessories, ArrayList<Integer> accessoryIDs) {
+    public void setAccessoryInfo(ArrayList<Integer> accessories) {
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int maxWidth = metrics.widthPixels/3;
-        int length = accessories.size();
+        int length = accessories.size()/2;
 
         GridLayout.Spec thisRow = GridLayout.spec(0, 1);
 
@@ -224,7 +223,7 @@ public class Success extends AppCompatActivity {
             GridLayout.Spec col = GridLayout.spec(i,1);
             GridLayout.LayoutParams gridLayoutParam0 = new GridLayout.LayoutParams(thisRow, col);
             gridLayoutParam0.setGravity(Gravity.FILL_HORIZONTAL|Gravity.CENTER_VERTICAL);
-            ImageView img = createAccessoryImage(accessories.get(i), accessoryIDs.get(i), maxWidth);
+            ImageView img = createAccessoryImage(accessories.get(i*2+1), accessories.get(i*2), maxWidth);
             gridlayout.addView(img,gridLayoutParam0);
         }
 
