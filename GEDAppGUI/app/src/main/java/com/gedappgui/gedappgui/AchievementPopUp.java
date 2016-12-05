@@ -82,7 +82,8 @@ public class AchievementPopUp extends AppCompatActivity {
 
         TextView description = (TextView) findViewById(R.id.achievement_desc);
         description.setText(desc);
-        description.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(20));
+        //description.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(20));
+        description.setTextSize(TypedValue.COMPLEX_UNIT_SP, (float)(20));
 
         TextView a_name = (TextView) findViewById(R.id.achievement_name);
         a_name.setText(name);
