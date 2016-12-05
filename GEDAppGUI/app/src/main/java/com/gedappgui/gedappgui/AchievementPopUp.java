@@ -27,6 +27,7 @@ import android.util.DisplayMetrics;
 import android.content.Intent;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.util.TypedValue;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,7 +64,7 @@ public class AchievementPopUp extends AppCompatActivity {
             getWindow().setLayout((int) (width * .5), (int) (height * .3));
 
             //adds the correct text data to the UI
-            setUpPopUp(desc, img, name, (int)(width*.5), (int)(height*.5));
+            setUpPopUp(desc, img, name);
         }
         //the achievement has already been earned
         else {
@@ -77,15 +78,15 @@ public class AchievementPopUp extends AppCompatActivity {
      * @param img the image name string of the achievement
      * @param name the name string of the achievement
      */
-    private void setUpPopUp(String desc, String img, String name, int width, int height){
+    private void setUpPopUp(String desc, String img, String name){
 
         TextView description = (TextView) findViewById(R.id.achievement_desc);
         description.setText(desc);
-        description.setTextSize((width)/15);
+        description.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(20));
 
         TextView a_name = (TextView) findViewById(R.id.achievement_name);
         a_name.setText(name);
-        a_name.setTextSize((width)/10);
+        a_name.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(40));
 
         // get correct image from database
         Bitmap achievementImg = getFromAssets(img);
