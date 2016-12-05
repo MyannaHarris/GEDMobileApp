@@ -81,10 +81,11 @@ public class AchievementPopUp extends AppCompatActivity {
 
         TextView description = (TextView) findViewById(R.id.achievement_desc);
         description.setText(desc);
-        description.setTextSize((width)/10);
+        description.setTextSize((width)/15);
 
         TextView a_name = (TextView) findViewById(R.id.achievement_name);
         a_name.setText(name);
+        a_name.setTextSize((width)/10);
 
         // get correct image from database
         Bitmap achievementImg = getFromAssets(img);

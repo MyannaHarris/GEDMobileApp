@@ -32,7 +32,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/achievement_name"
         android:textStyle="normal|bold"
-        android:textSize="32sp"
         android:layout_centerHorizontal="true"
         android:textAlignment="center" />
 
@@ -49,7 +48,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/achievement_desc"
-        android:textSize="25sp"
         android:layout_below="@id/achievement_badge"
         android:layout_centerHorizontal="true"
         android:paddingBottom="10dp"
