@@ -95,7 +95,7 @@ public class AchievementPopUp extends AppCompatActivity {
         //a_name.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(40));
         a_name.setTextSize(TypedValue.COMPLEX_UNIT_SP, (float)((width)/30));
 
-        Button button = (Button) findViewById(R.id.button);
+        Button button = (Button) findViewById(R.id.close_button);
         button.setTextSize(TypedValue.COMPLEX_UNIT_SP, (float)((width)/45));
 
         // get correct image from database
