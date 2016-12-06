@@ -27,6 +27,7 @@ import android.util.DisplayMetrics;
 import android.content.Intent;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Button;
 import android.util.TypedValue;
 
 import java.io.IOException;
@@ -61,10 +62,14 @@ public class AchievementPopUp extends AppCompatActivity {
             getWindowManager().getDefaultDisplay().getMetrics(dm);
             int width = dm.widthPixels;
             int height = dm.heightPixels;
-            getWindow().setLayout((int) (width * .8), (int) (height * .3));
+
+            int popup_height = (int) (height * .3);
+            int popup_width = (int) (width * .8);
+
+            getWindow().setLayout(popup_width, popup_height);
 
             //adds the correct text data to the UI
-            setUpPopUp(desc, img, name);
+            setUpPopUp(desc, img, name, popup_width, popup_height);
         }
         //the achievement has already been earned
         else {
@@ -78,17 +83,20 @@ public class AchievementPopUp extends AppCompatActivity {
      * @param img the image name string of the achievement
      * @param name the name string of the achievement
      */
-    private void setUpPopUp(String desc, String img, String name){
+    private void setUpPopUp(String desc, String img, String name, int width, int height){
 
         TextView description = (TextView) findViewById(R.id.achievement_desc);
         description.setText(desc);
         //description.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(20));
-        description.setTextSize(TypedValue.COMPLEX_UNIT_SP, (float)(40));
+        description.setTextSize(TypedValue.COMPLEX_UNIT_SP, (float)((width)/45));
 
         TextView a_name = (TextView) findViewById(R.id.achievement_name);
         a_name.setText(name);
         //a_name.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(40));
-        a_name.setTextSize(TypedValue.COMPLEX_UNIT_SP, (float)(60));
+        a_name.setTextSize(TypedValue.COMPLEX_UNIT_SP, (float)((width)/30));
+
+        Button button = (Button) findViewById(R.id.button);
+        button.setTextSize(TypedValue.COMPLEX_UNIT_SP, (float)((width)/45));
 
         // get correct image from database
         Bitmap achievementImg = getFromAssets(img);

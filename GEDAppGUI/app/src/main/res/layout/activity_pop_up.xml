@@ -58,11 +58,10 @@
         android:text="CLOSE"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/button"
+        android:id="@+id/close_button"
         android:layout_below="@id/achievement_desc"
         android:layout_centerHorizontal="true"
-        android:textSize="15sp"
-        android:onClick="exitPopUp"
+        android:onClick="exitPopUp (AchievementPopUp)"
         android:background="@color/colorBackgroundDark" />
 
 </RelativeLayout>
