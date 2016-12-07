@@ -76,7 +76,7 @@ public class Success extends AppCompatActivity {
 
         //Achievement for the first lesson completion
         if(!dbHelper.achievementExists(8)){
-            //gives an achievement if they change their username for the first time
+            //gives an achievement if they complete a lesson for the first time
             Intent achievement = new Intent(getApplicationContext(), AchievementPopUp.class);
             achievement.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             achievement.putExtra("achievementID", 8);
@@ -194,10 +194,12 @@ public class Success extends AppCompatActivity {
      * Opens next lessons summary page
      */
     public void goToNextLesson(View view) {
+        final String lessonTitle = dbHelper.selectLessonTitle(lessonID+1);
         giveUserItem();
         Intent intent = new Intent(this, LessonSummary.class);
         intent.putExtra("conceptID",conceptID);
         intent.putExtra("lessonID",lessonID+1);
+        intent.putExtra("lessonTitle", lessonTitle);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
