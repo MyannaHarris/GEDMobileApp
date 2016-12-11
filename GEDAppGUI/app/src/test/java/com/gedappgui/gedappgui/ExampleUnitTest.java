@@ -1,11 +1,9 @@
 package com.gedappgui.gedappgui;
 
-import android.accounts.AccountManager;
 import android.app.Activity;
-import android.app.Instrumentation;
+import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
-import android.test.ActivityInstrumentationTestCase2;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.View;
 
 import org.junit.Before;
@@ -14,10 +12,11 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * To work on unit tests, switch the Test Artifact in the Build Variants view.
@@ -57,6 +56,27 @@ public class ExampleUnitTest {
 
     @Mock
     View view;
+
+    @Mock
+    Application testApp;
+
+    @Mock
+    SQLiteDatabase database;
+
+    File file;
+
+    @Before
+    public void init() {
+        mainActivity = org.mockito.Mockito.mock(MainActivity.class);
+        String path = "/data/data/com.gedappgui.gedappgui/files";
+        testApp = new Application();
+
+        when(mainActivity.getApplication()).thenReturn(testApp);
+        //when(testApp.getFilesDir()).thenReturn(new File(path));
+
+        file = new File(((Activity) this.mainActivity).getApplication().getFilesDir(),
+                "GEDPrep.db");
+    }
 
     @Test
     public void username_isCorrect() throws Exception {
@@ -105,6 +125,16 @@ public class ExampleUnitTest {
     }
 
     @Test
+    public void testHandleIntent_HomeToContinueLesson_works() throws InterruptedException {
+        try {
+            mainActivity.gotToContinueLesson(view);
+            TimeUnit.SECONDS.sleep(10);
+        } catch (InterruptedException e) {
+            fail("Waiting for the worker thread took too long.");
+        }
+    }*/
+
+    @Test
     public void testHandleIntent_HomeToAchievements_works() throws InterruptedException {
         try {
             mainActivity.gotToAchievements(view);
@@ -125,19 +155,29 @@ public class ExampleUnitTest {
     }
 
     @Test
-    public void testHandleIntent_HomeToContinueLesson_works() throws InterruptedException {
-        try {
-            mainActivity.gotToContinueLesson(view);
-            TimeUnit.SECONDS.sleep(10);
-        } catch (InterruptedException e) {
-            fail("Waiting for the worker thread took too long.");
-        }
-    }*/
+    public void testDatabaseDoesNotExist() {
+        DatabaseHelper db = new DatabaseHelper(database, file);
+
+        assertFalse(db.checkDatabase());
+    }
 
     @Test
-    public void testDatabaseExists() throws InterruptedException {
-        DatabaseHelper db = new DatabaseHelper(mMockActivity);
+    public void testDatabaseExists() {
+        database = SQLiteDatabase.openDatabase(
+                file.getPath(), null, SQLiteDatabase.CREATE_IF_NECESSARY);
+
+        DatabaseHelper db = new DatabaseHelper(database, file);
 
         assertTrue(db.checkDatabase());
+    }
+
+    @Test
+    public void testDatabaseHasAchievementWithID_1() {
+        database = SQLiteDatabase.openDatabase(
+                file.getPath(), null, SQLiteDatabase.CREATE_IF_NECESSARY);
+
+        DatabaseHelper db = new DatabaseHelper(database, file);
+
+        assertTrue(db.achievementExists(1));
     }
 }

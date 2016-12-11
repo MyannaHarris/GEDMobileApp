@@ -79,6 +79,16 @@ public class DatabaseHelper{
         }
     }
 
+    /**
+     * Test Constructor
+     *
+     * Takes and ksaves a reference to a database
+     */
+    public DatabaseHelper(SQLiteDatabase testDB, File testFile){
+        this.myDatabase = testDB;
+        this.file = testFile;
+    }
+
     /* Checks if external storage is available write
     public boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
@@ -113,6 +123,7 @@ public class DatabaseHelper{
             // with our database.
             db_Read = SQLiteDatabase.openDatabase(
                     file.getPath(), null, SQLiteDatabase.CREATE_IF_NECESSARY);
+
             db_Read.close();
 
             try {
