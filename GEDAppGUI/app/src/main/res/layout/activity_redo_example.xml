@@ -11,60 +11,71 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.gedappgui.gedappgui.RedoExample">
 
-    <TextView
-        android:text="Redo 1"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/redo1"
-        android:textSize="30sp"
-        android:textColor="@color/colorHeader1"/>
+        android:layout_height="match_parent">
 
-    <TextView
-        android:text="redo1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/redo1_text"
-        android:textSize="20sp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-    <TextView
-        android:text="Redo 2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/redo2"
-        android:textSize="30sp"
-        android:textColor="@color/colorHeader1"/>
+            <TextView
+                android:text="Redo 1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/redo1"
+                android:textSize="30sp"
+                android:textColor="@color/colorHeader1"/>
 
-    <TextView
-        android:text="redo2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/redo2_text"
-        android:textSize="20sp"/>
+            <TextView
+                android:text="redo1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/redo1_text"
+                android:textSize="20sp"/>
 
-    <TextView
-        android:text="Redo 3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/redo3"
-        android:textSize="30sp"
-        android:textColor="@color/colorHeader1"/>
+            <TextView
+                android:text="Redo 2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/redo2"
+                android:textSize="30sp"
+                android:textColor="@color/colorHeader1"/>
 
-    <TextView
-        android:text="redo3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/redo3_text"
-        android:textSize="20sp"/>
+            <TextView
+                android:text="redo2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/redo2_text"
+                android:textSize="20sp"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/redoLessonGame"
-        android:layout_alignParentLeft="true"
-        android:layout_marginRight="@dimen/button_horiz_margin"
-        android:layout_marginBottom="@dimen/button_vert_margin"
-        android:layout_marginTop="@dimen/button_vert_margin"
-        android:text="@string/lessonGameButton"
-        android:onClick="gotToLessonGame" />
+            <TextView
+                android:text="Redo 3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/redo3"
+                android:textSize="30sp"
+                android:textColor="@color/colorHeader1"/>
+
+            <TextView
+                android:text="redo3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/redo3_text"
+                android:textSize="20sp"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/redoLessonGame"
+                android:layout_alignParentLeft="true"
+                android:layout_marginRight="@dimen/button_horiz_margin"
+                android:layout_marginBottom="@dimen/button_vert_margin"
+                android:layout_marginTop="@dimen/button_vert_margin"
+                android:text="@string/lessonGameButton"
+                android:onClick="gotToLessonGame" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
