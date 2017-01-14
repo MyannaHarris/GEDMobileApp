@@ -82,6 +82,8 @@ public class FractionToDecimalTool extends AppCompatActivity {
         TextView decimal_answer = (TextView)findViewById(R.id.DecimalAnswer);
         decimal_answer.setText(evaluateDecimal(decimal));
 
+        onResume();
+
 
     }
 

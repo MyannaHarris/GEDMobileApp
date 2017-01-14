@@ -36,24 +36,24 @@ Last Edit: 10-29-16
         android:onClick="goTofracdectool"/>
 
     <Button
-        android:id="@+id/Tool1"
+        android:id="@+id/slopeCalculator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/toolSample"
-        android:onClick="gotToToolSample"
+        android:text="Slope Calculator"
+        android:onClick="goToSlopeCalculator"
         android:layout_below="@+id/fracdectool"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <Button
-        android:id="@+id/Tool2"
+        android:id="@+id/CoordinatePlane"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/toolSample"
-        android:layout_below="@id/Tool1"
+        android:text="Coordinate Plane"
+        android:layout_below="@id/slopeCalculator"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:onClick="gotToToolSample" />
+        android:onClick="goToCoordinatePlane" />
 
 
 

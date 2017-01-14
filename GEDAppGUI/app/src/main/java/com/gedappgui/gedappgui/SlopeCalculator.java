@@ -1,20 +1,19 @@
 /*
- * Tools.java
- *
- * Tools page activity
- *
- * View from which students can select a study tool to look at
- *
- * Worked on by:
- * Myanna Harris
- * Kristina Spring
- * Jasmine Jans
- * Jimmy Sherman
- *
- * Last Edit: 10-26-16
- *
- */
-
+        * SlopeCalculator.java
+        *
+        * Slope Calculator tool activity
+        *
+        * View that will host the Slope Calculator tool
+        *
+        * Worked on by:
+        * Myanna Harris
+        * Kristina Spring
+        * Jasmine Jans
+        * Jimmy Sherman
+        *
+        * Last Edit: 1-12-17
+        *
+        */
 package com.gedappgui.gedappgui;
 
 import android.content.Intent;
@@ -22,26 +21,85 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.TextView;
 
-public class Tools extends AppCompatActivity {
+public class SlopeCalculator extends AppCompatActivity {
 
-    /*
-     * Starts the activity and shows corresponding view on screen
-     */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tools);
+        setContentView(R.layout.activity_slope_calculator);
 
         // Allow homeAsUpIndicator (back arrow) to desplay on action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+    }
+
+    /*
+     * Listener for the Find slope button
+     * Makes a string that shows the steps to find the slope if valid inputs are made
+     * If not, throws an error string and exits.
+     */
+    public void MakeString (View view){
+        String steps = new String();
+        TextView stepbystep = (TextView)findViewById(R.id.stepbystep);
+
+        EditText x1_text = (EditText)findViewById(R.id.x1_input);
+        EditText x2_text = (EditText)findViewById(R.id.x2_input);
+        EditText y1_text = (EditText)findViewById(R.id.y1_input);
+        EditText y2_text = (EditText)findViewById(R.id.y2_input);
+
+        //Check to see if the hint is still in the input
+        if (TextUtils.isEmpty(x1_text.getText()) || TextUtils.isEmpty(x2_text.getText())
+                || TextUtils.isEmpty(y1_text.getText()) || TextUtils.isEmpty(y2_text.getText())){
+            stepbystep.setText("Invalid input, all inputs must have a number in them");
+            return;
+        }
+
+        //convert text values to float values to be calculated
+        float x1 = Float.parseFloat(x1_text.getText().toString());
+        float x2 = Float.parseFloat(x2_text.getText().toString());
+        float y1 = Float.parseFloat(y1_text.getText().toString());
+        float y2 = Float.parseFloat(y2_text.getText().toString());
+        if (y1 - y2 == 0.0){
+            steps = "Slope is undefined";
+            return;
+        }
+        float slope = ((y2 - y1) / (x2 - x1));
+        steps = "The slope of the line is: \n \n m = " + slope + " \n \n The first step is to " +
+                "remember our slope formula as: \n \n m = (y2 - y1) / (x2 - x1). \n \n The next step is " +
+                "to substitute each variable with our ordered pairs. Lets do this one at a time: " +
+                "\n \n y2 = " + y2 + " which goes into our formula as the y2 variable: \n \n" +
+                " m = (" + y2 + " - y1) / (x2 - x1). \n \n  Now we plug in the value for y1 which is " +
+                y1 + ": \n \n  m = (" + y2 + " - "+ y1 + ") / (x2 - x1). \n \n Now we can put the remaining " +
+                "two variables in, x1 and x2, which are: " + x1 + "and" + x2 + ": \n \n" +
+                "  m = (" + y2 + " - "+ y1 + ") / (" + x2 + " - " + x1 + "). \n \n Now we simplify, " +
+                "subtracting above and below the divide sign: " + (y2 - y1) + " / " + (x2 - x1) + "\n \n" +
+                "And now we divide to give us our answer: \n \n m = " + slope + "\n";
+        stepbystep.setText(steps);
+        onResume();
+    }
+
+    /*
+     * Listener for the Reset button
+     * Sets the current stepbystep text to null
+     */
+    public void ResetText(View view){
+        TextView stepbystep = (TextView)findViewById(R.id.stepbystep);
+        stepbystep.setText(null);
+        onResume();
     }
 
     /*
@@ -82,42 +140,6 @@ public class Tools extends AppCompatActivity {
     }
 
     /*
-     * Called by a tool being selected
-     * Opens tool page
-     */
-    public void gotToToolSample(View view) {
-        Intent intent = new Intent(this, ToolSample.class);
-        startActivity(intent);
-    }
-
-    /*
-     * Called by a tool being selected
-     * Opens fraction to decimal tool
-     */
-    public void goTofracdectool(View view) {
-        Intent intent = new Intent(this, FractionToDecimalTool.class);
-        startActivity(intent);
-    }
-
-    /*
-     * Called by a tool being selected
-     * Opens fraction to decimal tool
-     */
-    public void goToCoordinatePlane(View view) {
-        Intent intent = new Intent(this, CoordinatePlane.class);
-        startActivity(intent);
-    }
-
-    /*
-     * Called by a tool being selected
-     * Opens fraction to decimal tool
-     */
-    public void goToSlopeCalculator(View view) {
-        Intent intent = new Intent(this, SlopeCalculator.class);
-        startActivity(intent);
-    }
-
-    /*
      * Sets what menu will be in the action bar
      * homeonlymenu has the settings button and the home button
      */
@@ -140,9 +162,7 @@ public class Tools extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                Intent intentHomeTools = new Intent(this, MainActivity.class);
-                intentHomeTools.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intentHomeTools);
+                finish();
                 return true;
             // action with ID action_refresh was selected
             case R.id.action_home:

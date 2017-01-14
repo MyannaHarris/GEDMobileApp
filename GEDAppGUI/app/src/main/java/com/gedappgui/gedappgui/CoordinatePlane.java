@@ -1,20 +1,19 @@
 /*
- * Tools.java
- *
- * Tools page activity
- *
- * View from which students can select a study tool to look at
- *
- * Worked on by:
- * Myanna Harris
- * Kristina Spring
- * Jasmine Jans
- * Jimmy Sherman
- *
- * Last Edit: 10-26-16
- *
- */
-
+        * CoordinatePlane.java
+        *
+        * Coodinate plane tool activity
+        *
+        * View that will host the Coordinate Plane tool
+        *
+        * Worked on by:
+        * Myanna Harris
+        * Kristina Spring
+        * Jasmine Jans
+        * Jimmy Sherman
+        *
+        * Last Edit: 1-12-17
+        *
+        */
 package com.gedappgui.gedappgui;
 
 import android.content.Intent;
@@ -22,20 +21,22 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.TextView;
 
-public class Tools extends AppCompatActivity {
 
-    /*
-     * Starts the activity and shows corresponding view on screen
-     */
+public class CoordinatePlane extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tools);
+        setContentView(R.layout.activity_coordinate_plane);
 
         // Allow homeAsUpIndicator (back arrow) to desplay on action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -82,42 +83,6 @@ public class Tools extends AppCompatActivity {
     }
 
     /*
-     * Called by a tool being selected
-     * Opens tool page
-     */
-    public void gotToToolSample(View view) {
-        Intent intent = new Intent(this, ToolSample.class);
-        startActivity(intent);
-    }
-
-    /*
-     * Called by a tool being selected
-     * Opens fraction to decimal tool
-     */
-    public void goTofracdectool(View view) {
-        Intent intent = new Intent(this, FractionToDecimalTool.class);
-        startActivity(intent);
-    }
-
-    /*
-     * Called by a tool being selected
-     * Opens fraction to decimal tool
-     */
-    public void goToCoordinatePlane(View view) {
-        Intent intent = new Intent(this, CoordinatePlane.class);
-        startActivity(intent);
-    }
-
-    /*
-     * Called by a tool being selected
-     * Opens fraction to decimal tool
-     */
-    public void goToSlopeCalculator(View view) {
-        Intent intent = new Intent(this, SlopeCalculator.class);
-        startActivity(intent);
-    }
-
-    /*
      * Sets what menu will be in the action bar
      * homeonlymenu has the settings button and the home button
      */
@@ -140,9 +105,7 @@ public class Tools extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                Intent intentHomeTools = new Intent(this, MainActivity.class);
-                intentHomeTools.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intentHomeTools);
+                finish();
                 return true;
             // action with ID action_refresh was selected
             case R.id.action_home:
