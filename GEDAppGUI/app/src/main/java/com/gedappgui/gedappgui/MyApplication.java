@@ -178,6 +178,9 @@ public class MyApplication extends Application {
         pendingIntent = PendingIntent.getBroadcast(
                 getApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        Calendar today = Calendar.getInstance();
+
+
         Calendar alarm = Calendar.getInstance();
 
         /*alarm.set(Calendar.DAY_OF_MONTH,alarm.get(Calendar.DAY_OF_MONTH));
@@ -185,6 +188,7 @@ public class MyApplication extends Application {
         // 24 hour clock
         alarm.set(Calendar.HOUR_OF_DAY,alarm.get(Calendar.HOUR_OF_DAY));
         alarm.set(Calendar.MINUTE,alarm.get(Calendar.MINUTE));*/
+        alarm.setTime(today.getTime());
         alarm.add(Calendar.DATE, 1);
 
         alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
