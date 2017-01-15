@@ -95,4 +95,12 @@
 
     <string name="title_activity_frac_to_dec_tool">fracToDecTool</string>
 
+    <!-- Sprite Page Combo Box -->
+    <string-array name="accessories_array">
+        <item>Glasses</item>
+        <item>Shirts</item>
+        <item>Hats</item>
+        <item>Specials</item>
+    </string-array>
+
 </resources>

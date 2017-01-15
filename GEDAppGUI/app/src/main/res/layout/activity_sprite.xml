@@ -37,6 +37,37 @@
         android:layout_centerHorizontal="true" />
 
     <Button
+        android:text="Save Photo"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sprite_spriteScreen"
+        android:layout_alignLeft="@id/sprite_spriteScreen"
+        android:layout_alignStart="@id/sprite_spriteScreen"
+        android:id="@+id/sprite_savePhoto"
+        android:layout_width="125dp"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:onClick="savePhoto"/>
+
+    <Button
+        android:text="Done"
+        android:layout_height="wrap_content"
+        android:id="@+id/sprite_done"
+        android:layout_width="125dp"
+        android:layout_below="@id/sprite_spriteScreen"
+        android:layout_toRightOf="@id/sprite_savePhoto"
+        android:layout_toEndOf="@id/sprite_savePhoto"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:onClick="done"/>
+
+    <Spinner
+        android:id="@+id/accessories_spinner"
+        android:layout_below="@id/sprite_savePhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:foregroundTint="@color/colorBodyText"
+        android:backgroundTint="@color/colorMenuBackground"/>
+
+    <!--<Button
         android:text="Glasses"
         android:layout_height="wrap_content"
         android:layout_below="@id/sprite_spriteScreen"
@@ -79,14 +110,14 @@
         android:layout_toRightOf="@id/sprite_special"
         android:layout_toEndOf="@id/sprite_special"
         style="@style/Base.Widget.AppCompat.Button.Borderless"
-        android:onClick="showHats" />
+        android:onClick="showHats" />-->
 
     <GridView
         android:id="@+id/sprite_gridView"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/sprite_hats"
+        android:layout_below="@id/accessories_spinner"
         android:numColumns="3"
         android:gravity="center"
         android:verticalSpacing="10dp"

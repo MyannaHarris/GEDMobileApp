@@ -18,23 +18,36 @@
 
 package com.gedappgui.gedappgui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Spinner;
 
-public class Sprite extends AppCompatActivity {
+import java.io.File;
+import java.io.FileOutputStream;
+
+public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     // Accessories gridview
     GridView gridview;
@@ -173,6 +186,21 @@ public class Sprite extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
+
+        // Stop spinner from bringing top bar down
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        Spinner spinner = (Spinner) findViewById(R.id.accessories_spinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.accessories_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
+        spinner.setSelection(0);
     }
 
     /* 
@@ -638,5 +666,76 @@ public class Sprite extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    /*
+     * Called from save photo button
+     * Saves copy of dragon and accessories to camera roll
+     */
+    public void savePhoto(View view) {
+
+        spriteImage.buildDrawingCache();
+        Bitmap bm = spriteImage.getDrawingCache();
+
+        int width = spriteDrawable.getIntrinsicWidth();
+        int height = spriteDrawable.getIntrinsicHeight();
+        Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        spriteDrawable.draw(new Canvas(b));
+
+        //values.put(MediaStore.Images.Media.DATE_MODIFIED, System.currentTimeMillis()/1000);
+
+        MediaStore.Images.Media.insertImage(getContentResolver(), b, "Dragon" , "Dragon");
+
+        // 1. Instantiate an AlertDialog.Builder with its constructor
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // 2. Chain together various setter methods to set the dialog characteristics
+        builder.setMessage("The picture was saved!")
+                .setTitle("Success!");
+
+        // Add the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked OK button
+            }
+        });
+
+        // 3. Get the AlertDialog from create()
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    /*
+     * Called from done button
+     * Saves changes to dragon
+     */
+    public void done(View view) {
+
+        Intent intentHome = new Intent(this, MainActivity.class);
+        intentHome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intentHome);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        switch (position) {
+            case 0:
+                showGlasses(view);
+                break;
+            case 1:
+                showShirts(view);
+                break;
+            case 2:
+                showHats(view);
+                break;
+            case 3:
+                showSpecial(view);
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        parent.setSelection(0);
     }
 }
