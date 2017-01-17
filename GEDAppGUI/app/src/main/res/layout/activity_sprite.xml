@@ -38,6 +38,7 @@
 
     <Button
         android:text="Save Photo"
+        android:layout_marginTop="10dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/sprite_spriteScreen"
         android:layout_alignLeft="@id/sprite_spriteScreen"
@@ -49,6 +50,7 @@
 
     <Button
         android:text="Done"
+        android:layout_marginTop="10dp"
         android:layout_height="wrap_content"
         android:id="@+id/sprite_done"
         android:layout_width="125dp"
@@ -60,6 +62,7 @@
 
     <Spinner
         android:id="@+id/accessories_spinner"
+        android:layout_marginTop="10dp"
         android:layout_below="@id/sprite_savePhoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -112,12 +115,30 @@
         style="@style/Base.Widget.AppCompat.Button.Borderless"
         android:onClick="showHats" />-->
 
-    <GridView
+    <HorizontalScrollView
+        android:id="@+id/horizontal_scroll_sprite"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="255dp"
+        android:layout_below="@id/accessories_spinner"
+        android:gravity="center" >
+
+       <LinearLayout
+            android:id="@+id/linear_sprite"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal" >
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+    <!--<GridView
         android:id="@+id/sprite_gridView"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/accessories_spinner"
+        android:layout_below="@id/horizontal_scroll_sprite"
         android:numColumns="3"
         android:gravity="center"
         android:verticalSpacing="10dp"
@@ -125,6 +146,6 @@
         android:columnWidth="60dp"
         android:background="@color/colorMenuText">
 
-    </GridView>
+    </GridView>-->
 
 </RelativeLayout>

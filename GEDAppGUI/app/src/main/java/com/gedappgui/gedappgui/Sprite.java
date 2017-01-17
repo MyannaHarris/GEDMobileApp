@@ -21,6 +21,7 @@ package com.gedappgui.gedappgui;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -42,10 +43,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 
 public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -54,6 +57,11 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
     LayerDrawable spriteDrawable;
     ImageView spriteImage;
     DatabaseHelper dbHelper;
+    ArrayList<Integer> glasses;
+    ArrayList<Integer> shirts;
+    ArrayList<Integer> hats;
+    ArrayList<Integer> specials;
+    LinearLayout layout;
 
     /*
      * Starts the activity and shows corresponding view on screen
@@ -73,9 +81,37 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         spriteDrawable = ((MyApplication) this.getApplication()).getSpriteDrawable();
         spriteImage = (ImageView)findViewById(R.id.sprite_spriteScreen);
 
+        glasses = new ArrayList<Integer>();
+        glasses.add(R.drawable.sprite_glasses);
+        glasses.add(R.drawable.sprite_monocle);
+        glasses.add(R.drawable.sprite_nerdglasses);
+        glasses.add(R.drawable.sprite_roundglasses);
+        glasses.add(R.drawable.sprite_fancyglasses);
+        glasses.add(R.drawable.sprite_grannyglasses);
+
+        layout = (LinearLayout) findViewById(R.id.linear_sprite);
+        for (int i = 0; i < glasses.size(); i++) {
+            ImageView imageView = new ImageView(this);
+            imageView.setId(i);
+            imageView.setPadding(8, 8, 8, 8);
+            imageView.setLayoutParams(
+                    new GridView.LayoutParams(255, 255));
+            imageView.setImageBitmap(BitmapFactory.decodeResource(
+                    getResources(), glasses.get(i)));
+            imageView.setTag(glasses.get(i));
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            layout.addView(imageView);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    ImageView imageView = (ImageView) v;
+                    addAccessory((int)imageView.getTag(), R.id.accessory_glasses);
+                }
+            });
+        }
+
         // Fill gridview with sprite accessories
         // First show glasses
-        gridview = (GridView) this.findViewById(R.id.sprite_gridView);
+        /*gridview = (GridView) this.findViewById(R.id.sprite_gridView);
         Integer[] buttonPictures = {
                 R.drawable.sprite_glasses,
                 R.drawable.sprite_monocle,
@@ -164,7 +200,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                         break;
                 }
             }
-        });
+        });*/
     }
 
     /*
@@ -279,11 +315,51 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
     }
 
     /*
+     * Add accessory to sprite
+     */
+    public void addAccessory(int accessory, int layer) {
+        Drawable newItem;
+        Drawable blankItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
+                R.drawable.sprite_blank);
+        Drawable oldItem = spriteDrawable.findDrawableByLayerId(layer);
+
+        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this, accessory);
+        if (newItem.getConstantState().equals(oldItem.getConstantState())) {
+            spriteDrawable.setDrawableByLayerId(layer, blankItem);
+        } else {
+            spriteDrawable.setDrawableByLayerId(layer, newItem);
+        }
+        spriteImage.setImageDrawable(spriteDrawable);
+        spriteImage.invalidate();
+    }
+
+    /*
      * Called from glasses button
      * Shows glasses accessories
      */
     public void showGlasses(View view) {
-        Integer[] buttonPictures = {
+        layout.removeAllViews();
+
+        for (int i = 0; i < glasses.size(); i++) {
+            ImageView imageView = new ImageView(this);
+            imageView.setId(i);
+            imageView.setPadding(8, 8, 8, 8);
+            imageView.setLayoutParams(
+                    new GridView.LayoutParams(255, 255));
+            imageView.setImageBitmap(BitmapFactory.decodeResource(
+                    getResources(), glasses.get(i)));
+            imageView.setTag(glasses.get(i));
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            layout.addView(imageView);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    ImageView imageView = (ImageView) v;
+                    addAccessory((int)imageView.getTag(), R.id.accessory_glasses);
+                }
+            });
+        }
+
+        /*Integer[] buttonPictures = {
                 R.drawable.sprite_glasses,
                 R.drawable.sprite_monocle,
                 R.drawable.sprite_nerdglasses,
@@ -371,7 +447,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                         break;
                 }
             }
-        });
+        });*/
     }
 
     /*
@@ -379,7 +455,36 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
      * Shows shirt accessories
      */
     public void showShirts(View view) {
-        Integer[] buttonPictures = {
+        layout.removeAllViews();
+
+        shirts = new ArrayList<Integer>();
+        shirts.add(R.drawable.sprite_shirt_long);
+        shirts.add(R.drawable.sprite_shirt_long_green);
+        shirts.add(R.drawable.sprite_shirt_short);
+        shirts.add(R.drawable.sprite_shirt_short_red);
+        shirts.add(R.drawable.sprite_fancyshirt);
+        shirts.add(R.drawable.sprite_tropicalshirt);
+
+        for (int i = 0; i < shirts.size(); i++) {
+            ImageView imageView = new ImageView(this);
+            imageView.setId(i);
+            imageView.setPadding(8, 8, 8, 8);
+            imageView.setLayoutParams(
+                    new GridView.LayoutParams(255, 255));
+            imageView.setImageBitmap(BitmapFactory.decodeResource(
+                    getResources(), shirts.get(i)));
+            imageView.setTag(shirts.get(i));
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            layout.addView(imageView);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    ImageView imageView = (ImageView) v;
+                    addAccessory((int)imageView.getTag(), R.id.accessory_shirt);
+                }
+            });
+        }
+
+        /*Integer[] buttonPictures = {
                 R.drawable.sprite_shirt_long,
                 R.drawable.sprite_shirt_long_green,
                 R.drawable.sprite_shirt_short,
@@ -467,7 +572,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                         break;
                 }
             }
-        });
+        });*/
     }
 
     /*
@@ -475,7 +580,95 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
      * Shows bling accessories
      */
     public void showSpecial(View view) {
-        Integer[] buttonPictures = {
+        layout.removeAllViews();
+
+        ArrayList<Integer> handItems = new ArrayList<Integer>();
+        handItems.add(R.drawable.sprite_cane);
+        handItems.add(R.drawable.sprite_sword);
+
+        for (int i = 0; i < handItems.size(); i++) {
+            ImageView imageView = new ImageView(this);
+            imageView.setId(i);
+            imageView.setPadding(8, 8, 8, 8);
+            imageView.setLayoutParams(
+                    new GridView.LayoutParams(255, 255));
+            imageView.setImageBitmap(BitmapFactory.decodeResource(
+                    getResources(), handItems.get(i)));
+            imageView.setTag(handItems.get(i));
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            layout.addView(imageView);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    ImageView imageView = (ImageView) v;
+                    addAccessory((int)imageView.getTag(), R.id.accessory_handItem);
+                }
+            });
+        }
+
+        ArrayList<Integer> hatItems = new ArrayList<Integer>();
+        hatItems.add(R.drawable.sprite_partyhat);
+        hatItems.add(R.drawable.sprite_redribbonhat);
+
+        for (int i = 0; i < hatItems.size(); i++) {
+            ImageView imageView = new ImageView(this);
+            imageView.setId(i);
+            imageView.setPadding(8, 8, 8, 8);
+            imageView.setLayoutParams(
+                    new GridView.LayoutParams(255, 255));
+            imageView.setImageBitmap(BitmapFactory.decodeResource(
+                    getResources(), hatItems.get(i)));
+            imageView.setTag(hatItems.get(i));
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            layout.addView(imageView);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    ImageView imageView = (ImageView) v;
+                    addAccessory((int)imageView.getTag(), R.id.accessory_hat);
+                }
+            });
+        }
+
+        ArrayList<Integer> shirtItems = new ArrayList<Integer>();
+        shirtItems.add(R.drawable.sprite_armor);
+
+        ImageView imageViewShirt = new ImageView(this);
+        imageViewShirt.setId(0);
+        imageViewShirt.setPadding(8, 8, 8, 8);
+        imageViewShirt.setLayoutParams(
+                new GridView.LayoutParams(255, 255));
+        imageViewShirt.setImageBitmap(BitmapFactory.decodeResource(
+                getResources(), shirtItems.get(0)));
+        imageViewShirt.setTag(shirtItems.get(0));
+        imageViewShirt.setScaleType(ImageView.ScaleType.FIT_XY);
+        layout.addView(imageViewShirt);
+        imageViewShirt.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ImageView imageView = (ImageView) v;
+                addAccessory((int)imageView.getTag(), R.id.accessory_shirt);
+            }
+        });
+
+        ArrayList<Integer> wingItems = new ArrayList<Integer>();
+        wingItems.add(R.drawable.sprite_treasure);
+
+        ImageView imageViewWing = new ImageView(this);
+        imageViewWing.setId(0);
+        imageViewWing.setPadding(8, 8, 8, 8);
+        imageViewWing.setLayoutParams(
+                new GridView.LayoutParams(255, 255));
+        imageViewWing.setImageBitmap(BitmapFactory.decodeResource(
+                getResources(), wingItems.get(0)));
+        imageViewWing.setTag(wingItems.get(0));
+        imageViewWing.setScaleType(ImageView.ScaleType.FIT_XY);
+        layout.addView(imageViewWing);
+        imageViewWing.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ImageView imageView = (ImageView) v;
+                addAccessory((int)imageView.getTag(), R.id.accessory_wingItem);
+            }
+        });
+
+        /*Integer[] buttonPictures = {
                 R.drawable.sprite_cane,
                 R.drawable.sprite_partyhat,
                 R.drawable.sprite_redribbonhat,
@@ -569,7 +762,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                         break;
                 }
             }
-        });
+        });*/
     }
 
     /*
@@ -577,7 +770,36 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
      * Shows hat accessories
      */
     public void showHats(View view) {
-        Integer[] buttonPictures = {
+        layout.removeAllViews();
+
+        hats = new ArrayList<Integer>();
+        hats.add(R.drawable.sprite_brownhat);
+        hats.add(R.drawable.sprite_hat_baseball);
+        hats.add(R.drawable.sprite_hat_baseball_camo);
+        hats.add(R.drawable.sprite_hat_baseball_red);
+        hats.add(R.drawable.sprite_tophat);
+        hats.add(R.drawable.sprite_ribbonhat);
+
+        for (int i = 0; i < hats.size(); i++) {
+            ImageView imageView = new ImageView(this);
+            imageView.setId(i);
+            imageView.setPadding(8, 8, 8, 8);
+            imageView.setLayoutParams(
+                    new GridView.LayoutParams(255, 255));
+            imageView.setImageBitmap(BitmapFactory.decodeResource(
+                    getResources(), hats.get(i)));
+            imageView.setTag(hats.get(i));
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            layout.addView(imageView);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    ImageView imageView = (ImageView) v;
+                    addAccessory((int)imageView.getTag(), R.id.accessory_hat);
+                }
+            });
+        }
+
+        /*Integer[] buttonPictures = {
                 R.drawable.sprite_brownhat,
                 R.drawable.sprite_hat_baseball,
                 R.drawable.sprite_hat_baseball_camo,
@@ -665,7 +887,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                         break;
                 }
             }
-        });
+        });*/
     }
 
     /*
