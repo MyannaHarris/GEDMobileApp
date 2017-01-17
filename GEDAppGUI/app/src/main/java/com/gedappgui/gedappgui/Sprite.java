@@ -49,6 +49,9 @@ import android.widget.Spinner;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -62,6 +65,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
     ArrayList<Integer> hats;
     ArrayList<Integer> specials;
     LinearLayout layout;
+    Map<String, ArrayList<Integer>> accessoryMap;
 
     /*
      * Starts the activity and shows corresponding view on screen
@@ -80,6 +84,8 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
 
         spriteDrawable = ((MyApplication) this.getApplication()).getSpriteDrawable();
         spriteImage = (ImageView)findViewById(R.id.sprite_spriteScreen);
+
+        makeDictionary();
 
         glasses = new ArrayList<Integer>();
         glasses.add(R.drawable.sprite_glasses);
@@ -959,5 +965,138 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         parent.setSelection(0);
+    }
+
+    /*
+     * Make dictionary for accessories
+     */
+    public void makeDictionary() {
+
+        accessoryMap = new HashMap<String, ArrayList<Integer>>();
+        ArrayList<Integer> ids = new ArrayList<Integer>();
+        ids.add(R.drawable.sprite_glasses);
+        ids.add(R.drawable.sprite_glasses);
+        ids.add(R.id.accessory_glasses);
+        accessoryMap.put("sprite_glasses", ids);
+        ids.clear();
+        ids.add(R.drawable.sprite_monocle);
+        ids.add(R.drawable.sprite_monocle);
+        ids.add(R.id.accessory_glasses);
+        accessoryMap.put("sprite_monocle", ids);
+        ids.clear();
+        ids.add(R.drawable.sprite_nerdglasses);
+        ids.add(R.drawable.sprite_nerdglasses);
+        ids.add(R.id.accessory_glasses);
+        accessoryMap.put("sprite_nerdglasses", ids);
+        ids.clear();
+        ids.add(R.drawable.sprite_roundglasses);
+        ids.add(R.drawable.sprite_roundglasses);
+        ids.add(R.id.accessory_glasses);
+        accessoryMap.put("sprite_roundglasses", ids);
+        ids.clear();
+        ids.add(R.drawable.sprite_fancyglasses);
+        ids.add(R.drawable.sprite_fancyglasses);
+        ids.add(R.id.accessory_glasses);
+        accessoryMap.put("sprite_fancyglasses", ids);
+        ids.clear();
+        ids.add(R.drawable.sprite_grannyglasses);
+        ids.add(R.drawable.sprite_grannyglasses);
+        ids.add(R.id.accessory_glasses);
+        accessoryMap.put("sprite_grannyglasses", ids);
+        ids.clear();
+        ids.add(R.drawable.sprite_brownhat);
+        ids.add(R.drawable.sprite_brownhat);
+        ids.add(R.id.accessory_hat);
+        accessoryMap.put("sprite_brownhat", ids);
+        ids.clear();
+        ids.add(R.drawable.sprite_hat_baseball);
+        ids.add(R.drawable.sprite_hat_baseball);
+        ids.add(R.id.accessory_hat);
+        accessoryMap.put("sprite_hat_baseball", ids);
+        ids.clear();
+        ids.add(R.drawable.sprite_hat_baseball_camo);
+        ids.add(R.drawable.sprite_hat_baseball_camo);
+        ids.add(R.id.accessory_hat);
+        accessoryMap.put("sprite_hat_baseball_camo", ids);
+        ids.clear();
+        ids.add(R.drawable.sprite_hat_baseball_red);
+        ids.add(R.drawable.sprite_hat_baseball_red);
+        ids.add(R.id.accessory_hat);
+        accessoryMap.put("sprite_hat_baseball_red", ids);
+        ids.clear();
+        ids.add(R.drawable.sprite_tophat);
+        ids.add(R.drawable.sprite_tophat);
+        ids.add(R.id.accessory_hat);
+        accessoryMap.put("sprite_tophat", ids);
+        ids.clear();
+        ids.add(R.drawable.sprite_ribbonhat);
+        ids.add(R.drawable.sprite_ribbonhat);
+        ids.add(R.id.accessory_hat);
+        accessoryMap.put("sprite_ribbonhat", ids);
+        ids.clear();
+        ids.add(R.drawable.sprite_shirt_long);
+        ids.add(R.drawable.sprite_shirt_long);
+        ids.add(R.id.accessory_shirt);
+        accessoryMap.put("sprite_shirt_long", ids);
+        ids.clear();
+        ids.add(R.drawable.sprite_shirt_long_green);
+        ids.add(R.drawable.sprite_shirt_long_green);
+        ids.add(R.id.accessory_shirt);
+        accessoryMap.put("sprite_shirt_long_green", ids);
+        ids.clear();
+        ids.add(R.drawable.sprite_shirt_short);
+        ids.add(R.drawable.sprite_shirt_short);
+        ids.add(R.id.accessory_shirt);
+        accessoryMap.put("sprite_shirt_short", ids);
+        ids.clear();
+        ids.add(R.drawable.sprite_shirt_short_red);
+        ids.add(R.drawable.sprite_shirt_short_red);
+        ids.add(R.id.accessory_shirt);
+        accessoryMap.put("sprite_shirt_short_red", ids);
+        ids.clear();
+        ids.add(R.drawable.sprite_fancyshirt);
+        ids.add(R.drawable.sprite_fancyshirt);
+        ids.add(R.id.accessory_shirt);
+        accessoryMap.put("sprite_fancyshirt", ids);
+        ids.clear();
+        ids.add(R.drawable.sprite_tropicalshirt);
+        ids.add(R.drawable.sprite_tropicalshirt);
+        ids.add(R.id.accessory_shirt);
+        accessoryMap.put("sprite_tropicalshirt", ids);
+        ids.clear();
+        ids.add(R.drawable.sprite_cane);
+        ids.add(R.drawable.sprite_cane);
+        ids.add(R.id.accessory_handItem);
+        accessoryMap.put("sprite_cane", ids);
+        ids.clear();
+        ids.add(R.drawable.sprite_partyhat);
+        ids.add(R.drawable.sprite_partyhat);
+        ids.add(R.id.accessory_hat);
+        accessoryMap.put("sprite_partyhat", ids);
+        ids.clear();
+        ids.add(R.drawable.sprite_redribbonhat);
+        ids.add(R.drawable.sprite_redribbonhat);
+        ids.add(R.id.accessory_hat);
+        accessoryMap.put("sprite_redribbonhat", ids);
+        ids.clear();
+        ids.add(R.drawable.sprite_armor);
+        ids.add(R.drawable.sprite_armor);
+        ids.add(R.id.accessory_shirt);
+        accessoryMap.put("sprite_armor", ids);
+        ids.clear();
+        ids.add(R.drawable.sprite_sword);
+        ids.add(R.drawable.sprite_sword);
+        ids.add(R.id.accessory_handItem);
+        accessoryMap.put("sprite_sword", ids);
+        ids.clear();
+        ids.add(R.drawable.sprite_treasure);
+        ids.add(R.drawable.sprite_treasure);
+        ids.add(R.id.accessory_wingItem);
+        accessoryMap.put("sprite_treasure", ids);
+        ids.clear();
+        /*ids.add(R.drawable.sprite_blank);
+        ids.add(R.drawable.sprite_blank);
+        accessoryMap.put("sprite_blank", ids);
+        ids.clear();*/
     }
 }
