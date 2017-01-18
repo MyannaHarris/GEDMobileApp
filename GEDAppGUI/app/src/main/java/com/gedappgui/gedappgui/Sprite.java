@@ -12,7 +12,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 11-27-16
+ * Last Edit: 1-17-17
  *
  */
 
@@ -26,11 +26,8 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.media.AudioManager;
-import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.annotation.IntegerRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -42,16 +39,12 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -64,15 +57,16 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
     // 4 - specials
     // 5 - dragons
 
-    // Accessories gridview
-    GridView gridview;
+    // Accessories variables
     LayerDrawable spriteDrawable;
     ImageView spriteImage;
     DatabaseHelper dbHelper;
-    ArrayList<Integer> glasses;
-    ArrayList<Integer> shirts;
-    ArrayList<Integer> hats;
-    ArrayList<ArrayList<Integer>> specials;
+    ArrayList<String> glasses;
+    ArrayList<String> shirts;
+    ArrayList<String> hats;
+    ArrayList<String> specials;
+    ArrayList<String> allAccessories;
+
     LinearLayout layout;
     Map<String, ArrayList<Integer>> accessoryMap;
 
@@ -91,70 +85,91 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
+        // Set up for editing sprite
         spriteDrawable = ((MyApplication) this.getApplication()).getSpriteDrawable();
         spriteImage = (ImageView)findViewById(R.id.sprite_spriteScreen);
 
+        // instantiate lists
+        allAccessories = new ArrayList<String>();
+        specials = new ArrayList<String>();
+        glasses = new ArrayList<String>();
+        shirts = new ArrayList<String>();
+        hats = new ArrayList<String>();
+        accessoryMap = new HashMap<String, ArrayList<Integer>>();
+
+        // make dictionary of image ids
         makeDictionary();
+
+        // Read in accessory data
+        // accessory_img, layer_id, currently_wearing
         dbHelper = new DatabaseHelper(this);
         ArrayList<ArrayList<String>> accessories = dbHelper.selectAccessories();
 
+        // Save what accessories should be displayed
         if(accessories != null && accessories.size() > 0) {
-            System.out.println("TIUJKNC;lms;lacm;ldscm");
-            System.out.println(accessories);
-
             for (int i = 0; i < accessories.size(); i++) {
-                if (accessories.get(1).equals("1")) {
-                    ArrayList<Integer> ids = accessoryMap.get(accessories.get(0));
-                    //glasses.add(ids.get(1));
-                    if (!accessories.get(2).equals("")) {
-                        addAccessory(ids.get(0), ids.get(2));
+
+                // Add accessory to all list
+                allAccessories.add(accessories.get(i).get(0));
+
+                // Add accessory to specific list
+                // 1 - glasses
+                // 2 - hats
+                // 3 - shirts
+                // 4 - specials
+                if (accessories.get(i).get(1).equals("1")) {
+                    glasses.add(accessories.get(i).get(0));
+
+                    // Put accessory on dragon if need be
+                    if (accessories.get(i).get(2).equals("1")) {
+                        addAccessory(accessories.get(i).get(0));
                     }
-                } if (accessories.get(2).equals("2")) {
-                    ArrayList<Integer> ids = accessoryMap.get(accessories.get(0));
-                    //hats.add(ids.get(1));
-                    if (!accessories.get(2).equals("")) {
-                        addAccessory(ids.get(0), ids.get(2));
+                } if (accessories.get(i).get(1).equals("2")) {
+                    hats.add(accessories.get(i).get(0));
+
+                    // Put accessory on dragon if need be
+                    if (accessories.get(i).get(2).equals("1")) {
+                        addAccessory(accessories.get(i).get(0));
                     }
-                } if (accessories.get(3).equals("3")) {
-                    ArrayList<Integer> ids = accessoryMap.get(accessories.get(0));
-                    //shirts.add(ids.get(1));
-                    if (!accessories.get(2).equals("")) {
-                        addAccessory(ids.get(0), ids.get(2));
+                } if (accessories.get(i).get(1).equals("3")) {
+                    shirts.add(accessories.get(i).get(0));
+
+                    // Put accessory on dragon if need be
+                    if (accessories.get(i).get(2).equals("1")) {
+                        addAccessory(accessories.get(i).get(0));
                     }
-                } if (accessories.get(4).equals("4")) {
-                    ArrayList<Integer> ids = accessoryMap.get(accessories.get(0));
-                    //specials.add(ids.get(1));
-                    //specials.add(ids.get(2));
-                    if (!accessories.get(2).equals("")) {
-                        addAccessory(ids.get(0), ids.get(2));
+                } if (accessories.get(i).get(1).equals("4")) {
+                    specials.add(accessories.get(i).get(0));
+
+                    // Put accessory on dragon if need be
+                    if (accessories.get(i).get(2).equals("1")) {
+                        addAccessory(accessories.get(i).get(0));
                     }
                 }
             }
         }
 
-        glasses = new ArrayList<Integer>();
-        glasses.add(R.drawable.sprite_glasses);
-        glasses.add(R.drawable.sprite_monocle);
-        glasses.add(R.drawable.sprite_nerdglasses);
-        glasses.add(R.drawable.sprite_roundglasses);
-        glasses.add(R.drawable.sprite_fancyglasses);
-        glasses.add(R.drawable.sprite_grannyglasses);
-
+        // First display all accessories
         layout = (LinearLayout) findViewById(R.id.linear_sprite);
-        for (int i = 0; i < glasses.size(); i++) {
+        for (int i = 0; i < allAccessories.size(); i++) {
+            ArrayList<Integer> info =  accessoryMap.get(allAccessories.get(i));
+            int img = info.get(0);
+            int icon = info.get(1);
+            int layer = info.get(2);
+
             ImageView imageView = new ImageView(this);
             imageView.setId(i);
             imageView.setPadding(8, 8, 8, 8);
             imageView.setLayoutParams( new LinearLayout.LayoutParams(255, 255));
             imageView.setImageBitmap(BitmapFactory.decodeResource(
-                    getResources(), glasses.get(i)));
-            imageView.setTag(glasses.get(i));
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                    getResources(), icon));
+            imageView.setTag(allAccessories.get(i));
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             layout.addView(imageView);
             imageView.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     ImageView imageView = (ImageView) v;
-                    addAccessory((int)imageView.getTag(), R.id.accessory_glasses);
+                    addAccessory((String)imageView.getTag());
                 }
             });
         }
@@ -366,14 +381,25 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
 
     /*
      * Add accessory to sprite
+     * Map from name:
+     * 0 - actual image id
+     * 1 - icon image id
+     * 2 - ImageView layer id
      */
-    public void addAccessory(int accessory, int layer) {
+    public void addAccessory(String name) {
+        // Get info from map
+        ArrayList<Integer> info = accessoryMap.get(name);
+        int img = info.get(0);
+        int icon = info.get(1);
+        int layer = info.get(2);
+
+        // Draw accesory on dragon
         Drawable newItem;
         Drawable blankItem = (Drawable) ContextCompat.getDrawable(Sprite.this,
                 R.drawable.sprite_blank);
         Drawable oldItem = spriteDrawable.findDrawableByLayerId(layer);
 
-        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this, accessory);
+        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this, img);
         if (newItem.getConstantState().equals(oldItem.getConstantState())) {
             spriteDrawable.setDrawableByLayerId(layer, blankItem);
         } else {
@@ -381,6 +407,10 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         }
         spriteImage.setImageDrawable(spriteDrawable);
         spriteImage.invalidate();
+
+        // Set accessory in database
+        // if (layer == R.id.accessory_glasses) ...
+        // dbHelper.setAccessory(name);
     }
 
     /*
@@ -391,19 +421,24 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         layout.removeAllViews();
 
         for (int i = 0; i < glasses.size(); i++) {
+            ArrayList<Integer> info =  accessoryMap.get(glasses.get(i));
+            int img = info.get(0);
+            int icon = info.get(1);
+            int layer = info.get(2);
+
             ImageView imageView = new ImageView(this);
             imageView.setId(i);
             imageView.setPadding(8, 8, 8, 8);
             imageView.setLayoutParams( new LinearLayout.LayoutParams(255, 255));
             imageView.setImageBitmap(BitmapFactory.decodeResource(
-                    getResources(), glasses.get(i)));
+                    getResources(), icon));
             imageView.setTag(glasses.get(i));
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             layout.addView(imageView);
             imageView.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     ImageView imageView = (ImageView) v;
-                    addAccessory((int)imageView.getTag(), R.id.accessory_glasses);
+                    addAccessory((String)imageView.getTag());
                 }
             });
         }
@@ -506,28 +541,25 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
     public void showShirts(View view) {
         layout.removeAllViews();
 
-        shirts = new ArrayList<Integer>();
-        shirts.add(R.drawable.sprite_shirt_long);
-        shirts.add(R.drawable.sprite_shirt_long_green);
-        shirts.add(R.drawable.sprite_shirt_short);
-        shirts.add(R.drawable.sprite_shirt_short_red);
-        shirts.add(R.drawable.sprite_fancyshirt);
-        shirts.add(R.drawable.sprite_tropicalshirt);
-
         for (int i = 0; i < shirts.size(); i++) {
+            ArrayList<Integer> info =  accessoryMap.get(shirts.get(i));
+            int img = info.get(0);
+            int icon = info.get(1);
+            int layer = info.get(2);
+
             ImageView imageView = new ImageView(this);
             imageView.setId(i);
             imageView.setPadding(8, 8, 8, 8);
             imageView.setLayoutParams( new LinearLayout.LayoutParams(255, 255));
             imageView.setImageBitmap(BitmapFactory.decodeResource(
-                    getResources(), shirts.get(i)));
+                    getResources(), icon));
             imageView.setTag(shirts.get(i));
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             layout.addView(imageView);
             imageView.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     ImageView imageView = (ImageView) v;
-                    addAccessory((int)imageView.getTag(), R.id.accessory_shirt);
+                    addAccessory((String)imageView.getTag());
                 }
             });
         }
@@ -630,107 +662,28 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
     public void showSpecial(View view) {
         layout.removeAllViews();
 
-        ArrayList<Integer> handItems = new ArrayList<Integer>();
-        handItems.add(R.drawable.sprite_cane);
-        handItems.add(R.drawable.sprite_sword);
+        for (int i = 0; i < specials.size(); i++) {
+            ArrayList<Integer> info =  accessoryMap.get(specials.get(i));
+            int img = info.get(0);
+            int icon = info.get(1);
+            int layer = info.get(2);
 
-        for (int i = 0; i < handItems.size(); i++) {
             ImageView imageView = new ImageView(this);
             imageView.setId(i);
             imageView.setPadding(8, 8, 8, 8);
             imageView.setLayoutParams( new LinearLayout.LayoutParams(255, 255));
             imageView.setImageBitmap(BitmapFactory.decodeResource(
-                    getResources(), handItems.get(i)));
-            imageView.setTag(handItems.get(i));
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            layout.addView(imageView);
-            imageView.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    ImageView imageView = (ImageView) v;
-                    addAccessory((int)imageView.getTag(), R.id.accessory_handItem);
-                }
-            });
-        }
-
-        ArrayList<Integer> hatItems = new ArrayList<Integer>();
-        hatItems.add(R.drawable.sprite_partyhat);
-        hatItems.add(R.drawable.sprite_redribbonhat);
-
-        for (int i = 0; i < hatItems.size(); i++) {
-            ImageView imageView = new ImageView(this);
-            imageView.setId(i);
-            imageView.setPadding(8, 8, 8, 8);
-            imageView.setLayoutParams( new LinearLayout.LayoutParams(255, 255));
-            imageView.setImageBitmap(BitmapFactory.decodeResource(
-                    getResources(), hatItems.get(i)));
-            imageView.setTag(hatItems.get(i));
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            layout.addView(imageView);
-            imageView.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    ImageView imageView = (ImageView) v;
-                    addAccessory((int)imageView.getTag(), R.id.accessory_hat);
-                }
-            });
-        }
-
-        ArrayList<Integer> shirtItems = new ArrayList<Integer>();
-        shirtItems.add(R.drawable.sprite_armor);
-
-        ImageView imageViewShirt = new ImageView(this);
-        imageViewShirt.setId(0);
-        imageViewShirt.setPadding(8, 8, 8, 8);
-        imageViewShirt.setLayoutParams( new LinearLayout.LayoutParams(255, 255));
-        imageViewShirt.setImageBitmap(BitmapFactory.decodeResource(
-                getResources(), shirtItems.get(0)));
-        imageViewShirt.setTag(shirtItems.get(0));
-        imageViewShirt.setScaleType(ImageView.ScaleType.FIT_XY);
-        layout.addView(imageViewShirt);
-        imageViewShirt.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                ImageView imageView = (ImageView) v;
-                addAccessory((int)imageView.getTag(), R.id.accessory_shirt);
-            }
-        });
-
-        ArrayList<Integer> wingItems = new ArrayList<Integer>();
-        wingItems.add(R.drawable.sprite_treasure);
-
-        ImageView imageViewWing = new ImageView(this);
-        imageViewWing.setId(0);
-        imageViewWing.setPadding(8, 8, 8, 8);
-        imageViewWing.setLayoutParams( new LinearLayout.LayoutParams(255, 255));
-        imageViewWing.setImageBitmap(BitmapFactory.decodeResource(
-                getResources(), wingItems.get(0)));
-        imageViewWing.setTag(wingItems.get(0));
-        imageViewWing.setScaleType(ImageView.ScaleType.FIT_XY);
-        layout.addView(imageViewWing);
-        imageViewWing.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                ImageView imageView = (ImageView) v;
-                addAccessory((int)imageView.getTag(), R.id.accessory_wingItem);
-            }
-        });
-
-        /*layout.removeAllViews();
-
-        for (int i = 0; i < specials.size(); i+2) {
-            ImageView imageView = new ImageView(this);
-            imageView.setId(i);
-            imageView.setPadding(8, 8, 8, 8);
-            imageView.setLayoutParams( new LinearLayout.LayoutParams(255, 255));
-            imageView.setImageBitmap(BitmapFactory.decodeResource(
-                    getResources(), specials.get(i)));
+                    getResources(), icon));
             imageView.setTag(specials.get(i));
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             layout.addView(imageView);
             imageView.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     ImageView imageView = (ImageView) v;
-                    addAccessory((int)imageView.getTag(), specials.get(i+1);
+                    addAccessory((String)imageView.getTag());
                 }
             });
-        }*/
+        }
 
         /*Integer[] buttonPictures = {
                 R.drawable.sprite_cane,
@@ -836,28 +789,25 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
     public void showHats(View view) {
         layout.removeAllViews();
 
-        hats = new ArrayList<Integer>();
-        hats.add(R.drawable.sprite_brownhat);
-        hats.add(R.drawable.sprite_hat_baseball);
-        hats.add(R.drawable.sprite_hat_baseball_camo);
-        hats.add(R.drawable.sprite_hat_baseball_red);
-        hats.add(R.drawable.sprite_tophat);
-        hats.add(R.drawable.sprite_ribbonhat);
-
         for (int i = 0; i < hats.size(); i++) {
+            ArrayList<Integer> info =  accessoryMap.get(hats.get(i));
+            int img = info.get(0);
+            int icon = info.get(1);
+            int layer = info.get(2);
+
             ImageView imageView = new ImageView(this);
             imageView.setId(i);
             imageView.setPadding(8, 8, 8, 8);
             imageView.setLayoutParams( new LinearLayout.LayoutParams(255, 255));
             imageView.setImageBitmap(BitmapFactory.decodeResource(
-                    getResources(), hats.get(i)));
+                    getResources(), icon));
             imageView.setTag(hats.get(i));
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             layout.addView(imageView);
             imageView.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     ImageView imageView = (ImageView) v;
-                    addAccessory((int)imageView.getTag(), R.id.accessory_hat);
+                    addAccessory((String)imageView.getTag());
                 }
             });
         }
@@ -954,6 +904,37 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
     }
 
     /*
+     * Called from bling button
+     * Shows bling accessories
+     */
+    public void showAll(View view) {
+        layout.removeAllViews();
+
+        for (int i = 0; i < allAccessories.size(); i++) {
+            ArrayList<Integer> info =  accessoryMap.get(allAccessories.get(i));
+            int img = info.get(0);
+            int icon = info.get(1);
+            int layer = info.get(2);
+
+            ImageView imageView = new ImageView(this);
+            imageView.setId(i);
+            imageView.setPadding(8, 8, 8, 8);
+            imageView.setLayoutParams( new LinearLayout.LayoutParams(255, 255));
+            imageView.setImageBitmap(BitmapFactory.decodeResource(
+                    getResources(), icon));
+            imageView.setTag(allAccessories.get(i));
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            layout.addView(imageView);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    ImageView imageView = (ImageView) v;
+                    addAccessory((String)imageView.getTag());
+                }
+            });
+        }
+    }
+
+    /*
      * Called from save photo button
      * Saves copy of dragon and accessories to camera roll
      */
@@ -1001,24 +982,38 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         startActivity(intentHome);
     }
 
+    /*
+     * Called from combo box
+     * Changes what accessory list is displayed
+     */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch (position) {
             case 0:
-                showGlasses(view);
+                showAll(view);
                 break;
             case 1:
-                showShirts(view);
+                showGlasses(view);
                 break;
             case 2:
-                showHats(view);
+                showShirts(view);
                 break;
             case 3:
+                showHats(view);
+                break;
+            case 4:
                 showSpecial(view);
+                break;
+            default:
+                showAll(view);
                 break;
         }
     }
 
+    /*
+     * Called from combobox
+     * Makes the auto-selection to be "All"
+     */
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         parent.setSelection(0);
@@ -1028,130 +1023,132 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
      * Make dictionary for accessories
      */
     public void makeDictionary() {
-
-        accessoryMap = new HashMap<String, ArrayList<Integer>>();
         ArrayList<Integer> ids = new ArrayList<Integer>();
         ids.add(R.drawable.sprite_glasses);
-        ids.add(R.drawable.sprite_glasses);
+        ids.add(R.drawable.sprite_glasses_icon);
         ids.add(R.id.accessory_glasses);
         accessoryMap.put("sprite_glasses", ids);
-        ids.clear();
+        ids = new ArrayList<Integer>();
         ids.add(R.drawable.sprite_monocle);
-        ids.add(R.drawable.sprite_monocle);
+        ids.add(R.drawable.sprite_monocle_icon);
         ids.add(R.id.accessory_glasses);
         accessoryMap.put("sprite_monocle", ids);
-        ids.clear();
+        ids = new ArrayList<Integer>();
         ids.add(R.drawable.sprite_nerdglasses);
-        ids.add(R.drawable.sprite_nerdglasses);
+        ids.add(R.drawable.sprite_nerdglasses_icon);
         ids.add(R.id.accessory_glasses);
         accessoryMap.put("sprite_nerdglasses", ids);
-        ids.clear();
+        ids = new ArrayList<Integer>();
         ids.add(R.drawable.sprite_roundglasses);
-        ids.add(R.drawable.sprite_roundglasses);
+        ids.add(R.drawable.sprite_roundglasses_icon);
         ids.add(R.id.accessory_glasses);
         accessoryMap.put("sprite_roundglasses", ids);
-        ids.clear();
+        ids = new ArrayList<Integer>();
         ids.add(R.drawable.sprite_fancyglasses);
-        ids.add(R.drawable.sprite_fancyglasses);
+        ids.add(R.drawable.sprite_fancyglasses_icon);
         ids.add(R.id.accessory_glasses);
         accessoryMap.put("sprite_fancyglasses", ids);
-        ids.clear();
+        ids = new ArrayList<Integer>();
         ids.add(R.drawable.sprite_grannyglasses);
-        ids.add(R.drawable.sprite_grannyglasses);
+        ids.add(R.drawable.sprite_grannyglasses_icon);
         ids.add(R.id.accessory_glasses);
         accessoryMap.put("sprite_grannyglasses", ids);
-        ids.clear();
+
+        ids = new ArrayList<Integer>();
         ids.add(R.drawable.sprite_brownhat);
-        ids.add(R.drawable.sprite_brownhat);
+        ids.add(R.drawable.sprite_brownhat_icon);
         ids.add(R.id.accessory_hat);
         accessoryMap.put("sprite_brownhat", ids);
-        ids.clear();
+        ids = new ArrayList<Integer>();
         ids.add(R.drawable.sprite_hat_baseball);
-        ids.add(R.drawable.sprite_hat_baseball);
+        ids.add(R.drawable.sprite_hat_baseball_icon);
         ids.add(R.id.accessory_hat);
         accessoryMap.put("sprite_hat_baseball", ids);
-        ids.clear();
+        ids = new ArrayList<Integer>();
         ids.add(R.drawable.sprite_hat_baseball_camo);
-        ids.add(R.drawable.sprite_hat_baseball_camo);
+        ids.add(R.drawable.sprite_hat_baseball_camo_icon);
         ids.add(R.id.accessory_hat);
         accessoryMap.put("sprite_hat_baseball_camo", ids);
-        ids.clear();
+        ids = new ArrayList<Integer>();
         ids.add(R.drawable.sprite_hat_baseball_red);
-        ids.add(R.drawable.sprite_hat_baseball_red);
+        ids.add(R.drawable.sprite_hat_baseball_red_icon);
         ids.add(R.id.accessory_hat);
         accessoryMap.put("sprite_hat_baseball_red", ids);
-        ids.clear();
+        ids = new ArrayList<Integer>();
         ids.add(R.drawable.sprite_tophat);
-        ids.add(R.drawable.sprite_tophat);
+        ids.add(R.drawable.sprite_tophat_icon);
         ids.add(R.id.accessory_hat);
         accessoryMap.put("sprite_tophat", ids);
-        ids.clear();
+        ids = new ArrayList<Integer>();
         ids.add(R.drawable.sprite_ribbonhat);
-        ids.add(R.drawable.sprite_ribbonhat);
+        ids.add(R.drawable.sprite_ribbonhat_icon);
         ids.add(R.id.accessory_hat);
         accessoryMap.put("sprite_ribbonhat", ids);
-        ids.clear();
+
+        ids = new ArrayList<Integer>();
         ids.add(R.drawable.sprite_shirt_long);
-        ids.add(R.drawable.sprite_shirt_long);
+        ids.add(R.drawable.sprite_shirt_long_icon);
         ids.add(R.id.accessory_shirt);
         accessoryMap.put("sprite_shirt_long", ids);
-        ids.clear();
+        ids = new ArrayList<Integer>();
         ids.add(R.drawable.sprite_shirt_long_green);
-        ids.add(R.drawable.sprite_shirt_long_green);
+        ids.add(R.drawable.sprite_shirt_long_green_icon);
         ids.add(R.id.accessory_shirt);
         accessoryMap.put("sprite_shirt_long_green", ids);
-        ids.clear();
+        ids = new ArrayList<Integer>();
         ids.add(R.drawable.sprite_shirt_short);
-        ids.add(R.drawable.sprite_shirt_short);
+        ids.add(R.drawable.sprite_shirt_short_icon);
         ids.add(R.id.accessory_shirt);
         accessoryMap.put("sprite_shirt_short", ids);
-        ids.clear();
+        ids = new ArrayList<Integer>();
         ids.add(R.drawable.sprite_shirt_short_red);
-        ids.add(R.drawable.sprite_shirt_short_red);
+        ids.add(R.drawable.sprite_shirt_short_red_icon);
         ids.add(R.id.accessory_shirt);
         accessoryMap.put("sprite_shirt_short_red", ids);
-        ids.clear();
+        ids = new ArrayList<Integer>();
         ids.add(R.drawable.sprite_fancyshirt);
-        ids.add(R.drawable.sprite_fancyshirt);
+        ids.add(R.drawable.sprite_fancyshirt_icon);
         ids.add(R.id.accessory_shirt);
         accessoryMap.put("sprite_fancyshirt", ids);
-        ids.clear();
+        ids = new ArrayList<Integer>();
         ids.add(R.drawable.sprite_tropicalshirt);
-        ids.add(R.drawable.sprite_tropicalshirt);
+        ids.add(R.drawable.sprite_tropicalshirt_icon);
         ids.add(R.id.accessory_shirt);
         accessoryMap.put("sprite_tropicalshirt", ids);
-        ids.clear();
+
+        ids = new ArrayList<Integer>();
         ids.add(R.drawable.sprite_cane);
-        ids.add(R.drawable.sprite_cane);
+        ids.add(R.drawable.sprite_cane_icon);
         ids.add(R.id.accessory_handItem);
         accessoryMap.put("sprite_cane", ids);
-        ids.clear();
+        ids = new ArrayList<Integer>();
         ids.add(R.drawable.sprite_partyhat);
-        ids.add(R.drawable.sprite_partyhat);
+        ids.add(R.drawable.sprite_partyhat_icon);
         ids.add(R.id.accessory_hat);
         accessoryMap.put("sprite_partyhat", ids);
-        ids.clear();
+        ids = new ArrayList<Integer>();
         ids.add(R.drawable.sprite_redribbonhat);
-        ids.add(R.drawable.sprite_redribbonhat);
+        ids.add(R.drawable.sprite_redribbonhat_icon);
         ids.add(R.id.accessory_hat);
         accessoryMap.put("sprite_redribbonhat", ids);
-        ids.clear();
+        ids = new ArrayList<Integer>();
         ids.add(R.drawable.sprite_armor);
-        ids.add(R.drawable.sprite_armor);
+        ids.add(R.drawable.sprite_armor_icon);
         ids.add(R.id.accessory_shirt);
         accessoryMap.put("sprite_armor", ids);
-        ids.clear();
+        ids = new ArrayList<Integer>();
         ids.add(R.drawable.sprite_sword);
-        ids.add(R.drawable.sprite_sword);
+        ids.add(R.drawable.sprite_sword_icon);
         ids.add(R.id.accessory_handItem);
         accessoryMap.put("sprite_sword", ids);
-        ids.clear();
+        ids = new ArrayList<Integer>();
         ids.add(R.drawable.sprite_treasure);
-        ids.add(R.drawable.sprite_treasure);
+        ids.add(R.drawable.sprite_treasure_icon);
         ids.add(R.id.accessory_wingItem);
         accessoryMap.put("sprite_treasure", ids);
-        ids.clear();
-        /*ids.add(R.drawable.sprite_blank);
+
+        /*ids = new ArrayList<Integer>();
+        ids.add(R.drawable.sprite_blank);
         ids.add(R.drawable.sprite_blank);
         accessoryMap.put("sprite_blank", ids);
         ids.clear();*/

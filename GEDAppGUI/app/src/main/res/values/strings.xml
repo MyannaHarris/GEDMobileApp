@@ -9,7 +9,7 @@
  Jasmine Jans
  Jimmy Sherman
 
- Last Edit: 12-1-16
+ Last Edit: 1-17-17
 -->
 
 <resources>
@@ -97,6 +97,7 @@
 
     <!-- Sprite Page Combo Box -->
     <string-array name="accessories_array">
+        <item>All</item>
         <item>Glasses</item>
         <item>Shirts</item>
         <item>Hats</item>
