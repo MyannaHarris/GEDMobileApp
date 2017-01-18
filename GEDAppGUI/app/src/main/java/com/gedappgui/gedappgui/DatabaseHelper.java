@@ -751,6 +751,32 @@ public class DatabaseHelper{
         return lessonQuestions;
     }
 
+    /**
+     * Query to select accessories
+     */
+    public ArrayList<ArrayList<String>> selectAccessories(){
+        open();
+
+        Cursor c = myDatabase.rawQuery("SELECT accessory_img, layer_id, currently_wearing " +
+                "FROM user_accessories " + "JOIN accessories " +
+                "ON user_accessories.accessory_id = accessories.accessory_id", null);
+
+        ArrayList<ArrayList<String>> accessories = new ArrayList<>();
+
+        while(c.moveToNext()){
+            ArrayList<String> row = new ArrayList<String>();
+            row.add(c.getString(0));
+            row.add(c.getString(1));
+            row.add(c.getString(2));
+            accessories.add(row);
+        }
+
+        c.close();
+        close();
+
+        return accessories;
+    }
+
 
     //@Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

@@ -30,6 +30,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.IntegerRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -55,6 +56,14 @@ import java.util.Map;
 
 public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
+    // NOTE: layer_ids for the database accessories
+    // 0 - blank
+    // 1 - glasses
+    // 2 - hats
+    // 3 - shirts
+    // 4 - specials
+    // 5 - dragons
+
     // Accessories gridview
     GridView gridview;
     LayerDrawable spriteDrawable;
@@ -63,7 +72,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
     ArrayList<Integer> glasses;
     ArrayList<Integer> shirts;
     ArrayList<Integer> hats;
-    ArrayList<Integer> specials;
+    ArrayList<ArrayList<Integer>> specials;
     LinearLayout layout;
     Map<String, ArrayList<Integer>> accessoryMap;
 
@@ -86,6 +95,42 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         spriteImage = (ImageView)findViewById(R.id.sprite_spriteScreen);
 
         makeDictionary();
+        dbHelper = new DatabaseHelper(this);
+        ArrayList<ArrayList<String>> accessories = dbHelper.selectAccessories();
+
+        if(accessories != null && accessories.size() > 0) {
+            System.out.println("TIUJKNC;lms;lacm;ldscm");
+            System.out.println(accessories);
+
+            for (int i = 0; i < accessories.size(); i++) {
+                if (accessories.get(1).equals("1")) {
+                    ArrayList<Integer> ids = accessoryMap.get(accessories.get(0));
+                    //glasses.add(ids.get(1));
+                    if (!accessories.get(2).equals("")) {
+                        addAccessory(ids.get(0), ids.get(2));
+                    }
+                } if (accessories.get(2).equals("2")) {
+                    ArrayList<Integer> ids = accessoryMap.get(accessories.get(0));
+                    //hats.add(ids.get(1));
+                    if (!accessories.get(2).equals("")) {
+                        addAccessory(ids.get(0), ids.get(2));
+                    }
+                } if (accessories.get(3).equals("3")) {
+                    ArrayList<Integer> ids = accessoryMap.get(accessories.get(0));
+                    //shirts.add(ids.get(1));
+                    if (!accessories.get(2).equals("")) {
+                        addAccessory(ids.get(0), ids.get(2));
+                    }
+                } if (accessories.get(4).equals("4")) {
+                    ArrayList<Integer> ids = accessoryMap.get(accessories.get(0));
+                    //specials.add(ids.get(1));
+                    //specials.add(ids.get(2));
+                    if (!accessories.get(2).equals("")) {
+                        addAccessory(ids.get(0), ids.get(2));
+                    }
+                }
+            }
+        }
 
         glasses = new ArrayList<Integer>();
         glasses.add(R.drawable.sprite_glasses);
@@ -100,8 +145,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             ImageView imageView = new ImageView(this);
             imageView.setId(i);
             imageView.setPadding(8, 8, 8, 8);
-            imageView.setLayoutParams(
-                    new GridView.LayoutParams(255, 255));
+            imageView.setLayoutParams( new LinearLayout.LayoutParams(255, 255));
             imageView.setImageBitmap(BitmapFactory.decodeResource(
                     getResources(), glasses.get(i)));
             imageView.setTag(glasses.get(i));
@@ -350,8 +394,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             ImageView imageView = new ImageView(this);
             imageView.setId(i);
             imageView.setPadding(8, 8, 8, 8);
-            imageView.setLayoutParams(
-                    new GridView.LayoutParams(255, 255));
+            imageView.setLayoutParams( new LinearLayout.LayoutParams(255, 255));
             imageView.setImageBitmap(BitmapFactory.decodeResource(
                     getResources(), glasses.get(i)));
             imageView.setTag(glasses.get(i));
@@ -475,8 +518,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             ImageView imageView = new ImageView(this);
             imageView.setId(i);
             imageView.setPadding(8, 8, 8, 8);
-            imageView.setLayoutParams(
-                    new GridView.LayoutParams(255, 255));
+            imageView.setLayoutParams( new LinearLayout.LayoutParams(255, 255));
             imageView.setImageBitmap(BitmapFactory.decodeResource(
                     getResources(), shirts.get(i)));
             imageView.setTag(shirts.get(i));
@@ -596,8 +638,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             ImageView imageView = new ImageView(this);
             imageView.setId(i);
             imageView.setPadding(8, 8, 8, 8);
-            imageView.setLayoutParams(
-                    new GridView.LayoutParams(255, 255));
+            imageView.setLayoutParams( new LinearLayout.LayoutParams(255, 255));
             imageView.setImageBitmap(BitmapFactory.decodeResource(
                     getResources(), handItems.get(i)));
             imageView.setTag(handItems.get(i));
@@ -619,8 +660,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             ImageView imageView = new ImageView(this);
             imageView.setId(i);
             imageView.setPadding(8, 8, 8, 8);
-            imageView.setLayoutParams(
-                    new GridView.LayoutParams(255, 255));
+            imageView.setLayoutParams( new LinearLayout.LayoutParams(255, 255));
             imageView.setImageBitmap(BitmapFactory.decodeResource(
                     getResources(), hatItems.get(i)));
             imageView.setTag(hatItems.get(i));
@@ -640,8 +680,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         ImageView imageViewShirt = new ImageView(this);
         imageViewShirt.setId(0);
         imageViewShirt.setPadding(8, 8, 8, 8);
-        imageViewShirt.setLayoutParams(
-                new GridView.LayoutParams(255, 255));
+        imageViewShirt.setLayoutParams( new LinearLayout.LayoutParams(255, 255));
         imageViewShirt.setImageBitmap(BitmapFactory.decodeResource(
                 getResources(), shirtItems.get(0)));
         imageViewShirt.setTag(shirtItems.get(0));
@@ -660,8 +699,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         ImageView imageViewWing = new ImageView(this);
         imageViewWing.setId(0);
         imageViewWing.setPadding(8, 8, 8, 8);
-        imageViewWing.setLayoutParams(
-                new GridView.LayoutParams(255, 255));
+        imageViewWing.setLayoutParams( new LinearLayout.LayoutParams(255, 255));
         imageViewWing.setImageBitmap(BitmapFactory.decodeResource(
                 getResources(), wingItems.get(0)));
         imageViewWing.setTag(wingItems.get(0));
@@ -673,6 +711,26 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                 addAccessory((int)imageView.getTag(), R.id.accessory_wingItem);
             }
         });
+
+        /*layout.removeAllViews();
+
+        for (int i = 0; i < specials.size(); i+2) {
+            ImageView imageView = new ImageView(this);
+            imageView.setId(i);
+            imageView.setPadding(8, 8, 8, 8);
+            imageView.setLayoutParams( new LinearLayout.LayoutParams(255, 255));
+            imageView.setImageBitmap(BitmapFactory.decodeResource(
+                    getResources(), specials.get(i)));
+            imageView.setTag(specials.get(i));
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            layout.addView(imageView);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    ImageView imageView = (ImageView) v;
+                    addAccessory((int)imageView.getTag(), specials.get(i+1);
+                }
+            });
+        }*/
 
         /*Integer[] buttonPictures = {
                 R.drawable.sprite_cane,
@@ -790,8 +848,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             ImageView imageView = new ImageView(this);
             imageView.setId(i);
             imageView.setPadding(8, 8, 8, 8);
-            imageView.setLayoutParams(
-                    new GridView.LayoutParams(255, 255));
+            imageView.setLayoutParams( new LinearLayout.LayoutParams(255, 255));
             imageView.setImageBitmap(BitmapFactory.decodeResource(
                     getResources(), hats.get(i)));
             imageView.setTag(hats.get(i));

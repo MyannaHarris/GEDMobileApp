@@ -121,14 +121,16 @@
         android:layout_width="match_parent"
         android:layout_height="255dp"
         android:layout_below="@id/accessories_spinner"
-        android:gravity="center" >
+        android:gravity="center"
+        android:layout_alignParentBottom="true">
 
-       <LinearLayout
+        <LinearLayout
             android:id="@+id/linear_sprite"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:background="@color/colorMenuText">
         </LinearLayout>
 
     </HorizontalScrollView>
