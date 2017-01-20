@@ -39,6 +39,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -112,15 +113,26 @@ public class MainActivity extends AppCompatActivity {
         //if (((MyApplication) this.getApplication()).getLoginStatus()) {
         if(!db.firstTimeLogin()){
             TextView greetingText = (TextView)findViewById(R.id.sprite_speechBubble);
+            String name = ((MyApplication) this.getApplication()).getName();
+            String[] greetings = {
+                    "There's Math to do \n" + name + "!",
+                    "Hello \n" + name + "!\nWelcome to the app!",
+                    "Have you checked my closet?",
+                    "Have you played any games recently?",
+                    "Did you know you can change my color?",
+                    "I love Math! Don't you,\n" + name + "?",
+                    "Isn't Trina Clayeaux just the best?"
+            };
 
             //without the DB
-            String greeting = "Hello " + ((MyApplication) this.getApplication()).getName();
+
+            String greeting = "Hello " + name + "!\nWelcome to the app.";
 
             //with the DB pulling information
             //String greeting = "Hello " + db.selectUsername();
+            Random rand = new Random();
 
-            greeting += "!\nWelcome to the app.";
-            greetingText.setText(greeting);
+            greetingText.setText(greetings[rand.nextInt(7)]);
 
             // Sprite image
             spriteDrawable = ((MyApplication) this.getApplication()).getSpriteDrawable();
