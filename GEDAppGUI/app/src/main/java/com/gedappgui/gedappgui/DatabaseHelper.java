@@ -753,6 +753,7 @@ public class DatabaseHelper{
 
     /**
      * Query to select accessories
+     * @return List of accessory info
      */
     public ArrayList<ArrayList<String>> selectAccessories(){
         open();
@@ -860,14 +861,32 @@ public class DatabaseHelper{
         return isComplete;
     }
 
+    /**
+     * query to update what accessory is on sprite
+     * @param name of the accessory
+     * @param groupID of the accessory (so accessories on the same layer don't all stay on)
+     */
     void updateCurrentlyWearing(String name, int groupID) {
         open();
-        String takeOff = "UPDATE user_accessories SET currently_wearing=0 WHERE accessory_id " +
+        String takeOff = "UPDATE user_accessories SET currently_wearing=0 WHERE accessory_id IN " +
                 "(SELECT accessory_id FROM accessories WHERE layer_id=" + groupID +")";
-        String putOn = "UPDATE user_accessories SET currently_wearing=1 WHERE accessory_id " +
-                "(SELECT accessory_id FROM accessories WHERE accessory_img=" + name + ")";
+        String putOn = "UPDATE user_accessories SET currently_wearing=1 WHERE accessory_id IN " +
+                "(SELECT accessory_id FROM accessories WHERE accessory_img='" + name + "')";
         myDatabase.execSQL(takeOff);
         myDatabase.execSQL(putOn);
+        close();
+
+    }
+
+    /**
+     * query to update what accessory is not on sprite
+     * @param name of the accessory
+     */
+    void takeOffClothing(String name) {
+        open();
+        String takeOff = "UPDATE user_accessories SET currently_wearing=0 WHERE accessory_id IN " +
+                "(SELECT accessory_id FROM accessories WHERE accessory_img='" + name + "')";
+        myDatabase.execSQL(takeOff);
         close();
 
     }

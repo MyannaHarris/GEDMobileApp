@@ -122,28 +122,28 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
 
                     // Put accessory on dragon if need be
                     if (accessories.get(i).get(2).equals("1")) {
-                        addAccessory(accessories.get(i).get(0));
+                        addSavedAccessory(accessories.get(i).get(0));
                     }
                 } if (accessories.get(i).get(1).equals("2")) {
                     hats.add(accessories.get(i).get(0));
 
                     // Put accessory on dragon if need be
                     if (accessories.get(i).get(2).equals("1")) {
-                        addAccessory(accessories.get(i).get(0));
+                        addSavedAccessory(accessories.get(i).get(0));
                     }
                 } if (accessories.get(i).get(1).equals("3")) {
                     shirts.add(accessories.get(i).get(0));
 
                     // Put accessory on dragon if need be
                     if (accessories.get(i).get(2).equals("1")) {
-                        addAccessory(accessories.get(i).get(0));
+                        addSavedAccessory(accessories.get(i).get(0));
                     }
                 } if (accessories.get(i).get(1).equals("4")) {
                     specials.add(accessories.get(i).get(0));
 
                     // Put accessory on dragon if need be
                     if (accessories.get(i).get(2).equals("1")) {
-                        addAccessory(accessories.get(i).get(0));
+                        addSavedAccessory(accessories.get(i).get(0));
                     }
                 }
             }
@@ -386,6 +386,28 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
      * 1 - icon image id
      * 2 - ImageView layer id
      */
+    public void addSavedAccessory(String name) {
+        // Get info from map
+        ArrayList<Integer> info = accessoryMap.get(name);
+        int img = info.get(0);
+        int icon = info.get(1);
+        int layer = info.get(2);
+
+        // Draw accesory on dragon
+        Drawable newItem;
+        newItem = (Drawable) ContextCompat.getDrawable(Sprite.this, img);
+        spriteDrawable.setDrawableByLayerId(layer, newItem);
+        spriteImage.setImageDrawable(spriteDrawable);
+        spriteImage.invalidate();
+    }
+
+    /*
+     * Add accessory to sprite
+     * Map from name:
+     * 0 - actual image id
+     * 1 - icon image id
+     * 2 - ImageView layer id
+     */
     public void addAccessory(String name) {
         // Get info from map
         ArrayList<Integer> info = accessoryMap.get(name);
@@ -402,15 +424,24 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         newItem = (Drawable) ContextCompat.getDrawable(Sprite.this, img);
         if (newItem.getConstantState().equals(oldItem.getConstantState())) {
             spriteDrawable.setDrawableByLayerId(layer, blankItem);
+            dbHelper.takeOffClothing(name);
         } else {
             spriteDrawable.setDrawableByLayerId(layer, newItem);
+            // Set accessory in database
+            if (layer == R.id.accessory_glasses) {
+                dbHelper.updateCurrentlyWearing(name, 1);
+            } else if (layer == R.id.accessory_hat) {
+                dbHelper.updateCurrentlyWearing(name, 2);
+            } else if (layer == R.id.accessory_shirt) {
+                dbHelper.updateCurrentlyWearing(name, 3);
+            } else if (layer == R.id.accessory_handItem) {
+                dbHelper.updateCurrentlyWearing(name, 4);
+            } else if (layer == R.id.accessory_wingItem) {
+                dbHelper.updateCurrentlyWearing(name, 5);
+            }
         }
         spriteImage.setImageDrawable(spriteDrawable);
         spriteImage.invalidate();
-
-        // Set accessory in database
-        // if (layer == R.id.accessory_glasses) ...
-        // dbHelper.setAccessory(name);
     }
 
     /*
