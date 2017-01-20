@@ -860,4 +860,16 @@ public class DatabaseHelper{
         return isComplete;
     }
 
+    void updateCurrentlyWearing(String name, int groupID) {
+        open();
+        String takeOff = "UPDATE user_accessories SET currently_wearing=0 WHERE accessory_id " +
+                "(SELECT accessory_id FROM accessories WHERE layer_id=" + groupID +")";
+        String putOn = "UPDATE user_accessories SET currently_wearing=1 WHERE accessory_id " +
+                "(SELECT accessory_id FROM accessories WHERE accessory_img=" + name + ")";
+        myDatabase.execSQL(takeOff);
+        myDatabase.execSQL(putOn);
+        close();
+
+    }
+
 }
