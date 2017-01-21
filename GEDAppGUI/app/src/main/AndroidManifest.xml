@@ -191,7 +191,8 @@
             android:name=".FractionToDecimalTool"
             android:label="@string/title_activity_frac_to_dec_tool" />
         <activity android:name=".SlopeCalculator" />
-        <activity android:name=".CoordinatePlane"></activity>
+        <activity android:name=".CoordinatePlane" />
+        <activity android:name=".FormulaMemorization"></activity>
     </application>
 
 </manifest>

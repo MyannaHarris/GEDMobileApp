@@ -103,8 +103,8 @@ public class Tools extends AppCompatActivity {
      * Called by a tool being selected
      * Opens fraction to decimal tool
      */
-    public void goToCoordinatePlane(View view) {
-        Intent intent = new Intent(this, CoordinatePlane.class);
+    public void goToFormulas(View view) {
+        Intent intent = new Intent(this, FormulaMemorization.class);
         startActivity(intent);
     }
 

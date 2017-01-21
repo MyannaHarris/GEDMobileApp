@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_formula_memorization"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.gedappgui.gedappgui.FormulaMemorization">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:text="Below are the formulas that you will be required to know for the GED. Use the buttons to hide parts of the formulas to help you memorize!"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/formulaprompt"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:textSize="20sp"/>
+
+            <Button
+                android:text="Hide one part"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/hideleft"
+                android:onClick="hideonepart"/>
+
+            <Button
+                android:text="Hide two parts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/hideright"
+                android:onClick="hidetwoparts"/>
+
+            <Button
+                android:text="Hide None"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/hidenone"
+                android:onClick="hidenone"/>
+
+            <TextView
+                android:text="Area of a:"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/areatitle"
+                android:textSize="30sp"
+                android:textColor="@color/colorHeader1"/>
+
+            <TextView
+                android:text=""
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/areaformulas"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:text="Perimeter of a:"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/perimetertitle"
+                android:textSize="30sp"
+                android:textColor="@color/colorHeader1"/>
+
+            <TextView
+                android:text=""
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/perimeterformulas"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:text="Volume of a:"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/volumetitle"
+                android:textSize="30sp"
+                android:textColor="@color/colorHeader1"/>
+
+            <TextView
+                android:text=""
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/volumeformulas"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:text="Word problem formulas:"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/wptitle"
+                android:textSize="30sp"
+                android:textColor="@color/colorHeader1"/>
+
+            <TextView
+                android:text=""
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/wpformulas"
+                android:textSize="20sp"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

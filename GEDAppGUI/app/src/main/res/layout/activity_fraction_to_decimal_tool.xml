@@ -81,16 +81,6 @@
         android:maxLength="10"/>
 
     <TextView
-        android:text="Decimal To Fraction"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView"
-        android:textSize="30sp"
-        android:textColor="@color/colorHeader1"
-        android:layout_below="@+id/FractionAnswer"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
         android:text="Put a decimal into the text box below and hit submit to convert (Example: 0.33, 1.89)"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -120,5 +110,15 @@
         android:layout_below="@+id/DecimalAnswer"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp" />
+
+    <TextView
+        android:text="Decimal To Fraction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/decimaltofrac"
+        android:textSize="30sp"
+        android:textColor="@color/colorHeader1"
+        android:layout_below="@+id/FractionAnswer"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

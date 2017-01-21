@@ -49,11 +49,11 @@ Last Edit: 10-29-16
         android:id="@+id/CoordinatePlane"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Coordinate Plane"
+        android:text="Formula Memorization"
         android:layout_below="@id/slopeCalculator"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:onClick="goToCoordinatePlane" />
+        android:onClick="goToFormulas" />
 
 
 
