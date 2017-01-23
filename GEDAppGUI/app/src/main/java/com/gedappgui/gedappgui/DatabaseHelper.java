@@ -869,7 +869,7 @@ public class DatabaseHelper{
     void updateCurrentlyWearing(String name, int groupID) {
         open();
         String takeOff = "UPDATE user_accessories SET currently_wearing=0 WHERE accessory_id IN " +
-                "(SELECT accessory_id FROM accessories WHERE layer_id=" + groupID +")";
+                "(SELECT accessory_id FROM accessories WHERE group_id=" + groupID +")";
         String putOn = "UPDATE user_accessories SET currently_wearing=1 WHERE accessory_id IN " +
                 "(SELECT accessory_id FROM accessories WHERE accessory_img='" + name + "')";
         myDatabase.execSQL(takeOff);

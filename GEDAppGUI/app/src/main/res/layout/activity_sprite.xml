@@ -34,7 +34,8 @@
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="changeDragon"/>
 
     <Button
         android:text="Save Photo"
@@ -70,51 +71,6 @@
         android:foregroundTint="@color/colorBodyText"
         android:backgroundTint="@color/colorMenuBackground"/>
 
-    <!--<Button
-        android:text="Glasses"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/sprite_spriteScreen"
-        android:layout_alignLeft="@id/sprite_spriteScreen"
-        android:layout_alignStart="@id/sprite_spriteScreen"
-        android:id="@+id/sprite_glasses"
-        android:layout_width="125dp"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:onClick="showGlasses"/>
-
-    <Button
-        android:text="Shirts"
-        android:layout_height="wrap_content"
-        android:id="@+id/sprite_shirts"
-        android:layout_width="125dp"
-        android:layout_below="@id/sprite_spriteScreen"
-        android:layout_toRightOf="@id/sprite_glasses"
-        android:layout_toEndOf="@id/sprite_glasses"
-        style="@style/Base.Widget.AppCompat.Button.Borderless"
-        android:onClick="showShirts"/>
-
-    <Button
-        android:text="Special"
-        android:layout_height="wrap_content"
-        android:id="@+id/sprite_special"
-        android:layout_width="125dp"
-        android:layout_below="@id/sprite_glasses"
-        android:layout_alignLeft="@id/sprite_glasses"
-        android:layout_alignStart="@id/sprite_glasses"
-        style="@style/Base.Widget.AppCompat.Button.Borderless"
-        android:onClick="showSpecial"/>
-
-    <Button
-        android:text="Hats"
-        android:layout_height="wrap_content"
-        android:id="@+id/sprite_hats"
-        android:layout_width="125dp"
-        android:layout_alignBaseline="@id/sprite_special"
-        android:layout_alignBottom="@id/sprite_special"
-        android:layout_toRightOf="@id/sprite_special"
-        android:layout_toEndOf="@id/sprite_special"
-        style="@style/Base.Widget.AppCompat.Button.Borderless"
-        android:onClick="showHats" />-->
-
     <HorizontalScrollView
         android:id="@+id/horizontal_scroll_sprite"
         android:layout_marginTop="20dp"
@@ -135,20 +91,5 @@
         </LinearLayout>
 
     </HorizontalScrollView>
-
-    <!--<GridView
-        android:id="@+id/sprite_gridView"
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/horizontal_scroll_sprite"
-        android:numColumns="3"
-        android:gravity="center"
-        android:verticalSpacing="10dp"
-        android:stretchMode="columnWidth"
-        android:columnWidth="60dp"
-        android:background="@color/colorMenuText">
-
-    </GridView>-->
 
 </RelativeLayout>

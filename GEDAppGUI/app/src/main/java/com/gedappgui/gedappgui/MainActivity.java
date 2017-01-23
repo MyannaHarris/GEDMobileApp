@@ -147,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
                 for (int i = 0; i < accessories.size(); i++) {
                     if (accessories.get(i).get(2).equals("1")) {
                         addSavedAccessory(accessories.get(i).get(0));
+                        System.out.println(accessories.get(i).get(0));
                     }
                 }
             }
@@ -240,9 +241,19 @@ public class MainActivity extends AppCompatActivity {
     public void addSavedAccessory(String name) {
         // Get info from map
         ArrayList<Integer> info = accessoryMap.get(name);
-        int img = info.get(0);
-        int icon = info.get(1);
-        int layer = info.get(2);
+
+        int img = 0;
+        int icon = 0;
+        int layer = 0;
+
+        if (info.size() > 2) {
+            img = info.get(0);
+            icon = info.get(1);
+            layer = info.get(2);
+        } else {
+            img = info.get(0);
+            layer = info.get(1);
+        }
 
         // Draw accesory on dragon
         Drawable newItem;
@@ -456,10 +467,37 @@ public class MainActivity extends AppCompatActivity {
         ids.add(R.id.accessory_wingItem);
         accessoryMap.put("sprite_treasure", ids);
 
-        /*ids = new ArrayList<Integer>();
-        ids.add(R.drawable.sprite_blank);
-        ids.add(R.drawable.sprite_blank);
-        accessoryMap.put("sprite_blank", ids);
-        ids.clear();*/
+        ids = new ArrayList<Integer>();
+        ids.add(R.drawable.sprite_dragon);
+        ids.add(R.id.accessory_dragon);
+        accessoryMap.put("sprite_dragon", ids);
+        ids = new ArrayList<Integer>();
+        ids.add(R.drawable.sprite_dragon2);
+        ids.add(R.id.accessory_dragon);
+        accessoryMap.put("sprite_dragon2", ids);
+        ids = new ArrayList<Integer>();
+        ids.add(R.drawable.sprite_dragon3);
+        ids.add(R.id.accessory_dragon);
+        accessoryMap.put("sprite_dragon3", ids);
+        ids = new ArrayList<Integer>();
+        ids.add(R.drawable.sprite_dragon4);
+        ids.add(R.id.accessory_dragon);
+        accessoryMap.put("sprite_dragon4", ids);
+        ids = new ArrayList<Integer>();
+        ids.add(R.drawable.sprite_dragon5);
+        ids.add(R.id.accessory_dragon);
+        accessoryMap.put("sprite_dragon5", ids);
+        ids = new ArrayList<Integer>();
+        ids.add(R.drawable.sprite_dragon6);
+        ids.add(R.id.accessory_dragon);
+        accessoryMap.put("sprite_dragon6", ids);
+        ids = new ArrayList<Integer>();
+        ids.add(R.drawable.sprite_dragon7);
+        ids.add(R.id.accessory_dragon);
+        accessoryMap.put("sprite_dragon7", ids);
+        ids = new ArrayList<Integer>();
+        ids.add(R.drawable.sprite_dragon8);
+        ids.add(R.id.accessory_dragon);
+        accessoryMap.put("sprite_dragon8", ids);
     }
 }
