@@ -39,14 +39,15 @@ public class Question extends AppCompatActivity {
     private int selectedAnswer = 0;
     private DatabaseHelper dbHelper;
     private int correctAnswers = 0;
+    private int incorrectAnswers = 0;
+    private int currentLevel = 2;
     private int numQuestion = 0;
+    private int totalCorrect = 0;
     private String correctAnswerStr = "";
 
     private int lessonID = 1;
     int conceptID;
-    ArrayList<Integer> tempRandomArray = new ArrayList<Integer>();
-    ArrayList<String> questionTexts;
-    ArrayList<ArrayList<String>> questionAnswers;
+    ArrayList<String> questionText;
 
     /*
      * Starts the activity and shows corresponding view on screen
@@ -64,17 +65,13 @@ public class Question extends AppCompatActivity {
 
         // Get question group info
         dbHelper = new DatabaseHelper(this);
-        questionTexts = dbHelper.selectQuestionTexts(lessonID);
-        questionAnswers = dbHelper.selectQuestionAnswers(lessonID);
+        questionText = dbHelper.selectQuestionText(lessonID, currentLevel);
 
-        // Randomly order questions
-        for (int i = 0; i < questionTexts.size(); i++) {
-            tempRandomArray.add(i);
-        }
-        Collections.shuffle(tempRandomArray);
+        System.out.println(questionText.size());
+
 
         // Put new question text up
-        String text = questionTexts.get(tempRandomArray.get(numQuestion));
+        String text = questionText.get(0);
         TextView questionTextView = (TextView) findViewById(R.id.question_textView);
         questionTextView.setText(text);
         questionTextView.setTextSize(20);
@@ -82,14 +79,13 @@ public class Question extends AppCompatActivity {
         // set radio buttons
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.question_answer_group);
         for (int i = 0; i < radioGroup.getChildCount(); i++) {
-            String textAnswer = questionAnswers.get(tempRandomArray.get(numQuestion)).get(i);
+            String textAnswer = questionText.get(i+2);
             ((RadioButton) radioGroup.getChildAt(i)).setText(textAnswer);
             ((RadioButton) radioGroup.getChildAt(i)).setTextSize(20);
         }
 
         // Save what the new correct answer should be
-        int lastIdx = questionAnswers.get(tempRandomArray.get(numQuestion)).size() - 1;
-        correctAnswerStr = questionAnswers.get(tempRandomArray.get(numQuestion)).get(lastIdx);
+        correctAnswerStr = questionText.get(6);
     }
 
     /*
@@ -183,13 +179,15 @@ public class Question extends AppCompatActivity {
 
             // Get selected answer for comparison
             String selectedString =
-                    questionAnswers.get(tempRandomArray.get(numQuestion)).get(selectedAnswer-1);
+                    questionText.get(selectedAnswer+1);
 
             // Check if answer is correct
             if (selectedString.equals(correctAnswerStr)) {
                 correctAnswers += 1;
+                totalCorrect += 1;
                 ((RadioButton) radioGroup.getChildAt(selectedAnswer-1)).setTextColor(Color.GREEN);
             } else {
+                incorrectAnswers += 1;
                 ((RadioButton) radioGroup.getChildAt(selectedAnswer-1)).setTextColor(Color.RED);
             }
             System.out.println(correctAnswers);
@@ -197,51 +195,66 @@ public class Question extends AppCompatActivity {
             // Clear out selected answer
             selectedAnswer = 0;
 
-            // Check if user has tried all questions
-            // Fail if tried all and still not passed
-            if (numQuestion == questionTexts.size()-1) {
-                Intent intent = new Intent(this, Redo.class);
-                intent.putExtra("conceptID",conceptID);
-                intent.putExtra("lessonID",lessonID);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            } else {
-                numQuestion += 1;
-            }
+            numQuestion += 1;
 
         } else if (submitButton.getText().equals("Continue")) {
             // If button is used to continue
 
-            // If 3 questions were gotten right, pass and move on to success
-            if (correctAnswers == 3) {
-                Intent intent = new Intent(this, Success.class);
-                intent.putExtra("lessonID", lessonID);
-                intent.putExtra("conceptID", conceptID);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+            // if user gets two incorrect answers, difficulty decreases or they are given more help,
+            //      depending on what their level is
+            if (incorrectAnswers > 1) {
+                if (currentLevel < 2) {
+                    Intent intent = new Intent(this, Redo.class);
+                    intent.putExtra("conceptID",conceptID);
+                    intent.putExtra("lessonID",lessonID);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }
+                else {
+                    currentLevel -= 1;
+                    incorrectAnswers = 0;
+                    correctAnswers = 0;
+                }
             }
 
-            // else
+            // if user gets two correct answers, difficulty increases or they are done, depending
+            //      on what their level is
+            if (correctAnswers > 1) {
+                if (currentLevel > 2) {
+                    Intent intent = new Intent(this, Success.class);
+                    intent.putExtra("lessonID", lessonID);
+                    intent.putExtra("conceptID", conceptID);
+                    intent.putExtra("totalQuestions", numQuestion);
+                    intent.putExtra("totalCorrect", totalCorrect);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }
+                else {
+                    currentLevel += 1;
+                    incorrectAnswers = 0;
+                    correctAnswers = 0;
+                }
+            }
+
             // get new question
+            questionText = dbHelper.selectQuestionText(lessonID, currentLevel);
 
             // Put new question text up
-            String text = questionTexts.get(tempRandomArray.get(numQuestion));
             TextView questionTextView = (TextView) findViewById(R.id.question_textView);
-            questionTextView.setText(text);
+            questionTextView.setText(questionText.get(0));
 
             // Set radio buttons
             RadioGroup radioGroup = (RadioGroup) findViewById(R.id.question_answer_group);
             radioGroup.clearCheck();
             for (int i = 0; i < radioGroup.getChildCount(); i++) {
-                String textAnswer = questionAnswers.get(tempRandomArray.get(numQuestion)).get(i);
+                String textAnswer = questionText.get(i+2);
                 ((RadioButton) radioGroup.getChildAt(i)).setText(textAnswer);
                 ((RadioButton) radioGroup.getChildAt(i)).setEnabled(true);
                 ((RadioButton) radioGroup.getChildAt(i)).setTextColor(Color.parseColor("#cccccc"));
             }
 
             // Save what the new correct answer should be
-            int lastIdx = questionAnswers.get(tempRandomArray.get(numQuestion)).size() - 1;
-            correctAnswerStr = questionAnswers.get(tempRandomArray.get(numQuestion)).get(lastIdx);
+            correctAnswerStr = questionText.get(6);
 
             submitButton.setText("Submit");
 

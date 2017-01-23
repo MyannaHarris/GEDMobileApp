@@ -717,54 +717,32 @@ public class DatabaseHelper{
 
     }
     /**
-     * Query to select question text
+     * Query to select a random question text given the lesson and the difficulty
      */
-    public ArrayList<String> selectQuestionTexts(int lesson_id){
+    public ArrayList<String> selectQuestionText(int lesson_id, int difficulty){
         open();
 
-        Cursor c = myDatabase.rawQuery("SELECT question_text " +
-                "FROM question_template WHERE lesson_id = " + lesson_id, null);
+        Cursor c = myDatabase.rawQuery("SELECT question_text, numbers, answer_1, answer_2, answer_3" +
+                ", answer_4, correct_answer FROM Answers JOIN question_template ON " +
+                "Answers.question_id=question_template.question_id WHERE question_template.lesson_id=" +
+                lesson_id + " AND difficulty=" + difficulty + " ORDER BY RANDOM() LIMIT 1", null);
 
         ArrayList<String> questionText = new ArrayList<>();
 
-        while(c.moveToNext()){
-            questionText.add(c.getString(0));
+        c.moveToNext();
+        for (int i=0; i<7; i++) {
+            if (i==1) {
+                questionText.add("meh");
+            }
+            else {
+                questionText.add(c.getString(i));
+            }
         }
 
         c.close();
         close();
 
         return questionText;
-    }
-
-    /**
-     * Query to select question answers
-     */
-    public ArrayList<ArrayList<String>> selectQuestionAnswers(int lesson_id){
-        open();
-
-        Cursor c = myDatabase.rawQuery("SELECT answer_1, answer_2, answer_3, answer_4, " +
-                "correct_answer " +
-                "FROM Answers " + "JOIN question_template " +
-                "ON question_template.question_id = Answers.question_id " +
-                        " WHERE lesson_id = " + lesson_id, null);
-
-        ArrayList<ArrayList<String>> lessonQuestions = new ArrayList<>();
-
-        while(c.moveToNext()){
-            ArrayList<String> row = new ArrayList<String>();
-            row.add(c.getString(0));
-            row.add(c.getString(1));
-            row.add(c.getString(2));
-            row.add(c.getString(3));
-            row.add(c.getString(4));
-            lessonQuestions.add(row);
-        }
-
-        c.close();
-        close();
-
-        return lessonQuestions;
     }
 
     /**
