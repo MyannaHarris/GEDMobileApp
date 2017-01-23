@@ -117,6 +117,11 @@ public class Tools extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void goToGeoAssist (View view){
+        Intent intent = new Intent(this, GeoAssist.class);
+        startActivity(intent);
+    }
+
     /*
      * Sets what menu will be in the action bar
      * homeonlymenu has the settings button and the home button

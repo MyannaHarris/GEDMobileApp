@@ -1,3 +1,20 @@
+/*
+ * FormulaMemorization.java
+ *
+ * Formula Memorization tool activity
+ *
+ * Holds all GED Math formulas and has buttons to hid parts of a formula to allow for memorization
+ *
+ * Worked on by:
+ * Myanna Harris
+ * Kristina Spring
+ * Jasmine Jans
+ * Jimmy Sherman
+ *
+ * Last Edit: 1-22-17
+ *
+ */
+
 package com.gedappgui.gedappgui;
 
 import android.content.Intent;
