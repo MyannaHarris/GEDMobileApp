@@ -63,8 +63,8 @@ public class AchievementPopUp extends AppCompatActivity {
             int width = dm.widthPixels;
             int height = dm.heightPixels;
 
-            int popup_height = (int) (height * .3);
-            int popup_width = (int) (width * .8);
+            int popup_height = (int) (height/5);
+            int popup_width = (int) (width);
 
             getWindow().setLayout(popup_width, popup_height);
 
@@ -88,15 +88,15 @@ public class AchievementPopUp extends AppCompatActivity {
         TextView description = (TextView) findViewById(R.id.achievement_desc);
         description.setText(desc);
         //description.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(20));
-        description.setTextSize(TypedValue.COMPLEX_UNIT_SP, (float)((width)/45));
+        description.setTextSize(TypedValue.COMPLEX_UNIT_SP, (float)((height)/20));
 
         TextView a_name = (TextView) findViewById(R.id.achievement_name);
         a_name.setText(name);
         //a_name.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(40));
-        a_name.setTextSize(TypedValue.COMPLEX_UNIT_SP, (float)((width)/30));
+        a_name.setTextSize(TypedValue.COMPLEX_UNIT_SP, (float)((height)/15));
 
         Button button = (Button) findViewById(R.id.close_button);
-        button.setTextSize(TypedValue.COMPLEX_UNIT_SP, (float)((width)/45));
+        button.setTextSize(TypedValue.COMPLEX_UNIT_SP, (float)((height)/20));
 
         // get correct image from database
         Bitmap achievementImg = getFromAssets(img);

@@ -272,6 +272,22 @@ public class DatabaseHelper{
     }
 
     /**
+     * Get the achievement ids of the achievements that have already been achieved
+     * @return araylist of achievement ids
+     */
+    public ArrayList<Integer> selectAchievementIDs(){
+        open();
+        ArrayList<Integer> achievementIDs = new ArrayList<>();
+        Cursor cursor = myDatabase.rawQuery("Select achievement_id from user_achievements", null);
+        while(cursor.moveToNext()){
+            achievementIDs.add(cursor.getInt(0));
+        }
+        cursor.close();
+        close();
+        return achievementIDs;
+    }
+
+    /**
      *
      * @return an arraylist of all the earned achievements image names
      */
@@ -312,7 +328,7 @@ public class DatabaseHelper{
     public ArrayList<String> selectAchievementsDesc(){
         open();
         ArrayList<String> achievementDesc = new ArrayList<>();
-        Cursor c = myDatabase.rawQuery("SELECT DISTINCT achievement_desc FROM Achievements NATURAL " +
+        Cursor c = myDatabase.rawQuery("SELECT DISTINCT achievements_desc FROM Achievements NATURAL " +
                 "JOIN user_achievements WHERE achievement_id = achievement_id", null);
 
         while(c.moveToNext()){

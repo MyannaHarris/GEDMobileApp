@@ -31,18 +31,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+
 public class Achievements extends AppCompatActivity {
 
-    // Gridview
-    GridView gridview;
-
     DatabaseHelper db;
+
+    LinearLayout layout;
+
+    GridView gridview;
 
     /*
      * Starts the activity and shows corresponding view on screen
@@ -64,67 +67,31 @@ public class Achievements extends AppCompatActivity {
         // Fill gridview with achievements
         gridview = (GridView) findViewById(R.id.achievements_gridView);
 
-        /*ArrayList<String> images = db.selectAchievementsImgs();
-
+        ArrayList<String> images = db.selectAchievementsImgs();
         Bitmap[] buttonPictures = new Bitmap[images.size()];
-
         for(int i = 0; i < images.size(); i++){
             buttonPictures[i] = getFromAssets(images.get(i));
-        }*/
+        }
 
-        Integer[] buttonPictures = {
-                R.drawable.example_picture,
-                R.drawable.example_picture,
-                R.drawable.example_picture,
-                R.drawable.example_picture,
-                R.drawable.example_picture,
-                R.drawable.example_picture,
-                R.drawable.example_picture,
-                R.drawable.example_picture,
-                R.drawable.example_picture
-        };
-
-        gridview.setAdapter(new ButtonAdapter(this, buttonPictures));
+        gridview.setAdapter(new BitmapButtonAdapter(this, buttonPictures));
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
-                TextView achievementText = (TextView)findViewById(R.id.achievement_description);
-                String achievementDesc = "";
+                TextView achievementTextD = (TextView)findViewById(R.id.achievement_description);
+                TextView achievementTextN = (TextView)findViewById(R.id.achievement_name);
 
-                // Preform a function based on the position
-                switch (position) {
-                    case 0:
-                        achievementDesc = "Achievement 1";
-                        break;
-                    case 1:
-                        achievementDesc = "Achievement 2";
-                        break;
-                    case 2:
-                        achievementDesc = "Achievement 3";
-                        break;
-                    case 3:
-                        achievementDesc = "Achievement 4";
-                        break;
-                    case 4:
-                        achievementDesc = "Achievement 5";
-                        break;
-                    case 5:
-                        achievementDesc = "Achievement 6";
-                        break;
-                    case 6:
-                        achievementDesc = "Achievement 7";
-                        break;
-                    case 7:
-                        achievementDesc = "Achievement 8";
-                        break;
-                    case 8:
-                        achievementDesc = "Achievement 9";
-                        break;
-                    default:
-                        break;
+                ArrayList<String> desc = db.selectAchievementsDesc();
+                ArrayList<String> name = db.selectAchievementsNames();
+
+                String achievementDesc = "";
+                String achievementName = "";
+                if(position >= 0 && position < desc.size()){
+                    achievementDesc = desc.get(position);
+                    achievementName = name.get(position);
                 }
 
-                achievementText.setText(achievementDesc);
+                achievementTextD.setText(achievementDesc);
+                achievementTextN.setText(achievementName);
             }
         });
     }
@@ -136,7 +103,7 @@ public class Achievements extends AppCompatActivity {
      *
      * modified Myanna's code from LessonSteps
      */
-   /* private Bitmap getFromAssets(String imgName)
+    private Bitmap getFromAssets(String imgName)
     {
         AssetManager assetManager = getAssets();
         InputStream in = null;
@@ -149,7 +116,7 @@ public class Achievements extends AppCompatActivity {
 
         Bitmap bitmap = BitmapFactory.decodeStream(in);
         return bitmap;
-    }*/
+    }
 
     /*
      * hides bottom navigation bar
