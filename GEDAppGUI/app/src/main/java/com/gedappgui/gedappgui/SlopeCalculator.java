@@ -45,6 +45,10 @@ public class SlopeCalculator extends AppCompatActivity {
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
+        //gives an achievement if the user uses a tool for the first time
+        Intent achievement = new Intent(this, AchievementPopUp.class);
+        achievement.putExtra("achievementID", 7);
+        startActivity(achievement);
     }
 
     /*

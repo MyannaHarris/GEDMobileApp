@@ -49,6 +49,7 @@ public class LessonSummary extends AppCompatActivity {
         Intent mIntent = getIntent();
         conceptID = mIntent.getIntExtra("conceptID", 0);
         String lessonTitle = mIntent.getStringExtra("lessonTitle");
+
         if (mIntent.getExtras().containsKey("lessonID")) {
             lessonID = mIntent.getIntExtra("lessonID", 0);
         }

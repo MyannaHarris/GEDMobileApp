@@ -106,7 +106,10 @@ public class GeoAssist extends AppCompatActivity implements AdapterView.OnItemSe
         // attaching data adapter to spinner
         spinner.setAdapter(dataAdapter);
 
-
+        //gives an achievement if the user uses a tool for the first time
+        Intent achievement = new Intent(this, AchievementPopUp.class);
+        achievement.putExtra("achievementID", 7);
+        startActivity(achievement);
     }
 
     @Override

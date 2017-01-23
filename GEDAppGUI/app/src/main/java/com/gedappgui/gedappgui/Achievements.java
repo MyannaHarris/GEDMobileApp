@@ -75,6 +75,11 @@ public class Achievements extends AppCompatActivity {
 
         gridview.setAdapter(new BitmapButtonAdapter(this, buttonPictures));
 
+        //gives an achievement if the user opens the achievements in for the first time
+        Intent achievement = new Intent(this, AchievementPopUp.class);
+        achievement.putExtra("achievementID", 6);
+        startActivity(achievement);
+
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 TextView achievementTextD = (TextView)findViewById(R.id.achievement_description);
