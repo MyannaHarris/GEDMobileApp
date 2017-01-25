@@ -34,6 +34,7 @@ import android.widget.TextView;
 public class GameIntro extends AppCompatActivity {
     int conceptID;
     int lessonID;
+    int redo;
     // int to hold whether to go to questions or play next
     // 0 = questions, 1 = play
     private int nextActivity;
@@ -52,6 +53,7 @@ public class GameIntro extends AppCompatActivity {
         Intent mIntent = getIntent();
         conceptID = mIntent.getIntExtra("conceptID", 0);
         lessonID = mIntent.getIntExtra("lessonID", 0);
+        redo = mIntent.getIntExtra("redoComplete", 0);
 
         // Allow homeAsUpIndicator (back arrow) to desplay on action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -121,6 +123,7 @@ public class GameIntro extends AppCompatActivity {
         intent.putExtra("conceptID",conceptID);
         intent.putExtra("lessonID",lessonID);
         intent.putExtra("gameName", gameName);
+        intent.putExtra("redoComplete", redo);
         startActivity(intent);
     }
 

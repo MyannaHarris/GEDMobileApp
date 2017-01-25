@@ -164,6 +164,7 @@ public class RedoExample extends AppCompatActivity {
         intent.putExtra("conceptID", conceptID);
         intent.putExtra("next_activity", 0);
         intent.putExtra("gameName", "");
+        intent.putExtra("redoComplete", 1);
         startActivity(intent);
     }
 }

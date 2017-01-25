@@ -64,6 +64,11 @@ public class FractionToDecimalTool extends AppCompatActivity {
                 return false;
             }
         });
+
+        //gives an achievement if the user uses a tool for the first time
+        Intent achievement = new Intent(this, AchievementPopUp.class);
+        achievement.putExtra("achievementID", 7);
+        startActivity(achievement);
     }
 
     /*

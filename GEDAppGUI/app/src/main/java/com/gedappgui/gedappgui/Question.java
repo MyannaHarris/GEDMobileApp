@@ -47,6 +47,7 @@ public class Question extends AppCompatActivity {
 
     private int lessonID = 1;
     int conceptID;
+    int redo;
     ArrayList<String> questionText;
 
     /*
@@ -59,6 +60,7 @@ public class Question extends AppCompatActivity {
         Intent mIntent = getIntent();
         conceptID = mIntent.getIntExtra("conceptID", 0);
         lessonID = mIntent.getIntExtra("lessonID", 0);
+        redo = mIntent.getIntExtra("redoComplete", 0);
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -142,6 +144,7 @@ public class Question extends AppCompatActivity {
         Intent intent = new Intent(this, Success.class);
         intent.putExtra("conceptID",conceptID);
         intent.putExtra("lessonID",lessonID);
+        intent.putExtra("redoComplete", redo);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
