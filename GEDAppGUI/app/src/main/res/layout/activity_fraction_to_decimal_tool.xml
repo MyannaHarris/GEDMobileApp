@@ -24,101 +24,107 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.gedappgui.gedappgui.FractionToDecimalTool">
 
-    <TextView
-        android:text=""
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/FractionAnswer"
-        android:layout_below="@+id/FractionInput"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="14dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:textSize="20sp"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:id="@+id/DecimalInput"
-        android:layout_below="@+id/textView2"
-        android:layout_centerHorizontal="true"
-        android:maxLength="7"/>
+        <TextView
+            android:text="Fraction to Decimal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/FractionConvertTitle"
+            android:textSize="30sp"
+            android:textColor="@color/colorHeader1"
+            android:layout_alignParentTop="true"
+            android:layout_alignLeft="@+id/decimaltofrac"
+            android:layout_alignStart="@+id/decimaltofrac" />
 
-    <TextView
-        android:text="Fraction to Decimal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/FractionConvertTitle"
-        android:textSize="30sp"
-        android:textColor="@color/colorHeader1"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/textView"
-        android:layout_alignEnd="@+id/textView" />
+        <TextView
+            android:text="Put a fraction into the text box below and hit submit to convert (Example: 1/2, 13/7)"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/FractionConvertHint"
+            android:textSize="20sp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
-    <TextView
-        android:text="Put a fraction into the text box below and hit submit to convert (Example: 1/2, 13/7)"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/FractionConvertHint"
-        android:textSize="20sp"
-        android:layout_below="@+id/FractionConvertTitle"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text=""
+            android:ems="10"
+            android:id="@+id/FractionInput"
+            android:layout_below="@+id/FractionConvertHint"
+            android:layout_alignLeft="@+id/DecimalInput"
+            android:layout_alignStart="@+id/DecimalInput"
+            android:maxLength="10"/>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text=""
-        android:ems="10"
-        android:id="@+id/FractionInput"
-        android:layout_below="@+id/FractionConvertHint"
-        android:layout_alignLeft="@+id/DecimalInput"
-        android:layout_alignStart="@+id/DecimalInput"
-        android:maxLength="10"/>
+        <TextView
+            android:text=""
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/FractionAnswer"
+            android:layout_below="@+id/FractionInput"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="14dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:textSize="20sp"/>
 
-    <TextView
-        android:text="Put a decimal into the text box below and hit submit to convert (Example: 0.33, 1.89)"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView2"
-        android:textSize="20sp"
-        android:layout_below="@+id/textView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <TextView
+            android:text="Decimal To Fraction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/decimaltofrac"
+            android:textSize="30sp"
+            android:textColor="@color/colorHeader1"
+            android:layout_above="@+id/FractionConvertHint"
+            android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:text=""
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/DecimalAnswer"
-        android:textSize="20sp"
-        android:layout_below="@+id/DecimalInput"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="17dp" />
+        <TextView
+            android:text="Put a decimal into the text box below and hit submit to convert (Example: 0.33, 1.89)"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/DecimalToconverttitle"
+            android:textSize="20sp"
+            android:layout_marginTop="11dp"
+            android:layout_below="@+id/FractionConvertTitle"
+            android:layout_toRightOf="@+id/DecimalAnswer"
+            android:layout_toEndOf="@+id/DecimalAnswer" />
 
-    <Button
-        android:text="Submit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/submitButton"
-        android:onClick="evaluateText"
-        android:layout_below="@+id/DecimalAnswer"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:ems="10"
+            android:id="@+id/DecimalInput"
+            android:maxLength="7"
+            android:layout_below="@+id/textView2"
+            android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:text="Decimal To Fraction"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/decimaltofrac"
-        android:textSize="30sp"
-        android:textColor="@color/colorHeader1"
-        android:layout_below="@+id/FractionAnswer"
-        android:layout_centerHorizontal="true" />
+        <TextView
+            android:text=""
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/DecimalAnswer"
+            android:textSize="20sp"
+            android:layout_below="@+id/DecimalInput"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="17dp" />
+
+        <Button
+            android:text="Submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/submitButton"
+            android:onClick="evaluateText"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+    </LinearLayout>
 
 </RelativeLayout>

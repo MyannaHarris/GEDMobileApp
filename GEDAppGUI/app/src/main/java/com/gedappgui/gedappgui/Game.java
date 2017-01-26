@@ -39,6 +39,7 @@ import java.util.ArrayList;
 public class Game extends AppCompatActivity {
     int conceptID;
     int lessonID;
+    int redo;
     // int to hold whether to go to questions or play next
     // 0 = questions, 1 = play
     private int nextActivity;
@@ -58,6 +59,7 @@ public class Game extends AppCompatActivity {
         Intent mIntent = getIntent();
         conceptID = mIntent.getIntExtra("conceptID", 0);
         lessonID = mIntent.getIntExtra("lessonID", 0);
+        redo = mIntent.getIntExtra("redoComplete", 0);
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -152,6 +154,7 @@ public class Game extends AppCompatActivity {
         intent.putExtra("next_activity", nextActivity);
         intent.putExtra("conceptID",conceptID);
         intent.putExtra("lessonID",lessonID);
+        intent.putExtra("redoComplete", redo);
         startActivity(intent);
     }
 }

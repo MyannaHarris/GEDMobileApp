@@ -41,6 +41,7 @@ public class Success extends AppCompatActivity {
     DatabaseHelper dbHelper;
     int lessonID;
     int conceptID;
+    int redo;
     GridLayout gridlayout;
     int accessoryGiven = 0;
     /*
@@ -53,6 +54,7 @@ public class Success extends AppCompatActivity {
         Intent mIntent = getIntent();
         conceptID = mIntent.getIntExtra("conceptID", 0);
         lessonID = mIntent.getIntExtra("lessonID", 0);
+        redo = mIntent.getIntExtra("redoComplete", 0);
 
         ArrayList<Integer> accessories = new ArrayList<>();
 
@@ -90,6 +92,34 @@ public class Success extends AppCompatActivity {
 
         //put things in the gridlayout
         setAccessoryInfo(accessories);
+
+        //gives an achievement if the user completes the first concept
+        if(lessonID == 6 && !dbHelper.achievementExists(9)){
+            Intent achievement = new Intent(this, AchievementPopUp.class);
+            achievement.putExtra("achievementID", 9);
+            startActivity(achievement);
+        }
+
+        //gives an achievement if the user completes the second concept
+        if(lessonID == 12 && !dbHelper.achievementExists(10)){
+            Intent achievement = new Intent(this, AchievementPopUp.class);
+            achievement.putExtra("achievementID", 10);
+            startActivity(achievement);
+        }
+
+        //gives an achievement if the user completes the final concept
+        if(lessonID == 24 && !dbHelper.achievementExists(11)){
+            Intent achievement = new Intent(this, AchievementPopUp.class);
+            achievement.putExtra("achievementID", 11);
+            startActivity(achievement);
+        }
+
+        //gives an achievement if the user completes the lesson after going over the redos
+        if(redo == 1 && !dbHelper.achievementExists(14)){
+            Intent achievement = new Intent(this, AchievementPopUp.class);
+            achievement.putExtra("achievementID", 14);
+            startActivity(achievement);
+        }
     }
 
     /*
