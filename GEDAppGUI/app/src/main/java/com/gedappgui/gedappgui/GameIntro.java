@@ -67,8 +67,9 @@ public class GameIntro extends AppCompatActivity {
         // Get game to load
         gameName = mIntent.getStringExtra("gameName");
 
+        TextView instructions = (TextView) findViewById(R.id.instructions);
+
         if (gameName.equals("bucketGame")) {
-            TextView instructions = (TextView) findViewById(R.id.instructions);
             String instruct = "Swipe left and right to move character and catch correct numbers.";
             instructions.setText(instruct);
         }

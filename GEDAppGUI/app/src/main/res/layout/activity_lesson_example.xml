@@ -24,6 +24,7 @@
             android:id="@+id/example1_header"
             android:textSize="30sp"
             android:textColor="@color/colorHeader1"
+            android:textStyle="bold"
             android:paddingTop="10dp"
             />
 
@@ -43,6 +44,7 @@
             android:id="@+id/example2_header"
             android:textSize="30sp"
             android:textColor="@color/colorHeader1"
+            android:textStyle="bold"
             android:paddingTop="10dp"/>
 
         <TextView

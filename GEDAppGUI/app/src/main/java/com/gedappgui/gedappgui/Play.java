@@ -27,9 +27,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.ArrayList;
+
 public class Play extends AppCompatActivity {
 
     private String gameName = "bucketGame";
+    private ArrayList<Integer> lessonIds;
+    private ArrayList<String> gameNames;
 
     /*
      * Starts the activity and shows corresponding view on screen
@@ -44,6 +48,23 @@ public class Play extends AppCompatActivity {
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+        lessonIds = new ArrayList<Integer>();
+        gameNames = new ArrayList<String>();
+
+        lessonIds.add(1);
+        lessonIds.add(0);
+        lessonIds.add(0);
+        lessonIds.add(0);
+
+        gameNames.add("Bucket Game");
+        gameNames.add("Temp Game");
+        gameNames.add("Temp Game");
+        gameNames.add("Temp Game");
+
+        for (int i = 0; i < lessonIds.size(); i++) {
+
+        }
     }
 
     /*

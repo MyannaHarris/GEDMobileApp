@@ -21,11 +21,12 @@
             android:orientation="vertical" >
 
             <TextView
-                android:text="Redo 1"
+                android:text="Example 1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/redo1"
                 android:textSize="30sp"
+                android:textStyle="bold"
                 android:textColor="@color/colorHeader1"/>
 
             <TextView
@@ -36,11 +37,12 @@
                 android:textSize="20sp"/>
 
             <TextView
-                android:text="Redo 2"
+                android:text="Example 2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/redo2"
                 android:textSize="30sp"
+                android:textStyle="bold"
                 android:textColor="@color/colorHeader1"/>
 
             <TextView
@@ -51,11 +53,12 @@
                 android:textSize="20sp"/>
 
             <TextView
-                android:text="Redo 3"
+                android:text="Example 3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/redo3"
                 android:textSize="30sp"
+                android:textStyle="bold"
                 android:textColor="@color/colorHeader1"/>
 
             <TextView
@@ -66,15 +69,16 @@
                 android:textSize="20sp"/>
 
             <Button
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/redoLessonGame"
-                android:layout_alignParentLeft="true"
-                android:layout_marginRight="@dimen/button_horiz_margin"
-                android:layout_marginBottom="@dimen/button_vert_margin"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center"
                 android:layout_marginTop="@dimen/button_vert_margin"
                 android:text="@string/lessonGameButton"
+                android:textSize="18sp"
                 android:onClick="gotToLessonGame" />
+
         </LinearLayout>
     </ScrollView>
 
