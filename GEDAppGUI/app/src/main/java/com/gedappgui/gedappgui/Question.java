@@ -69,13 +69,23 @@ public class Question extends AppCompatActivity {
         dbHelper = new DatabaseHelper(this);
         questionText = dbHelper.selectQuestionText(lessonID, currentLevel);
 
-        System.out.println(questionText.size());
-
 
         // Put new question text up
-        String text = questionText.get(0);
+        String question = "";
+        String[] template = questionText.get(0).split("%NUM%");
+        String[] text =  questionText.get(1).split(";");
+        int j=0;
+        while (j<template.length || j<text.length) {
+            if (j<template.length) {
+                question += template[j];
+            }
+            if (j<text.length) {
+                question += text[j];
+            }
+            j++;
+        }
         TextView questionTextView = (TextView) findViewById(R.id.question_textView);
-        questionTextView.setText(text);
+        questionTextView.setText(question);
         questionTextView.setTextSize(20);
 
         // set radio buttons
@@ -243,8 +253,21 @@ public class Question extends AppCompatActivity {
             questionText = dbHelper.selectQuestionText(lessonID, currentLevel);
 
             // Put new question text up
+            String question = "";
+            String[] template = questionText.get(0).split("%NUM%");
+            String[] text =  questionText.get(1).split(";");
+            int j=0;
+            while (j<template.length || j<text.length) {
+                if (j<template.length) {
+                    question += template[j];
+                }
+                if (j<text.length) {
+                    question += text[j];
+                }
+                j++;
+            }
             TextView questionTextView = (TextView) findViewById(R.id.question_textView);
-            questionTextView.setText(questionText.get(0));
+            questionTextView.setText(question);
 
             // Set radio buttons
             RadioGroup radioGroup = (RadioGroup) findViewById(R.id.question_answer_group);

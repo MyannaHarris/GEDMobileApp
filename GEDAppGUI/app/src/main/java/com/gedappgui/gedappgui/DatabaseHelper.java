@@ -731,12 +731,7 @@ public class DatabaseHelper{
 
         c.moveToNext();
         for (int i=0; i<7; i++) {
-            if (i==1) {
-                questionText.add("meh");
-            }
-            else {
-                questionText.add(c.getString(i));
-            }
+            questionText.add(c.getString(i));
         }
 
         c.close();
