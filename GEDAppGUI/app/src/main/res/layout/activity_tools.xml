@@ -67,5 +67,17 @@ Last Edit: 10-29-16
         android:layout_alignParentEnd="true"
         android:onClick="goToGeoAssist"/>
 
+    <Button
+        android:text="Place values"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/geoassist"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/placevalues"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="goToPlaceValues"/>
+
 
 </RelativeLayout>
