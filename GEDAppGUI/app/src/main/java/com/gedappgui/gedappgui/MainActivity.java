@@ -113,7 +113,8 @@ public class MainActivity extends AppCompatActivity {
         //if (((MyApplication) this.getApplication()).getLoginStatus()) {
         if(!db.firstTimeLogin()){
             TextView greetingText = (TextView)findViewById(R.id.sprite_speechBubble);
-            String name = ((MyApplication) this.getApplication()).getName();
+            //String name = ((MyApplication) this.getApplication()).getName();
+            String name = db.selectUsername();
             String[] greetings = {
                     "There's Math to do \n" + name + "!",
                     "Hello \n" + name + "!\nWelcome to the app!",
