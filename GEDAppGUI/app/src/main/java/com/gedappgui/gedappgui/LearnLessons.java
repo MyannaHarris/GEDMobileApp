@@ -18,9 +18,11 @@
 
 package com.gedappgui.gedappgui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Build;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayout;
@@ -39,6 +41,10 @@ public class LearnLessons extends AppCompatActivity {
     GridLayout gridlayout;
     DatabaseHelper dbHelper;
     int conceptID;
+
+    // completed lesson dialog
+    android.support.v7.app.AlertDialog.Builder lessonDialog;
+    int lessonID;
 
     /*
      * Starts the activity and shows corresponding view on screen
@@ -65,6 +71,9 @@ public class LearnLessons extends AppCompatActivity {
         //query in the lessons given the concept
         //lessonNames.add("Lesson 1");
         //lessonNames.add("Lesson 2");
+
+        // 1. Instantiate an AlertDialog.Builder with its constructor
+        lessonDialog = new AlertDialog.Builder(this);
 
         //put things in the gridlayout
         setGridInfo(lessonNames);
@@ -212,14 +221,83 @@ public class LearnLessons extends AppCompatActivity {
             public void onClick(View v) {
                 // Perform action on click
 
-                Intent activityChangeIntent = new Intent(LearnLessons.this, LessonSummary.class);
-                activityChangeIntent.putExtra("conceptID",conceptID);
-                activityChangeIntent.putExtra("offset",offset);
-                activityChangeIntent.putExtra("lessonTitle",lessonTitle);
+                lessonID = dbHelper.selectLessonID(conceptID,offset);
 
-                // currentContext.startActivity(activityChangeIntent);
+                if (dbHelper.isLessonAlreadyDone(lessonID)) {
+                    // 2. Chain together various setter methods to set the dialog characteristics
+                    lessonDialog.setTitle("Choose a lesson section to go to:");
 
-                LearnLessons.this.startActivity(activityChangeIntent);
+                    lessonDialog.setItems(new CharSequence[]
+                                    {"Summary", "Steps", "Example", "Game"},
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent activityChangeIntent;
+
+                                    // The 'which' argument contains the index position
+                                    // of the selected item
+                                    switch (which) {
+                                        case 0:
+                                            activityChangeIntent = new Intent(LearnLessons.this,
+                                                    LessonSummary.class);
+                                            activityChangeIntent.putExtra("conceptID",conceptID);
+                                            activityChangeIntent.putExtra("lessonID",lessonID);
+                                            activityChangeIntent.putExtra("lessonTitle",lessonTitle);
+
+                                            LearnLessons.this.startActivity(activityChangeIntent);
+                                            break;
+                                        case 1:
+                                            activityChangeIntent = new Intent(LearnLessons.this,
+                                                    LessonSteps.class);
+                                            activityChangeIntent.putExtra("conceptID",conceptID);
+                                            activityChangeIntent.putExtra("lessonID",lessonID);
+
+                                            LearnLessons.this.startActivity(activityChangeIntent);
+                                            break;
+                                        case 2:
+                                            activityChangeIntent = new Intent(LearnLessons.this,
+                                                    LessonExample.class);
+                                            activityChangeIntent.putExtra("conceptID",conceptID);
+                                            activityChangeIntent.putExtra("lessonID",lessonID);
+
+                                            LearnLessons.this.startActivity(activityChangeIntent);
+                                            break;
+                                        case 3:
+                                            activityChangeIntent = new Intent(LearnLessons.this,
+                                                    GameIntro.class);
+                                            activityChangeIntent.putExtra("next_activity", 0);
+                                            activityChangeIntent.putExtra("conceptID",conceptID);
+                                            activityChangeIntent.putExtra("lessonID",lessonID);
+                                            activityChangeIntent.putExtra("gameName", "");
+
+                                            LearnLessons.this.startActivity(activityChangeIntent);
+                                            break;
+                                    }
+                                }
+                            });
+
+                    // Add the buttons
+                    lessonDialog.setNegativeButton("Cancel",
+                            new DialogInterface.OnClickListener()
+                            {
+                                public void onClick(DialogInterface dialog, int id)
+                                {
+                                    dialog.cancel();
+                                }
+                            });
+
+                    // 3. Get the AlertDialog from create()
+                    AlertDialog dialog = lessonDialog.create();
+                    dialog.show();
+                } else {
+                    Intent activityChangeIntent = new Intent(LearnLessons.this, LessonSummary.class);
+                    activityChangeIntent.putExtra("conceptID",conceptID);
+                    activityChangeIntent.putExtra("offset",offset);
+                    activityChangeIntent.putExtra("lessonTitle",lessonTitle);
+
+                    // currentContext.startActivity(activityChangeIntent);
+
+                    LearnLessons.this.startActivity(activityChangeIntent);
+                }
             }
         });
         return lessonName;
@@ -245,14 +323,83 @@ public class LearnLessons extends AppCompatActivity {
             public void onClick(View v) {
                 // Perform action on click
 
-                Intent activityChangeIntent = new Intent(LearnLessons.this, LessonSummary.class);
-                activityChangeIntent.putExtra("conceptID",conceptID);
-                activityChangeIntent.putExtra("offset",offset);
-                activityChangeIntent.putExtra("lessonTitle",lessonTitle);
+                lessonID = dbHelper.selectLessonID(conceptID,offset);
 
-                // currentContext.startActivity(activityChangeIntent);
+                if (dbHelper.isLessonAlreadyDone(lessonID)) {
+                    // 2. Chain together various setter methods to set the dialog characteristics
+                    lessonDialog.setTitle("Choose a lesson section to go to:");
 
-                LearnLessons.this.startActivity(activityChangeIntent);
+                    lessonDialog.setItems(new CharSequence[]
+                                    {"Summary", "Steps", "Example", "Game"},
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent activityChangeIntent;
+
+                                    // The 'which' argument contains the index position
+                                    // of the selected item
+                                    switch (which) {
+                                        case 0:
+                                            activityChangeIntent = new Intent(LearnLessons.this,
+                                                    LessonSummary.class);
+                                            activityChangeIntent.putExtra("conceptID",conceptID);
+                                            activityChangeIntent.putExtra("lessonID",lessonID);
+                                            activityChangeIntent.putExtra("lessonTitle",lessonTitle);
+
+                                            LearnLessons.this.startActivity(activityChangeIntent);
+                                            break;
+                                        case 1:
+                                            activityChangeIntent = new Intent(LearnLessons.this,
+                                                    LessonSteps.class);
+                                            activityChangeIntent.putExtra("conceptID",conceptID);
+                                            activityChangeIntent.putExtra("lessonID",lessonID);
+
+                                            LearnLessons.this.startActivity(activityChangeIntent);
+                                            break;
+                                        case 2:
+                                            activityChangeIntent = new Intent(LearnLessons.this,
+                                                    LessonExample.class);
+                                            activityChangeIntent.putExtra("conceptID",conceptID);
+                                            activityChangeIntent.putExtra("lessonID",lessonID);
+
+                                            LearnLessons.this.startActivity(activityChangeIntent);
+                                            break;
+                                        case 3:
+                                            activityChangeIntent = new Intent(LearnLessons.this,
+                                                    GameIntro.class);
+                                            activityChangeIntent.putExtra("next_activity", 0);
+                                            activityChangeIntent.putExtra("conceptID",conceptID);
+                                            activityChangeIntent.putExtra("lessonID",lessonID);
+                                            activityChangeIntent.putExtra("gameName", "");
+
+                                            LearnLessons.this.startActivity(activityChangeIntent);
+                                            break;
+                                    }
+                                }
+                            });
+
+                    // Add the buttons
+                    lessonDialog.setNegativeButton("Cancel",
+                            new DialogInterface.OnClickListener()
+                            {
+                                public void onClick(DialogInterface dialog, int id)
+                                {
+                                    dialog.cancel();
+                                }
+                            });
+
+                    // 3. Get the AlertDialog from create()
+                    AlertDialog dialog = lessonDialog.create();
+                    dialog.show();
+                } else {
+                    Intent activityChangeIntent = new Intent(LearnLessons.this, LessonSummary.class);
+                    activityChangeIntent.putExtra("conceptID",conceptID);
+                    activityChangeIntent.putExtra("offset",offset);
+                    activityChangeIntent.putExtra("lessonTitle",lessonTitle);
+
+                    // currentContext.startActivity(activityChangeIntent);
+
+                    LearnLessons.this.startActivity(activityChangeIntent);
+                }
             }
         });
         if (odd == 0) {

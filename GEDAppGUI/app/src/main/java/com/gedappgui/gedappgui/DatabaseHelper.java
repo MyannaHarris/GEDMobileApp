@@ -856,6 +856,26 @@ public class DatabaseHelper{
     }
 
     /**
+     * query to check whether the selected lesson has been completed
+     * @param id of the lesson
+     */
+    boolean isLessonAlreadyDone(int id) {
+        open();
+        boolean isComplete = false;
+        Cursor c = myDatabase.rawQuery("SELECT count(lesson_id) FROM user_lessons WHERE lesson_id="
+                + id + " AND datetime_finished IS NOT NULL",null);
+        c.moveToFirst();
+        int test = c.getInt(0);
+        if (test > 0) {
+            System.out.println("The lesson is completed");
+            isComplete = true;
+        }
+        System.out.println("The lesson is NOT completed");
+        close();
+        return isComplete;
+    }
+
+    /**
      * query to update what accessory is on sprite
      * @param name of the accessory
      * @param groupID of the accessory (so accessories on the same layer don't all stay on)
