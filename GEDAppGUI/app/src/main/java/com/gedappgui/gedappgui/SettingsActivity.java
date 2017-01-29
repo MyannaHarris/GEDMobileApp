@@ -45,7 +45,7 @@ public class SettingsActivity extends AppCompatActivity {
                 .replace(android.R.id.content, new SettingsFragment())
                 .commit();
 
-        // Allow homeAsUpIndicator (back arrow) to desplay on action bar
+        // Allow homeAsUpIndicator (back arrow) to display on action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Allow user to control audio with volume buttons on phone
@@ -128,6 +128,7 @@ public class SettingsActivity extends AppCompatActivity {
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:

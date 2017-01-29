@@ -43,7 +43,7 @@ public class MyApplication extends Application {
     //object of database class in here as well (getters and setters)
 
     // User's name
-    private String name = "";
+    private String name;
 
     // Whether the use has logged in
     private static boolean loginStatus = false;
@@ -125,9 +125,7 @@ public class MyApplication extends Application {
         }
     };
 
-    public String getName() {
-        return name;
-    }
+    public String getName() { return name; }
 
     public void setName(String newName) {
         this.name = newName;

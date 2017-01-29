@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
 
         db = new DatabaseHelper(this);
 
-        //if (!((MyApplication) this.getApplication()).getLoginStatus()) {
         if (db.firstTimeLogin()){
             // Show login first time the app is opened
             Intent intent = new Intent(this, Login.class);
@@ -71,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
         else {
             // Show home screen whenever app is opened after that
             setContentView(R.layout.activity_main);
+
+            //set up the global username
+            ((MyApplication) this.getApplication()).setName(db.selectUsername());
 
             // Allow user to control audio with volume buttons on phone
             setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -110,10 +112,14 @@ public class MainActivity extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
 
-        //if (((MyApplication) this.getApplication()).getLoginStatus()) {
         if(!db.firstTimeLogin()){
             TextView greetingText = (TextView)findViewById(R.id.sprite_speechBubble);
-            //String name = ((MyApplication) this.getApplication()).getName();
+
+            //if the username is changed in settings change it in the DB
+            if(!((MyApplication) this.getApplication()).getName().equals(db.selectUsername())) {
+                db.updateUsername(((MyApplication) this.getApplication()).getName());
+            }
+
             String name = db.selectUsername();
             String[] greetings = {
                     "There's Math to do \n" + name + "!",

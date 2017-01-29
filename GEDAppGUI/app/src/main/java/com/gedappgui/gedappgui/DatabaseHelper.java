@@ -345,7 +345,7 @@ public class DatabaseHelper{
     public void updateUsername(String username) {
         open();
 
-        myDatabase.rawQuery("UPDATE User SET username = '" + username + "'", null);
+        myDatabase.execSQL("UPDATE User SET username = '" + username + "'");
 
         close();
     }
