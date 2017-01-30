@@ -21,6 +21,7 @@
 package com.gedappgui.gedappgui;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,6 +37,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Success extends AppCompatActivity {
 
@@ -45,6 +48,8 @@ public class Success extends AppCompatActivity {
     private int redo;
     private GridLayout gridlayout;
     private int accessoryGiven = 0;
+
+    private Map<Integer, Integer> accessoryMap;
 
     /*
      * Starts the activity and shows corresponding view on screen
@@ -62,18 +67,20 @@ public class Success extends AppCompatActivity {
 
         dbHelper = new DatabaseHelper(this);
 
+        // make dictionary of image ids
+        accessoryMap = new HashMap<Integer, Integer>();
+        makeDictionary();
+
         if (!(dbHelper.isLessonAlreadyStarted(lessonID+1))) {
             TextView pickText = (TextView) findViewById(R.id.accessory_choice);
             pickText.setText("Pick your sprite accessory:");
-            //will be replaced by dbHelper call
-            accessories.add(18);
-            accessories.add(R.drawable.sprite_nerdglasses);
-            accessories.add(23);
-            accessories.add(R.drawable.sprite_shirt_long);
-            accessories.add(19);
-            accessories.add(R.drawable.sprite_partyhat);
-
-            //will be replaced by dbHelper call
+            // get random accessories user doesn't have from db and put them in ArrayList
+            ArrayList<Integer> ids = dbHelper.getRandomAccessories();
+            for (int i=0; i<ids.size(); i++) {
+                accessoryGiven = ids.get(i);
+                accessories.add(ids.get(i)); // accessory id
+                accessories.add(accessoryMap.get(ids.get(i))); // accessory image
+            }
         }
 
         dbHelper.lessonCompleted(lessonID);
@@ -274,14 +281,47 @@ public class Success extends AppCompatActivity {
             public void onClick(View v) {
                 // Perform action on click
                 accessoryGiven = finalID;
-                System.out.println(accessoryGiven);
             }
         });
-        imgView.setImageResource(img);
+        imgView.setImageBitmap(BitmapFactory.decodeResource(
+                getResources(), img));
         return imgView;
     }
 
     void giveUserItem() {
         dbHelper.giveAccessory(accessoryGiven);
+    }
+
+    /*
+     * Make dictionary for accessories
+     */
+    public void makeDictionary() {
+        accessoryMap.put(11, R.drawable.sprite_glasses_icon);
+        accessoryMap.put(15, R.drawable.sprite_monocle_icon);
+        accessoryMap.put(16, R.drawable.sprite_nerdglasses_icon);
+        accessoryMap.put(20, R.drawable.sprite_roundglasses_icon);
+        accessoryMap.put(26, R.drawable.sprite_fancyglasses_icon);
+        accessoryMap.put(27, R.drawable.sprite_grannyglasses_icon);
+
+        accessoryMap.put(1, R.drawable.sprite_brownhat_icon);
+        accessoryMap.put(12, R.drawable.sprite_hat_baseball_icon);
+        accessoryMap.put(13, R.drawable.sprite_hat_baseball_camo_icon);
+        accessoryMap.put(14, R.drawable.sprite_hat_baseball_red_icon);
+        accessoryMap.put(25, R.drawable.sprite_tophat_icon);
+        accessoryMap.put(19, R.drawable.sprite_ribbonhat_icon);
+
+        accessoryMap.put(21, R.drawable.sprite_shirt_long_icon);
+        accessoryMap.put(22, R.drawable.sprite_shirt_long_green_icon);
+        accessoryMap.put(23, R.drawable.sprite_shirt_short_icon);
+        accessoryMap.put(24, R.drawable.sprite_shirt_short_red_icon);
+        accessoryMap.put(28, R.drawable.sprite_fancyshirt_icon);
+        accessoryMap.put(29, R.drawable.sprite_tropicalshirt_icon);
+
+        accessoryMap.put(2, R.drawable.sprite_cane_icon);
+        accessoryMap.put(17, R.drawable.sprite_partyhat_icon);
+        accessoryMap.put(18, R.drawable.sprite_redribbonhat_icon);
+        accessoryMap.put(30, R.drawable.sprite_armor_icon);
+        accessoryMap.put(32, R.drawable.sprite_sword_icon);
+        accessoryMap.put(31, R.drawable.sprite_treasure_icon);
     }
 }

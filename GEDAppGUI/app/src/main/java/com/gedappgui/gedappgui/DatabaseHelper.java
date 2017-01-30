@@ -828,10 +828,23 @@ public class DatabaseHelper{
         close();
     }*/
 
+    ArrayList<Integer> getRandomAccessories() {
+        open();
+        ArrayList<Integer> ids = new ArrayList<>();
+        String getAccessories = "SELECT accessory_id FROM accessories WHERE NOT EXISTS (SELECT " +
+                "user_accessories.accessory_id FROM user_accessories WHERE " +
+                "user_accessories.accessory_id = accessories.accessory_id) ORDER BY RANDOM() LIMIT 3";
+        Cursor c = myDatabase.rawQuery(getAccessories, null);
+        while(c.moveToNext()) {
+            ids.add(c.getInt(0));
+        }
+        close();
+        return ids;
+    }
+
     void giveAccessory(int id) {
         open();
         String insertQuery = "INSERT INTO user_accessories(user_id, accessory_id, currently_wearing) VALUES(1,"+id+",0)";
-        System.out.println(insertQuery);
         myDatabase.execSQL(insertQuery);
         close();
     }
