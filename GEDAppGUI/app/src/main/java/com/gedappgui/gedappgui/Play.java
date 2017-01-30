@@ -11,7 +11,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 11-6-16
+ * Last Edit: 1-29-17
  *
  */
 
@@ -26,12 +26,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
 public class Play extends AppCompatActivity {
 
-    private String gameName = "bucketGame";
     private ArrayList<Integer> lessonIds;
     private ArrayList<String> gameNames;
 
@@ -53,17 +55,36 @@ public class Play extends AppCompatActivity {
         gameNames = new ArrayList<String>();
 
         lessonIds.add(1);
-        lessonIds.add(0);
+        lessonIds.add(2);
         lessonIds.add(0);
         lessonIds.add(0);
 
         gameNames.add("Bucket Game");
+        gameNames.add("New Game");
         gameNames.add("Temp Game");
         gameNames.add("Temp Game");
-        gameNames.add("Temp Game");
+
+        LinearLayout gamesLayout = (LinearLayout) findViewById(R.id.GameLayout);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
 
         for (int i = 0; i < lessonIds.size(); i++) {
+            Button game = new Button(this);
+            game.setText(gameNames.get(i));
+            game.setLayoutParams(layoutParams);
+            game.setTag(lessonIds.get(i));
+            gamesLayout.addView(game);
 
+            game.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Button gameButton = (Button) v;
+                    Intent intent = new Intent(Play.this, GameIntro.class);
+                    intent.putExtra("next_activity", 1);
+                    intent.putExtra("lessonID", (Integer)gameButton.getTag());
+                    startActivity(intent);
+                }
+            });
         }
     }
 
@@ -102,32 +123,6 @@ public class Play extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
-    }
-
-    /*
-     * Called when a game is selected
-     * Opens the GameIntro page
-     * intent.putExtra("next_activity", 1);
-     *   = sends 1 to tell game to go to this play activity next
-     */
-    public void goToGame(View view) {
-        Intent intent = new Intent(this, GameIntro.class);
-        intent.putExtra("next_activity", 1);
-        intent.putExtra("gameName", "");
-        startActivity(intent);
-    }
-
-    /*
-     * Called when bucket game is selected
-     * Opens the GameIntro page
-     * intent.putExtra("next_activity", 1);
-     *   = sends 1 to tell game to go to this play activity next
-     */
-    public void goToBucketGame(View view) {
-        Intent intent = new Intent(this, GameIntro.class);
-        intent.putExtra("next_activity", 1);
-        intent.putExtra("gameName", gameName);
-        startActivity(intent);
     }
 
     /*

@@ -34,7 +34,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class Login extends AppCompatActivity {
-    DatabaseHelper db;
+
+    private DatabaseHelper db;
+
     /*
      * Starts the Login activity and shows corresponding view on screen
      */

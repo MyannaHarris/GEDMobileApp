@@ -58,19 +58,19 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
     // 5 - dragons
 
     // Accessories variables
-    LayerDrawable spriteDrawable;
-    ImageView spriteImage;
-    DatabaseHelper dbHelper;
-    ArrayList<String> glasses;
-    ArrayList<String> shirts;
-    ArrayList<String> hats;
-    ArrayList<String> specials;
-    ArrayList<String> allAccessories;
-    ArrayList<String> dragons;
-    int currDragon = 0;
+    private LayerDrawable spriteDrawable;
+    private ImageView spriteImage;
+    private DatabaseHelper dbHelper;
+    private ArrayList<String> glasses;
+    private ArrayList<String> shirts;
+    private ArrayList<String> hats;
+    private ArrayList<String> specials;
+    private ArrayList<String> allAccessories;
+    private ArrayList<String> dragons;
+    private int currDragon = 0;
 
-    LinearLayout layout;
-    Map<String, ArrayList<Integer>> accessoryMap;
+    private LinearLayout layout;
+    private Map<String, ArrayList<Integer>> accessoryMap;
 
     /*
      * Starts the activity and shows corresponding view on screen

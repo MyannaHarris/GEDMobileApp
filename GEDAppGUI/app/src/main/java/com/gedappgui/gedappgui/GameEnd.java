@@ -30,9 +30,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 public class GameEnd extends AppCompatActivity {
-    int conceptID;
-    int lessonID;
-    int redo;
+    private int conceptID;
+    private int lessonID;
+    private int redo;
     // int to hold whether to go to questions or play next
     // 0 = questions, 1 = play
     private int nextActivity;

@@ -33,8 +33,8 @@ import java.util.ArrayList;
 
 public class RedoExample extends AppCompatActivity {
 
-    int lessonID;
-    int conceptID;
+    private int lessonID;
+    private int conceptID;
 
     /*
      * Starts the activity and shows corresponding view on screen

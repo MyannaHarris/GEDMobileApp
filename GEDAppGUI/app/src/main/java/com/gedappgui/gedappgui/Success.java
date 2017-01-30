@@ -38,12 +38,14 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class Success extends AppCompatActivity {
-    DatabaseHelper dbHelper;
-    int lessonID;
-    int conceptID;
-    int redo;
-    GridLayout gridlayout;
-    int accessoryGiven = 0;
+
+    private DatabaseHelper dbHelper;
+    private int lessonID;
+    private int conceptID;
+    private int redo;
+    private GridLayout gridlayout;
+    private int accessoryGiven = 0;
+
     /*
      * Starts the activity and shows corresponding view on screen
      */

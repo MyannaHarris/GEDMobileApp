@@ -14,32 +14,27 @@
  *
  * Created by jasminejans on 10/29/16.
  *
- * Last Edit: 11-6-16
+ * Last Edit: 1-29-17
  *
  */
 
 package com.gedappgui.gedappgui;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 
 import java.util.ArrayList;
 
 public class Game extends AppCompatActivity {
-    int conceptID;
-    int lessonID;
-    int redo;
+    private int conceptID;
+    private int lessonID;
+    private int redo;
     // int to hold whether to go to questions or play next
     // 0 = questions, 1 = play
     private int nextActivity;
@@ -67,10 +62,7 @@ public class Game extends AppCompatActivity {
         // Get next_activity value from intent to decide next activity after game
         nextActivity = mIntent.getIntExtra("next_activity", 1);
 
-        // Get game to load
-        gameName = mIntent.getStringExtra("gameName");
-
-        if (gameName.equals("bucketGame")) {
+        if (lessonID == 1) {
 
             //Getting display object
             Display display = getWindowManager().getDefaultDisplay();
@@ -81,6 +73,8 @@ public class Game extends AppCompatActivity {
 
             //Initializing game view object
             //this time we are also passing the screen size to the GameView constructor
+            ArrayList<ArrayList<String>> gameQuestions = new ArrayList<ArrayList<String>>();
+
             ArrayList<String> texts = new ArrayList<String>();
             texts.add("1");
             texts.add("2");
@@ -88,11 +82,62 @@ public class Game extends AppCompatActivity {
             texts.add("4");
             texts.add("5");
             ArrayList<String> answers = new ArrayList<String>();
+            String question = "_ * _ = 15";
+            answers.add(question);
             answers.add("3");
             answers.add("5");
+
+            gameQuestions.add(texts);
+            gameQuestions.add(answers);
+
+            texts = new ArrayList<String>();
+            texts.add("11");
+            texts.add("7");
+            texts.add("8");
+            texts.add("9");
+            texts.add("10");
+            answers = new ArrayList<String>();
+            question = "_ * _ = 80";
+            answers.add(question);
+            answers.add("8");
+            answers.add("10");
+
+            gameQuestions.add(texts);
+            gameQuestions.add(answers);
+
+            bucketGameView = new BucketGameView(this, size.x, size.y, gameQuestions,
+                    conceptID, lessonID, nextActivity);
+            setContentView(bucketGameView);
+        } else if (lessonID == 2) {
+
+            //Getting display object
+            Display display = getWindowManager().getDefaultDisplay();
+
+            //Getting the screen resolution into point object
+            Point size = new Point();
+            display.getSize(size);
+
+            //Initializing game view object
+            //this time we are also passing the screen size to the GameView constructor
+            ArrayList<ArrayList<String>> gameQuestions = new ArrayList<ArrayList<String>>();
+
+            ArrayList<String> texts = new ArrayList<String>();
+            texts.add("1");
+            texts.add("2");
+            texts.add("3");
+            texts.add("4");
+            texts.add("5");
+            ArrayList<String> answers = new ArrayList<String>();
             String question = "_ * _ = 15";
-            bucketGameView = new BucketGameView(this, size.x, size.y, texts, answers,
-                    conceptID, lessonID, nextActivity, question);
+            answers.add(question);
+            answers.add("3");
+            answers.add("5");
+
+            gameQuestions.add(texts);
+            gameQuestions.add(answers);
+
+            bucketGameView = new BucketGameView(this, size.x, size.y, gameQuestions,
+                    conceptID, lessonID, nextActivity);
             setContentView(bucketGameView);
         }
     }

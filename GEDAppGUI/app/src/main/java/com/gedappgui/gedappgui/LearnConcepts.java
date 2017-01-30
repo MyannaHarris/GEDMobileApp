@@ -41,7 +41,8 @@ public class LearnConcepts extends AppCompatActivity {
 
     private DatabaseHelper dbHelper;
 
-    GridLayout gridlayout;
+    private GridLayout gridlayout;
+
     /*
      * Starts the activity and shows corresponding view on screen
      * TO COME: Gets concept information from the database

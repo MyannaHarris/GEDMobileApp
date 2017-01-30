@@ -46,9 +46,9 @@ public class Question extends AppCompatActivity {
     private String correctAnswerStr = "";
 
     private int lessonID = 1;
-    int conceptID;
-    int redo;
-    ArrayList<String> questionText;
+    private int conceptID;
+    private int redo;
+    private ArrayList<String> questionText;
 
     /*
      * Starts the activity and shows corresponding view on screen

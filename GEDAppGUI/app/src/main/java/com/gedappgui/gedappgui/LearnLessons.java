@@ -38,13 +38,13 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class LearnLessons extends AppCompatActivity {
-    GridLayout gridlayout;
-    DatabaseHelper dbHelper;
-    int conceptID;
+    private GridLayout gridlayout;
+    private DatabaseHelper dbHelper;
+    private int conceptID;
 
     // completed lesson dialog
-    android.support.v7.app.AlertDialog.Builder lessonDialog;
-    int lessonID;
+    private android.support.v7.app.AlertDialog.Builder lessonDialog;
+    private int lessonID;
 
     /*
      * Starts the activity and shows corresponding view on screen
@@ -96,6 +96,10 @@ public class LearnLessons extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
+
+        ArrayList<String> lessonNames = dbHelper.selectLessons(conceptID);
+        //put things in the gridlayout
+        setGridInfo(lessonNames);
     }
 
     /* 

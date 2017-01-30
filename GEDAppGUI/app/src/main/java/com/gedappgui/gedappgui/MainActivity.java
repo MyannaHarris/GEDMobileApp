@@ -43,15 +43,16 @@ import java.util.Random;
 
 
 public class MainActivity extends AppCompatActivity {
+
     // Database
-    DatabaseHelper db;
+    private DatabaseHelper db;
 
     // Sprite image
-    LayerDrawable spriteDrawable;
-    ImageView spriteImage;
+    private LayerDrawable spriteDrawable;
+    private ImageView spriteImage;
 
     // Sprite Accessory variables
-    Map<String, ArrayList<Integer>> accessoryMap;
+    private Map<String, ArrayList<Integer>> accessoryMap;
 
     /*
      * Starts the first activity and shows corresponding view on screen

@@ -29,12 +29,13 @@ import android.view.View;
 import android.widget.TextView;
 
 public class LessonExample extends AppCompatActivity {
-    int conceptID;
-    int lessonID;
+
+    private int conceptID;
+    private int lessonID;
+
     /*
      * Starts the activity and shows corresponding view on screen
      */
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

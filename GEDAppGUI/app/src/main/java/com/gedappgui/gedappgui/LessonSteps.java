@@ -43,12 +43,14 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 
 public class LessonSteps extends AppCompatActivity {
-    DatabaseHelper dbHelper;
-    int conceptID;
-    int lessonID;
+
+    private DatabaseHelper dbHelper;
+    private int conceptID;
+    private int lessonID;
 
     // Deal with video
     private WebView webView;
+
     /*
      * Starts the activity and shows corresponding view on screen
      */

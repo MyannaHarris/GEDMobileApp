@@ -34,9 +34,9 @@ import java.util.ArrayList;
 public class LessonSummary extends AppCompatActivity {
 
     private DatabaseHelper dbHelper;
-    int conceptID;
-    int lessonOffset;
-    int lessonID;
+    private int conceptID;
+    private int lessonOffset;
+    private int lessonID;
 
     /*
      * Starts the activity and shows corresponding view on screen

@@ -21,24 +21,22 @@ package com.gedappgui.gedappgui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.os.CountDownTimer;
 import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class BucketGameView extends SurfaceView implements Runnable  {
 
-    int conceptID;
-    int lessonID;
+    private int conceptID;
+    private int lessonID;
+
     // int to hold whether to go to questions or play next
     // 0 = questions, 1 = play
     private int nextActivity;
@@ -79,23 +77,41 @@ public class BucketGameView extends SurfaceView implements Runnable  {
     private long startTime;
     private long endTime;
 
+    // Current question tracking
+    private ArrayList<ArrayList<String>> gameQuestions;
+    private int currentQuestion = 0;
+
+    // Screen info
+    private Context context;
+
     //Class constructor
-    public BucketGameView(Context context, int screenX, int screenY, ArrayList<String> texts,
-                          ArrayList<String> answersStr, int conceptIDp, int lessonIDp,
-                          int nextActivityp,
-                          String questionp) {
-        super(context);
+    public BucketGameView(Context contextp, int screenX, int screenY,
+                          ArrayList<ArrayList<String>> gameQuestionsp, int conceptIDp, int lessonIDp,
+                          int nextActivityp) {
+        super(contextp);
+
+        context = contextp;
+
+        // gameQuestions
+        // 0 - texts
+        // 1 - answers (0 - question)
+
+        gameQuestions = gameQuestionsp;
+
+        ArrayList<String> texts = gameQuestions.get(currentQuestion);
+        ArrayList<String> answersStr = gameQuestions.get(currentQuestion + 1);
 
         numberCount = texts.size();
-        answers = answersStr;
-        numAnswers = answers.size();
         screenXVar = screenX;
         screenYVar = screenY;
 
         conceptID = conceptIDp;
         lessonID = lessonIDp;
         nextActivity = nextActivityp;
-        question = questionp;
+        question = answersStr.get(0);
+        answersStr.remove(0);
+        answers = answersStr;
+        numAnswers = answers.size();
 
         //initializing player object
         //this time also passing screen size to player constructor
@@ -169,12 +185,47 @@ public class BucketGameView extends SurfaceView implements Runnable  {
 
                     correctAnswers += 1;
                     if (correctAnswers >= numAnswers) {
-                        Context context = getContext();
-                        Intent intent = new Intent(context, GameEnd.class);
-                        intent.putExtra("next_activity", nextActivity);
-                        intent.putExtra("conceptID",conceptID);
-                        intent.putExtra("lessonID",lessonID);
-                        context.startActivity(intent);
+                        if (currentQuestion + 3 <= gameQuestions.size() - 1) {
+                            currentQuestion += 2;
+
+                            ArrayList<String> texts = gameQuestions.get(currentQuestion);
+                            ArrayList<String> answersStr = gameQuestions.get(currentQuestion + 1);
+
+                            numberCount = texts.size();
+                            numAnswers = answers.size() - 1;
+                            question = answersStr.get(0);
+                            answersStr.remove(0);
+                            answers = answersStr;
+
+                            //initializing drawing objects
+                            surfaceHolder = getHolder();
+                            paint = new Paint();
+                            paint.setColor(Color.WHITE);
+                            paint.setTextSize(100);
+
+                            //Get question text height
+                            Rect bounds = new Rect();
+                            paint.getTextBounds(question, 0, question.length(), bounds);
+                            questionHeight = bounds.height();
+
+                            //initializing number object array
+                            numbers = new BucketNumber[numberCount];
+                            for(int x=0; x<numberCount; x++){
+                                numbers[x] = new BucketNumber(context, screenXVar, screenYVar,
+                                        texts.get(x), (int)paint.measureText(texts.get(x)),
+                                        questionHeight);
+                            }
+
+                            // Save start time to limit fps
+                            startTime = System.currentTimeMillis();
+                        } else {
+                            Context context = getContext();
+                            Intent intent = new Intent(context, GameEnd.class);
+                            intent.putExtra("next_activity", nextActivity);
+                            intent.putExtra("conceptID", conceptID);
+                            intent.putExtra("lessonID", lessonID);
+                            context.startActivity(intent);
+                        }
                     }
                 }
 

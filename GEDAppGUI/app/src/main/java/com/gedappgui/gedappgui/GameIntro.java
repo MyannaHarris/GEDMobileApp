@@ -14,7 +14,7 @@
  *
  * Created by jasminejans on 10/29/16.
  *
- * Last Edit: 11-6-16
+ * Last Edit: 1-29-17
  *
  */
 
@@ -32,9 +32,9 @@ import android.view.View;
 import android.widget.TextView;
 
 public class GameIntro extends AppCompatActivity {
-    int conceptID;
-    int lessonID;
-    int redo;
+    private int conceptID;
+    private int lessonID;
+    private int redo;
     // int to hold whether to go to questions or play next
     // 0 = questions, 1 = play
     private int nextActivity;
@@ -64,12 +64,12 @@ public class GameIntro extends AppCompatActivity {
         // Get next_activity value from intent to decide next activity after game
         nextActivity = mIntent.getIntExtra("next_activity", 1);
 
-        // Get game to load
-        gameName = mIntent.getStringExtra("gameName");
-
         TextView instructions = (TextView) findViewById(R.id.instructions);
 
-        if (gameName.equals("bucketGame")) {
+        if (lessonID == 1) {
+            String instruct = "Swipe left and right to move character and catch correct numbers.";
+            instructions.setText(instruct);
+        } else if (lessonID == 2) {
             String instruct = "Swipe left and right to move character and catch correct numbers.";
             instructions.setText(instruct);
         }
@@ -123,7 +123,6 @@ public class GameIntro extends AppCompatActivity {
         intent.putExtra("next_activity", nextActivity);
         intent.putExtra("conceptID",conceptID);
         intent.putExtra("lessonID",lessonID);
-        intent.putExtra("gameName", gameName);
         intent.putExtra("redoComplete", redo);
         startActivity(intent);
     }
