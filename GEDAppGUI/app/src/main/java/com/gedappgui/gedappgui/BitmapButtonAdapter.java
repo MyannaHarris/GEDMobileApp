@@ -19,11 +19,13 @@ package com.gedappgui.gedappgui;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
@@ -34,14 +36,18 @@ public class BitmapButtonAdapter extends BaseAdapter {
     // Hold the bitmaps of the images in assets
     private Bitmap[] images;
 
+    private int width;
+    private int height;
 
     /*
      * Constructor
      * Gets the context and image ids so they can be used later
      */
-    public BitmapButtonAdapter(Context c, Bitmap[] buttonNames){
+    public BitmapButtonAdapter(Context c, Bitmap[] buttonNames, int w, int h){
         mContext = c;
         images = buttonNames;
+        width = w;
+        height = h;
     }
 
 
@@ -83,9 +89,11 @@ public class BitmapButtonAdapter extends BaseAdapter {
         ImageView imageView;
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
+
             imageView = new ImageView(mContext);
             imageView.setLayoutParams(
-                    new GridView.LayoutParams(255, 255));
+              new GridView.LayoutParams(width/4,(int)(height/6.5)));
+
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setPadding(8, 8, 8, 8);
         } else {

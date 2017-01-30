@@ -25,6 +25,7 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -73,7 +74,20 @@ public class Achievements extends AppCompatActivity {
             buttonPictures[i] = getFromAssets(images.get(i));
         }
 
-        gridview.setAdapter(new BitmapButtonAdapter(this, buttonPictures));
+        /*Integer[] buttons = new Integer[images.size()];
+        for(int i = 0; i < images.size(); i++) {
+            buttons[i] = R.drawable.welcome;
+        }*/
+
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+
+        gridview.setAdapter(new BitmapButtonAdapter(this, buttonPictures, width, height));
+        //gridview.setAdapter(new ButtonAdapter(this, buttons));
+
+        //lesson_imageView.setImageResource(R.drawable.welcome);
 
         //gives an achievement if the user opens the achievements in for the first time
         Intent achievement = new Intent(this, AchievementPopUp.class);
@@ -82,21 +96,25 @@ public class Achievements extends AppCompatActivity {
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
-                TextView achievementTextD = (TextView)findViewById(R.id.achievement_description);
-                TextView achievementTextN = (TextView)findViewById(R.id.achievement_name);
 
                 ArrayList<String> desc = db.selectAchievementsDesc();
                 ArrayList<String> name = db.selectAchievementsNames();
+                ArrayList<String> imgs = db.selectAchievementsImgs();
 
                 String achievementDesc = "";
                 String achievementName = "";
+                String achievementImg = "";
                 if(position >= 0 && position < desc.size()){
                     achievementDesc = desc.get(position);
                     achievementName = name.get(position);
+                    achievementImg = imgs.get(position);
                 }
 
-                achievementTextD.setText(achievementDesc);
-                achievementTextN.setText(achievementName);
+                Intent achievement = new Intent(v.getContext(), AchievementInfo.class);
+                achievement.putExtra("achievementName", achievementName);
+                achievement.putExtra("achievementDesc", achievementDesc);
+                achievement.putExtra("achievementImg", achievementImg);
+                v.getContext().startActivity(achievement);
             }
         });
     }

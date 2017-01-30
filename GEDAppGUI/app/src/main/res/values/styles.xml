@@ -58,7 +58,13 @@
 
     <style name="AppTheme.PopUpTheme">
         <item name="android:windowIsTranslucent"> true </item>
-        <!--<item name="android:windowCloseOnTouchOutside">true </item>-->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.PopUpNoButtonTheme">
+        <item name="android:windowIsTranslucent"> true </item>
+        <item name="android:windowCloseOnTouchOutside">true </item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>

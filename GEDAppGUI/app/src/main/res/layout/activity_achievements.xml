@@ -46,17 +46,5 @@
             android:columnWidth="60dp"/>
     </ScrollView>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/achievement_description"
-        android:layout_alignBottom="@id/scroll_achievements"
-        android:layout_centerHorizontal="true"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/achievement_name"
-        android:layout_above="@id/achievement_description"
-        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

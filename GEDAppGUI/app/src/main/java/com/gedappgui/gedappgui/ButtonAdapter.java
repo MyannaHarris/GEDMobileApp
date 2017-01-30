@@ -18,6 +18,7 @@
 package com.gedappgui.gedappgui;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -41,8 +42,10 @@ public class ButtonAdapter extends BaseAdapter {
         imageIds = buttonNames;
     }
 
+
     /*
      * Gets the number of itams to put in the view
+     *
      * returns imageIds.length
      */
     @Override
@@ -77,10 +80,10 @@ public class ButtonAdapter extends BaseAdapter {
 
         ImageView imageView;
         if (convertView == null) {
-            // if it's not recycled, initialize some attributes
-            imageView = new ImageView(mContext);
-            imageView.setLayoutParams(
-                    new GridView.LayoutParams(255, 255));
+             //if it's not recycled, initialize some attributes
+        imageView = new ImageView(mContext);
+           imageView.setLayoutParams(
+                    new GridView.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setPadding(8, 8, 8, 8);
         } else {
