@@ -49,6 +49,8 @@ public class BucketNumber {
     //constructor
     public BucketNumber(Context context, int screenX, int screenY, String textString, int strLen,
                         int questionHeight) {
+
+        // Basic variables
         x = 0;
         y = 0;
         speed = 5;
@@ -59,7 +61,7 @@ public class BucketNumber {
         maxY = screenY - 10;
 
         //top edge's y point is 0 so min y will always be zero
-        minY = questionHeight * 2;
+        minY = questionHeight * 3;
 
         //calculating maxY
         maxX = screenX - strLegth;
@@ -74,7 +76,7 @@ public class BucketNumber {
         Random generator = new Random();
         speed = generator.nextInt(6) + 10;
         x = generator.nextInt(maxX - strLegth);
-        y = 10;
+        y = minY;
 
         //initializing rect object
         detectCollision =  new Rect(x, y, strLegth, 10);

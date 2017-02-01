@@ -18,15 +18,18 @@
 
 package com.gedappgui.gedappgui;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayout;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -73,7 +76,7 @@ public class LearnLessons extends AppCompatActivity {
         //lessonNames.add("Lesson 2");
 
         // 1. Instantiate an AlertDialog.Builder with its constructor
-        lessonDialog = new AlertDialog.Builder(this);
+        lessonDialog = new AlertDialog.Builder(this, R.style.AlertDialogAppearance);
 
         //put things in the gridlayout
         setGridInfo(lessonNames);
@@ -229,10 +232,28 @@ public class LearnLessons extends AppCompatActivity {
 
                 if (dbHelper.isLessonAlreadyDone(lessonID)) {
                     // 2. Chain together various setter methods to set the dialog characteristics
-                    lessonDialog.setTitle("Choose a lesson section to go to:");
+                    /*TextView title =  new TextView(LearnLessons.this);
+                    title.setText("Pick a lesson section:");
+                    //title.setGravity(Gravity.CENTER);
+                    title.setTextSize(TypedValue.COMPLEX_UNIT_SP,30);
+                    title.setBackgroundColor(ContextCompat.getColor(LearnLessons.this,
+                            R.color.colorPrimary));
+                    //title.setTextColor(Color.WHITE);
+                    lessonDialog.setCustomTitle(title);*/
+                    lessonDialog.setTitle("Pick a lesson section:");
 
+                    lessonDialog.setIcon(R.drawable.sprite_dragon);
+
+                    //{"Summary", "Steps", "Example", "Game"},
+                    /*{"Summary - A brief intro",
+                            "Steps - Further explanation",
+                            "Example - Worked out problems",
+                            "Game - Practice game"},*/
                     lessonDialog.setItems(new CharSequence[]
-                                    {"Summary", "Steps", "Example", "Game"},
+                                    {"Summary - A brief intro",
+                                            "Steps - Further explanation",
+                                            "Example - Worked out problems",
+                                            "Game - Practice game"},
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     Intent activityChangeIntent;
@@ -331,10 +352,28 @@ public class LearnLessons extends AppCompatActivity {
 
                 if (dbHelper.isLessonAlreadyDone(lessonID)) {
                     // 2. Chain together various setter methods to set the dialog characteristics
-                    lessonDialog.setTitle("Choose a lesson section to go to:");
+                    /*TextView title =  new TextView(LearnLessons.this);
+                    title.setText("Pick a lesson section:");
+                    //title.setGravity(Gravity.CENTER);
+                    title.setTextSize(TypedValue.COMPLEX_UNIT_SP,30);
+                    title.setBackgroundColor(ContextCompat.getColor(LearnLessons.this,
+                            R.color.colorPrimary));
+                    //title.setTextColor(Color.WHITE);
+                    lessonDialog.setCustomTitle(title);*/
+                    lessonDialog.setTitle("Pick a lesson section:");
 
+                    lessonDialog.setIcon(R.drawable.sprite_dragon);
+
+                    //{"Summary", "Steps", "Example", "Game"},
+                    /*{"Summary - A brief intro",
+                            "Steps - Further explanation",
+                            "Example - Worked out problems",
+                            "Game - Practice game"},*/
                     lessonDialog.setItems(new CharSequence[]
-                                    {"Summary", "Steps", "Example", "Game"},
+                                    {"Summary - A brief intro",
+                                            "Steps - Further explanation",
+                                            "Example - Worked out problems",
+                                            "Game - Practice game"},
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     Intent activityChangeIntent;

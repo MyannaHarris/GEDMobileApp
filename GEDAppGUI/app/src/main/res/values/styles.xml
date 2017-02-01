@@ -35,6 +35,22 @@
         <item name="android:itemBackground">@color/colorMenuBackground</item>
     </style>
 
+    <!--Alert Dialog style-->
+    <style name="AlertDialogAppearance" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowBackground">@color/colorMenuBackground</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:textColor">@color/colorBodyText</item>
+
+        <item name="android:background">@color/colorBackgroundDark</item>
+        <item name="android:textColorPrimary">@color/colorBodyText</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <!-- items color -->
+        <item name="textColorAlertDialogListItem">@color/colorBodyText</item>
+
+        <item name="android:textSize">20sp</item>
+    </style>
+
     <style name="TextViewStyle" parent="android:Widget.TextView">
         <item name="android:textColor">@color/colorBodyText</item>
     </style>

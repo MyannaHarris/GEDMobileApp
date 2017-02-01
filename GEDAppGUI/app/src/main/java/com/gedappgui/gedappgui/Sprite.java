@@ -563,11 +563,13 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         MediaStore.Images.Media.insertImage(getContentResolver(), b, "Dragon" , "Dragon");
 
         // 1. Instantiate an AlertDialog.Builder with its constructor
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogAppearance);
 
         // 2. Chain together various setter methods to set the dialog characteristics
         builder.setMessage("The picture was saved!")
                 .setTitle("Success!");
+
+        builder.setIcon(R.drawable.sprite_dragon);
 
         // Add the buttons
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {

@@ -21,6 +21,8 @@ package com.gedappgui.gedappgui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -120,7 +122,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
         //initializing drawing objects
         surfaceHolder = getHolder();
         paint = new Paint();
-        paint.setColor(Color.WHITE);
+        paint.setColor(Color.BLACK);
         paint.setTextSize(100);
 
         //Get question text height
@@ -187,20 +189,21 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                     if (correctAnswers >= numAnswers) {
                         if (currentQuestion + 3 <= gameQuestions.size() - 1) {
                             currentQuestion += 2;
+                            correctAnswers = 0;
 
                             ArrayList<String> texts = gameQuestions.get(currentQuestion);
                             ArrayList<String> answersStr = gameQuestions.get(currentQuestion + 1);
 
                             numberCount = texts.size();
-                            numAnswers = answers.size() - 1;
                             question = answersStr.get(0);
                             answersStr.remove(0);
                             answers = answersStr;
+                            numAnswers = answers.size();
 
                             //initializing drawing objects
                             surfaceHolder = getHolder();
                             paint = new Paint();
-                            paint.setColor(Color.WHITE);
+                            paint.setColor(Color.BLACK);
                             paint.setTextSize(100);
 
                             //Get question text height
@@ -241,7 +244,13 @@ public class BucketGameView extends SurfaceView implements Runnable  {
             canvas = surfaceHolder.lockCanvas();
 
             //drawing a background color for canvas
-            canvas.drawColor(Color.BLACK);
+            canvas.drawColor(Color.rgb(20, 150, 170));
+            Bitmap dragonBG = BitmapFactory.decodeResource(
+                    getResources(),R.drawable.sprite_dragon3);
+            Paint alphaPaint = new Paint();
+            alphaPaint.setAlpha(95);
+            canvas.drawBitmap(dragonBG, screenXVar / 2 - dragonBG.getWidth() / 2,
+                    screenYVar / 2 - dragonBG.getHeight() / 2, alphaPaint);
 
             // Write question to screen
             canvas.drawText(
@@ -268,19 +277,19 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                     canvas.drawText(
                             "CORRECT",
                             (screenXVar / 2 - (int)paint.measureText("CORRECT") / 2),
-                            (screenYVar / 2),
+                            screenYVar / 2 - dragonBG.getHeight() / 2 - 20,
                             paint
                     );
-                    paint.setColor(Color.WHITE);
+                    paint.setColor(Color.BLACK);
                 } else {
                     paint.setColor(Color.RED);
                     canvas.drawText(
                             "INCORRECT",
                             (screenXVar / 2 - (int)paint.measureText("INCORRECT") / 2),
-                            (screenYVar / 2),
+                            screenYVar / 2 - dragonBG.getHeight() / 2 - 20,
                             paint
                     );
-                    paint.setColor(Color.WHITE);
+                    paint.setColor(Color.BLACK);
                 }
                 showResultTimer -= 1;
                 if (showResultTimer == 0) {
