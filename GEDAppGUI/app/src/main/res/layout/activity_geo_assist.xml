@@ -9,6 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:windowSoftInputMode="adjustResize"
     tools:context="com.gedappgui.gedappgui.GeoAssist">
 
     <ScrollView
@@ -18,7 +19,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:weightSum="1">
 
             <TextView
                 android:text="Select a shape in the menu below to see information about that geometric figure \n \n"
@@ -29,8 +31,9 @@
 
             <Spinner
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/spinner" />
+                android:layout_height="35dp"
+                android:id="@+id/spinner"
+                android:layout_weight="2.06" />
 
             <TextView
                 android:text=""

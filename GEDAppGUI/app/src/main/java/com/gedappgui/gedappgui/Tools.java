@@ -83,15 +83,6 @@ public class Tools extends AppCompatActivity {
 
     /*
      * Called by a tool being selected
-     * Opens tool page
-     */
-    public void gotToToolSample(View view) {
-        Intent intent = new Intent(this, ToolSample.class);
-        startActivity(intent);
-    }
-
-    /*
-     * Called by a tool being selected
      * Opens fraction to decimal tool
      */
     public void goTofracdectool(View view) {

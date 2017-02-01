@@ -1,3 +1,19 @@
+/*
+ * PlaceValues.java
+ *
+ * Place Values activity
+ *
+ * Shows the menu for selecting shapes and displays info based on the shape selected
+ *
+ * Worked on by:
+ * Myanna Harris
+ * Kristina Spring
+ * Jasmine Jans
+ * Jimmy Sherman
+ *
+ * Last Edit: 1-31-17
+ *
+ */
 package com.gedappgui.gedappgui;
 
 import android.content.Intent;
@@ -16,24 +32,27 @@ import android.widget.TextView;
 public class PlaceValues extends AppCompatActivity {
     //strings for the seekbar to select points on the number
     private String[] places = {
-        "Ten Thousands, can be represented in this number as 1 * 10,000",
-            "Thousands, can be represented in this number as 2 * 1,000",
-            "Hundreds, can be represented in this number as 3 * 100",
-            "Tens, can be represented in this number as 4 * 10",
-            "Ones, can be represented in this number as 5 * 1",
-            //empty string for the decimal point
+            "Millions, can be represented in this number as 1 * 1,000,000",
+            "Hundred Thousands, can be represented in this number as 2 * 100,000",
+        "Ten Thousands, can be represented in this number as 3 * 10,000",
+            "Thousands, can be represented in this number as 4 * 1,000",
+            "Hundreds, can be represented in this number as 5 * 100",
+            "Tens, can be represented in this number as 6 * 10",
+            "Ones, can be represented in this number as 7 * 1",
             "The decimal point separates the whole number part from the fractional part",
             "Tenths, can be represented in this number as 1 * .1",
             "Hundredths, can be represented in this number as 2 * .01",
             "Thousandths, can be represented in this number as 3 * .001",
             "Ten Thousandths, can be represented in this number as 4 * .0001",
             "Hundred Thousandths, can be represented in this number as 5 * .00001",
+            "Millionths, can be represented in this number as 6 * .000001",
+            "Ten Millionths, can be represented in this number as 7 * .0000001",
 
     };
     private SeekBar seekbar;
     private TextView places_text;
     private TextView places_title;
-    private String instruct = "12345. 12345";
+    private String instruct = "1234567.1234567";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,16 +80,11 @@ public class PlaceValues extends AppCompatActivity {
                 places_text.setText(places[progress]);
 
                 //Used to get the correct position for setting the selected text red
-                int pos;
-                if (progress > 5)
-                    pos = progress + 1;
-                else
-                    pos = progress;
 
                 //Make and set the new String
-                String before = instruct.substring(0,pos);
-                String red = "<font color='#EE0000'>"+ instruct.charAt(pos) + "</font>";
-                String end = instruct.substring(pos + 1);
+                String before = instruct.substring(0,progress);
+                String red = "<font color='#EE0000'>"+ instruct.charAt(progress) + "</font>";
+                String end = instruct.substring(progress + 1);
 
                 //Check for version to use correct HTML method
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N){

@@ -27,6 +27,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -44,6 +45,9 @@ public class SlopeCalculator extends AppCompatActivity {
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+        //Allows for keyboard resizing on the inputs
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         //gives an achievement if the user uses a tool for the first time
         Intent achievement = new Intent(this, AchievementPopUp.class);
@@ -82,16 +86,19 @@ public class SlopeCalculator extends AppCompatActivity {
             return;
         }
         float slope = ((y2 - y1) / (x2 - x1));
-        steps = "The slope of the line is: \n \n m = " + slope + " \n \n The first step is to " +
-                "remember our slope formula as: \n \n m = (y2 - y1) / (x2 - x1). \n \n The next step is " +
+        String ordered1 = "(" + x1 + "," + y1 + ")";
+        String ordered2 = "(" + x2 + "," + y2 + ")";
+        steps = "The ordered pairs you put in are: " + ordered1 + " and " + ordered2 +
+                "The slope of the line is: \n \nm = " + slope + " \n \nThe first step is to " +
+                "remember our slope formula as: \n \nm = (y2 - y1) / (x2 - x1). \n \nThe next step is " +
                 "to substitute each variable with our ordered pairs. Lets do this one at a time: " +
                 "\n \n y2 = " + y2 + " which goes into our formula as the y2 variable: \n \n" +
-                " m = (" + y2 + " - y1) / (x2 - x1). \n \n  Now we plug in the value for y1 which is " +
-                y1 + ": \n \n  m = (" + y2 + " - "+ y1 + ") / (x2 - x1). \n \n Now we can put the remaining " +
-                "two variables in, x1 and x2, which are: " + x1 + "and" + x2 + ": \n \n" +
-                "  m = (" + y2 + " - "+ y1 + ") / (" + x2 + " - " + x1 + "). \n \n Now we simplify, " +
+                "m = (" + y2 + " - y1) / (x2 - x1). \n \nNow we plug in the value for y1 which is " +
+                y1 + ": \n \nm = (" + y2 + " - "+ y1 + ") / (x2 - x1). \n \nNow we can put the remaining " +
+                "two variables in, x1 and x2, which are: " + x1 + " and " + x2 + ": \n \n" +
+                "m = (" + y2 + " - "+ y1 + ") / (" + x2 + " - " + x1 + "). \n \nNow we simplify, " +
                 "subtracting above and below the divide sign: " + (y2 - y1) + " / " + (x2 - x1) + "\n \n" +
-                "And now we divide to give us our answer: \n \n m = " + slope + "\n";
+                "And now we divide to give us our answer: \n \nm = " + slope + "\n";
         stepbystep.setText(steps);
         onResume();
     }

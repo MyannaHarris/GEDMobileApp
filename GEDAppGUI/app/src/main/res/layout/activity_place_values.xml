@@ -10,48 +10,53 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.gedappgui.gedappgui.PlaceValues">
 
-    <TextView
-        android:text="Use the scrollbar to select a place value on the decimal number \n"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/instructions_place"
-        android:textSize="20sp"/>
+        android:layout_height="match_parent"
+        android:weightSum="1">
 
-    <TextView
-        android:text="12345. 12345"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/number_change"
-        android:textSize="35sp"
-        android:gravity="center"
-        android:textColor="@color/colorHeader1"
-        android:layout_below="@+id/instructions_place"
-        android:layout_centerHorizontal="true" />
+        <TextView
+            android:text="Use the scrollbar to select a place value on the decimal number \n"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/instructions_place"
+            android:textSize="20sp"/>
 
-    <SeekBar
-        android:layout_width="225dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/seekBar"
-        android:max="10"
-        android:layout_marginTop="11dp"
-        android:gravity="center"
-        android:layout_marginLeft="55dp"
-        android:layout_marginStart="55dp"
-        android:layout_below="@+id/number_change"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <TextView
+            android:text="1234567.1234567"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/number_change"
+            android:textSize="35sp"
+            android:gravity="center"
+            android:textColor="@color/colorHeader1"
+            android:layout_below="@+id/instructions_place"
+            android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:text=""
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/places_text"
-        android:layout_below="@+id/seekBar"
-        android:layout_marginTop="27dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:textSize="20sp"/>
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/seekBar"
+            android:max="14"
+            android:gravity="center"
+            android:layout_below="@+id/number_change"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_weight="0.12" />
+
+        <TextView
+            android:text=""
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/places_text"
+            android:layout_below="@+id/seekBar"
+            android:layout_marginTop="27dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:textSize="20sp"/>
+    </LinearLayout>
 
 </RelativeLayout>

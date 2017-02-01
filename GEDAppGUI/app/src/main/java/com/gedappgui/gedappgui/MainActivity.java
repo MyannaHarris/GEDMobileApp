@@ -127,9 +127,9 @@ public class MainActivity extends AppCompatActivity {
                     "Hello \n" + name + "!\nWelcome to the app!",
                     "Have you checked my closet?",
                     "Have you played any games recently?",
-                    "Did you know you can change my color?",
+                    "Did you know you can change my color? Go to my closet and tap on me!",
                     "I love Math! Don't you,\n" + name + "?",
-                    "Isn't Trina Clayeaux just the best?"
+                    "Check out the tools for some cool references!"
             };
 
             //without the DB

@@ -52,7 +52,10 @@ public class GeoAssist extends AppCompatActivity implements AdapterView.OnItemSe
             "\n\nA square is a special type of rectangle with four equal sides and four angles at 90 degrees.",
             "\n\nA parallelogram is a four-sided figure whose sides are parallel and the same length. Its opposite " +
                     "angles are equal.",
-            "\n\nA trapezoid is a four-sided figure with one pair of parallel sides"
+            "\n\nA trapezoid is a four-sided figure with one pair of parallel sides",
+            "\n\nA cone is a 3D figure with a circular base and a pointed top",
+            "\n\nA pyramid is a 3D figure with a Square base and a pointed top",
+            "\n\nA cylinder is a 3D figure with a circular base and a circular top"
 
     };
 
@@ -64,7 +67,13 @@ public class GeoAssist extends AppCompatActivity implements AdapterView.OnItemSe
             "\nPerimeter = 2 * length + 2 * width \n\nArea = length * width\n\ninterior angle sum = 360 degrees\n\n",
             "\nPerimeter = side * 4 \n\nArea = side * side\n\ninterior angle sum = 360 degrees\n\n",
             "\nPerimeter = 2 * length + 2 * width \n\nArea = base * height \n\ninterior angle sum = 360 degrees\n\n",
-            "\nPerimeter = side1 + side2 + side3 + side4\n\nArea = 1/2 * height(base1 + base2)\n\n"
+            "\nPerimeter = side1 + side2 + side3 + side4\n\nArea = 1/2 * height(base1 + base2)\n" +
+                    "\n" +
+                    "interior angle sum = 360 degrees\n" +
+                    "\n",
+            "\nVolume = 1/3 * pi * radius^2 * Height\n\nSurface Area = pi * r * Slant Height + pi * radius^2",
+            "\nVolume = 1/3 * (base side)^2 * Height\n\nSurface Area = 2 * base * side + base^2",
+            "\nVolume = pi * r^2 * Height\n\nSurface Area = 2 * pi * r^2 + height * (2 * pi * radius)"
     };
 
     private int[] pics = {
@@ -73,7 +82,10 @@ public class GeoAssist extends AppCompatActivity implements AdapterView.OnItemSe
             R.drawable.rectangle,
             R.drawable.square,
             R.drawable.parallel,
-            R.drawable.trapezoid
+            R.drawable.trapezoid,
+            R.drawable.cone,
+            R.drawable.pyramid,
+            R.drawable.cylinder
     };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +108,9 @@ public class GeoAssist extends AppCompatActivity implements AdapterView.OnItemSe
         categories.add("Square");
         categories.add("Parallelogram");
         categories.add("Trapezoid");
+        categories.add("Cone");
+        categories.add("Pyramid");
+        categories.add("Cylinder");
 
         // Creating adapter for spinner
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
