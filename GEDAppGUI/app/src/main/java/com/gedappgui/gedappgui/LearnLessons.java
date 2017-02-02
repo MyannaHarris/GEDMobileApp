@@ -46,7 +46,7 @@ public class LearnLessons extends AppCompatActivity {
     private int conceptID;
 
     // completed lesson dialog
-    private android.support.v7.app.AlertDialog.Builder lessonDialog;
+    private AlertDialog.Builder lessonDialog;
     private int lessonID;
 
     /*
@@ -242,7 +242,7 @@ public class LearnLessons extends AppCompatActivity {
                     lessonDialog.setCustomTitle(title);*/
                     lessonDialog.setTitle("Pick a lesson section:");
 
-                    lessonDialog.setIcon(R.drawable.sprite_dragon);
+                    lessonDialog.setIcon(R.drawable.appicon);
 
                     //{"Summary", "Steps", "Example", "Game"},
                     /*{"Summary - A brief intro",
@@ -362,7 +362,7 @@ public class LearnLessons extends AppCompatActivity {
                     lessonDialog.setCustomTitle(title);*/
                     lessonDialog.setTitle("Pick a lesson section:");
 
-                    lessonDialog.setIcon(R.drawable.sprite_dragon);
+                    lessonDialog.setIcon(R.drawable.appicon);
 
                     //{"Summary", "Steps", "Example", "Game"},
                     /*{"Summary - A brief intro",
