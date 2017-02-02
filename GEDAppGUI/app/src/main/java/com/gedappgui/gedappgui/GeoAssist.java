@@ -17,6 +17,7 @@
 package com.gedappgui.gedappgui;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -129,6 +130,8 @@ public class GeoAssist extends AppCompatActivity implements AdapterView.OnItemSe
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        ((TextView) parent.getChildAt(0)).setTextColor(Color.BLUE);
+        ((TextView) parent.getChildAt(0)).setTextSize(20);
         TextView summary = (TextView)findViewById(R.id.summary);
         TextView example = (TextView)findViewById(R.id.shape_examples);
         ImageView img = (ImageView) findViewById(R.id.shapepicture);

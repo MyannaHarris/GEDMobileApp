@@ -23,7 +23,7 @@
             android:weightSum="1">
 
             <TextView
-                android:text="Select a shape in the menu below to see information about that geometric figure \n \n"
+                android:text="Select a shape in the menu below to see information about that geometric figure. Scroll the screen using your finger \n \n"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/prompt"
@@ -33,7 +33,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:id="@+id/spinner"
-                android:layout_weight="2.06" />
+                android:layout_weight="2.06"
+                android:textSize="30dp"
+                android:textColor="#FF0000"/>
 
             <TextView
                 android:text=""

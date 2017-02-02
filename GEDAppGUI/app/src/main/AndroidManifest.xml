@@ -198,7 +198,8 @@
         <activity android:name=".CoordinatePlane" />
         <activity android:name=".FormulaMemorization" />
         <activity android:name=".GeoAssist" />
-        <activity android:name=".PlaceValues"></activity>
+        <activity android:name=".PlaceValues" />
+        <activity android:name=".Tutorial"></activity>
     </application>
 
 </manifest>

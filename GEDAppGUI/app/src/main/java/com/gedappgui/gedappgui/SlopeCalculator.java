@@ -81,15 +81,19 @@ public class SlopeCalculator extends AppCompatActivity {
         float x2 = Float.parseFloat(x2_text.getText().toString());
         float y1 = Float.parseFloat(y1_text.getText().toString());
         float y2 = Float.parseFloat(y2_text.getText().toString());
-        if (y1 - y2 == 0.0){
+        if (x1 == x2){
             steps = "Slope is undefined";
+            stepbystep.setText(steps);
             return;
         }
         float slope = ((y2 - y1) / (x2 - x1));
+        if (y1 == y2){
+            slope = (float)0.0;
+        }
         String ordered1 = "(" + x1 + "," + y1 + ")";
         String ordered2 = "(" + x2 + "," + y2 + ")";
         steps = "The ordered pairs you put in are: " + ordered1 + " and " + ordered2 +
-                "The slope of the line is: \n \nm = " + slope + " \n \nThe first step is to " +
+                "\n\nThe slope of the line is: \n \nm = " + slope + " \n \nThe first step is to " +
                 "remember our slope formula as: \n \nm = (y2 - y1) / (x2 - x1). \n \nThe next step is " +
                 "to substitute each variable with our ordered pairs. Lets do this one at a time: " +
                 "\n \n y2 = " + y2 + " which goes into our formula as the y2 variable: \n \n" +

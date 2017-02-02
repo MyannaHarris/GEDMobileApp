@@ -327,6 +327,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /*
+     * Opens Tutorial view when button is clicked
+     * Called when the user clicks the Settings button
+     */
+    public void goToTutorial(View view){
+        Intent intent = new Intent(this, Tutorial.class);
+        startActivity(intent);
+    }
+
+    /*
+     * Opens Tutorial view when button is clicked
+     * Called when the user clicks the Tutorial button
+     */
+    public void gotToTutorial(View view) {
+        Intent intent = new Intent(this, Tutorial.class);
+        startActivity(intent);
+    }
+
+    /*
      * Opens Lesson Summary view when button is clicked
      * Called when the user clicks the Continue Lesson button
      */
