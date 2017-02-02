@@ -18,6 +18,7 @@
 
 package com.gedappgui.gedappgui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.media.AudioManager;
@@ -29,6 +30,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -67,7 +69,7 @@ public class Login extends AppCompatActivity {
 
         // Disable login button while keyboard is open
         // Re-enable it when keyboard closes
-        getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(
+        /*getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -91,7 +93,7 @@ public class Login extends AppCompatActivity {
                     button.setEnabled(true);
                 }
             }
-        });
+        });*/
     }
 
     /*
@@ -150,6 +152,12 @@ public class Login extends AppCompatActivity {
      *  and sets the login status so the login page no longer appears
      */
     public void setLogin(View view) {
+        InputMethodManager inputManager = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
+
         ((MyApplication) this.getApplication()).setLoginStatus(true);
 
         EditText username = (EditText)findViewById(R.id.username_editText);
