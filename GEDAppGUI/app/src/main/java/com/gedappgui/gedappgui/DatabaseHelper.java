@@ -767,6 +767,24 @@ public class DatabaseHelper{
         return accessories;
     }
 
+    /**
+     * Query to select accessories
+     * @return List of accessory info
+     */
+    public int countAccessories(){
+        open();
+
+        Cursor c = myDatabase.rawQuery("SELECT Count(*) FROM user_accessories WHERE currently_wearing = 1 ", null);
+
+        c.moveToFirst();
+        int count = c.getInt(0);
+
+        c.close();
+        close();
+
+        return count;
+    }
+
 
     //@Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

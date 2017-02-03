@@ -64,10 +64,6 @@ public class AchievementPopUp extends AppCompatActivity {
             int width = dm.widthPixels;
             int height = dm.heightPixels;
 
-            float dp = 20f;
-            float fpixels = dm.density * dp;
-            int pixels = (int) (fpixels + 0.5f);
-
             int popup_height = (int) (height/5);
             int popup_width = (int) (width);
 

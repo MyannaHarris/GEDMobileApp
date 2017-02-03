@@ -67,6 +67,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
     private ArrayList<String> specials;
     private ArrayList<String> allAccessories;
     private ArrayList<String> dragons;
+    private ArrayList<ArrayList<String>> accessories;
     private int currDragon = 0;
 
     private LinearLayout layout;
@@ -188,6 +189,14 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                 }
             });
         }
+
+        if(dbHelper.countAccessories() == 5){
+            System.out.println(dbHelper.countAccessories());
+            Intent achievement = new Intent(this, AchievementPopUp.class);
+            achievement.putExtra("achievementID", 18);
+            startActivity(achievement);
+        }
+
     }
 
     /*
@@ -224,6 +233,14 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
         spinner.setSelection(0);
+
+        System.out.println(dbHelper.countAccessories());
+        if(dbHelper.countAccessories() == 6){
+            System.out.println(dbHelper.countAccessories());
+            Intent achievement = new Intent(this, AchievementPopUp.class);
+            achievement.putExtra("achievementID", 18);
+            startActivity(achievement);
+        }
     }
 
     /* 
@@ -325,7 +342,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             layer = info.get(1);
         }
 
-        // Draw accesory on dragon
+        // Draw accessory on dragon
         Drawable newItem;
         newItem = (Drawable) ContextCompat.getDrawable(Sprite.this, img);
         spriteDrawable.setDrawableByLayerId(layer, newItem);
