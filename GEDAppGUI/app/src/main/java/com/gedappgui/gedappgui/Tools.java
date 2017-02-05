@@ -119,6 +119,15 @@ public class Tools extends AppCompatActivity {
     }
 
     /*
+     * Opens Tutorial view when button is clicked
+     * Called when the user clicks the Settings button
+     */
+    public void goToTutorial(View view){
+        Intent intent = new Intent(this, Tutorial.class);
+        startActivity(intent);
+    }
+
+    /*
      * Sets what menu will be in the action bar
      * homeonlymenu has the settings button and the home button
      */
