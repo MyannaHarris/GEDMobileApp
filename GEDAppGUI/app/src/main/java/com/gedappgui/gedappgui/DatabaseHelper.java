@@ -768,6 +768,33 @@ public class DatabaseHelper{
     }
 
     /**
+     * Query to see whether user has used all features of the app
+     * @return boolean of whether achievements have been achieved or not
+     */
+    public boolean usedAllFeatures(){
+        open();
+
+        Cursor c = myDatabase.rawQuery("    Select count(*) from user_achievements where " +
+                "achievement_id = 1 or achievement_id = 2 or achievement_id = 6 or " +
+                "achievement_id = 7 or achievement_id = 8 or achievement_id = 14 or " +
+                "achievement_id = 20", null);
+
+        c.moveToFirst();
+        int count = c.getInt(0);
+
+        c.close();
+        close();
+
+        if(count == 7) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+
+    /**
      * Query to see whether sprite it wearing party hat or not
      * @return boolean of whether wearing party hat or not
      */

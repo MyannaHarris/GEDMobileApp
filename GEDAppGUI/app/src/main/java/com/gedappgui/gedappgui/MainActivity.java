@@ -96,6 +96,13 @@ public class MainActivity extends AppCompatActivity {
             // make dictionary of image ids
             makeDictionary();
         }
+
+        //gives an achievement if the user earns all accessories
+        if(db.usedAllFeatures()){
+            Intent achievement = new Intent(this, AchievementPopUp.class);
+            achievement.putExtra("achievementID", 5);
+            startActivity(achievement);
+        }
     }
 
     /*
