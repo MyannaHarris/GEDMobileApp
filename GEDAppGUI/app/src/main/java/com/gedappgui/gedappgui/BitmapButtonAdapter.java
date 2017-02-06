@@ -92,7 +92,7 @@ public class BitmapButtonAdapter extends BaseAdapter {
 
             imageView = new ImageView(mContext);
             imageView.setLayoutParams(
-              new GridView.LayoutParams(width/4,(int)(height/6.5)));
+              new GridView.LayoutParams((int)(width/4.5),(int)(height/7.5)));
 
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setPadding(8, 8, 8, 8);

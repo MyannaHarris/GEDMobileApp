@@ -49,7 +49,7 @@ public class AchievementPopUp extends AppCompatActivity {
 
         //only executes the pop up if the achievement hasn't been earned yet
         if(!db.achievementExists(achievementID)) {
-            setContentView(R.layout.activity_pop_up);
+            setContentView(R.layout.activity_pop_up_info);
 
             String desc = db.selectAchievementDesc(achievementID);
             String img = db.selectAchievementImg(achievementID);
@@ -94,8 +94,6 @@ public class AchievementPopUp extends AppCompatActivity {
         a_name.setText(name);
         a_name.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/6));
 
-        Button button = (Button) findViewById(R.id.close_button);
-        button.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)((height)/15));
 
         // get correct image from database
         ImageView lesson_imageView = (ImageView) findViewById(R.id.achievement_badge);
