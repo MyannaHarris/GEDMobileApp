@@ -43,6 +43,9 @@ public class Game extends AppCompatActivity {
     private String gameName;
     private BucketGameView bucketGameView;
 
+    // Database
+    private DatabaseHelper dbHelper;
+
     /*
      * Starts the activity and shows corresponding view on screen
      */
@@ -61,6 +64,9 @@ public class Game extends AppCompatActivity {
 
         // Get next_activity value from intent to decide next activity after game
         nextActivity = mIntent.getIntExtra("next_activity", 1);
+
+        // Database to get what game, lists of numbers needed and problems
+        dbHelper = new DatabaseHelper(this);
 
         if (lessonID == 1) {
 

@@ -39,8 +39,8 @@ public class GameIntro extends AppCompatActivity {
     // 0 = questions, 1 = play
     private int nextActivity;
 
-    // Game name to load correct game
-    private String gameName;
+    // Database
+    private DatabaseHelper dbHelper;
 
     /*
      * Starts the activity and shows corresponding view on screen
@@ -50,6 +50,7 @@ public class GameIntro extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_game_intro);
+
         Intent mIntent = getIntent();
         conceptID = mIntent.getIntExtra("conceptID", 0);
         lessonID = mIntent.getIntExtra("lessonID", 0);
@@ -63,6 +64,9 @@ public class GameIntro extends AppCompatActivity {
 
         // Get next_activity value from intent to decide next activity after game
         nextActivity = mIntent.getIntExtra("next_activity", 1);
+
+        // Database to get game instructions
+        dbHelper = new DatabaseHelper(this);
 
         TextView instructions = (TextView) findViewById(R.id.instructions);
 

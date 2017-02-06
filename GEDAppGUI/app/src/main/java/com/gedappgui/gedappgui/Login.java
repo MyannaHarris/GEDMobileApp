@@ -61,7 +61,8 @@ public class Login extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    return false;
+                    View view = findViewById(R.id.login_button);
+                    setLogin(view);
                 }
                 return false;
             }
