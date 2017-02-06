@@ -13,7 +13,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 11-28-16
+ * Last Edit: 2-6-17
  *
  */
 
@@ -27,6 +27,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -68,8 +69,8 @@ public class BucketGameView extends SurfaceView implements Runnable  {
     private int correctAnswers = 0;
     private int numAnswers = 0;
     private String question;
-    private int screenXVar;
-    private int screenYVar;
+    private int width;
+    private int height;
     private int questionHeight;
     private boolean showResult = false;
     private boolean correctAnswer = false;
@@ -87,9 +88,9 @@ public class BucketGameView extends SurfaceView implements Runnable  {
     private Context context;
 
     //Class constructor
-    public BucketGameView(Context contextp, int screenX, int screenY,
-                          ArrayList<ArrayList<String>> gameQuestionsp, int conceptIDp, int lessonIDp,
-                          int nextActivityp) {
+    public BucketGameView(Context contextp, int widthp, int heightp,
+                          ArrayList<ArrayList<String>> gameQuestionsp, int conceptIDp,
+                          int lessonIDp, int nextActivityp) {
         super(contextp);
 
         context = contextp;
@@ -104,8 +105,8 @@ public class BucketGameView extends SurfaceView implements Runnable  {
         ArrayList<String> answersStr = gameQuestions.get(currentQuestion + 1);
 
         numberCount = texts.size();
-        screenXVar = screenX;
-        screenYVar = screenY;
+        width = widthp;
+        height = heightp;
 
         conceptID = conceptIDp;
         lessonID = lessonIDp;
@@ -115,25 +116,25 @@ public class BucketGameView extends SurfaceView implements Runnable  {
         answers = answersStr;
         numAnswers = answers.size();
 
-        //initializing player object
-        //this time also passing screen size to player constructor
-        bucket = new Bucket(context, screenX, screenY);
-
         //initializing drawing objects
         surfaceHolder = getHolder();
         paint = new Paint();
         paint.setColor(Color.BLACK);
-        paint.setTextSize(100);
+        paint.setTextSize((float)height / 17);
 
         //Get question text height
         Rect bounds = new Rect();
         paint.getTextBounds(question, 0, question.length(), bounds);
         questionHeight = bounds.height();
 
+        //initializing player object
+        //this time also passing screen size to player constructor
+        bucket = new Bucket(context, width, height, questionHeight);
+
         //initializing number object array
         numbers = new BucketNumber[numberCount];
         for(int i=0; i<numberCount; i++){
-            numbers[i] = new BucketNumber(context, screenX, screenY, texts.get(i),
+            numbers[i] = new BucketNumber(width, height, texts.get(i),
                     (int)paint.measureText(texts.get(i)), questionHeight);
         }
 
@@ -147,9 +148,9 @@ public class BucketGameView extends SurfaceView implements Runnable  {
             // limit fps
             endTime = System.currentTimeMillis();
             long dt = endTime - startTime;
-            if (dt < 50)
+            if (dt < 40)
                 try {
-                    Thread.sleep(50 - dt);
+                    Thread.sleep(40 - dt);
                 } catch (InterruptedException e) {
                 }
             startTime = System.currentTimeMillis();
@@ -202,9 +203,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
 
                             //initializing drawing objects
                             surfaceHolder = getHolder();
-                            paint = new Paint();
                             paint.setColor(Color.BLACK);
-                            paint.setTextSize(100);
 
                             //Get question text height
                             Rect bounds = new Rect();
@@ -214,7 +213,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                             //initializing number object array
                             numbers = new BucketNumber[numberCount];
                             for(int x=0; x<numberCount; x++){
-                                numbers[x] = new BucketNumber(context, screenXVar, screenYVar,
+                                numbers[x] = new BucketNumber(width, height,
                                         texts.get(x), (int)paint.measureText(texts.get(x)),
                                         questionHeight);
                             }
@@ -244,18 +243,18 @@ public class BucketGameView extends SurfaceView implements Runnable  {
             canvas = surfaceHolder.lockCanvas();
 
             //drawing a background color for canvas
-            canvas.drawColor(Color.rgb(20, 150, 170));
+            canvas.drawColor(ContextCompat.getColor(context, R.color.bucketGameBG));
             Bitmap dragonBG = BitmapFactory.decodeResource(
-                    getResources(),R.drawable.sprite_dragon3);
+                    getResources(),R.drawable.goldchest_start);
             Paint alphaPaint = new Paint();
             alphaPaint.setAlpha(95);
-            canvas.drawBitmap(dragonBG, screenXVar / 2 - dragonBG.getWidth() / 2,
-                    screenYVar / 2 - dragonBG.getHeight() / 2, alphaPaint);
+            canvas.drawBitmap(dragonBG, width / 2 - dragonBG.getWidth() / 2,
+                    height / 2 - dragonBG.getHeight() / 2, alphaPaint);
 
             // Write question to screen
             canvas.drawText(
                     question,
-                    (screenXVar / 2 - (int)paint.measureText(question) / 2),
+                    (width / 2 - (int)paint.measureText(question) / 2),
                     questionHeight,
                     paint);
 
@@ -273,20 +272,20 @@ public class BucketGameView extends SurfaceView implements Runnable  {
             if (showResult) {
 
                 if (correctAnswer) {
-                    paint.setColor(Color.GREEN);
+                    paint.setColor(ContextCompat.getColor(context, R.color.gameCorrect));
                     canvas.drawText(
                             "CORRECT",
-                            (screenXVar / 2 - (int)paint.measureText("CORRECT") / 2),
-                            screenYVar / 2 - dragonBG.getHeight() / 2 - 20,
+                            (width / 2 - (int)paint.measureText("CORRECT") / 2),
+                            height / 2 - dragonBG.getHeight() / 2 - 20,
                             paint
                     );
                     paint.setColor(Color.BLACK);
                 } else {
-                    paint.setColor(Color.RED);
+                    paint.setColor(ContextCompat.getColor(context, R.color.gameIncorrect));
                     canvas.drawText(
                             "INCORRECT",
-                            (screenXVar / 2 - (int)paint.measureText("INCORRECT") / 2),
-                            screenYVar / 2 - dragonBG.getHeight() / 2 - 20,
+                            (width / 2 - (int)paint.measureText("INCORRECT") / 2),
+                            height / 2 - dragonBG.getHeight() / 2 - 20,
                             paint
                     );
                     paint.setColor(Color.BLACK);

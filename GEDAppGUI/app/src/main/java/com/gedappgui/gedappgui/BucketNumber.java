@@ -13,13 +13,12 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 11-29-16
+ * Last Edit: 2-6-17
  *
  */
 
 package com.gedappgui.gedappgui;
 
-import android.content.Context;
 import android.graphics.Rect;
 
 import java.util.Random;
@@ -28,7 +27,7 @@ public class BucketNumber {
 
     //Text falling
     private String text;
-    private int strLegth;
+    private int strLength;
 
     //coordinates
     private int x;
@@ -36,50 +35,48 @@ public class BucketNumber {
 
     //motion speed of the character
     private int speed = 0;
+    private int changeY = 0;
 
     //screen boundaries
     private int minY;
     private int maxY;
-    private int minX;
     private int maxX;
 
     private Rect detectCollision;
-    private int textHeight;
+
+    private int width;
+    private int height;
 
     //constructor
-    public BucketNumber(Context context, int screenX, int screenY, String textString, int strLen,
+    public BucketNumber(int widthp, int heightp, String textString, int strLen,
                         int questionHeight) {
 
         // Basic variables
+        width = widthp;
+        height = heightp;
         x = 0;
         y = 0;
-        speed = 5;
+        changeY = (height) / (17 * 6);
+        Random generator = new Random();
+        speed = (int) (changeY * (generator.nextInt(10) / 10.0 + 0.5));
         text = textString;
-        strLegth = strLen;
+        strLength = strLen;
 
         //calculating maxY
-        maxY = screenY - 10;
+        maxY = height - (height / 17);
 
         //top edge's y point is 0 so min y will always be zero
         minY = questionHeight * 3;
 
         //calculating maxY
-        maxX = screenX - strLegth;
-
-        // Save text height for collision calculations
-        textHeight = questionHeight;
-
-        //top edge's y point is 0 so min y will always be zero
-        minX = 0;
+        maxX = width - strLength;
 
         //generating a random coordinate to add enemy
-        Random generator = new Random();
-        speed = generator.nextInt(6) + 10;
-        x = generator.nextInt(maxX - strLegth);
+        x = generator.nextInt(maxX - strLength);
         y = minY;
 
         //initializing rect object
-        detectCollision =  new Rect(x, y, strLegth, 10);
+        detectCollision =  new Rect(x, y, strLength, 10);
     }
 
     //Method to update coordinate of character
@@ -87,19 +84,19 @@ public class BucketNumber {
         //updating y coordinate
         y += speed;
 
-        //if the enemy reaches the left edge
+        //if the enemy reaches the bottom edge
         if (y > maxY) {
-            //adding the enemy again to the right edge
+            //adding the enemy again to the top edge
             Random generator = new Random();
-            speed = generator.nextInt(10) + 10;
+            speed = (int) (changeY * (generator.nextInt(10) / 10.0 + 0.5));
             y = minY;
-            x = generator.nextInt(maxX - strLegth);
+            x = generator.nextInt(maxX - strLength);
         }
 
         //Adding the top, left, bottom and right to the rect object
         detectCollision.left = x;
         detectCollision.top = y;
-        detectCollision.right = x + strLegth;
+        detectCollision.right = x + strLength;
         detectCollision.bottom = y + 30;
     }
 

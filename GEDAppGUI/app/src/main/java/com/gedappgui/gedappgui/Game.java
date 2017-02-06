@@ -14,19 +14,18 @@
  *
  * Created by jasminejans on 10/29/16.
  *
- * Last Edit: 1-29-17
+ * Last Edit: 2-6-17
  *
  */
 
 package com.gedappgui.gedappgui;
 
 import android.content.Intent;
-import android.graphics.Point;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Display;
+import android.util.DisplayMetrics;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -68,14 +67,20 @@ public class Game extends AppCompatActivity {
         // Database to get what game, lists of numbers needed and problems
         dbHelper = new DatabaseHelper(this);
 
+        // Get dimensions of screen to make text size
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+
         if (lessonID == 1) {
 
             //Getting display object
-            Display display = getWindowManager().getDefaultDisplay();
+            /*Display display = getWindowManager().getDefaultDisplay();
 
             //Getting the screen resolution into point object
             Point size = new Point();
-            display.getSize(size);
+            display.getSize(size);*/
 
             //Initializing game view object
             //this time we are also passing the screen size to the GameView constructor
@@ -111,17 +116,17 @@ public class Game extends AppCompatActivity {
             gameQuestions.add(texts);
             gameQuestions.add(answers);
 
-            bucketGameView = new BucketGameView(this, size.x, size.y, gameQuestions,
+            bucketGameView = new BucketGameView(this, width, height, gameQuestions,
                     conceptID, lessonID, nextActivity);
             setContentView(bucketGameView);
         } else if (lessonID == 2) {
 
             //Getting display object
-            Display display = getWindowManager().getDefaultDisplay();
+            /*Display display = getWindowManager().getDefaultDisplay();
 
             //Getting the screen resolution into point object
             Point size = new Point();
-            display.getSize(size);
+            display.getSize(size);*/
 
             //Initializing game view object
             //this time we are also passing the screen size to the GameView constructor
@@ -142,7 +147,7 @@ public class Game extends AppCompatActivity {
             gameQuestions.add(texts);
             gameQuestions.add(answers);
 
-            bucketGameView = new BucketGameView(this, size.x, size.y, gameQuestions,
+            bucketGameView = new BucketGameView(this, width, height, gameQuestions,
                     conceptID, lessonID, nextActivity);
             setContentView(bucketGameView);
         }

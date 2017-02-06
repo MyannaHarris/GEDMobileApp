@@ -13,16 +13,18 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 11-29-16
+ * Last Edit: 2-6-17
  *
  */
 
 package com.gedappgui.gedappgui;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
+import android.os.Build;
 
 public class Bucket {
 
@@ -48,21 +50,36 @@ public class Bucket {
 
     private Rect detectCollision;
 
+    private int width;
+    private int height;
+
     //constructor
-    public Bucket(Context context, int screenX, int screenY) {
+    public Bucket(Context context, int widthp, int heightp, int questionHeight) {
         x = 0;
         y = 0;
         speed = 0;
+        width = widthp;
+        height = heightp;
+
         bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.example_picture);
+        bitmap = Bitmap.createScaledBitmap(bitmap, (int)(questionHeight * 1.5),
+                (int)(questionHeight * 1.5), false);
 
         //calculating maxY
-        maxY = screenY - bitmap.getHeight();
+        maxY = height - bitmap.getHeight();
+        if (Build.VERSION.SDK_INT < 19) {
+            Resources resources = context.getResources();
+            int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+            if (resourceId > 0) {
+                maxY = maxY - resources.getDimensionPixelSize(resourceId);
+            }
+        }
 
         //top edge's y point is 0 so min y will always be zero
         minY = 0;
 
         //calculating maxY
-        maxX = screenX - bitmap.getWidth();
+        maxX = width - bitmap.getWidth();
 
         //top edge's y point is 0 so min y will always be zero
         minX = 0;

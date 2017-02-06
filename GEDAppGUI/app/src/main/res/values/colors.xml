@@ -11,7 +11,7 @@
  Jasmine Jans
  Jimmy Sherman
 
- Last Edit: 10-26-16
+ Last Edit: 2-5-17
 -->
 
 <resources>
@@ -26,4 +26,7 @@
     <color name="colorMenuText">#cccccc</color>
     <color name="colorMenuBackground">#3c3445</color>
     <color name="colorWhite">#ffffff</color>
+    <color name="bucketGameBG">#ceaee6</color>
+    <color name="gameCorrect">#119b0e</color>
+    <color name="gameIncorrect">#961315</color>
 </resources>
