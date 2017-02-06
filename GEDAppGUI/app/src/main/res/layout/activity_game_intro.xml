@@ -46,9 +46,11 @@
 
     <Button
         android:text="@string/play"
+        android:layout_marginBottom="@dimen/button_vert_margin"
+        android:layout_marginTop="@dimen/button_vert_margin"
+        android:layout_below="@id/instructions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/play_button"
         android:textSize="18sp"

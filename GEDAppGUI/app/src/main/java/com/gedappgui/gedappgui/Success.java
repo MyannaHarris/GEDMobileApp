@@ -22,9 +22,11 @@ package com.gedappgui.gedappgui;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayout;
 import android.util.DisplayMetrics;
@@ -302,8 +304,9 @@ public class Success extends AppCompatActivity {
             }
         });
 
-        imgView.setImageBitmap(BitmapFactory.decodeResource(
-                getResources(), img));
+        Drawable image;
+        image = (Drawable) ContextCompat.getDrawable(Success.this, img);
+        imgView.setImageDrawable(image);
         return imgView;
     }
 

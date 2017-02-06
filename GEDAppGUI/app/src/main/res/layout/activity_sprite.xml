@@ -74,18 +74,19 @@
     <HorizontalScrollView
         android:id="@+id/horizontal_scroll_sprite"
         android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="200dp"
         android:layout_below="@id/accessories_spinner"
         android:gravity="center"
+        android:layout_centerInParent="true"
         android:layout_alignParentBottom="true">
 
         <LinearLayout
             android:id="@+id/linear_sprite"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_gravity="center"
+            android:gravity="center_vertical|left"
+            android:layout_gravity="left"
             android:orientation="horizontal"
             android:background="@color/colorMenuText">
         </LinearLayout>
