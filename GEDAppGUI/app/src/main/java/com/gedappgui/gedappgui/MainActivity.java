@@ -64,9 +64,15 @@ public class MainActivity extends AppCompatActivity {
         db = new DatabaseHelper(this);
 
         if (db.firstTimeLogin()){
+
             // Show login first time the app is opened
             Intent intent = new Intent(this, Login.class);
             startActivity(intent);
+
+            //Show tutorial on first time login
+            Intent intentT = new Intent(this, Tutorial.class);
+            startActivity(intentT);
+
         }
         else {
             // Show home screen whenever app is opened after that
@@ -323,15 +329,6 @@ public class MainActivity extends AppCompatActivity {
      */
     public void gotToSettings(View view) {
         Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
-    }
-
-    /*
-     * Opens Tutorial view when button is clicked
-     * Called when the user clicks the Settings button
-     */
-    public void goToTutorial(View view){
-        Intent intent = new Intent(this, Tutorial.class);
         startActivity(intent);
     }
 
