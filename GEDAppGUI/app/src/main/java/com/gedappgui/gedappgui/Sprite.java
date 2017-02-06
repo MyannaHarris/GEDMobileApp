@@ -67,7 +67,6 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
     private ArrayList<String> specials;
     private ArrayList<String> allAccessories;
     private ArrayList<String> dragons;
-    private ArrayList<ArrayList<String>> accessories;
     private int currDragon = 0;
 
     private LinearLayout layout;
@@ -190,10 +189,45 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             });
         }
 
-        if(dbHelper.countAccessories() == 5){
-            System.out.println(dbHelper.countAccessories());
+        //gives an achievement if the user make their sprite wear 5 accessories
+        if(dbHelper.countAccessoriesWorn() == 5){
             Intent achievement = new Intent(this, AchievementPopUp.class);
             achievement.putExtra("achievementID", 18);
+            startActivity(achievement);
+        }
+
+        //gives an achievement if the user dresses their sprite with a monocle, top hat and cane
+        if(dbHelper.isFancy()){
+            Intent achievement = new Intent(this, AchievementPopUp.class);
+            achievement.putExtra("achievementID", 19);
+            startActivity(achievement);
+        }
+
+        //gives an achievement if the user dresses their sprite with a party hat
+        if(dbHelper.isWearingPartyHat()){
+            Intent achievement = new Intent(this, AchievementPopUp.class);
+            achievement.putExtra("achievementID", 20);
+            startActivity(achievement);
+        }
+
+        //gives an achievement if the user earns 3 accessories
+        if(dbHelper.countAccessoriesEarned() == 3){
+            Intent achievement = new Intent(this, AchievementPopUp.class);
+            achievement.putExtra("achievementID", 15);
+            startActivity(achievement);
+        }
+
+        //gives an achievement if the user earns 8 accessories
+        if(dbHelper.countAccessoriesEarned() == 8){
+            Intent achievement = new Intent(this, AchievementPopUp.class);
+            achievement.putExtra("achievementID", 16);
+            startActivity(achievement);
+        }
+
+        //gives an achievement if the user earns all accessories
+        if(dbHelper.countAccessoriesEarned() == 24){
+            Intent achievement = new Intent(this, AchievementPopUp.class);
+            achievement.putExtra("achievementID", 17);
             startActivity(achievement);
         }
 
@@ -233,14 +267,6 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
         spinner.setSelection(0);
-
-        System.out.println(dbHelper.countAccessories());
-        if(dbHelper.countAccessories() == 6){
-            System.out.println(dbHelper.countAccessories());
-            Intent achievement = new Intent(this, AchievementPopUp.class);
-            achievement.putExtra("achievementID", 18);
-            startActivity(achievement);
-        }
     }
 
     /* 

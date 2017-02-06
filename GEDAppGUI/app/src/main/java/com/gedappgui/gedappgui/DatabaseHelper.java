@@ -768,13 +768,38 @@ public class DatabaseHelper{
     }
 
     /**
-     * Query to select accessories
-     * @return List of accessory info
+     * Query to see whether sprite it wearing party hat or not
+     * @return boolean of whether wearing party hat or not
      */
-    public int countAccessories(){
+    public boolean isWearingPartyHat(){
         open();
 
-        Cursor c = myDatabase.rawQuery("SELECT Count(*) FROM user_accessories WHERE currently_wearing = 1 ", null);
+        Cursor c = myDatabase.rawQuery("SELECT count(*) FROM user_accessories WHERE " +
+                "accessory_id = 17 and currently_wearing = 1", null);
+
+        c.moveToFirst();
+        int count = c.getInt(0);
+
+        c.close();
+        close();
+
+        if(count == 1) {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    /**
+     * Query to select number of accessories that are being worn
+     * @return int amount of accessories
+     */
+    public int countAccessoriesWorn(){
+        open();
+
+        Cursor c = myDatabase.rawQuery("SELECT Count(*) FROM user_accessories WHERE " +
+                "currently_wearing = 1 ", null);
 
         c.moveToFirst();
         int count = c.getInt(0);
@@ -783,6 +808,49 @@ public class DatabaseHelper{
         close();
 
         return count;
+    }
+
+    /**
+     * Query to select the number of accessories that have been collected by the user
+     * @return int number of accessories earned
+     */
+    public int countAccessoriesEarned() {
+        open();
+
+        Cursor c = myDatabase.rawQuery("SELECT Count (*) FROM user_accessories", null);
+
+        c.moveToFirst();
+        int count = (c.getInt(0)) - 8;
+
+        c.close();
+        close();
+
+        return count;
+    }
+
+
+    /**
+     * Query to select accessories that are being worn
+     * @return int amount of accesories
+     */
+    public boolean isFancy(){
+        open();
+
+        Cursor c = myDatabase.rawQuery("SELECT Count(*) FROM user_accessories WHERE " +
+                "(accessory_id = 15 or accessory_id = 25 or accessory_id = 2) and " +
+                "currently_wearing = 1", null);
+
+        c.moveToFirst();
+        int count = c.getInt(0);
+
+        c.close();
+        close();
+        if(count == 3){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
 

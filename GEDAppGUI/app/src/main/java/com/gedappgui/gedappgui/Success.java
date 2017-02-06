@@ -62,6 +62,8 @@ public class Success extends AppCompatActivity {
         conceptID = mIntent.getIntExtra("conceptID", 0);
         lessonID = mIntent.getIntExtra("lessonID", 0);
         redo = mIntent.getIntExtra("redoComplete", 0);
+        int totalCorrect = mIntent.getIntExtra("totalCorrect", 0);
+        int totalQuestions = mIntent.getIntExtra("totalQuestions", 0);
 
         ArrayList<Integer> accessories = new ArrayList<>();
 
@@ -85,14 +87,6 @@ public class Success extends AppCompatActivity {
 
         dbHelper.lessonCompleted(lessonID);
 
-        //Achievement for the first lesson completion
-        if(!dbHelper.achievementExists(8)){
-            //gives an achievement if they complete a lesson for the first time
-            Intent achievement = new Intent(getApplicationContext(), AchievementPopUp.class);
-            achievement.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            achievement.putExtra("achievementID", 8);
-            startActivity(achievement);
-        }
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -101,6 +95,30 @@ public class Success extends AppCompatActivity {
 
         //put things in the gridlayout
         setAccessoryInfo(accessories);
+
+        if(totalQuestions!=0){
+            if(totalCorrect%totalQuestions == 0){
+                //gives an achievement if the user opens the achievements in for the first time
+                Intent achievement = new Intent(this, AchievementPopUp.class);
+                achievement.putExtra("achievementID", 12);
+                startActivity(achievement);
+            }
+            else if((float)totalCorrect/(float)totalQuestions >= .75) {
+                //gives an achievement if the user opens the achievements in for the first time
+                Intent achievement = new Intent(this, AchievementPopUp.class);
+                achievement.putExtra("achievementID", 13);
+                startActivity(achievement);
+            }
+        }
+
+        //Achievement for the first lesson completion
+        if(!dbHelper.achievementExists(8)) {
+            //gives an achievement if they complete a lesson for the first time
+            Intent achievement = new Intent(getApplicationContext(), AchievementPopUp.class);
+            achievement.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            achievement.putExtra("achievementID", 8);
+            startActivity(achievement);
+        }
 
         //gives an achievement if the user completes the first concept
         if(lessonID == 6 && !dbHelper.achievementExists(9)){
@@ -283,6 +301,7 @@ public class Success extends AppCompatActivity {
                 accessoryGiven = finalID;
             }
         });
+
         imgView.setImageBitmap(BitmapFactory.decodeResource(
                 getResources(), img));
         return imgView;
