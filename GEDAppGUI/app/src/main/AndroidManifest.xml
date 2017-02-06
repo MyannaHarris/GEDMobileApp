@@ -186,7 +186,7 @@
         <activity
             android:name=".AchievementPopUp"
             android:label="@string/title_activity_achievement_pop_up"
-            android:theme="@style/AppTheme.PopUpTheme" />
+            android:theme="@style/AppTheme.PopUpNoButtonTheme" />
         <activity
             android:name=".AchievementInfo"
             android:label="AchievementInfo"
