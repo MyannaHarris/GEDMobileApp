@@ -61,9 +61,9 @@ public class Bucket {
         width = widthp;
         height = heightp;
 
-        bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.example_picture);
-        bitmap = Bitmap.createScaledBitmap(bitmap, (int)(questionHeight * 1.5),
-                (int)(questionHeight * 1.5), false);
+        bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.game_bucket);
+        bitmap = Bitmap.createScaledBitmap(bitmap, (int)(questionHeight * 2.2),
+                (int)(questionHeight * 2.2), false);
 
         //calculating maxY
         maxY = height - bitmap.getHeight();

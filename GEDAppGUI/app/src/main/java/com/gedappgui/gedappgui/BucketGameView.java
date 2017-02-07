@@ -245,7 +245,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
             //drawing a background color for canvas
             canvas.drawColor(ContextCompat.getColor(context, R.color.bucketGameBG));
             Bitmap dragonBG = BitmapFactory.decodeResource(
-                    getResources(),R.drawable.goldchest_start);
+                    getResources(),R.drawable.game_goldchest);
             Paint alphaPaint = new Paint();
             alphaPaint.setAlpha(95);
             canvas.drawBitmap(dragonBG, width / 2 - dragonBG.getWidth() / 2,
@@ -260,6 +260,26 @@ public class BucketGameView extends SurfaceView implements Runnable  {
 
             //drawing the falling numbers
             for (int i = 0; i < numberCount; i++) {
+                Bitmap coinImg = BitmapFactory.decodeResource(getResources(),
+                        R.drawable.game_goldcoin);
+                coinImg = Bitmap.createScaledBitmap(coinImg,
+                        (int)(questionHeight * 1.8),
+                        (int)(questionHeight * 1.8), false);
+                int x = numbers[i].getText().length();
+                if (x > 1) {
+                    canvas.drawBitmap(
+                            coinImg,
+                            numbers[i].getX() - ((int)paint.measureText(numbers[i].getText()) / 6),
+                            numbers[i].getY() - (int)(questionHeight * 1.3),
+                            paint);
+                } else {
+                    canvas.drawBitmap(
+                            coinImg,
+                            numbers[i].getX() - (int)(paint.measureText(
+                                    numbers[i].getText()) * 0.8),
+                            numbers[i].getY() - (int)(questionHeight * 1.3),
+                            paint);
+                }
                 canvas.drawText(
                         numbers[i].getText(),
                         numbers[i].getX(),
