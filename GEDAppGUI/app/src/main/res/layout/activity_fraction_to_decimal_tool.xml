@@ -60,7 +60,8 @@
             android:layout_below="@+id/FractionConvertHint"
             android:layout_alignLeft="@+id/DecimalInput"
             android:layout_alignStart="@+id/DecimalInput"
-            android:maxLength="10"/>
+            android:maxLength="10"
+            android:hint="3/4"/>
 
         <TextView
             android:text=""
@@ -104,7 +105,8 @@
             android:id="@+id/DecimalInput"
             android:maxLength="7"
             android:layout_below="@+id/textView2"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:hint="2.08"/>
 
         <TextView
             android:text=""

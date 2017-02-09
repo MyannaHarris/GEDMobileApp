@@ -178,5 +178,9 @@ public class Login extends AppCompatActivity {
         Intent achievement = new Intent(this, AchievementPopUp.class);
         achievement.putExtra("achievementID", 1);
         startActivity(achievement);
+
+        //Show tutorial on first time login
+        Intent intentT = new Intent(this, Tutorial.class);
+        startActivity(intentT);
     }
 }

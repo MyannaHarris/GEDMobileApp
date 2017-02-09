@@ -69,10 +69,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, Login.class);
             startActivity(intent);
 
-            //Show tutorial on first time login
-            Intent intentT = new Intent(this, Tutorial.class);
-            startActivity(intentT);
-
         }
         else {
             // Show home screen whenever app is opened after that

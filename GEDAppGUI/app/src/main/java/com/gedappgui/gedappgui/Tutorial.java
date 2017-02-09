@@ -47,13 +47,13 @@ public class Tutorial extends AppCompatActivity {
             "Click on learn to go to the concepts screen",
             "On this screen you can select from 4 concepts each holding 6 lessons",
             "After clicking on a concept, you can select the most recent lesson you have unlocked or any past lesson",
+            "If you want to go to a previous lesson, you can select where you would like to start in that lesson",
             "The first screen in a lesson is a summary that will give you an overview of the lesson",
             "The next screen has a video, picture, and a short tip on the material in the lesson, we suggest you go through all 3 of these parts before proceeding",
             "This screen holds two example problems that are similar to what will be asked later in the lesson",
             "The next few screens will have instructions on how to play a short game and the actual game itself",
             "After the game, you will be asked some questions on the material similar to questions asked on the GED",
             "After you answer enough questions correctly, you will be able to select an accessory for your sprite and move on",
-            "If you want to go to a previous lesson, you can select where you would like to start in that lesson",
             "Clicking continue lesson on the home screen will take you to where you left off on the current lesson",
             "Clicking on settings will bring you to the settings screen",
             "Here you can set a notification, change your name, or mute sounds",
@@ -74,13 +74,13 @@ public class Tutorial extends AppCompatActivity {
             R.drawable.home_screen_learn,
             R.drawable.tutorial_concepts,
             R.drawable.tutorial_lessons,
+            R.drawable.revisit,
             R.drawable.tutorial_summary,
             R.drawable.tutorial_steps,
             R.drawable.tutorial_example,
             R.drawable.tutorial_game,
             R.drawable.tutorial_questions,
             R.drawable.tutorial_success,
-            R.drawable.revisit,
             R.drawable.home_screen_continue,
             R.drawable.settings,
             R.drawable.settings_screen,
@@ -127,6 +127,8 @@ public class Tutorial extends AppCompatActivity {
      * Goes forward one image and text
      */
     public void goForward(View view){
+        if (current > 21)
+            finish();
         TextView prompt = (TextView)findViewById(R.id.prompt);
         ImageView promptImg = (ImageView) findViewById(R.id.prompt_pic);
         current++;
@@ -140,16 +142,12 @@ public class Tutorial extends AppCompatActivity {
      */
     public void checkButtons(){
         Button backbtn = (Button)findViewById(R.id.tutorial_back);
-        Button forwardbtn = (Button)findViewById(R.id.tutorial_forward);
 
         if (current < 1)
             backbtn.setEnabled(false);
         else
             backbtn.setEnabled(true);
-        if (current > 22)
-            forwardbtn.setEnabled(false);
-        else
-            forwardbtn.setEnabled(true);
+
     }
 
     /*

@@ -60,26 +60,26 @@ public class FormulaMemorization extends AppCompatActivity {
         TextView volumeformulas = (TextView)findViewById(R.id.volumeformulas);
         TextView wpformulas = (TextView)findViewById(R.id.wpformulas);
 
-        String areas = "Square:\nArea = side * side \n \nRectangle:\nArea = length × width \n \n" +
-                "Parallelogram:\nArea = base × height \n \nTriangle:\nArea = 1/2 × base × height \n \n" +
-                "Trapezoid:\nArea = 1/2 × (base1 + base2) × height \n \nCircle:\nArea = pi × radius^2";
+        String areas = "Square:\nArea = side * side \n \nRectangle:\nArea = length * width \n \n" +
+                "Parallelogram:\nArea = base * height \n \nTriangle:\nArea = 1/2 * base * height \n \n" +
+                "Trapezoid:\nArea = 1/2 * (base1 + base2) * height \n \nCircle:\nArea = pi * radius^2";
 
         areaformulas.setText(areas);
 
-        String perimeters = "Square:\nPerimeter = 4 × side \n \nRectangle:\nPerimeter = 2 × length + 2 × width" +
-                "\n \nTriangle:\nPerimeter = side1 + side2 + side3 \n \nCircle:\nCircumference = pi × diameter";
+        String perimeters = "Square:\nPerimeter = 4 * side \n \nRectangle:\nPerimeter = 2 * length + 2 * width" +
+                "\n \nTriangle:\nPerimeter = side1 + side2 + side3 \n \nCircle:\nCircumference = pi * diameter";
 
         perimeterformulas.setText(perimeters);
 
-        String volumes = "Cube:\nVolume = edge^3 \n \nRectangular Solid:\nVolume = length × width × height" +
-                "\n \nSquare Pyramid:\nVolume = 1/3 × (base edge)^2 × height \n \nCylinder:\nVolume = pi × radius^2 × height" +
-                "\n \nCone:\nVolume = 1/3 × pi × radius^2 × height";
+        String volumes = "Cube:\nVolume = edge^3 \n \nRectangular Solid:\nVolume = length * width * height" +
+                "\n \nSquare Pyramid:\nVolume = 1/3 * (base edge)^2 * height \n \nCylinder:\nVolume = pi * radius^2 * height" +
+                "\n \nCone:\nVolume = 1/3 * pi * radius^2 * height";
 
         volumeformulas.setText(volumes);
 
         String wordprobformulas = "Pthagorean:\nleg1^2 + leg2^2 = hypotenuse^2\n \nSimple Interest" +
-                ":\ninterest = principal × rate × time \n \nDistance:\ndistance = rate × time \n \n" +
-                "Total Cost:\ntotal cost = (number of units) × (price per unit)";
+                ":\ninterest = principal * rate * time \n \nDistance:\ndistance = rate * time \n \n" +
+                "Total Cost:\ntotal cost = (number of units) * (price per unit)";
 
         wpformulas.setText(wordprobformulas);
 
@@ -93,26 +93,26 @@ public class FormulaMemorization extends AppCompatActivity {
         TextView volumeformulas = (TextView)findViewById(R.id.volumeformulas);
         TextView wpformulas = (TextView)findViewById(R.id.wpformulas);
 
-        String areas = "Square:\nArea = ? * side \n \nRectangle:\nArea = ? × width \n \n" +
-                "Parallelogram:\nArea = ? × height \n \nTriangle:\nArea = 1/2 × base × ? \n \n" +
-                "Trapezoid:\nArea = 1/2 × (base1 + ?) × height \n \nCircle:\nArea = pi × ?^2";
+        String areas = "Square:\nArea = ? * side \n \nRectangle:\nArea = ? * width \n \n" +
+                "Parallelogram:\nArea = ? * height \n \nTriangle:\nArea = 1/2 * base * ? \n \n" +
+                "Trapezoid:\nArea = 1/2 * (base1 + ?) * height \n \nCircle:\nArea = pi * ?^2";
 
         areaformulas.setText(areas);
 
-        String perimeters = "Square:\nPerimeter = ? × side \n \nRectangle:\nPerimeter = 2 × ? + 2 × width" +
-                "\n \nTriangle:\nPerimeter = ? + side2 + side3 \n \nCircle:\nCircumference = pi × ?";
+        String perimeters = "Square:\nPerimeter = ? * side \n \nRectangle:\nPerimeter = 2 * ? + 2 * width" +
+                "\n \nTriangle:\nPerimeter = ? + side2 + side3 \n \nCircle:\nCircumference = pi * ?";
 
         perimeterformulas.setText(perimeters);
 
-        String volumes = "Cube:\nVolume = ?^3 \n \nRectangular Solid:\nVolume = length × ? × height" +
-                "\n \nSquare Pyramid:\nVolume = 1/3 × (?)^2 × height \n \nCylinder:\nVolume = pi × radius^2 × ?" +
-                "\n \nCone:\nVolume = 1/3 × pi × radius^2 × ?";
+        String volumes = "Cube:\nVolume = ?^3 \n \nRectangular Solid:\nVolume = length * ? * height" +
+                "\n \nSquare Pyramid:\nVolume = 1/3 * (?)^2 * height \n \nCylinder:\nVolume = pi * radius^2 * ?" +
+                "\n \nCone:\nVolume = 1/3 * pi * radius^2 * ?";
 
         volumeformulas.setText(volumes);
 
         String wordprobformulas = "Pthagorean:\nleg1^2 + ?^2 = hypotenuse^2\n \nSimple Interest" +
-                ":\ninterest = principal × ? × time \n \nDistance:\ndistance = rate × ? \n \n" +
-                "Total Cost:\ntotal cost = (number of units) × (?)";
+                ":\ninterest = principal * ? * time \n \nDistance:\ndistance = rate × ? \n \n" +
+                "Total Cost:\ntotal cost = (number of units) * (?)";
 
         wpformulas.setText(wordprobformulas);
     }
@@ -126,26 +126,26 @@ public class FormulaMemorization extends AppCompatActivity {
         TextView volumeformulas = (TextView)findViewById(R.id.volumeformulas);
         TextView wpformulas = (TextView)findViewById(R.id.wpformulas);
 
-        String areas = "Square:\nArea = ? * ? \n \nRectangle:\nArea = ? × ? \n \n" +
-                "Parallelogram:\nArea = ? × ? \n \nTriangle:\nArea = ? × base × ? \n \n" +
-                "Trapezoid:\nArea = 1/2 × (base1 + ?) × ? \n \nCircle:\nArea = ? × ?^2";
+        String areas = "Square:\nArea = ? * ? \n \nRectangle:\nArea = ? * ? \n \n" +
+                "Parallelogram:\nArea = ? * ? \n \nTriangle:\nArea = ? * base * ? \n \n" +
+                "Trapezoid:\nArea = 1/2 * (base1 + ?) * ? \n \nCircle:\nArea = ? * ?^2";
 
         areaformulas.setText(areas);
 
-        String perimeters = "Square:\nPerimeter = ? × ? \n \nRectangle:\nPerimeter = 2 × ? + 2 × ?" +
-                "\n \nTriangle:\nPerimeter = ? + side2 + ? \n \nCircle:\nCircumference = ? × ?";
+        String perimeters = "Square:\nPerimeter = ? * ? \n \nRectangle:\nPerimeter = 2 * ? + 2 * ?" +
+                "\n \nTriangle:\nPerimeter = ? + side2 + ? \n \nCircle:\nCircumference = ? * ?";
 
         perimeterformulas.setText(perimeters);
 
-        String volumes = "Cube:\nVolume = ?^? \n \nRectangular Solid:\nVolume = ? × ? × height" +
-                "\n \nSquare Pyramid:\nVolume = ? × (?)^2 × height \n \nCylinder:\nVolume = pi × ?^2 × ?" +
-                "\n \nCone:\nVolume = 1/3 × ? × radius^2 × ?";
+        String volumes = "Cube:\nVolume = ?^? \n \nRectangular Solid:\nVolume = ? * ? * height" +
+                "\n \nSquare Pyramid:\nVolume = ? * (?)^2 * height \n \nCylinder:\nVolume = pi * ?^2 * ?" +
+                "\n \nCone:\nVolume = 1/3 * ? * radius^2 * ?";
 
         volumeformulas.setText(volumes);
 
         String wordprobformulas = "Pthagorean:\n?^2 + ?^2 = hypotenuse^2\n \nSimple Interest" +
-                ":\ninterest = ? × ? × time \n \nDistance:\ndistance = ? × ? \n \n" +
-                "Total Cost:\ntotal cost = (?) × (?)";
+                ":\ninterest = ? * ? * time \n \nDistance:\ndistance = ? * ? \n \n" +
+                "Total Cost:\ntotal cost = (?) * (?)";
 
         wpformulas.setText(wordprobformulas);
     }
