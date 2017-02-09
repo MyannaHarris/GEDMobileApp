@@ -847,7 +847,13 @@ public class DatabaseHelper{
         Cursor c = myDatabase.rawQuery("SELECT Count (*) FROM user_accessories", null);
 
         c.moveToFirst();
+
+        //there are 8 skins already in the user_achievements that we need to subtract
         int count = (c.getInt(0)) - 8;
+
+        //if accesorries are given on the success page, we need to up the count by one
+        //so that the achievement is given when they are about to get a 3rd accessory
+        count += 1;
 
         c.close();
         close();
@@ -872,6 +878,8 @@ public class DatabaseHelper{
 
         c.close();
         close();
+
+        //if count is three than he is wearing all three necessary things to be fancy
         if(count == 3){
             return true;
         }

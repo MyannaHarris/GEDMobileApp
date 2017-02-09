@@ -69,8 +69,17 @@ public class Achievements extends AppCompatActivity {
         gridview = (GridView) findViewById(R.id.achievements_gridView);
 
         ArrayList<String> images = db.selectAchievementsImgs();
-        Bitmap[] buttonPictures = new Bitmap[images.size()];
-        for(int i = 0; i < images.size(); i++){
+        Bitmap[] buttonPictures;
+        //adds the keeping score achievement if it hasnt been used yet
+        if(!db.achievementExists(6)) {
+            buttonPictures = new Bitmap[images.size()+1];
+            buttonPictures[images.size()] = getFromAssets("keepingscore.png");
+        }
+        else{
+            buttonPictures = new Bitmap[images.size()];
+        }
+
+        for (int i = 0; i < images.size(); i++) {
             buttonPictures[i] = getFromAssets(images.get(i));
         }
 

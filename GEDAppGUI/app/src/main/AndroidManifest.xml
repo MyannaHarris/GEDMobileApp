@@ -194,12 +194,24 @@
         <activity
             android:name=".FractionToDecimalTool"
             android:label="@string/title_activity_frac_to_dec_tool" />
-        <activity android:name=".SlopeCalculator" />
-        <activity android:name=".CoordinatePlane" />
-        <activity android:name=".FormulaMemorization" />
-        <activity android:name=".GeoAssist" />
-        <activity android:name=".PlaceValues" />
-        <activity android:name=".Tutorial"></activity>
+        <activity
+            android:name=".SlopeCalculator"
+            android:label= "@string/title_activity_slope_calc_tool" />
+        <activity
+            android:name=".CoordinatePlane"
+            android:label="@string/title_activity_coord_plane_tool"/>
+        <activity
+            android:name=".FormulaMemorization"
+            android:label="@string/title_activity_formula_memorization_tool"/>
+        <activity
+            android:name=".GeoAssist"
+            android:label="@string/title_activity_geo_assist_tool" />
+        <activity
+            android:name=".PlaceValues"
+            android:label="@string/title_activity_place_value_tool"/>
+        <activity
+            android:name=".Tutorial"
+            android:label="Tutorial"/>
     </application>
 
 </manifest>

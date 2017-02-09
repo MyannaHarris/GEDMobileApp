@@ -93,7 +93,12 @@
 
     <string name="title_activity_achievement_pop_up">AchievementPopUp</string>
 
-    <string name="title_activity_frac_to_dec_tool">fracToDecTool</string>
+    <string name="title_activity_frac_to_dec_tool">Fraction To Decimal Tool</string>
+    <string name="title_activity_geo_assist_tool">Geo Assist</string>
+    <string name="title_activity_slope_calc_tool">Slope Calculator</string>
+    <string name="title_activity_formula_memorization_tool">Formula Memorization</string>
+    <string name="title_activity_place_value_tool">Place Values</string>
+    <string name="title_activity_coord_plane_tool">Coordinate Plane</string>
 
     <!-- Sprite Page Combo Box -->
     <string-array name="accessories_array">

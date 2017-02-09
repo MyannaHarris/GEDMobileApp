@@ -98,6 +98,48 @@ public class Success extends AppCompatActivity {
         //put things in the gridlayout
         setAccessoryInfo(accessories);
 
+        checkAchievements(totalQuestions, totalCorrect);
+    }
+
+    /*
+     * hides bottom navigation bar
+     * Called after onCreate on first creation
+     * Called every time this activity gets the focus
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (Build.VERSION.SDK_INT >= 19) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            //View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            //| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            //| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
+    }
+
+    /* 
+     * Shows and hides the bottom navigation bar when user swipes at it on screen
+     * Called when the focus of the window changes to this activity
+     */
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus && Build.VERSION.SDK_INT >= 19) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            //View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            //| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            //| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
+    }
+
+    //checks to see if any achievements can be awarded
+    private void checkAchievements(int totalQuestions, int totalCorrect){
         if(totalQuestions!=0){
             if(totalCorrect%totalQuestions == 0){
                 //gives an achievement if the user opens the achievements in for the first time
@@ -149,43 +191,27 @@ public class Success extends AppCompatActivity {
             achievement.putExtra("achievementID", 14);
             startActivity(achievement);
         }
-    }
 
-    /*
-     * hides bottom navigation bar
-     * Called after onCreate on first creation
-     * Called every time this activity gets the focus
-     */
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (Build.VERSION.SDK_INT >= 19) {
-            getWindow().getDecorView().setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            //View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            //| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            //| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
-    }
+        //gives an achievement if the user earns 3 accessories use >= if on sprite page
+        if(dbHelper.countAccessoriesEarned() == 3){
+            Intent achievement = new Intent(this, AchievementPopUp.class);
+            achievement.putExtra("achievementID", 15);
+            startActivity(achievement);
+        }
 
-    /* 
-     * Shows and hides the bottom navigation bar when user swipes at it on screen
-     * Called when the focus of the window changes to this activity
-     */
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus && Build.VERSION.SDK_INT >= 19) {
-            getWindow().getDecorView().setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            //View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            //| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            //| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
+        //gives an achievement if the user earns 8 accessories use >= if on sprite page
+        if(dbHelper.countAccessoriesEarned() == 8){
+            Intent achievement = new Intent(this, AchievementPopUp.class);
+            achievement.putExtra("achievementID", 16);
+            startActivity(achievement);
+        }
+
+        //gives an achievement if the user earns all accessories use >= if on sprite page
+        if(dbHelper.countAccessoriesEarned() == 24){
+            Intent achievement = new Intent(this, AchievementPopUp.class);
+            achievement.putExtra("achievementID", 17);
+            startActivity(achievement);
+        }
     }
 
     /*
