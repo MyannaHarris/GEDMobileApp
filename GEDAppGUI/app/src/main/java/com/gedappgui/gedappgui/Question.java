@@ -25,6 +25,8 @@ import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.style.BackgroundColorSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -44,6 +46,7 @@ public class Question extends AppCompatActivity {
     private int numQuestion = 0;
     private int totalCorrect = 0;
     private String correctAnswerStr = "";
+    private int correctAnswerIdx = 0;
 
     private int lessonID = 1;
     private int conceptID;
@@ -94,6 +97,9 @@ public class Question extends AppCompatActivity {
             String textAnswer = questionText.get(i+2);
             ((RadioButton) radioGroup.getChildAt(i)).setText(textAnswer);
             ((RadioButton) radioGroup.getChildAt(i)).setTextSize(20);
+            if (textAnswer.equals(questionText.get(6))) {
+                correctAnswerIdx = i;
+            }
         }
 
         // Save what the new correct answer should be
@@ -202,6 +208,11 @@ public class Question extends AppCompatActivity {
             } else {
                 incorrectAnswers += 1;
                 ((RadioButton) radioGroup.getChildAt(selectedAnswer-1)).setTextColor(Color.RED);
+
+                // Show correct answer
+                TextView questionTextView = (TextView) findViewById(R.id.question_textView);
+                questionTextView.setText(questionTextView.getText() +
+                        " \nCorrect answer: " + correctAnswerStr);
             }
             System.out.println(correctAnswers);
 

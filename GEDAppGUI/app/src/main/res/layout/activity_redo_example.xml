@@ -79,6 +79,17 @@
                 android:textSize="18sp"
                 android:onClick="gotToLessonGame" />
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/skipLessonGame"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/button_vert_margin"
+                android:text="Skip the Lesson Game"
+                android:textSize="18sp"
+                android:onClick="skipTheLessonGame" />
+
         </LinearLayout>
     </ScrollView>
 

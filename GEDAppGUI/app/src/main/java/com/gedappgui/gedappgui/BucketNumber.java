@@ -46,14 +46,16 @@ public class BucketNumber {
 
     private int width;
     private int height;
+    private int questionHeight;
 
     //constructor
     public BucketNumber(int widthp, int heightp, String textString, int strLen,
-                        int questionHeight) {
+                        int questionHeightp) {
 
         // Basic variables
         width = widthp;
         height = heightp;
+        questionHeight = questionHeightp;
         x = 0;
         y = 0;
         changeY = (height) / (17 * 6);
@@ -69,14 +71,15 @@ public class BucketNumber {
         minY = questionHeight * 3;
 
         //calculating maxY
-        maxX = width - strLength;
+        maxX = width - (int)((questionHeight * 1.8) / 2);
 
         //generating a random coordinate to add enemy
-        x = generator.nextInt(maxX - strLength);
+        x = generator.nextInt(maxX - (int)((questionHeight * 1.8) / 2));
         y = minY;
 
         //initializing rect object
-        detectCollision =  new Rect(x, y, strLength, 10);
+        detectCollision =  new Rect(x - (int)((questionHeight * 1.8) / 2),
+                y, (int)((questionHeight * 1.8) / 2), 10);
     }
 
     //Method to update coordinate of character
@@ -90,14 +93,14 @@ public class BucketNumber {
             Random generator = new Random();
             speed = (int) (changeY * (generator.nextInt(10) / 10.0 + 0.5));
             y = minY;
-            x = generator.nextInt(maxX - strLength);
+            x = generator.nextInt(maxX - (int)((questionHeight * 1.8) / 2));
         }
 
         //Adding the top, left, bottom and right to the rect object
-        detectCollision.left = x;
+        detectCollision.left = x - (int)((questionHeight * 1.8) / 2);
         detectCollision.top = y;
-        detectCollision.right = x + strLength;
-        detectCollision.bottom = y + 30;
+        detectCollision.right = x + (int)((questionHeight * 1.8) / 2);
+        detectCollision.bottom = y + 20;
     }
 
     //adding a setter to x coordinate so that we can change it after collision

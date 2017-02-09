@@ -153,7 +153,7 @@ public class RedoExample extends AppCompatActivity {
     }
 
     /*
-     * Called by the move on button being clicked
+     * Called by the move on to game button being clicked
      * Opens the lesson game
      * intent.putExtra("next_activity", 0);
      *   = sends 0 to tell game to go to question activity next
@@ -164,6 +164,18 @@ public class RedoExample extends AppCompatActivity {
         intent.putExtra("conceptID", conceptID);
         intent.putExtra("next_activity", 0);
         intent.putExtra("gameName", "");
+        intent.putExtra("redoComplete", 1);
+        startActivity(intent);
+    }
+
+    /*
+     * Called by the skip game being clicked
+     * Skips to the questions
+     */
+    public void skipTheLessonGame(View view) {
+        Intent intent = new Intent(this, Question.class);
+        intent.putExtra("conceptID",conceptID);
+        intent.putExtra("lessonID",lessonID);
         intent.putExtra("redoComplete", 1);
         startActivity(intent);
     }

@@ -87,6 +87,9 @@ public class BucketGameView extends SurfaceView implements Runnable  {
     // Screen info
     private Context context;
 
+    // Pause to show equation
+    private int showFinishedGameTimer;
+
     //Class constructor
     public BucketGameView(Context contextp, int widthp, int heightp,
                           ArrayList<ArrayList<String>> gameQuestionsp, int conceptIDp,
@@ -126,6 +129,9 @@ public class BucketGameView extends SurfaceView implements Runnable  {
         Rect bounds = new Rect();
         paint.getTextBounds(question, 0, question.length(), bounds);
         questionHeight = bounds.height();
+
+        // Pause to show equation
+        showFinishedGameTimer = 10;
 
         //initializing player object
         //this time also passing screen size to player constructor
@@ -175,7 +181,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
         for(int i=0; i<numberCount; i++){
             numbers[i].update();
 
-            //if collision occurrs with player
+            //if collision occurs with player
             if (Rect.intersects(bucket.getDetectCollision(), numbers[i].getDetectCollision())) {
                 //moving enemy outside the left edge
                 numbers[i].setX(-200);
@@ -187,51 +193,57 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                     correctAnswer = true;
 
                     correctAnswers += 1;
-                    if (correctAnswers >= numAnswers) {
-                        if (currentQuestion + 3 <= gameQuestions.size() - 1) {
-                            currentQuestion += 2;
-                            correctAnswers = 0;
-
-                            ArrayList<String> texts = gameQuestions.get(currentQuestion);
-                            ArrayList<String> answersStr = gameQuestions.get(currentQuestion + 1);
-
-                            numberCount = texts.size();
-                            question = answersStr.get(0);
-                            answersStr.remove(0);
-                            answers = answersStr;
-                            numAnswers = answers.size();
-
-                            //initializing drawing objects
-                            surfaceHolder = getHolder();
-                            paint.setColor(Color.BLACK);
-
-                            //Get question text height
-                            Rect bounds = new Rect();
-                            paint.getTextBounds(question, 0, question.length(), bounds);
-                            questionHeight = bounds.height();
-
-                            //initializing number object array
-                            numbers = new BucketNumber[numberCount];
-                            for(int x=0; x<numberCount; x++){
-                                numbers[x] = new BucketNumber(width, height,
-                                        texts.get(x), (int)paint.measureText(texts.get(x)),
-                                        questionHeight);
-                            }
-
-                            // Save start time to limit fps
-                            startTime = System.currentTimeMillis();
-                        } else {
-                            Context context = getContext();
-                            Intent intent = new Intent(context, GameEnd.class);
-                            intent.putExtra("next_activity", nextActivity);
-                            intent.putExtra("conceptID", conceptID);
-                            intent.putExtra("lessonID", lessonID);
-                            context.startActivity(intent);
-                        }
-                    }
                 }
 
                 showResult = true;
+            }
+
+            if (correctAnswers >= numAnswers) {
+                if (showFinishedGameTimer == 0) {
+                    if (currentQuestion + 3 <= gameQuestions.size() - 1) {
+                        currentQuestion += 2;
+                        correctAnswers = 0;
+
+                        ArrayList<String> texts = gameQuestions.get(currentQuestion);
+                        ArrayList<String> answersStr = gameQuestions.get(currentQuestion + 1);
+
+                        numberCount = texts.size();
+                        question = answersStr.get(0);
+                        answersStr.remove(0);
+                        answers = answersStr;
+                        numAnswers = answers.size();
+
+                        //initializing drawing objects
+                        surfaceHolder = getHolder();
+                        paint.setColor(Color.BLACK);
+
+                        //Get question text height
+                        Rect bounds = new Rect();
+                        paint.getTextBounds(question, 0, question.length(), bounds);
+                        questionHeight = bounds.height();
+                        showFinishedGameTimer = 10;
+
+                        //initializing number object array
+                        numbers = new BucketNumber[numberCount];
+                        for (int x = 0; x < numberCount; x++) {
+                            numbers[x] = new BucketNumber(width, height,
+                                    texts.get(x), (int) paint.measureText(texts.get(x)),
+                                    questionHeight);
+                        }
+
+                        // Save start time to limit fps
+                        startTime = System.currentTimeMillis();
+                    } else {
+                        Context context = getContext();
+                        Intent intent = new Intent(context, GameEnd.class);
+                        intent.putExtra("next_activity", nextActivity);
+                        intent.putExtra("conceptID", conceptID);
+                        intent.putExtra("lessonID", lessonID);
+                        context.startActivity(intent);
+                    }
+                } else {
+                    showFinishedGameTimer -= 1;
+                }
             }
         }
     }
