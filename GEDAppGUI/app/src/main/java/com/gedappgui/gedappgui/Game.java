@@ -88,15 +88,17 @@ public class Game extends AppCompatActivity {
 
             ArrayList<String> texts = new ArrayList<String>();
             texts.add("1");
-            texts.add("2");
-            texts.add("3");
+            texts.add("-2");
+            texts.add("-3");
             texts.add("4");
             texts.add("5");
             ArrayList<String> answers = new ArrayList<String>();
-            String question = "_ * _ = 15";
+           // String question = "_ * _ = 15";
+            String question = "5 + _ = 2";
             answers.add(question);
-            answers.add("3");
-            answers.add("5");
+            answers.add("-3");
+            //answers.add("3");
+            //answers.add("5");
 
             gameQuestions.add(texts);
             gameQuestions.add(answers);
@@ -108,10 +110,12 @@ public class Game extends AppCompatActivity {
             texts.add("9");
             texts.add("10");
             answers = new ArrayList<String>();
-            question = "_ * _ = 80";
+            //question = "_ * _ = 80";
+            question = "_ - (-2) = 12";
             answers.add(question);
-            answers.add("8");
             answers.add("10");
+            //answers.add("8");
+            //answers.add("10");
 
             gameQuestions.add(texts);
             gameQuestions.add(answers);
@@ -142,6 +146,43 @@ public class Game extends AppCompatActivity {
             String question = "_ * _ = 15";
             answers.add(question);
             answers.add("3");
+            answers.add("5");
+
+            gameQuestions.add(texts);
+            gameQuestions.add(answers);
+
+            bucketGameView = new BucketGameView(this, width, height, gameQuestions,
+                    conceptID, lessonID, nextActivity);
+            setContentView(bucketGameView);
+        }
+        else if(lessonID == 13){
+            ArrayList<ArrayList<String>> gameQuestions = new ArrayList<ArrayList<String>>();
+
+            ArrayList<String> texts = new ArrayList<String>();
+            texts.add("1");
+            texts.add("2");
+            texts.add("3");
+            texts.add("4");
+            texts.add("5");
+            texts.add("7");
+            ArrayList<String> answers = new ArrayList<String>();
+            String question = "4 * (x-1) = 24";
+            answers.add(question);
+            answers.add("7");
+
+            gameQuestions.add(texts);
+            gameQuestions.add(answers);
+
+            texts = new ArrayList<String>();
+            texts.add("11");
+            texts.add("7");
+            texts.add("8");
+            texts.add("9");
+            texts.add("10");
+            texts.add("5");
+            answers = new ArrayList<String>();
+            question = "1 + 7x = 36";
+            answers.add(question);
             answers.add("5");
 
             gameQuestions.add(texts);

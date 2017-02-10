@@ -69,10 +69,23 @@ public class GameIntro extends AppCompatActivity {
         dbHelper = new DatabaseHelper(this);
 
         TextView instructions = (TextView) findViewById(R.id.instructions);
+        TextView welcome = (TextView) findViewById(R.id.welcome);
+        TextView welcomeMes = (TextView) findViewById(R.id.welcome_message);
 
         if (lessonID == 1) {
-            String instruct = "Swipe left and right to move character and catch correct numbers.";
+            String welcomeM = "Using your knowledge of the number line, catch the correct numbers " +
+                    "to complete the equations!";
+            String instruct = "At the top of the screen you will be given an algebraic expression " +
+                    "with a missing value. \n" +
+                    "(ex. _ + (-3) = 4)\n" +
+                    " \n" +
+                    "Once the game starts numbers will fall from the top of the screen. It is up to " +
+                    "you to move the bucket on the bottom of the screen with your finger to catch " +
+                    "the number that will fill in the expression correctly.";
+            String welcomeT = "Welcome to Your Number Line Game:";
             instructions.setText(instruct);
+            welcomeMes.setText(welcomeM);
+            welcome.setText(welcomeT);
         } else if (lessonID == 2) {
             String instruct = "Swipe left and right to move character and catch correct numbers.";
             instructions.setText(instruct);

@@ -11,7 +11,7 @@
 
 
     <TextView
-        android:text="Welcome to the Game!"
+        android:text="Welcome to your Game:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -23,10 +23,21 @@
         android:textColor="@color/colorHeader1"/>
 
     <TextView
-        android:text="Instructions:"
+        android:text="Welcome Message:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/welcome"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:id="@+id/welcome_message"
+        android:textAlignment="center"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:text="Instructions:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/welcome_message"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
         android:id="@+id/instruction_label"

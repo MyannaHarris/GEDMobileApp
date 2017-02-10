@@ -189,8 +189,17 @@ public class BucketGameView extends SurfaceView implements Runnable  {
 
                     answers.remove(numbers[i].getText());
 
-                    question = question.replaceFirst("[_]", numbers[i].getText());
-                    correctAnswer = true;
+                    if(question.contains("_")) {
+                        question = question.replaceFirst("[_]", numbers[i].getText());
+                        correctAnswer = true;
+                    }
+                    else if(lessonID == 8){
+                        correctAnswer = true;
+                    }
+                    else{
+                        question = question.replaceAll("[x]", "("+numbers[i].getText()+")");
+                        correctAnswer = true;
+                    }
 
                     correctAnswers += 1;
                 }

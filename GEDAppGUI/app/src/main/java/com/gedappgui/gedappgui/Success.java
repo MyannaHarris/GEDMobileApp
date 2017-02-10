@@ -192,26 +192,32 @@ public class Success extends AppCompatActivity {
             startActivity(achievement);
         }
 
-        //gives an achievement if the user earns 3 accessories use >= if on sprite page
-        if(dbHelper.countAccessoriesEarned() == 3){
-            Intent achievement = new Intent(this, AchievementPopUp.class);
-            achievement.putExtra("achievementID", 15);
-            startActivity(achievement);
-        }
+        //checks to make sure that a user is going through a new lesson and not a repeated lesson
+        if(!(dbHelper.isLessonAlreadyStarted(lessonID+1))) {
+            //gives an achievement if the user earns 3 accessories use >= if on sprite page
+            if (dbHelper.countAccessoriesEarned() == 3) {
+                Intent achievement = new Intent(this, AchievementPopUp.class);
+                achievement.putExtra("achievementID", 15);
+                startActivity(achievement);
+            }
+
 
         //gives an achievement if the user earns 8 accessories use >= if on sprite page
-        if(dbHelper.countAccessoriesEarned() == 8){
-            Intent achievement = new Intent(this, AchievementPopUp.class);
-            achievement.putExtra("achievementID", 16);
-            startActivity(achievement);
-        }
+            if(dbHelper.countAccessoriesEarned() == 8) {
+                Intent achievement = new Intent(this, AchievementPopUp.class);
+                achievement.putExtra("achievementID", 16);
+                startActivity(achievement);
+            }
+
 
         //gives an achievement if the user earns all accessories use >= if on sprite page
-        if(dbHelper.countAccessoriesEarned() == 24){
-            Intent achievement = new Intent(this, AchievementPopUp.class);
-            achievement.putExtra("achievementID", 17);
-            startActivity(achievement);
+            if(dbHelper.countAccessoriesEarned() == 24) {
+                Intent achievement = new Intent(this, AchievementPopUp.class);
+                achievement.putExtra("achievementID", 17);
+                startActivity(achievement);
+            }
         }
+
     }
 
     /*
