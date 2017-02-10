@@ -56,7 +56,7 @@ public class GameIntro extends AppCompatActivity {
         lessonID = mIntent.getIntExtra("lessonID", 0);
         redo = mIntent.getIntExtra("redoComplete", 0);
 
-        // Allow homeAsUpIndicator (back arrow) to desplay on action bar
+        // Allow homeAsUpIndicator (back arrow) to display on action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Allow user to control audio with volume buttons on phone
@@ -69,27 +69,18 @@ public class GameIntro extends AppCompatActivity {
         dbHelper = new DatabaseHelper(this);
 
         TextView instructions = (TextView) findViewById(R.id.instructions);
-        TextView welcome = (TextView) findViewById(R.id.welcome);
-        TextView welcomeMes = (TextView) findViewById(R.id.welcome_message);
+        TextView introduction = (TextView) findViewById(R.id.welcome_message);
+        TextView welcomeMessage = (TextView) findViewById(R.id.welcome);
 
-        if (lessonID == 1) {
-            String welcomeM = "Using your knowledge of the number line, catch the correct numbers " +
-                    "to complete the equations!";
-            String instruct = "At the top of the screen you will be given an algebraic expression " +
-                    "with a missing value. \n" +
-                    "(ex. _ + (-3) = 4)\n" +
-                    " \n" +
-                    "Once the game starts numbers will fall from the top of the screen. It is up to " +
-                    "you to move the bucket on the bottom of the screen with your finger to catch " +
-                    "the number that will fill in the expression correctly.";
-            String welcomeT = "Welcome to Your Number Line Game:";
-            instructions.setText(instruct);
-            welcomeMes.setText(welcomeM);
-            welcome.setText(welcomeT);
-        } else if (lessonID == 2) {
-            String instruct = "Swipe left and right to move character and catch correct numbers.";
-            instructions.setText(instruct);
-        }
+        String intro = dbHelper.selectIntroduction(lessonID);
+        String instruct = dbHelper.selectInstructions(lessonID);
+        String name = dbHelper.selectLessonTitle(lessonID);
+        String welcome = "Welcome to the " + name + " Game!";
+
+        instructions.setText(instruct);
+        welcomeMessage.setText(welcome);
+        introduction.setText(intro);
+
     }
 
     /*

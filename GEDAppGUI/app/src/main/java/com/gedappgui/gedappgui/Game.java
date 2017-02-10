@@ -84,9 +84,9 @@ public class Game extends AppCompatActivity {
 
             //Initializing game view object
             //this time we are also passing the screen size to the GameView constructor
-            ArrayList<ArrayList<String>> gameQuestions = new ArrayList<ArrayList<String>>();
-
-            ArrayList<String> texts = new ArrayList<String>();
+            ArrayList<ArrayList<String>> gameQuestions = dbHelper.selectBucketGameInput(lessonID);
+            System.out.println(gameQuestions);
+           /* ArrayList<String> texts = new ArrayList<String>();
             texts.add("1");
             texts.add("-2");
             texts.add("-3");
@@ -119,7 +119,7 @@ public class Game extends AppCompatActivity {
 
             gameQuestions.add(texts);
             gameQuestions.add(answers);
-
+*/
             bucketGameView = new BucketGameView(this, width, height, gameQuestions,
                     conceptID, lessonID, nextActivity);
             setContentView(bucketGameView);

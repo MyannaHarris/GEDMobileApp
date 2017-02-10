@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class DatabaseHelper{
 
@@ -716,8 +717,12 @@ public class DatabaseHelper{
         return redos;
 
     }
+
     /**
      * Query to select a random question text given the lesson and the difficulty
+     * @param lesson_id id of the lesson
+     * @param difficulty the difficulty of the question
+     * @return the text of the question
      */
     public ArrayList<String> selectQuestionText(int lesson_id, int difficulty){
         open();
@@ -888,6 +893,105 @@ public class DatabaseHelper{
         }
     }
 
+    /**
+     * returns the instructions of the game for the given lesson
+     * @param lesson_id the id of the lesson
+     * @return the instructions for the game of the given lesson
+     */
+    public String selectInstructions(int lesson_id){
+        open();
+
+        Cursor c = myDatabase.rawQuery("SELECT game_instructions FROM lessons WHERE lesson_id = " +
+                lesson_id, null);
+        c.moveToFirst();
+        String instructions = c.getString(0);
+
+        c.close();
+        close();
+
+        return instructions;
+    }
+
+    /**
+     * returns the introduction of the game for the given lesson
+     * @param lesson_id the id of the lesson
+     * @return the instructions for the game of the given lesson
+     */
+    public String selectIntroduction(int lesson_id){
+        open();
+
+        Cursor c = myDatabase.rawQuery("SELECT game_intro FROM lessons WHERE lesson_id = " +
+                lesson_id, null);
+        c.moveToFirst();
+        String introduction = c.getString(0);
+
+        c.close();
+        close();
+
+        return introduction;
+    }
+
+    /**
+     * returns the input for a game from a CSL
+     * @param lesson_id the id of the lesson
+     * @return the input for the game (questions and answers)
+     */
+    public ArrayList<ArrayList<String>> selectBucketGameInput(int lesson_id){
+        open();
+
+        Cursor c = myDatabase.rawQuery("SELECT game_input FROM lessons WHERE lesson_id = " +
+                lesson_id, null);
+        c.moveToFirst();
+        String input = c.getString(0);
+
+        c.close();
+        close();
+
+        ArrayList<ArrayList<String>> allQAndAs = new ArrayList<ArrayList<String>>();
+        ArrayList<ArrayList<String>> randQAndAs = new ArrayList<ArrayList<String>>();
+        ArrayList<String> possibleAnswers = new ArrayList<>();
+        ArrayList<String> questionsAndAnswers = new ArrayList<>();
+
+        String[] questions = input.split("[,]");
+
+        //gets the 5 possible solutions to store
+        //then gets the 1 question, and the 1 answer
+        for(int k = 0; k<questions.length; k+=7) {
+            possibleAnswers.clear();
+            questionsAndAnswers.clear();
+
+            for(int i = k; i<k+5; i++) {
+                possibleAnswers.add(questions[i]);
+            }
+            for(int j = k+5; j<k+7;  j++) {
+                questionsAndAnswers.add(questions[j]);
+            }
+                //deep copies the array lists of possible answers and qeustions and answer
+                allQAndAs.add(new ArrayList<String>(possibleAnswers));
+                allQAndAs.add(new ArrayList<String>(questionsAndAnswers));
+
+        }
+
+        //choose 5 random questions of the 20 to give to the user in the game
+        for(int r = 0; r < 5; r++) {
+            //randomly generate 1s and zeroes
+            double rand = Math.abs(Math.round(Math.random() * 20-r));
+            if(rand%2 == 0) {
+                randQAndAs.add(allQAndAs.remove((int) rand));
+                randQAndAs.add(allQAndAs.remove((int) rand));
+            }
+            else{
+                randQAndAs.add(allQAndAs.remove((int)(rand-1)));
+                randQAndAs.add(allQAndAs.remove((int)(rand-1)));
+            }
+        }
+
+
+        System.out.println(randQAndAs);
+        return randQAndAs;
+    }
+
+
 
     //@Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -949,6 +1053,10 @@ public class DatabaseHelper{
         close();
     }*/
 
+    /**
+     * gets an arraylist of random accessories
+     * @return an arraylist of random accessories
+     */
     ArrayList<Integer> getRandomAccessories() {
         open();
         ArrayList<Integer> ids = new ArrayList<>();
@@ -963,6 +1071,10 @@ public class DatabaseHelper{
         return ids;
     }
 
+    /**
+     * puts an accessory of a certain id
+     * @param id if of the accessory
+     */
     void giveAccessory(int id) {
         open();
         String insertQuery = "INSERT INTO user_accessories(user_id, accessory_id, currently_wearing) VALUES(1,"+id+",0)";
@@ -970,6 +1082,11 @@ public class DatabaseHelper{
         close();
     }
 
+    /**
+     * returns true or false if a lesson has already been completed
+     * @param id the id of the lesson
+     * @return true or false if lesson has already been completed
+     */
     boolean isLessonAlreadyStarted(int id) {
         open();
         boolean isComplete = false;
