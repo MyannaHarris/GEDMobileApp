@@ -40,7 +40,7 @@ public class SlopeCalculator extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slope_calculator);
 
-        // Allow homeAsUpIndicator (back arrow) to desplay on action bar
+        // Allow homeAsUpIndicator (back arrow) to display on action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Allow user to control audio with volume buttons on phone
@@ -53,6 +53,18 @@ public class SlopeCalculator extends AppCompatActivity {
         Intent achievement = new Intent(this, AchievementPopUp.class);
         achievement.putExtra("achievementID", 7);
         startActivity(achievement);
+
+        EditText y2input = (EditText)findViewById(R.id.y2_input);
+        y2input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    View view =  findViewById(R.id.FindSlope);
+                    MakeString(view);
+                }
+                return false;
+            }
+        });
     }
 
     /*
@@ -61,7 +73,7 @@ public class SlopeCalculator extends AppCompatActivity {
      * If not, throws an error string and exits.
      */
     public void MakeString (View view){
-        String steps = new String();
+        String steps;
         TextView stepbystep = (TextView)findViewById(R.id.stepbystep);
 
         EditText x1_text = (EditText)findViewById(R.id.x1_input);
