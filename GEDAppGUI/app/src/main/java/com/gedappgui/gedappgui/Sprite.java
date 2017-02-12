@@ -12,7 +12,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 1-17-17
+ * Last Edit: 11-17-17
  *
  */
 
@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.media.AudioManager;
@@ -32,15 +33,18 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
@@ -72,6 +76,21 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
     private LinearLayout layout;
     private Map<String, ArrayList<Integer>> accessoryMap;
 
+    // Save x values for swiping on dragon
+    private int x1 = 0;
+    private int x2 = 0;
+    private boolean inDragon = false;
+
+    // Screen size
+    int width;
+    int height;
+
+    // Drag image
+    private ImageView currAccessory;
+    private RelativeLayout spriteLayout;
+    private boolean dragBool = false;
+    private String dragIcon;
+
     /*
      * Starts the activity and shows corresponding view on screen
      */
@@ -89,7 +108,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
 
         // Set up for editing sprite
         spriteDrawable = ((MyApplication) this.getApplication()).getSpriteDrawable();
-        spriteImage = (ImageView)findViewById(R.id.sprite_spriteScreen);
+        spriteImage = (ImageView) findViewById(R.id.sprite_spriteScreen);
 
         // instantiate lists
         allAccessories = new ArrayList<String>();
@@ -104,14 +123,14 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         makeDictionary();
 
         // Read in accessory data
-        // 0 - accessory_img
+        // 0 - accessory_img = name
         // 1 - layer_id
         // 2 - currently_wearing
         dbHelper = new DatabaseHelper(this);
-        ArrayList<ArrayList<String>> accessories = dbHelper.selectAccessories();
+        final ArrayList<ArrayList<String>> accessories = dbHelper.selectAccessories();
 
         // Save what accessories should be displayed
-        if(accessories != null && accessories.size() > 0) {
+        if (accessories != null && accessories.size() > 0) {
             for (int i = 0; i < accessories.size(); i++) {
 
                 // Add accessory to all list
@@ -164,10 +183,20 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             }
         }
 
+        // Set variables for dragging image
+        spriteLayout = (RelativeLayout)findViewById(R.id.sprite_relativeLayout);
+        currAccessory = new ImageView(Sprite.this);
+
+        // Get screen size
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        width = dm.widthPixels;
+        height = dm.heightPixels;
+
         // First display all accessories
         layout = (LinearLayout) findViewById(R.id.linear_sprite);
         for (int i = 0; i < allAccessories.size(); i++) {
-            ArrayList<Integer> info =  accessoryMap.get(allAccessories.get(i));
+            ArrayList<Integer> info = accessoryMap.get(allAccessories.get(i));
             int img = info.get(0);
             int icon = info.get(1);
             int layer = info.get(2);
@@ -175,22 +204,164 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             ImageView imageView = new ImageView(this);
             imageView.setId(i);
             imageView.setPadding(8, 8, 8, 8);
-            imageView.setLayoutParams( new LinearLayout.LayoutParams(255, 255));
+            imageView.setLayoutParams(new LinearLayout.LayoutParams(255, 255));
             imageView.setImageBitmap(BitmapFactory.decodeResource(
                     getResources(), icon));
             imageView.setTag(allAccessories.get(i));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             layout.addView(imageView);
-            imageView.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    ImageView imageView = (ImageView) v;
-                    addAccessory((String)imageView.getTag());
+
+            imageView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            dragIcon = (String) v.getTag();
+
+                            dragBool = true;
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            ImageView imageView = (ImageView) v;
+                            addAccessory((String) imageView.getTag());
+
+                            dragBool = false;
+                            break;
+                    }
+                    return true;
                 }
             });
         }
 
         checkAchievements();
 
+        ImageView dragonImageView = (ImageView) findViewById(R.id.sprite_spriteScreen);
+        dragonImageView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        inDragon = true;
+                        x1 = (int)event.getRawX();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        x2 = (int)event.getRawX();
+                        if(inDragon && x1 > x2) {
+                            if (currDragon == dragons.size() - 1) {
+                                currDragon = 0;
+                                addAccessory(dragons.get(currDragon));
+                            } else {
+                                currDragon += 1;
+                                addAccessory(dragons.get(currDragon));
+                            }
+                        } else if (inDragon && x2 > x1){
+                            if (currDragon == 0) {
+                                currDragon = dragons.size() - 1;
+                                addAccessory(dragons.get(currDragon));
+                            } else {
+                                currDragon -= 1;
+                                addAccessory(dragons.get(currDragon));
+                            }
+                        }
+                        inDragon = false;
+                        break;
+                }
+                checkAchievements();
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+
+        if(dragBool) {
+            switch(event.getAction()) {
+                case MotionEvent.ACTION_MOVE:
+                    if (currAccessory != null) {
+                        currAccessory.setVisibility(View.GONE);
+                        spriteLayout.removeView(currAccessory);
+                    }
+
+                    ArrayList<Integer> info = accessoryMap.get(dragIcon);
+                    int icon = info.get(1);
+
+                    currAccessory = new ImageView(Sprite.this);
+                    currAccessory.setPadding(8, 8, 8, 8);
+                    currAccessory.setLayoutParams(new RelativeLayout.LayoutParams(255, 255));
+                    currAccessory.setImageBitmap(BitmapFactory.decodeResource(
+                            getResources(), icon));
+
+                    spriteLayout.addView(currAccessory);
+
+                    currAccessory.setX(event.getRawX() - 190);
+                    currAccessory.setY(event.getRawY() - 300);
+
+                    //if (spriteLayout.getParent() == spriteLayout) {
+                        //currAccessory.setVisibility(View.GONE);
+                        //spriteLayout.removeView(currAccessory);
+                    //}
+
+                    //if (createDragView) {
+                    /*currAccessory = new ImageView(Sprite.this);
+                    currAccessory.setPadding(8, 8, 8, 8);
+                    currAccessory.setLayoutParams(new RelativeLayout.LayoutParams(255, 255));
+                    RelativeLayout.LayoutParams accessoryParams =
+                            (RelativeLayout.LayoutParams) currAccessory.getLayoutParams();
+
+                    ArrayList<Integer> info = accessoryMap.get(dragIcon);
+                    int icon = info.get(1);
+                    currAccessory.setImageBitmap(BitmapFactory.decodeResource(
+                            getResources(), icon));
+
+                        spriteLayout.addView(currAccessory);
+                        //currAccessory.setVisibility(View.VISIBLE);
+                        currAccessory.setX(event.getX() - currAccessory.getWidth());
+                        currAccessory.setY(event.getY() - currAccessory.getHeight());
+                        //createDragView = false;
+                    //}
+
+                    int x_cord = (int) event.getX();
+                    int y_cord = (int) event.getY();
+
+                    if (x_cord > width) {
+                        x_cord = width;
+                    } else if (x_cord < 0) {
+                        x_cord = 0;
+                    }
+
+                    if (y_cord > height) {
+                        y_cord = height;
+                    } else if (y_cord < 0) {
+                        y_cord = 0;
+                    }
+
+                    accessoryParams.leftMargin = x_cord - currAccessory.getWidth();
+                    accessoryParams.topMargin = y_cord - currAccessory.getHeight();
+                    //accessoryParams.rightMargin = x_cord + currAccessory.getWidth();
+                    //accessoryParams.bottomMargin = y_cord + currAccessory.getHeight();
+
+                    currAccessory.setLayoutParams(accessoryParams);
+                    //currAccessory.requestLayout();
+
+                    //currAccessory.animate().x(event.getX()).y(event.getY());*/
+                    break;
+                case MotionEvent.ACTION_UP:
+                    currAccessory.setVisibility(View.GONE);
+                    spriteLayout.removeView(currAccessory);
+
+                    ImageView dragonImageView = (ImageView)findViewById(R.id.sprite_spriteScreen);
+                    Rect editTextRect = new Rect();
+                    dragonImageView.getHitRect(editTextRect);
+
+                    if (editTextRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                        addAccessory(dragIcon);
+                    }
+                    dragBool = false;
+                    break;
+            }
+        }
+
+        return super.dispatchTouchEvent(event);
     }
 
     /*
@@ -211,7 +382,8 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                             //| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
 
         // Stop spinner from bringing top bar down
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -246,7 +418,8 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                             //| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
     }
 
     /*
@@ -306,25 +479,25 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         return true;
     }
 
-    private void checkAchievements(){
+    private void checkAchievements() {
         System.out.println(dbHelper.countAccessoriesEarned());
 
         //gives an achievement if the user make their sprite wear 5 accessories
-        if(dbHelper.countAccessoriesWorn() == 6){
+        if (dbHelper.countAccessoriesWorn() == 6) {
             Intent achievement = new Intent(this, AchievementPopUp.class);
             achievement.putExtra("achievementID", 18);
             startActivity(achievement);
         }
 
         //gives an achievement if the user dresses their sprite with a monocle, top hat and cane
-        if(dbHelper.isFancy()){
+        if (dbHelper.isFancy()) {
             Intent achievement = new Intent(this, AchievementPopUp.class);
             achievement.putExtra("achievementID", 19);
             startActivity(achievement);
         }
 
         //gives an achievement if the user dresses their sprite with a party hat
-        if(dbHelper.isWearingPartyHat()){
+        if (dbHelper.isWearingPartyHat()) {
             Intent achievement = new Intent(this, AchievementPopUp.class);
             achievement.putExtra("achievementID", 20);
             startActivity(achievement);
@@ -454,7 +627,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         layout.removeAllViews();
 
         for (int i = 0; i < glasses.size(); i++) {
-            ArrayList<Integer> info =  accessoryMap.get(glasses.get(i));
+            ArrayList<Integer> info = accessoryMap.get(glasses.get(i));
             int img = info.get(0);
             int icon = info.get(1);
             int layer = info.get(2);
@@ -462,16 +635,30 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             ImageView imageView = new ImageView(this);
             imageView.setId(i);
             imageView.setPadding(8, 8, 8, 8);
-            imageView.setLayoutParams( new LinearLayout.LayoutParams(255, 255));
+            imageView.setLayoutParams(new LinearLayout.LayoutParams(255, 255));
             imageView.setImageBitmap(BitmapFactory.decodeResource(
                     getResources(), icon));
             imageView.setTag(glasses.get(i));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             layout.addView(imageView);
-            imageView.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    ImageView imageView = (ImageView) v;
-                    addAccessory((String)imageView.getTag());
+
+            imageView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            dragIcon = (String) v.getTag();
+
+                            dragBool = true;
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            ImageView imageView = (ImageView) v;
+                            addAccessory((String) imageView.getTag());
+
+                            dragBool = false;
+                            break;
+                    }
+                    return true;
                 }
             });
         }
@@ -487,7 +674,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         layout.removeAllViews();
 
         for (int i = 0; i < shirts.size(); i++) {
-            ArrayList<Integer> info =  accessoryMap.get(shirts.get(i));
+            ArrayList<Integer> info = accessoryMap.get(shirts.get(i));
             int img = info.get(0);
             int icon = info.get(1);
             int layer = info.get(2);
@@ -495,16 +682,30 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             ImageView imageView = new ImageView(this);
             imageView.setId(i);
             imageView.setPadding(8, 8, 8, 8);
-            imageView.setLayoutParams( new LinearLayout.LayoutParams(255, 255));
+            imageView.setLayoutParams(new LinearLayout.LayoutParams(255, 255));
             imageView.setImageBitmap(BitmapFactory.decodeResource(
                     getResources(), icon));
             imageView.setTag(shirts.get(i));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             layout.addView(imageView);
-            imageView.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    ImageView imageView = (ImageView) v;
-                    addAccessory((String)imageView.getTag());
+
+            imageView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            dragIcon = (String) v.getTag();
+
+                            dragBool = true;
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            ImageView imageView = (ImageView) v;
+                            addAccessory((String) imageView.getTag());
+
+                            dragBool = false;
+                            break;
+                    }
+                    return true;
                 }
             });
         }
@@ -520,7 +721,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         layout.removeAllViews();
 
         for (int i = 0; i < specials.size(); i++) {
-            ArrayList<Integer> info =  accessoryMap.get(specials.get(i));
+            ArrayList<Integer> info = accessoryMap.get(specials.get(i));
             int img = info.get(0);
             int icon = info.get(1);
             int layer = info.get(2);
@@ -528,16 +729,30 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             ImageView imageView = new ImageView(this);
             imageView.setId(i);
             imageView.setPadding(8, 8, 8, 8);
-            imageView.setLayoutParams( new LinearLayout.LayoutParams(255, 255));
+            imageView.setLayoutParams(new LinearLayout.LayoutParams(255, 255));
             imageView.setImageBitmap(BitmapFactory.decodeResource(
                     getResources(), icon));
             imageView.setTag(specials.get(i));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             layout.addView(imageView);
-            imageView.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    ImageView imageView = (ImageView) v;
-                    addAccessory((String)imageView.getTag());
+
+            imageView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            dragIcon = (String) v.getTag();
+
+                            dragBool = true;
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            ImageView imageView = (ImageView) v;
+                            addAccessory((String) imageView.getTag());
+
+                            dragBool = false;
+                            break;
+                    }
+                    return true;
                 }
             });
         }
@@ -553,7 +768,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         layout.removeAllViews();
 
         for (int i = 0; i < hats.size(); i++) {
-            ArrayList<Integer> info =  accessoryMap.get(hats.get(i));
+            ArrayList<Integer> info = accessoryMap.get(hats.get(i));
             int img = info.get(0);
             int icon = info.get(1);
             int layer = info.get(2);
@@ -561,16 +776,30 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             ImageView imageView = new ImageView(this);
             imageView.setId(i);
             imageView.setPadding(8, 8, 8, 8);
-            imageView.setLayoutParams( new LinearLayout.LayoutParams(255, 255));
+            imageView.setLayoutParams(new LinearLayout.LayoutParams(255, 255));
             imageView.setImageBitmap(BitmapFactory.decodeResource(
                     getResources(), icon));
             imageView.setTag(hats.get(i));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             layout.addView(imageView);
-            imageView.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    ImageView imageView = (ImageView) v;
-                    addAccessory((String)imageView.getTag());
+
+            imageView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            dragIcon = (String) v.getTag();
+
+                            dragBool = true;
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            ImageView imageView = (ImageView) v;
+                            addAccessory((String) imageView.getTag());
+
+                            dragBool = false;
+                            break;
+                    }
+                    return true;
                 }
             });
         }
@@ -586,7 +815,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         layout.removeAllViews();
 
         for (int i = 0; i < allAccessories.size(); i++) {
-            ArrayList<Integer> info =  accessoryMap.get(allAccessories.get(i));
+            ArrayList<Integer> info = accessoryMap.get(allAccessories.get(i));
             int img = info.get(0);
             int icon = info.get(1);
             int layer = info.get(2);
@@ -594,16 +823,30 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             ImageView imageView = new ImageView(this);
             imageView.setId(i);
             imageView.setPadding(8, 8, 8, 8);
-            imageView.setLayoutParams( new LinearLayout.LayoutParams(255, 255));
+            imageView.setLayoutParams(new LinearLayout.LayoutParams(255, 255));
             imageView.setImageBitmap(BitmapFactory.decodeResource(
                     getResources(), icon));
             imageView.setTag(allAccessories.get(i));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             layout.addView(imageView);
-            imageView.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    ImageView imageView = (ImageView) v;
-                    addAccessory((String)imageView.getTag());
+
+            imageView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            dragIcon = (String) v.getTag();
+
+                            dragBool = true;
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            ImageView imageView = (ImageView) v;
+                            addAccessory((String) imageView.getTag());
+
+                            dragBool = false;
+                            break;
+                    }
+                    return true;
                 }
             });
         }
@@ -627,7 +870,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
 
         //values.put(MediaStore.Images.Media.DATE_MODIFIED, System.currentTimeMillis()/1000);
 
-        MediaStore.Images.Media.insertImage(getContentResolver(), b, "Dragon" , "Dragon");
+        MediaStore.Images.Media.insertImage(getContentResolver(), b, "Dragon", "Dragon");
 
         // 1. Instantiate an AlertDialog.Builder with its constructor
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogAppearance);
@@ -666,7 +909,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
      * Loops through the different dragon colorings
      */
     public void changeDragon(View view) {
-        if (currDragon == dragons.size() - 1) {
+        /*if (currDragon == dragons.size() - 1) {
             currDragon = 0;
             addAccessory(dragons.get(currDragon));
         } else {
@@ -674,7 +917,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             addAccessory(dragons.get(currDragon));
         }
 
-        checkAchievements();
+        checkAchievements();*/
     }
 
     /*
