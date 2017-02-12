@@ -25,109 +25,146 @@ import java.util.Random;
 
 public class BucketNumber {
 
-    //Text falling
+    // Text falling
     private String text;
-    private int strLength;
 
-    //coordinates
+    // Coordinates
     private int x;
     private int y;
 
-    //motion speed of the character
+    // Motion speed of the falling text
     private int speed = 0;
     private int changeY = 0;
 
-    //screen boundaries
+    // Screen boundaries
     private int minY;
     private int maxY;
     private int maxX;
 
+    // Rectangle to check if a collision happened
     private Rect detectCollision;
 
+    // Screen size
     private int width;
     private int height;
+
+    // Height of question text
     private int questionHeight;
 
-    //constructor
-    public BucketNumber(int widthp, int heightp, String textString, int strLen,
-                        int questionHeightp) {
+    /*
+     * Constructor
+     */
+    public BucketNumber(int widthp, int heightp, String textString, int questionHeightp) {
 
         // Basic variables
+        // Screen size
         width = widthp;
         height = heightp;
+
+        // Height of question text
         questionHeight = questionHeightp;
+
+        // Originally set coordinates to 0 before calculations
         x = 0;
         y = 0;
+
+        // Change in y based on screen size to help keep speed reasonable
         changeY = (height) / (17 * 6);
+
+        // Set random speed
         Random generator = new Random();
         speed = (int) (changeY * (generator.nextInt(10) / 10.0 + 0.5));
-        text = textString;
-        strLength = strLen;
 
-        //calculating maxY
+        // Text to have falling
+        text = textString;
+
+        // Calculating maxY
         maxY = height - (height / 17);
 
-        //top edge's y point is 0 so min y will always be zero
+        // Min y is below the question text
         minY = questionHeight * 3;
 
-        //calculating maxY
+        // Calculating maxY
         maxX = width - (int)((questionHeight * 1.8) / 2);
 
-        //generating a random coordinate to add enemy
+        // Generating a random x coordinate to add enemy at
         x = generator.nextInt(maxX - (int)((questionHeight * 1.8) / 2));
         y = minY;
 
-        //initializing rect object
+        // Initializing rect object for detecting collisions
         detectCollision =  new Rect(x - (int)((questionHeight * 1.8) / 2),
                 y, (int)((questionHeight * 1.8) / 2), 10);
     }
 
-    //Method to update coordinate of character
+    /*
+     * Update coordinates
+     */
     public void update(){
-        //updating y coordinate
+        // Updating y coordinate
         y += speed;
 
-        //if the enemy reaches the bottom edge
+        // If the enemy reaches the bottom edge
         if (y > maxY) {
-            //adding the enemy again to the top edge
+            // Adding the enemy again to the top edge
             Random generator = new Random();
             speed = (int) (changeY * (generator.nextInt(10) / 10.0 + 0.5));
             y = minY;
             x = generator.nextInt(maxX - (int)((questionHeight * 1.8) / 2));
         }
 
-        //Adding the top, left, bottom and right to the rect object
+        // Adding the top, left, bottom and right to the rect object
+        // For when the it moves
         detectCollision.left = x - (int)((questionHeight * 1.8) / 2);
         detectCollision.top = y;
         detectCollision.right = x + (int)((questionHeight * 1.8) / 2);
         detectCollision.bottom = y + 20;
     }
 
-    //adding a setter to x coordinate so that we can change it after collision
+    /*
+     * Setter
+     * Sets the x coordinate
+     * Helps with changing x-coordinate after collision
+     */
     public void setX(int x){
         this.x = x;
     }
 
-    //one more getter for getting the rect object
+    /*
+     * Getter
+     * Gets the rectangle to check for collisions
+     */
     public Rect getDetectCollision() {
         return detectCollision;
     }
 
     /*
-    * These are getters
-    * */
+     * Getter
+     * Gets the text used
+     */
     public String getText() {
         return text;
     }
 
+    /*
+     * Getter
+     * Gets the x-coordinate
+     */
     public int getX() {
         return x;
     }
 
+    /*
+     * Getter
+     * Gets the y-coordinate
+     */
     public int getY() {
         return y;
     }
 
+    /*
+     * Getter
+     * Gets the speed
+     */
     public int getSpeed() {
         return speed;
     }

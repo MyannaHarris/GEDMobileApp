@@ -28,17 +28,14 @@ import android.os.Build;
 
 public class Bucket {
 
-    //Bitmap to get character from image
+    // Bitmap to get character from image
     private Bitmap bitmap;
 
-    //coordinates
+    // Coordinates
     private int x;
     private int y;
 
-    //motion speed of the character
-    private int speed = 0;
-
-    //screen boundaries
+    // Screen boundaries
     private int minY;
     private int maxY;
     private int minX;
@@ -48,26 +45,35 @@ public class Bucket {
     private int startX;
     private int dx;
 
+    // Rectangle to check if a collision happened
     private Rect detectCollision;
 
+    // Screen size
     private int width;
     private int height;
 
-    //constructor
+    /*
+     * Constructor
+     */
     public Bucket(Context context, int widthp, int heightp, int questionHeight) {
+        // Set base values for coordinates
         x = 0;
         y = 0;
-        speed = 0;
+
+        // Save screen size
         width = widthp;
         height = heightp;
 
+        // Make bitmap for the bucket (uses the bucket image)
         bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.game_bucket);
         bitmap = Bitmap.createScaledBitmap(bitmap, (int)(questionHeight * 2.2),
                 (int)(questionHeight * 2.2), false);
 
-        //calculating maxY
+        // Calculating maxY
         maxY = height - bitmap.getHeight();
         if (Build.VERSION.SDK_INT < 19) {
+            // Moves bucket up higher
+            //      since older phones will not hide the bottom navigation bar
             Resources resources = context.getResources();
             int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
             if (resourceId > 0) {
@@ -75,33 +81,44 @@ public class Bucket {
             }
         }
 
-        //top edge's y point is 0 so min y will always be zero
+        // Top edge's y point is 0 so min y will always be zero
         minY = 0;
 
-        //calculating maxY
+        // Calculating maxX
         maxX = width - bitmap.getWidth();
 
-        //top edge's y point is 0 so min y will always be zero
+        // Left edge's x point is 0 so min x will always be zero
         minX = 0;
 
+        // Puts bucket in the center of the screen-ish to start
         x = maxX / 2;
         y = maxY;
 
-        //initializing rect object
+        // Initializing rect object for detecting collisions
         detectCollision =  new Rect(x, y, bitmap.getWidth(), bitmap.getHeight());
     }
 
+    /*
+     * Setter
+     * Set start X coordinate
+     */
     public void startMoveBucket(int newX) {
         startX = newX;
     }
 
+    /*
+     * Setter
+     * Set change in x coordinate
+     */
     public void stopMoveBucket(int newX) {
         dx = startX - newX;
     }
 
-    //Method to update coordinate of character
+    /*
+     * Update coordinate
+     */
     public void update(){
-        //updating x coordinate
+        // Updating x coordinate
         if (x - dx > maxX) {
             x = maxX;
             dx = 0;
@@ -116,34 +133,43 @@ public class Bucket {
             startX = x;
         }
 
-        //adding top, left, bottom and right to the rect object
+        // Adding top, left, bottom and right to the rect object
+        // For when the it moves
         detectCollision.left = x;
         detectCollision.top = y;
         detectCollision.right = x + bitmap.getWidth();
         detectCollision.bottom = y + bitmap.getHeight();
     }
 
-    //one more getter for getting the rect object
+    /*
+     * Getter
+     * Gets the rectangle to check for collisions
+     */
     public Rect getDetectCollision() {
         return detectCollision;
     }
 
     /*
-    * These are getters
-    * */
+     * Getter
+     * Gets the bitmap used
+     */
     public Bitmap getBitmap() {
         return bitmap;
     }
 
+    /*
+     * Getter
+     * Gets the x-coordinate
+     */
     public int getX() {
         return x;
     }
 
+    /*
+     * Getter
+     * Gets the y-coordinate
+     */
     public int getY() {
         return y;
-    }
-
-    public int getSpeed() {
-        return speed;
     }
 }

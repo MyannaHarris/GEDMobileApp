@@ -37,6 +37,7 @@ import java.util.ArrayList;
 
 public class BucketGameView extends SurfaceView implements Runnable  {
 
+    // ID's for the learn cycle
     private int conceptID;
     private int lessonID;
 
@@ -44,27 +45,28 @@ public class BucketGameView extends SurfaceView implements Runnable  {
     // 0 = questions, 1 = play
     private int nextActivity;
 
-    //boolean variable to track if the game is playing or not
+    // boolean variable to track if the game is playing or not
     volatile boolean playing;
 
-    //the game thread
+    // The game thread
     private Thread gameThread = null;
 
-    //character bucket
+    // Character bucket that the user moves back and forth
     private Bucket bucket;
 
-    //These objects will be used for drawing
+    // These objects will be used for drawing
     private Paint paint;
     private Canvas canvas;
     private SurfaceHolder surfaceHolder;
 
-    //Adding number object array
+    // Array of numbers to fall from the top
     private BucketNumber[] numbers;
 
-    //Adding this number of numbers
+    // Number of numbers to have falling from the top
     private int numberCount = 5;
 
-    //Answers
+    // Information for the game
+    // Question, answers, options, etc.
     private ArrayList<String> answers;
     private int correctAnswers = 0;
     private int numAnswers = 0;
@@ -90,42 +92,52 @@ public class BucketGameView extends SurfaceView implements Runnable  {
     // Pause to show equation
     private int showFinishedGameTimer;
 
-    //Class constructor
+    /*
+     * Constructor
+     */
     public BucketGameView(Context contextp, int widthp, int heightp,
                           ArrayList<ArrayList<String>> gameQuestionsp, int conceptIDp,
                           int lessonIDp, int nextActivityp) {
         super(contextp);
 
+        // Save context
         context = contextp;
 
-        // gameQuestions
+        // gameQuestions has all the info for the game
         // 0 - texts
         // 1 - answers (0 - question)
-
         gameQuestions = gameQuestionsp;
 
+        // The text to fall from the sky
         ArrayList<String> texts = gameQuestions.get(currentQuestion);
+        // The question and answers
         ArrayList<String> answersStr = gameQuestions.get(currentQuestion + 1);
 
+        // Info for dynamically making size of game parts
         numberCount = texts.size();
         width = widthp;
         height = heightp;
 
+        // IDs for starting next intent after game
         conceptID = conceptIDp;
         lessonID = lessonIDp;
         nextActivity = nextActivityp;
+
+        // Save the question
         question = answersStr.get(0);
         answersStr.remove(0);
+
+        // Save the answers list
         answers = answersStr;
         numAnswers = answers.size();
 
-        //initializing drawing objects
+        // Initializing drawing objects
         surfaceHolder = getHolder();
         paint = new Paint();
         paint.setColor(Color.BLACK);
         paint.setTextSize((float)height / 17);
 
-        //Get question text height
+        // Get question text height
         Rect bounds = new Rect();
         paint.getTextBounds(question, 0, question.length(), bounds);
         questionHeight = bounds.height();
@@ -133,25 +145,30 @@ public class BucketGameView extends SurfaceView implements Runnable  {
         // Pause to show equation
         showFinishedGameTimer = 10;
 
-        //initializing player object
-        //this time also passing screen size to player constructor
+        // Initializing player object
+        //      this time also passing screen size to player constructor
         bucket = new Bucket(context, width, height, questionHeight);
 
-        //initializing number object array
+        // Initializing number object array
         numbers = new BucketNumber[numberCount];
         for(int i=0; i<numberCount; i++){
             numbers[i] = new BucketNumber(width, height, texts.get(i),
-                    (int)paint.measureText(texts.get(i)), questionHeight);
+                    questionHeight);
         }
 
         // Save start time to limit fps
         startTime = System.currentTimeMillis();
     }
 
+    /*
+     * Game loop
+     * Calls the update and such
+     * Limits the FPS
+     */
     @Override
     public void run() {
         while (playing) {
-            // limit fps
+            // Limit fps
             endTime = System.currentTimeMillis();
             long dt = endTime - startTime;
             if (dt < 40)
@@ -173,22 +190,29 @@ public class BucketGameView extends SurfaceView implements Runnable  {
         }
     }
 
-
+    /*
+     * Called during game loop
+     * Updates where stuff is
+     * Checks if answer is correct
+     * Changes question if previous answer answered correctly
+     * Moves on to next intent for GameEnd if done
+     */
     private void update() {
         bucket.update();
 
-        //updating the enemy coordinate with respect to player speed
+        // Updating the enemy coordinate with respect to player speed
         for(int i=0; i<numberCount; i++){
             numbers[i].update();
 
-            //if collision occurs with player
+            // If collision occurs with player
             if (Rect.intersects(bucket.getDetectCollision(), numbers[i].getDetectCollision())) {
-                //moving enemy outside the left edge
+                // Moving enemy outside the left edge
                 numbers[i].setX(-200);
                 if (answers.contains(numbers[i].getText())) {
 
                     answers.remove(numbers[i].getText());
 
+                    // Writes caught answer to question at the top
                     if(question.contains("_")) {
                         question = question.replaceFirst("[_]", numbers[i].getText());
                         correctAnswer = true;
@@ -207,9 +231,12 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                 showResult = true;
             }
 
+            // If the question was gotten correct
             if (correctAnswers >= numAnswers) {
                 if (showFinishedGameTimer == 0) {
                     if (currentQuestion + 3 <= gameQuestions.size() - 1) {
+                        // Go to next question if there is another question left to go to
+
                         currentQuestion += 2;
                         correctAnswers = 0;
 
@@ -236,13 +263,14 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                         numbers = new BucketNumber[numberCount];
                         for (int x = 0; x < numberCount; x++) {
                             numbers[x] = new BucketNumber(width, height,
-                                    texts.get(x), (int) paint.measureText(texts.get(x)),
-                                    questionHeight);
+                                    texts.get(x), questionHeight);
                         }
 
                         // Save start time to limit fps
                         startTime = System.currentTimeMillis();
                     } else {
+                        // Go to GameEnd page if done with game
+
                         Context context = getContext();
                         Intent intent = new Intent(context, GameEnd.class);
                         intent.putExtra("next_activity", nextActivity);
@@ -257,13 +285,17 @@ public class BucketGameView extends SurfaceView implements Runnable  {
         }
     }
 
+    /*
+     * Called during game loop
+     * Draws all of the game items
+     */
     private void draw() {
-        //checking if surface is valid
+        // Checking if surface is valid
         if (surfaceHolder.getSurface().isValid()) {
-            //locking the canvas
+            // Locking the canvas
             canvas = surfaceHolder.lockCanvas();
 
-            //drawing a background color for canvas
+            // Drawing a background color for canvas
             canvas.drawColor(ContextCompat.getColor(context, R.color.bucketGameBG));
             Bitmap dragonBG = BitmapFactory.decodeResource(
                     getResources(),R.drawable.game_goldchest);
@@ -288,12 +320,14 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                         (int)(questionHeight * 1.8), false);
                 int x = numbers[i].getText().length();
                 if (x > 1) {
+                    // Draw double character answer
                     canvas.drawBitmap(
                             coinImg,
                             numbers[i].getX() - ((int)paint.measureText(numbers[i].getText()) / 6),
                             numbers[i].getY() - (int)(questionHeight * 1.3),
                             paint);
                 } else {
+                    // Draw single character answer
                     canvas.drawBitmap(
                             coinImg,
                             numbers[i].getX() - (int)(paint.measureText(
@@ -331,6 +365,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                     );
                     paint.setColor(Color.BLACK);
                 }
+                // Keep "Correct" or "Incorrect" on screen long enough to read
                 showResultTimer -= 1;
                 if (showResultTimer == 0) {
                     showResult = false;
@@ -339,18 +374,21 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                 }
             }
 
-            //Drawing the player
+            // Drawing the player
             canvas.drawBitmap(
                     bucket.getBitmap(),
                     bucket.getX(),
                     bucket.getY(),
                     paint);
 
-            //Unlocking the canvas
+            // Unlocking the canvas
             surfaceHolder.unlockCanvasAndPost(canvas);
         }
     }
 
+    /*
+     * Thread control
+     */
     private void control() {
         try {
             gameThread.sleep(17);
@@ -359,38 +397,46 @@ public class BucketGameView extends SurfaceView implements Runnable  {
         }
     }
 
+    /*
+     * Pauses game/thread when page is left
+     */
     public void pause() {
-        //when the game is paused
-        //setting the variable to false
+        // When the game is paused
+        // Setting the variable to false
         playing = false;
         try {
-            //stopping the thread
+            // Stopping the thread
             gameThread.join();
         } catch (InterruptedException e) {
         }
     }
 
+    /*
+     * Resumes game/thread when page is returned to
+     */
     public void resume() {
-        //when the game is resumed
-        //starting the thread again
+        // When the game is resumed
+        // Starting the thread again
         playing = true;
         gameThread = new Thread(this);
         gameThread.start();
     }
 
+    /*
+     * Reads touch events to move bucket
+     */
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
         final int action = MotionEventCompat.getActionMasked(motionEvent);
         switch (action) {
             case MotionEvent.ACTION_UP:
-                //stopping the boosting when screen is released
                 break;
             case MotionEvent.ACTION_DOWN:
-                //boosting the space jet when screen is pressed
+                // Move bucket
                 bucket.startMoveBucket((int)motionEvent.getX());
                 break;
             case MotionEvent.ACTION_MOVE:
-                //boosting the space jet when screen is pressed
+                // Move bucket
                 bucket.stopMoveBucket((int)motionEvent.getX());
                 break;
         }
