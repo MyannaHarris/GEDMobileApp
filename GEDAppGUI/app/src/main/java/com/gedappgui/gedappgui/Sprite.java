@@ -295,55 +295,6 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
 
                     currAccessory.setX(event.getRawX() - 190);
                     currAccessory.setY(event.getRawY() - 300);
-
-                    //if (spriteLayout.getParent() == spriteLayout) {
-                        //currAccessory.setVisibility(View.GONE);
-                        //spriteLayout.removeView(currAccessory);
-                    //}
-
-                    //if (createDragView) {
-                    /*currAccessory = new ImageView(Sprite.this);
-                    currAccessory.setPadding(8, 8, 8, 8);
-                    currAccessory.setLayoutParams(new RelativeLayout.LayoutParams(255, 255));
-                    RelativeLayout.LayoutParams accessoryParams =
-                            (RelativeLayout.LayoutParams) currAccessory.getLayoutParams();
-
-                    ArrayList<Integer> info = accessoryMap.get(dragIcon);
-                    int icon = info.get(1);
-                    currAccessory.setImageBitmap(BitmapFactory.decodeResource(
-                            getResources(), icon));
-
-                        spriteLayout.addView(currAccessory);
-                        //currAccessory.setVisibility(View.VISIBLE);
-                        currAccessory.setX(event.getX() - currAccessory.getWidth());
-                        currAccessory.setY(event.getY() - currAccessory.getHeight());
-                        //createDragView = false;
-                    //}
-
-                    int x_cord = (int) event.getX();
-                    int y_cord = (int) event.getY();
-
-                    if (x_cord > width) {
-                        x_cord = width;
-                    } else if (x_cord < 0) {
-                        x_cord = 0;
-                    }
-
-                    if (y_cord > height) {
-                        y_cord = height;
-                    } else if (y_cord < 0) {
-                        y_cord = 0;
-                    }
-
-                    accessoryParams.leftMargin = x_cord - currAccessory.getWidth();
-                    accessoryParams.topMargin = y_cord - currAccessory.getHeight();
-                    //accessoryParams.rightMargin = x_cord + currAccessory.getWidth();
-                    //accessoryParams.bottomMargin = y_cord + currAccessory.getHeight();
-
-                    currAccessory.setLayoutParams(accessoryParams);
-                    //currAccessory.requestLayout();
-
-                    //currAccessory.animate().x(event.getX()).y(event.getY());*/
                     break;
                 case MotionEvent.ACTION_UP:
                     currAccessory.setVisibility(View.GONE);
