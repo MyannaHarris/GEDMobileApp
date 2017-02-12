@@ -221,10 +221,12 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                             dragBool = true;
                             break;
                         case MotionEvent.ACTION_UP:
-                            ImageView imageView = (ImageView) v;
-                            addAccessory((String) imageView.getTag());
+                            if (dragBool) {
+                                ImageView imageView = (ImageView) v;
+                                addAccessory((String) imageView.getTag());
 
-                            dragBool = false;
+                                dragBool = false;
+                            }
                             break;
                     }
                     return true;
@@ -603,10 +605,12 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                             dragBool = true;
                             break;
                         case MotionEvent.ACTION_UP:
-                            ImageView imageView = (ImageView) v;
-                            addAccessory((String) imageView.getTag());
+                            if (dragBool) {
+                                ImageView imageView = (ImageView) v;
+                                addAccessory((String) imageView.getTag());
 
-                            dragBool = false;
+                                dragBool = false;
+                            }
                             break;
                     }
                     return true;
@@ -650,10 +654,12 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                             dragBool = true;
                             break;
                         case MotionEvent.ACTION_UP:
-                            ImageView imageView = (ImageView) v;
-                            addAccessory((String) imageView.getTag());
+                            if (dragBool) {
+                                ImageView imageView = (ImageView) v;
+                                addAccessory((String) imageView.getTag());
 
-                            dragBool = false;
+                                dragBool = false;
+                            }
                             break;
                     }
                     return true;
@@ -697,10 +703,12 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                             dragBool = true;
                             break;
                         case MotionEvent.ACTION_UP:
-                            ImageView imageView = (ImageView) v;
-                            addAccessory((String) imageView.getTag());
+                            if (dragBool) {
+                                ImageView imageView = (ImageView) v;
+                                addAccessory((String) imageView.getTag());
 
-                            dragBool = false;
+                                dragBool = false;
+                            }
                             break;
                     }
                     return true;
@@ -744,10 +752,12 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                             dragBool = true;
                             break;
                         case MotionEvent.ACTION_UP:
-                            ImageView imageView = (ImageView) v;
-                            addAccessory((String) imageView.getTag());
+                            if (dragBool) {
+                                ImageView imageView = (ImageView) v;
+                                addAccessory((String) imageView.getTag());
 
-                            dragBool = false;
+                                dragBool = false;
+                            }
                             break;
                     }
                     return true;
@@ -791,10 +801,12 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                             dragBool = true;
                             break;
                         case MotionEvent.ACTION_UP:
-                            ImageView imageView = (ImageView) v;
-                            addAccessory((String) imageView.getTag());
+                            if (dragBool) {
+                                ImageView imageView = (ImageView) v;
+                                addAccessory((String) imageView.getTag());
 
-                            dragBool = false;
+                                dragBool = false;
+                            }
                             break;
                     }
                     return true;

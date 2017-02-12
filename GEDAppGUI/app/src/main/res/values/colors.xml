@@ -29,4 +29,7 @@
     <color name="bucketGameBG">#ceaee6</color>
     <color name="gameCorrect">#119b0e</color>
     <color name="gameIncorrect">#961315</color>
+    <color name="matchCardBG">#cccccc</color>
+    <color name="matchCardOutline">#3c3445</color>
+    <color name="matchCardSelectedOutline">#eeff00</color>
 </resources>

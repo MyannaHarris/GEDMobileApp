@@ -60,7 +60,7 @@ public class Play extends AppCompatActivity {
         lessonIds.add(0);
 
         gameNames.add("Bucket Game");
-        gameNames.add("New Game");
+        gameNames.add("Matching Game");
         gameNames.add("Temp Game");
         gameNames.add("Temp Game");
 

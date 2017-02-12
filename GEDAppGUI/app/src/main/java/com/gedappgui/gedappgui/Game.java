@@ -41,6 +41,7 @@ public class Game extends AppCompatActivity {
     // Game name to load correct game
     private String gameName;
     private BucketGameView bucketGameView;
+    private MatchGameView matchGameView;
 
     // Database
     private DatabaseHelper dbHelper;
@@ -134,7 +135,7 @@ public class Game extends AppCompatActivity {
 
             //Initializing game view object
             //this time we are also passing the screen size to the GameView constructor
-            ArrayList<ArrayList<String>> gameQuestions = new ArrayList<ArrayList<String>>();
+            /*ArrayList<ArrayList<String>> gameQuestions = new ArrayList<ArrayList<String>>();
 
             ArrayList<String> texts = new ArrayList<String>();
             texts.add("1");
@@ -153,7 +154,26 @@ public class Game extends AppCompatActivity {
 
             bucketGameView = new BucketGameView(this, width, height, gameQuestions,
                     conceptID, lessonID, nextActivity);
-            setContentView(bucketGameView);
+            setContentView(bucketGameView);*/
+
+            ArrayList<String> texts = new ArrayList<String>();
+            texts.add("1 + 2 = _");
+            texts.add("3 * 4 = _");
+            texts.add("_ + 5 = 10");
+            texts.add("3");
+            texts.add("12");
+            texts.add("5");
+            ArrayList<Integer> answers = new ArrayList<Integer>();
+            answers.add(3);
+            answers.add(4);
+            answers.add(5);
+            answers.add(0);
+            answers.add(1);
+            answers.add(2);
+
+            matchGameView = new MatchGameView(this, texts, answers, conceptID,
+                    lessonID, nextActivity, width, height);
+            setContentView(matchGameView);
         }
         else if(lessonID == 13){
             ArrayList<ArrayList<String>> gameQuestions = new ArrayList<ArrayList<String>>();
