@@ -62,6 +62,7 @@ public class MatchGameView extends LinearLayout{
 
     // Variable to check if new choices are starting
     private boolean newMatch = true;
+    private boolean secondChoiceDone = true;
 
     // Variable to track the number of matches
     private int numMatches = 0;
@@ -121,7 +122,7 @@ public class MatchGameView extends LinearLayout{
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
 
-                if (newMatch) {
+                if (newMatch && secondChoiceDone) {
                     // If this is the first card selected, save it
 
                     choice1TextView = (TextView)v;
@@ -138,13 +139,15 @@ public class MatchGameView extends LinearLayout{
                                     R.drawable.match_game_selected));
                         }
                     }
-                } else {
+                } else if (secondChoiceDone) {
                     // If this is the second card selected, check answer
+
                     choice2TextView = (TextView)v;
                     if (choice2TextView.getText() != null &&
                             !choice2TextView.getText().equals("")) {
+
+                        secondChoiceDone = false;
                         choice2 = position;
-                        newMatch = true;
 
                         if (Build.VERSION.SDK_INT < 16) {
                             // Sets Drawable as background on older API
@@ -208,6 +211,9 @@ public class MatchGameView extends LinearLayout{
                                                 intent.putExtra("lessonID", lessonID);
                                                 context.startActivity(intent);
                                             }
+
+                                            newMatch = true;
+                                            secondChoiceDone = true;
                                         }
                                         }, 500);
                                 } else {
@@ -242,12 +248,20 @@ public class MatchGameView extends LinearLayout{
                                         choice1TextView.setBackground(ContextCompat.getDrawable(context,
                                                 R.drawable.match_game_unselected));
                                     }
+
+                                            newMatch = true;
+                                            secondChoiceDone = true;
                                         }
                                     }, 500);
                                 }
                             }
                         }, 500);
                     }
+                }
+
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
                 }
             }
         });
