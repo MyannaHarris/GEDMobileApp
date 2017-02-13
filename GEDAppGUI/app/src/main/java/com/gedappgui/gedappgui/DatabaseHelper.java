@@ -991,6 +991,35 @@ public class DatabaseHelper{
         return randQAndAs;
     }
 
+    /**
+     * gets the name of the game template we are using for the given lesson
+     * @param lesson_id the id of the lesson
+     * @return the name of the game template being used
+     */
+    public String selectGameTemplate(int lesson_id){
+        open();
+
+        Cursor c = myDatabase.rawQuery("SELECT template_name FROM game_templates JOIN lessons " +
+                "ON game_templates.game_template_id = lessons.game_template_id WHERE lesson_id = "
+                + lesson_id, null);
+
+        String game_name;
+        //while games are still in progress, catch error of no game_name
+        if(c != null){
+            c.moveToFirst();
+            game_name = c.getString(0);
+        }
+        else{
+            game_name = "";
+        }
+
+
+
+        c.close();
+        close();
+
+        return game_name;
+    }
 
 
     //@Override

@@ -74,87 +74,16 @@ public class Game extends AppCompatActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        if (lessonID == 1) {
-
-            //Getting display object
-            /*Display display = getWindowManager().getDefaultDisplay();
-
-            //Getting the screen resolution into point object
-            Point size = new Point();
-            display.getSize(size);*/
-
-            //Initializing game view object
-            //this time we are also passing the screen size to the GameView constructor
+        //checks for which template to use, aka which kind of game
+        if (dbHelper.selectGameTemplate(lessonID).equals("bucket_game")) {
             ArrayList<ArrayList<String>> gameQuestions = dbHelper.selectBucketGameInput(lessonID);
             System.out.println(gameQuestions);
-           /* ArrayList<String> texts = new ArrayList<String>();
-            texts.add("1");
-            texts.add("-2");
-            texts.add("-3");
-            texts.add("4");
-            texts.add("5");
-            ArrayList<String> answers = new ArrayList<String>();
-           // String question = "_ * _ = 15";
-            String question = "5 + _ = 2";
-            answers.add(question);
-            answers.add("-3");
-            //answers.add("3");
-            //answers.add("5");
 
-            gameQuestions.add(texts);
-            gameQuestions.add(answers);
-
-            texts = new ArrayList<String>();
-            texts.add("11");
-            texts.add("7");
-            texts.add("8");
-            texts.add("9");
-            texts.add("10");
-            answers = new ArrayList<String>();
-            //question = "_ * _ = 80";
-            question = "_ - (-2) = 12";
-            answers.add(question);
-            answers.add("10");
-            //answers.add("8");
-            //answers.add("10");
-
-            gameQuestions.add(texts);
-            gameQuestions.add(answers);
-*/
             bucketGameView = new BucketGameView(this, width, height, gameQuestions,
                     conceptID, lessonID, nextActivity);
             setContentView(bucketGameView);
-        } else if (lessonID == 2) {
-
-            //Getting display object
-            /*Display display = getWindowManager().getDefaultDisplay();
-
-            //Getting the screen resolution into point object
-            Point size = new Point();
-            display.getSize(size);*/
-
-            //Initializing game view object
-            //this time we are also passing the screen size to the GameView constructor
-            /*ArrayList<ArrayList<String>> gameQuestions = new ArrayList<ArrayList<String>>();
-
-            ArrayList<String> texts = new ArrayList<String>();
-            texts.add("1");
-            texts.add("2");
-            texts.add("3");
-            texts.add("4");
-            texts.add("5");
-            ArrayList<String> answers = new ArrayList<String>();
-            String question = "_ * _ = 15";
-            answers.add(question);
-            answers.add("3");
-            answers.add("5");
-
-            gameQuestions.add(texts);
-            gameQuestions.add(answers);
-
-            bucketGameView = new BucketGameView(this, width, height, gameQuestions,
-                    conceptID, lessonID, nextActivity);
-            setContentView(bucketGameView);*/
+        //template_id = 2 is match game
+        } else if (dbHelper.selectGameTemplate(lessonID).equals("match_game") || lessonID == 2) {
 
             ArrayList<String> texts = new ArrayList<String>();
             texts.add("1 + 2 = _");
@@ -175,7 +104,7 @@ public class Game extends AppCompatActivity {
                     lessonID, nextActivity, width, height);
             setContentView(matchGameView);
         }
-        else if(lessonID == 13){
+        else{
             ArrayList<ArrayList<String>> gameQuestions = new ArrayList<ArrayList<String>>();
 
             ArrayList<String> texts = new ArrayList<String>();
