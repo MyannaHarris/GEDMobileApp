@@ -32,4 +32,6 @@
     <color name="matchCardBG">#cccccc</color>
     <color name="matchCardOutline">#3c3445</color>
     <color name="matchCardSelectedOutline">#eeff00</color>
+    <color name="accessoryHighlight">#b8c4f7</color>
+    <color name="transparent">#00ffffff</color>
 </resources>

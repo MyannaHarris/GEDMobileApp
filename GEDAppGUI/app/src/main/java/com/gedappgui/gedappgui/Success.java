@@ -313,7 +313,7 @@ public class Success extends AppCompatActivity {
         GridLayout.Spec thisRow = GridLayout.spec(0, 1);
 
         for (int i = 0; i < length; i++) {
-            GridLayout.Spec col = GridLayout.spec(i,1);
+            GridLayout.Spec col = GridLayout.spec(i+1,1);
             GridLayout.LayoutParams gridLayoutParam0 = new GridLayout.LayoutParams(thisRow, col);
             gridLayoutParam0.setGravity(Gravity.FILL_HORIZONTAL|Gravity.CENTER_VERTICAL);
             ImageView img = createAccessoryImage(accessories.get(i*2+1), accessories.get(i*2), maxWidth);
@@ -333,6 +333,14 @@ public class Success extends AppCompatActivity {
             public void onClick(View v) {
                 // Perform action on click
                 accessoryGiven = finalID;
+                ImageView img = (ImageView) v;
+                GridLayout gLayout = (GridLayout)findViewById(R.id.accessory_options);
+                for (int i=0; i<gLayout.getChildCount();i++) {
+                    ImageView child = (ImageView) gLayout.getChildAt(i);
+                    child.setBackgroundColor(ContextCompat.getColor(Success.this, R.color.transparent));
+                }
+                img.setBackgroundColor(ContextCompat.getColor(Success.this, R.color.accessoryHighlight));
+
             }
         });
 

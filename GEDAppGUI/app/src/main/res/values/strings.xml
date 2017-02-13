@@ -18,9 +18,9 @@
 
 
     <!-- Home page buttons -->
-    <string name="continue_lesson">Continue Lesson</string>
-    <string name="learn">Learn</string>
-    <string name="play">Play</string>
+    <string name="continue_lesson">Current Lesson</string>
+    <string name="learn">Classroom</string>
+    <string name="play">Arcade</string>
     <string name="achievements">Achievements</string>
     <string name="tools">Tools</string>
     <string name="settings">Settings</string>

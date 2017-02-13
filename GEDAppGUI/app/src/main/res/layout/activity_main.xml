@@ -75,9 +75,9 @@
         xmlns:grid="http://schemas.android.com/apk/res-auto"
 
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
-        android:padding="4dp"
+        android:padding="7dp"
 
         android:layout_below="@id/sprite_home_grid"
         android:id="@+id/button_home_grid"
@@ -106,6 +106,9 @@
             android:layout_height="wrap_content"
             grid:layout_columnWeight="1"
             grid:layout_gravity="fill_horizontal"
+            grid:layout_rowWeight="1"
+
+            android:padding="7dp"
 
             android:id="@+id/continue_button"
             android:text="@string/continue_lesson"
@@ -115,7 +118,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             grid:layout_columnWeight="1"
+            grid:layout_rowWeight="1"
             grid:layout_gravity="fill_horizontal"
+            android:padding="7dp"
 
             android:id="@+id/learn_button"
             android:text="@string/learn"
@@ -125,7 +130,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             grid:layout_columnWeight="1"
+            grid:layout_rowWeight="1"
             grid:layout_gravity="fill_horizontal"
+            android:padding="7dp"
 
             android:id="@+id/achievements_button"
             android:text="@string/achievements"
@@ -135,7 +142,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             grid:layout_columnWeight="1"
+            grid:layout_rowWeight="1"
             grid:layout_gravity="fill_horizontal"
+            android:padding="7dp"
 
             android:id="@+id/play_button"
             android:text="@string/play"
@@ -145,7 +154,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             grid:layout_columnWeight="1"
+            grid:layout_rowWeight="1"
             grid:layout_gravity="fill_horizontal"
+            android:padding="7dp"
 
             android:id="@+id/tools_button"
             android:text="@string/tools"
@@ -155,7 +166,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             grid:layout_columnWeight="1"
+            grid:layout_rowWeight="1"
             grid:layout_gravity="fill_horizontal"
+            android:padding="7dp"
 
             android:id="@+id/settings_button"
             android:text="@string/settings"

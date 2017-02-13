@@ -71,7 +71,7 @@
             android:layout_below="@id/question_answer_group"
             android:onClick="evaluateAnswer"/>
 
-        <Button
+      <!--  <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Move on successfully"
@@ -85,7 +85,7 @@
             android:text="Retry"
             android:id="@+id/retry_button"
             android:onClick="goToRedo"
-            android:layout_below="@id/success_button"/>
+            android:layout_below="@id/success_button"/>-->
 
     </RelativeLayout>
 </ScrollView>
