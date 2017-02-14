@@ -85,6 +85,8 @@ public class Success extends AppCompatActivity {
                 accessories.add(ids.get(i)); // accessory id
                 accessories.add(accessoryMap.get(ids.get(i))); // accessory image
             }
+
+            checkAchievements(totalQuestions, totalCorrect);
         }
 
         dbHelper.lessonCompleted(lessonID);
@@ -97,8 +99,6 @@ public class Success extends AppCompatActivity {
 
         //put things in the gridlayout
         setAccessoryInfo(accessories);
-
-        checkAchievements(totalQuestions, totalCorrect);
     }
 
     /*

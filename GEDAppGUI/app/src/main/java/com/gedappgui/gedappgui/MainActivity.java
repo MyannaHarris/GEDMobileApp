@@ -21,6 +21,7 @@ package com.gedappgui.gedappgui;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.media.AudioManager;
@@ -29,12 +30,15 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -91,7 +95,30 @@ public class MainActivity extends AppCompatActivity {
 
             // make dictionary of image ids
             makeDictionary();
+
+            DisplayMetrics dm = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(dm);
+            int width = dm.widthPixels;
+            int height = dm.heightPixels;
+
+            //Typeface face = Typeface.createFromAsset(getAssets(), "PERRYGOT.TTF");
+            Button toolsButton = (Button) findViewById(R.id.tools_button);
+            toolsButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+            //toolsButton.setTypeface(face);
+
+            //sets a dynamic size for the button text on the main page
+            Button curLessButton = (Button) findViewById(R.id.continue_button);
+            curLessButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+            Button achievementButton = (Button) findViewById(R.id.achievements_button);
+            achievementButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+            Button settingsButton = (Button) findViewById(R.id.settings_button);
+            settingsButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+            Button arcadeButton = (Button) findViewById(R.id.play_button);
+            arcadeButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+            Button classroomButton = (Button) findViewById(R.id.learn_button);
+            classroomButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
         }
+
 
         //gives an achievement if the user earns all accessories
         if(db.usedAllFeatures()){
