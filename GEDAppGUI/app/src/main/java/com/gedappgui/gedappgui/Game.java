@@ -75,7 +75,7 @@ public class Game extends AppCompatActivity {
         int height = dm.heightPixels;
 
         //checks for which template to use, aka which kind of game
-        if (dbHelper.selectGameTemplate(lessonID).equals("bucket_game")) {
+        if (/*dbHelper.selectGameTemplate(lessonID).equals("bucket_game")*/ lessonID == 1) {
             ArrayList<ArrayList<String>> gameQuestions = dbHelper.selectBucketGameInput(lessonID);
             System.out.println(gameQuestions);
 
@@ -83,7 +83,7 @@ public class Game extends AppCompatActivity {
                     conceptID, lessonID, nextActivity);
             setContentView(bucketGameView);
         //template_id = 2 is match game
-        } else if (dbHelper.selectGameTemplate(lessonID).equals("match_game") || lessonID == 2) {
+        } else if (/*dbHelper.selectGameTemplate(lessonID).equals("match_game") || */lessonID == 2) {
 
             ArrayList<String> texts = new ArrayList<String>();
             texts.add("1 + 2 = _");
@@ -103,6 +103,10 @@ public class Game extends AppCompatActivity {
             matchGameView = new MatchGameView(this, texts, answers, conceptID,
                     lessonID, nextActivity, width, height);
             setContentView(matchGameView);
+        }
+        else if (lessonID == 5){
+            Intent intent = new Intent(this, TowerGameView.class);
+            startActivity(intent);
         }
         else{
             ArrayList<ArrayList<String>> gameQuestions = new ArrayList<ArrayList<String>>();

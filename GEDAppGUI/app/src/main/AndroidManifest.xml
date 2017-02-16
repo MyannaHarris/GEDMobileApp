@@ -196,22 +196,27 @@
             android:label="@string/title_activity_frac_to_dec_tool" />
         <activity
             android:name=".SlopeCalculator"
-            android:label= "@string/title_activity_slope_calc_tool" />
+            android:label="@string/title_activity_slope_calc_tool"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".CoordinatePlane"
-            android:label="@string/title_activity_coord_plane_tool"/>
+            android:label="@string/title_activity_coord_plane_tool" />
         <activity
             android:name=".FormulaMemorization"
-            android:label="@string/title_activity_formula_memorization_tool"/>
+            android:label="@string/title_activity_formula_memorization_tool" />
         <activity
             android:name=".GeoAssist"
             android:label="@string/title_activity_geo_assist_tool" />
         <activity
             android:name=".PlaceValues"
-            android:label="@string/title_activity_place_value_tool"/>
+            android:label="@string/title_activity_place_value_tool" />
         <activity
             android:name=".Tutorial"
-            android:label="Tutorial"/>
+            android:label="Tutorial" />
+        <activity
+            android:name=".TowerGameView"
+            android:label="Complete the Picture!"
+            ></activity>
     </application>
 
 </manifest>
