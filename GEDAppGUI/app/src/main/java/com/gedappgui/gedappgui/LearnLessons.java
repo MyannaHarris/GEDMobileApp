@@ -244,16 +244,12 @@ public class LearnLessons extends AppCompatActivity {
 
                     lessonDialog.setIcon(R.drawable.appicon);
 
-                    //{"Summary", "Steps", "Example", "Game"},
-                    /*{"Summary - A brief intro",
-                            "Steps - Further explanation",
-                            "Example - Worked out problems",
-                            "Game - Practice game"},*/
                     lessonDialog.setItems(new CharSequence[]
                                     {"Summary - A brief intro",
                                             "Steps - Further explanation",
                                             "Example - Worked out problems",
-                                            "Game - Practice game"},
+                                            "Game - Practice game",
+                                            "Questions - Practice problems"},
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     Intent activityChangeIntent;
@@ -296,6 +292,15 @@ public class LearnLessons extends AppCompatActivity {
 
                                             LearnLessons.this.startActivity(activityChangeIntent);
                                             break;
+                                        case 4:
+                                            activityChangeIntent = new Intent(LearnLessons.this,
+                                                    Question.class);
+                                            activityChangeIntent.putExtra("conceptID",conceptID);
+                                            activityChangeIntent.putExtra("lessonID",lessonID);
+                                            activityChangeIntent.putExtra("redoComplete", 0);
+
+                                            LearnLessons.this.startActivity(activityChangeIntent);
+                                            break;
                                     }
                                 }
                             });
@@ -318,8 +323,6 @@ public class LearnLessons extends AppCompatActivity {
                     activityChangeIntent.putExtra("conceptID",conceptID);
                     activityChangeIntent.putExtra("offset",offset);
                     activityChangeIntent.putExtra("lessonTitle",lessonTitle);
-
-                    // currentContext.startActivity(activityChangeIntent);
 
                     LearnLessons.this.startActivity(activityChangeIntent);
                 }
@@ -364,16 +367,12 @@ public class LearnLessons extends AppCompatActivity {
 
                     lessonDialog.setIcon(R.drawable.appicon);
 
-                    //{"Summary", "Steps", "Example", "Game"},
-                    /*{"Summary - A brief intro",
-                            "Steps - Further explanation",
-                            "Example - Worked out problems",
-                            "Game - Practice game"},*/
                     lessonDialog.setItems(new CharSequence[]
                                     {"Summary - A brief intro",
                                             "Steps - Further explanation",
                                             "Example - Worked out problems",
-                                            "Game - Practice game"},
+                                            "Game - Practice game",
+                                            "Questions - Practice problems"},
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     Intent activityChangeIntent;
@@ -416,6 +415,15 @@ public class LearnLessons extends AppCompatActivity {
 
                                             LearnLessons.this.startActivity(activityChangeIntent);
                                             break;
+                                        case 4:
+                                            activityChangeIntent = new Intent(LearnLessons.this,
+                                                    Question.class);
+                                            activityChangeIntent.putExtra("conceptID",conceptID);
+                                            activityChangeIntent.putExtra("lessonID",lessonID);
+                                            activityChangeIntent.putExtra("redoComplete", 0);
+
+                                            LearnLessons.this.startActivity(activityChangeIntent);
+                                            break;
                                     }
                                 }
                             });
@@ -438,8 +446,6 @@ public class LearnLessons extends AppCompatActivity {
                     activityChangeIntent.putExtra("conceptID",conceptID);
                     activityChangeIntent.putExtra("offset",offset);
                     activityChangeIntent.putExtra("lessonTitle",lessonTitle);
-
-                    // currentContext.startActivity(activityChangeIntent);
 
                     LearnLessons.this.startActivity(activityChangeIntent);
                 }

@@ -139,7 +139,9 @@ public class LessonSummary extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                finish();
+                Intent intentLesson = new Intent(this, LearnLessons.class);
+                intentLesson.putExtra("conceptID",conceptID);
+                startActivity(intentLesson);
                 return true;
             // action with ID action_refresh was selected
             case R.id.action_home:

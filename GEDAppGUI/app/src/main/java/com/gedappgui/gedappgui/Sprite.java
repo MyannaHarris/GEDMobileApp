@@ -407,10 +407,9 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                /*Intent intentHomeSprite = new Intent(this, MainActivity.class);
+                Intent intentHomeSprite = new Intent(this, MainActivity.class);
                 intentHomeSprite.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intentHomeSprite);*/
-                finish();
+                startActivity(intentHomeSprite);
                 return true;
             // action with ID action_refresh was selected
             case R.id.action_home:

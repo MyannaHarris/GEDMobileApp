@@ -99,17 +99,6 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".ToolSample"
-            android:label="@string/toolSample"
-            android:parentActivityName=".Tools"
-            android:screenOrientation="portrait">
-
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Tools" />
-        </activity>
-        <activity
             android:name=".Login"
             android:label="@string/login"
             android:screenOrientation="portrait" />
