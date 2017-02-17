@@ -91,6 +91,11 @@ public class BucketGameView extends SurfaceView implements Runnable  {
 
     // Pause to show equation
     private int showFinishedGameTimer;
+    private boolean hideContentToShowAnswer = false;
+    private boolean showQuestionAtBeginning = true;
+    private int waitToStartNextGame;
+    private Rect startButton;
+    private String startText;
 
     /*
      * Constructor
@@ -143,7 +148,16 @@ public class BucketGameView extends SurfaceView implements Runnable  {
         questionHeight = bounds.height();
 
         // Pause to show equation
-        showFinishedGameTimer = 10;
+        waitToStartNextGame = 0;
+        showFinishedGameTimer = 40;
+        startText = "Click to start";
+        startButton = new Rect(
+                (int)((width / 2) - (paint.measureText(startText) / 2)
+                    - questionHeight),
+                (int)((height / 2) - (questionHeight * 2)),
+                (int)((width / 2) + (paint.measureText(startText) / 2)
+                    + questionHeight),
+                (int)((height / 2) + (questionHeight * 2)));
 
         // Initializing player object
         //      this time also passing screen size to player constructor
@@ -200,9 +214,22 @@ public class BucketGameView extends SurfaceView implements Runnable  {
     private void update() {
         bucket.update();
 
+        if (waitToStartNextGame > 0) {
+            waitToStartNextGame -= 1;
+        }
+
+        if (correctAnswers >= numAnswers && showFinishedGameTimer > 0) {
+            showFinishedGameTimer -= 1;
+            hideContentToShowAnswer = true;
+        }
+
         // Updating the enemy coordinate with respect to player speed
         for(int i=0; i<numberCount; i++){
-            numbers[i].update();
+
+            if(showFinishedGameTimer == 40 && !showQuestionAtBeginning
+                    && waitToStartNextGame == 0) {
+                numbers[i].update();
+            }
 
             // If collision occurs with player
             if (Rect.intersects(bucket.getDetectCollision(), numbers[i].getDetectCollision())) {
@@ -233,6 +260,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
 
             // If the question was gotten correct
             if (correctAnswers >= numAnswers) {
+                hideContentToShowAnswer = true;
                 if (showFinishedGameTimer == 0) {
                     if (currentQuestion + 3 <= gameQuestions.size() - 1) {
                         // Go to next question if there is another question left to go to
@@ -257,7 +285,10 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                         Rect bounds = new Rect();
                         paint.getTextBounds(question, 0, question.length(), bounds);
                         questionHeight = bounds.height();
-                        showFinishedGameTimer = 10;
+                        showFinishedGameTimer = 40;
+                        hideContentToShowAnswer = false;
+                        //showQuestionAtBeginning = true;
+                        waitToStartNextGame = 30;
 
                         //initializing number object array
                         numbers = new BucketNumber[numberCount];
@@ -278,8 +309,6 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                         intent.putExtra("lessonID", lessonID);
                         context.startActivity(intent);
                     }
-                } else {
-                    showFinishedGameTimer -= 1;
                 }
             }
         }
@@ -311,55 +340,58 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                     questionHeight,
                     paint);
 
-            //drawing the falling numbers
-            for (int i = 0; i < numberCount; i++) {
-                Bitmap coinImg = BitmapFactory.decodeResource(getResources(),
-                        R.drawable.game_goldcoin);
-                coinImg = Bitmap.createScaledBitmap(coinImg,
-                        (int)(questionHeight * 1.8),
-                        (int)(questionHeight * 1.8), false);
-                int x = numbers[i].getText().length();
-                if (x > 1) {
-                    // Draw double character answer
-                    canvas.drawBitmap(
-                            coinImg,
-                            numbers[i].getX() - ((int)paint.measureText(numbers[i].getText()) / 6),
-                            numbers[i].getY() - (int)(questionHeight * 1.3),
-                            paint);
-                } else {
-                    // Draw single character answer
-                    canvas.drawBitmap(
-                            coinImg,
-                            numbers[i].getX() - (int)(paint.measureText(
-                                    numbers[i].getText()) * 0.8),
-                            numbers[i].getY() - (int)(questionHeight * 1.3),
-                            paint);
+            if(!hideContentToShowAnswer && !showQuestionAtBeginning
+                    && waitToStartNextGame == 0) {
+                //drawing the falling numbers
+                for (int i = 0; i < numberCount; i++) {
+                    Bitmap coinImg = BitmapFactory.decodeResource(getResources(),
+                            R.drawable.game_goldcoin);
+                    coinImg = Bitmap.createScaledBitmap(coinImg,
+                            (int) (questionHeight * 1.8),
+                            (int) (questionHeight * 1.8), false);
+                    int x = numbers[i].getText().length();
+                    if (x > 1) {
+                        // Draw double character answer
+                        canvas.drawBitmap(
+                                coinImg,
+                                numbers[i].getX() - ((int) paint.measureText(numbers[i].getText()) / 6),
+                                numbers[i].getY() - (int) (questionHeight * 1.3),
+                                paint);
+                    } else {
+                        // Draw single character answer
+                        canvas.drawBitmap(
+                                coinImg,
+                                numbers[i].getX() - (int) (paint.measureText(
+                                        numbers[i].getText()) * 0.8),
+                                numbers[i].getY() - (int) (questionHeight * 1.3),
+                                paint);
+                    }
+                    canvas.drawText(
+                            numbers[i].getText(),
+                            numbers[i].getX(),
+                            numbers[i].getY(),
+                            paint
+                    );
                 }
-                canvas.drawText(
-                        numbers[i].getText(),
-                        numbers[i].getX(),
-                        numbers[i].getY(),
-                        paint
-                );
             }
 
             // Tell user whether they caught correct number
-            if (showResult) {
+            if ((showResult || hideContentToShowAnswer) && waitToStartNextGame == 0) {
 
-                if (correctAnswer) {
+                if (correctAnswer || hideContentToShowAnswer) {
                     paint.setColor(ContextCompat.getColor(context, R.color.gameCorrect));
                     canvas.drawText(
                             "CORRECT",
-                            (width / 2 - (int)paint.measureText("CORRECT") / 2),
+                            (width / 2 - (int) paint.measureText("CORRECT") / 2),
                             height / 2 - dragonBG.getHeight() / 2 - 20,
                             paint
                     );
                     paint.setColor(Color.BLACK);
-                } else {
+                } else if(!hideContentToShowAnswer) {
                     paint.setColor(ContextCompat.getColor(context, R.color.gameIncorrect));
                     canvas.drawText(
                             "INCORRECT",
-                            (width / 2 - (int)paint.measureText("INCORRECT") / 2),
+                            (width / 2 - (int) paint.measureText("INCORRECT") / 2),
                             height / 2 - dragonBG.getHeight() / 2 - 20,
                             paint
                     );
@@ -380,6 +412,24 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                     bucket.getX(),
                     bucket.getY(),
                     paint);
+
+            if (showQuestionAtBeginning) {
+                Rect shadeRect = new Rect(0, 0, width, height);
+                Paint rectAlphaPaint = new Paint();
+                rectAlphaPaint.setStyle(Paint.Style.FILL);
+                //rectAlphaPaint.setAlpha(10);
+                //rectAlphaPaint.setColor(Color.LTGRAY);
+                //canvas.drawRect(shadeRect, rectAlphaPaint);
+
+                rectAlphaPaint.setAlpha(80);
+                rectAlphaPaint.setColor(ContextCompat.getColor(context, R.color.gameCorrect));
+                canvas.drawRect(startButton, rectAlphaPaint);
+                canvas.drawText(
+                        startText,
+                        startButton.centerX() - (paint.measureText(startText) / 2),
+                        startButton.centerY() + (questionHeight / 4),
+                        paint);
+            }
 
             // Unlocking the canvas
             surfaceHolder.unlockCanvasAndPost(canvas);
@@ -430,6 +480,11 @@ public class BucketGameView extends SurfaceView implements Runnable  {
         final int action = MotionEventCompat.getActionMasked(motionEvent);
         switch (action) {
             case MotionEvent.ACTION_UP:
+                if (showQuestionAtBeginning) {
+                    if (startButton.contains((int)motionEvent.getX(), (int)motionEvent.getY())) {
+                        showQuestionAtBeginning = false;
+                    }
+                }
                 break;
             case MotionEvent.ACTION_DOWN:
                 // Move bucket

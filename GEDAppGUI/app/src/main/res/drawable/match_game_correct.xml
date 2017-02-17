@@ -1,22 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item>
-        <shape xmlns:android="http://schemas.android.com/apk/res/android"
-            android:shape="rectangle">
-
-            <solid android:color="@color/matchCardBG" />
-            <stroke android:color="@color/matchCardOutline"
-                android:width="10dp" />
-            <corners android:radius="20dp" />
-
-        </shape>
-    </item>
-    <!--<item android:id="@+id/match_game_correct_bitmap">
-        <bitmap android:src="@drawable/game_goldchest"
-            android:scaleType="centerCrop"
-            android:gravity="center"
-            android:alpha="0.5"/>
-    </item>-->
-
-</layer-list>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+</shape>
