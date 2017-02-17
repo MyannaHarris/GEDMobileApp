@@ -61,7 +61,7 @@ public class Play extends AppCompatActivity {
 
         gameNames.add("Bucket Game");
         gameNames.add("Matching Game");
-        gameNames.add("Tower Game");
+        gameNames.add("Picture Game");
         gameNames.add("Temp Game");
 
         LinearLayout gamesLayout = (LinearLayout) findViewById(R.id.GameLayout);
