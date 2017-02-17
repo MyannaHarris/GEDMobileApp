@@ -67,9 +67,6 @@ public class MatchGameView extends LinearLayout{
     // Context of game
     private Context context;
 
-    // Width to change flipping card
-    private int changeWidth;
-
     /*
      * Constructor
      */
