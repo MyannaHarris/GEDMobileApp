@@ -3,7 +3,7 @@
  *
  * Buton Adapter
  *
- * Adapter to fill gridview with imageviews
+ * Adapter to fill gridview with buttons
  *
  * Worked on by:
  * Myanna Harris
@@ -11,35 +11,34 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 11-27-16
+ * Last Edit: 2-17-17
  *
  */
 
 package com.gedappgui.gedappgui;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ImageView;
 
 public class ButtonAdapter extends BaseAdapter {
 
     // Hold context of activity that called adapter
     private Context mContext;
     // Hold the ids of the images from the drawable folder
-    private Integer[] imageIds;
+    private String[] buttonNames;
 
     /*
      * Constructor
      * Gets the context and image ids so they can be used later
      */
-    public ButtonAdapter(Context c, Integer[] buttonNames) {
+    public ButtonAdapter(Context c, String[] buttonNamesp) {
 
         mContext = c;
-        imageIds = buttonNames;
+        buttonNames = buttonNamesp;
     }
 
 
@@ -50,7 +49,7 @@ public class ButtonAdapter extends BaseAdapter {
      */
     @Override
     public int getCount() {
-        return imageIds.length;
+        return buttonNames.length;
     }
 
     /*
@@ -78,19 +77,18 @@ public class ButtonAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ImageView imageView;
+        Button button;
         if (convertView == null) {
              //if it's not recycled, initialize some attributes
-        imageView = new ImageView(mContext);
-           imageView.setLayoutParams(
+            button = new Button(mContext);
+            button.setLayoutParams(
                     new GridView.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setPadding(8, 8, 8, 8);
+            button.setPadding(8, 8, 8, 8);
         } else {
-            imageView = (ImageView) convertView;
+            button = (Button) convertView;
         }
 
-        imageView.setImageResource(imageIds[position]);
-        return imageView;
+        button.setText(buttonNames[position]);
+        return button;
     }
 }
