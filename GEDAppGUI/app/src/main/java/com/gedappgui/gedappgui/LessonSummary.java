@@ -22,6 +22,8 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -69,7 +71,7 @@ public class LessonSummary extends AppCompatActivity {
 
         String lessonSummary = dbHelper.selectLessonSummary(lessonID);
         TextView summary = (TextView) findViewById(R.id.lessonSummary_text);
-        summary.setText(lessonSummary);
+        summary.setText(toHTML(lessonSummary));
 
         //make current lesson this one...because we're on it now
         System.out.println("prev lesson: "+dbHelper.selectCurrentLessonID());
@@ -170,5 +172,18 @@ public class LessonSummary extends AppCompatActivity {
         intent.putExtra("conceptID",conceptID);
         intent.putExtra("lessonID",lessonID);
         startActivity(intent);
+    }
+
+    /* Makes HTML tags in strings work
+     * Mostly for powers (ex: 3^2)
+     */
+    public Spanned toHTML(String input) {
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            return Html.fromHtml(input,Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            return Html.fromHtml(input);
+        }
+
     }
 }

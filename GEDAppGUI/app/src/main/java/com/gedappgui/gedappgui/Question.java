@@ -25,7 +25,9 @@ import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.Spannable;
+import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
 import android.view.View;
 import android.widget.Button;
@@ -88,14 +90,14 @@ public class Question extends AppCompatActivity {
             j++;
         }
         TextView questionTextView = (TextView) findViewById(R.id.question_textView);
-        questionTextView.setText(question);
+        questionTextView.setText(toHTML(question));
         questionTextView.setTextSize(20);
 
         // set radio buttons
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.question_answer_group);
         for (int i = 0; i < radioGroup.getChildCount(); i++) {
             String textAnswer = questionText.get(i+2);
-            ((RadioButton) radioGroup.getChildAt(i)).setText(textAnswer);
+            ((RadioButton) radioGroup.getChildAt(i)).setText(toHTML(textAnswer));
             ((RadioButton) radioGroup.getChildAt(i)).setTextSize(20);
             if (textAnswer.equals(questionText.get(6))) {
                 correctAnswerIdx = i;
@@ -185,7 +187,7 @@ public class Question extends AppCompatActivity {
         Button submitButton = (Button) view;
 
         if (selectedAnswer > 0 && submitButton.getText().equals("Submit")) {
-            // If an swer has been selected, submit and check it
+            // If answer has been selected, submit and check it
 
             // disable radio buttons
             RadioGroup radioGroup = (RadioGroup) findViewById(R.id.question_answer_group);
@@ -211,8 +213,8 @@ public class Question extends AppCompatActivity {
 
                 // Show correct answer
                 TextView questionTextView = (TextView) findViewById(R.id.question_textView);
-                questionTextView.setText(questionTextView.getText() +
-                        " \nCorrect answer: " + correctAnswerStr);
+                questionTextView.setText(toHTML(questionTextView.getText() +
+                        " \nCorrect answer: " + correctAnswerStr));
             }
             System.out.println(correctAnswers);
 
@@ -278,14 +280,14 @@ public class Question extends AppCompatActivity {
                 j++;
             }
             TextView questionTextView = (TextView) findViewById(R.id.question_textView);
-            questionTextView.setText(question);
+            questionTextView.setText(toHTML(question));
 
             // Set radio buttons
             RadioGroup radioGroup = (RadioGroup) findViewById(R.id.question_answer_group);
             radioGroup.clearCheck();
             for (int i = 0; i < radioGroup.getChildCount(); i++) {
                 String textAnswer = questionText.get(i+2);
-                ((RadioButton) radioGroup.getChildAt(i)).setText(textAnswer);
+                ((RadioButton) radioGroup.getChildAt(i)).setText(toHTML(textAnswer));
                 ((RadioButton) radioGroup.getChildAt(i)).setEnabled(true);
                 ((RadioButton) radioGroup.getChildAt(i)).setTextColor(Color.parseColor("#cccccc"));
             }
@@ -297,6 +299,19 @@ public class Question extends AppCompatActivity {
 
 
         }
+    }
+
+    /* Makes HTML tags in strings work
+     * Mostly for powers (ex: 3^2)
+     */
+    public Spanned toHTML(String input) {
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            return Html.fromHtml(input,Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            return Html.fromHtml(input);
+        }
+
     }
 
     /*

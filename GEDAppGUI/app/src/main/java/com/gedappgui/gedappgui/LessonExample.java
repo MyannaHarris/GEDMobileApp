@@ -22,6 +22,8 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -64,8 +66,8 @@ public class LessonExample extends AppCompatActivity {
         String example_2 = db.selectLessonExample2(id);
         TextView ex_1 = (TextView) findViewById(R.id.example_1);
         TextView ex_2 = (TextView) findViewById(R.id.example_2);
-        ex_1.setText(example_1);
-        ex_2.setText(example_2);
+        ex_1.setText(toHTML(example_1));
+        ex_2.setText(toHTML(example_2));
     }
 
     /*
@@ -161,5 +163,18 @@ public class LessonExample extends AppCompatActivity {
         intent.putExtra("lessonID",lessonID);
         intent.putExtra("gameName", "");
         startActivity(intent);
+    }
+
+    /* Makes HTML tags in strings work
+     * Mostly for powers (ex: 3^2)
+     */
+    public Spanned toHTML(String input) {
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            return Html.fromHtml(input,Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            return Html.fromHtml(input);
+        }
+
     }
 }
