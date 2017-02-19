@@ -78,6 +78,10 @@ public class MatchGameView extends LinearLayout{
         // Set context
         context = contextp;
 
+        choice1TextView = new TextView(context);
+        choice2TextView = new TextView(context);
+        start = new TextView(context);
+
         // IDs for starting next intent after game
         conceptID = conceptIDp;
         lessonID = lessonIDp;
@@ -142,7 +146,7 @@ public class MatchGameView extends LinearLayout{
                             }
 
                             try {
-                                Thread.sleep(500);
+                                Thread.sleep(300);
                             } catch (InterruptedException e) {
                             }
                         }  else if (vw != null && secondChoiceDone) {
@@ -221,7 +225,7 @@ public class MatchGameView extends LinearLayout{
                                                     newMatch = true;
                                                     secondChoiceDone = true;
                                                 }
-                                            }, 500);
+                                            }, 300);
                                         } else {
                                             // Return BGs to normal if answer is wrong
 
@@ -258,14 +262,14 @@ public class MatchGameView extends LinearLayout{
                                                     newMatch = true;
                                                     secondChoiceDone = true;
                                                 }
-                                            }, 500);
+                                            }, 300);
                                         }
                                     }
-                                }, 500);
+                                }, 300);
                             }
 
                             try {
-                                Thread.sleep(500);
+                                Thread.sleep(300);
                             } catch (InterruptedException e) {
                             }
                         }
@@ -353,7 +357,7 @@ public class MatchGameView extends LinearLayout{
                                                         newMatch = true;
                                                         secondChoiceDone = true;
                                                     }
-                                                }, 500);
+                                                }, 300);
                                             } else {
                                                 // Return BGs to normal if answer is wrong
 
@@ -390,14 +394,14 @@ public class MatchGameView extends LinearLayout{
                                                         newMatch = true;
                                                         secondChoiceDone = true;
                                                     }
-                                                }, 500);
+                                                }, 300);
                                             }
                                         }
-                                    }, 500);
+                                    }, 300);
                                 }
 
                                 try {
-                                    Thread.sleep(500);
+                                    Thread.sleep(300);
                                 } catch (InterruptedException e) {
                                 }
                             }

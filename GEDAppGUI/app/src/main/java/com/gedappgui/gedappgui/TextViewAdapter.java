@@ -109,7 +109,7 @@ public class TextViewAdapter extends BaseAdapter {
                         R.drawable.match_game_unselected));
             }
 
-            textView.setHeight(height / 9);
+            textView.setHeight(height / (texts.length / 2) - 20);
             textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
             textView.setTextColor(Color.BLACK);
             textView.setPadding(8, 8, 8, 8);

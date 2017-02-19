@@ -51,11 +51,12 @@ public class Bucket {
     // Screen size
     private int width;
     private int height;
+    private int questionHeight;
 
     /*
      * Constructor
      */
-    public Bucket(Context context, int widthp, int heightp, int questionHeight) {
+    public Bucket(Context context, int widthp, int heightp, int questionHeightp) {
         // Set base values for coordinates
         x = 0;
         y = 0;
@@ -63,6 +64,7 @@ public class Bucket {
         // Save screen size
         width = widthp;
         height = heightp;
+        questionHeight = questionHeightp;
 
         // Make bitmap for the bucket (uses the bucket image)
         bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.game_bucket);
@@ -111,7 +113,7 @@ public class Bucket {
      * Set change in x coordinate
      */
     public void stopMoveBucket(int newX) {
-        dx = startX - newX;
+        dx = (int)(startX - newX + questionHeight * 1.1);
     }
 
     /*
