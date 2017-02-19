@@ -36,5 +36,10 @@
     <color name="transparent">#00ffffff</color>
     <color name="geospinner">#000dff</color>
     <color name="fracToDecHint">#d600aaff</color>
+    <color name="towerGameButtonText">#ffffff</color>
     <color name="bucketGameStart">#119b0e</color>
+    <color name="matchGameText">#000000</color>
+    <color name="bucketGameText">#000000</color>
+    <color name="questionCorrect">#00ff00</color>
+    <color name="questionIncorrect">#ff0000</color>
 </resources>

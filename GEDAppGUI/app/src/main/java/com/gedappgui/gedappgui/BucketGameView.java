@@ -139,7 +139,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
         // Initializing drawing objects
         surfaceHolder = getHolder();
         paint = new Paint();
-        paint.setColor(Color.BLACK);
+        paint.setColor(ContextCompat.getColor(context, R.color.bucketGameText));
         paint.setTextSize((float)height / 17);
 
         // Get question text height
@@ -279,7 +279,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
 
                         //initializing drawing objects
                         surfaceHolder = getHolder();
-                        paint.setColor(Color.BLACK);
+                        paint.setColor(ContextCompat.getColor(context, R.color.bucketGameText));
 
                         //Get question text height
                         Rect bounds = new Rect();
@@ -391,7 +391,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                             height / 2 - dragonBG.getHeight() / 2 - 20,
                             paint
                     );
-                    paint.setColor(Color.BLACK);
+                    paint.setColor(ContextCompat.getColor(context, R.color.bucketGameText));
                 } else if(!hideContentToShowAnswer) {
                     paint.setColor(ContextCompat.getColor(context, R.color.gameIncorrect));
                     canvas.drawText(
@@ -400,7 +400,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                             height / 2 - dragonBG.getHeight() / 2 - 20,
                             paint
                     );
-                    paint.setColor(Color.BLACK);
+                    paint.setColor(ContextCompat.getColor(context, R.color.bucketGameText));
                 }
                 // Keep "Correct" or "Incorrect" on screen long enough to read
                 showResultTimer -= 1;

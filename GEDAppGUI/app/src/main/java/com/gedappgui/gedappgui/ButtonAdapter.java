@@ -23,6 +23,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -255,7 +256,7 @@ public class ButtonAdapter extends BaseAdapter {
                 }
             });
         }
-        button.setTextColor(Color.WHITE);
+        button.setTextColor(ContextCompat.getColor(mContext, R.color.towerGameButtonText));
 
         return button;
     }

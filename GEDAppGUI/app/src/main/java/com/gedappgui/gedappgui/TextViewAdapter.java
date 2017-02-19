@@ -111,7 +111,7 @@ public class TextViewAdapter extends BaseAdapter {
 
             textView.setHeight(height / (texts.length / 2) - 20);
             textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-            textView.setTextColor(Color.BLACK);
+            textView.setTextColor(ContextCompat.getColor(mContext, R.color.matchGameText));
             textView.setPadding(8, 8, 8, 8);
         } else {
             textView = (TextView) convertView;
