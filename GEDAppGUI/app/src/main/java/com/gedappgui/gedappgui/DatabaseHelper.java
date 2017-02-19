@@ -773,6 +773,19 @@ public class DatabaseHelper{
     }
 
     /**
+     * Query to see whether user is on the final lesson, given the current lesson
+     * @return boolean of whether user is on the final lesson
+     */
+    public boolean isLastLesson(int currLesson) {
+        open();
+        Cursor c = myDatabase.rawQuery("SELECT max(lesson_id) from lessons", null);
+        c.moveToFirst();
+        int lastLesson = c.getInt(0);
+        close();
+        return (lastLesson == currLesson);
+    }
+
+    /**
      * Query to see whether user has used all features of the app
      * @return boolean of whether achievements have been achieved or not
      */

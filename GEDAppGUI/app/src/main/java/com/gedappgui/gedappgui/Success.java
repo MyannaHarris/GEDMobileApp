@@ -36,6 +36,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -99,6 +100,10 @@ public class Success extends AppCompatActivity {
 
         //put things in the gridlayout
         setAccessoryInfo(accessories);
+        if (dbHelper.isLastLesson(lessonID)) {
+            RelativeLayout page = (RelativeLayout) findViewById(R.id.successPage);
+            page.removeView(findViewById(R.id.to_lesson));
+        }
     }
 
     /*
