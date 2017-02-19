@@ -85,10 +85,10 @@ public class BucketNumber {
         minY = questionHeight * 3;
 
         // Calculating maxY
-        maxX = width - (int)((questionHeight * 1.8) / 2);
+        maxX = width - (int)((float)height / 12);
 
         // Generating a random x coordinate to add enemy at
-        x = generator.nextInt(maxX - (int)((questionHeight * 1.8) / 2));
+        x = generator.nextInt(maxX - ((int)((float)height / 12 / 2) + 1));
         y = minY;
 
         // Initializing rect object for detecting collisions
@@ -109,7 +109,7 @@ public class BucketNumber {
             Random generator = new Random();
             speed = (int) (changeY * (generator.nextInt(10) / 10.0 + 0.5));
             y = minY;
-            x = generator.nextInt(maxX - (int)((questionHeight * 1.8) / 2));
+            x = generator.nextInt(maxX - ((int)((float)height / 12 / 2) + 1));
         }
 
         // Adding the top, left, bottom and right to the rect object

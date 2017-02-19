@@ -36,4 +36,5 @@
     <color name="transparent">#00ffffff</color>
     <color name="geospinner">#000dff</color>
     <color name="fracToDecHint">#d600aaff</color>
+    <color name="bucketGameStart">#119b0e</color>
 </resources>

@@ -290,7 +290,12 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                         //showQuestionAtBeginning = true;
                         waitToStartNextGame = 30;
 
-                        //initializing number object array
+                        // Reset answer variables
+                        showResult = false;
+                        correctAnswer = false;
+                        showResultTimer = 10;
+
+                        // Initializing number object array
                         numbers = new BucketNumber[numberCount];
                         for (int x = 0; x < numberCount; x++) {
                             numbers[x] = new BucketNumber(width, height,
@@ -347,23 +352,23 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                     Bitmap coinImg = BitmapFactory.decodeResource(getResources(),
                             R.drawable.game_goldcoin);
                     coinImg = Bitmap.createScaledBitmap(coinImg,
-                            (int) (questionHeight * 1.8),
-                            (int) (questionHeight * 1.8), false);
+                            (int) ((float)height / 12),
+                            (int) ((float)height / 12), false);
                     int x = numbers[i].getText().length();
                     if (x > 1) {
                         // Draw double character answer
                         canvas.drawBitmap(
                                 coinImg,
                                 numbers[i].getX() - ((int) paint.measureText(numbers[i].getText()) / 6),
-                                numbers[i].getY() - (int) (questionHeight * 1.3),
+                                numbers[i].getY() - ((float)height / 16),
                                 paint);
                     } else {
                         // Draw single character answer
                         canvas.drawBitmap(
                                 coinImg,
                                 numbers[i].getX() - (int) (paint.measureText(
-                                        numbers[i].getText()) * 0.8),
-                                numbers[i].getY() - (int) (questionHeight * 1.3),
+                                        numbers[i].getText()) * 0.7),
+                                numbers[i].getY() - ((float)height / 16),
                                 paint);
                     }
                     canvas.drawText(
@@ -422,7 +427,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                 //canvas.drawRect(shadeRect, rectAlphaPaint);
 
                 rectAlphaPaint.setAlpha(80);
-                rectAlphaPaint.setColor(ContextCompat.getColor(context, R.color.gameCorrect));
+                rectAlphaPaint.setColor(ContextCompat.getColor(context, R.color.bucketGameStart));
                 canvas.drawRect(startButton, rectAlphaPaint);
                 canvas.drawText(
                         startText,
