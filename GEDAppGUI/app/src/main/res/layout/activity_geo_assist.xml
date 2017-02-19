@@ -35,7 +35,7 @@
                 android:id="@+id/spinner"
                 android:layout_weight="2.06"
                 android:textSize="30dp"
-                android:textColor="#FF0000"/>
+                android:textColor="@color/geospinner"/>
 
             <TextView
                 android:text=""

@@ -106,7 +106,7 @@ public class Game extends AppCompatActivity {
             setContentView(matchGameView);
         }
         else if (lessonID == 5){
-            pictureGameView = new PictureGameView(this);
+            pictureGameView = new PictureGameView(this,conceptID,lessonID,nextActivity);
             setContentView(pictureGameView);
         }
         else{

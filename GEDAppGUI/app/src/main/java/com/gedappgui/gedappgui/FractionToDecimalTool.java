@@ -47,7 +47,7 @@ public class FractionToDecimalTool extends AppCompatActivity {
         fraction_text.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                if (actionId == EditorInfo.IME_ACTION_NEXT) {
                     View view = findViewById(R.id.submitButton);
                     evaluateText(view);
                 }

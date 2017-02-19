@@ -18,6 +18,7 @@
 package com.gedappgui.gedappgui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -34,6 +35,8 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.Arrays;
+
 public class ButtonAdapter extends BaseAdapter {
 
     // Hold context of activity that called adapter
@@ -47,13 +50,17 @@ public class ButtonAdapter extends BaseAdapter {
     private int pictureindex = 0;
     private int[] pictures;
     private TextView resulter;
+    private int lesson;
+    private int concept;
+    private int nextActivity;
 
     /*
-     * Constructor
-     * Gets the context and image ids so they can be used later
+     * Constructor for PictureGameView buttons
+     * Gets the variables from PictureGameView to use in create the buttons and events
      */
     public ButtonAdapter(Context c, String[] buttonNamesp, ImageView change, String splitter,
-                         TextView state, int[] pics, TextView result) {
+                         TextView state, int[] pics, TextView result, int lessonID,
+                         int conceptID, int nextAct) {
 
         mContext = c;
         buttonNames = buttonNamesp;
@@ -62,7 +69,16 @@ public class ButtonAdapter extends BaseAdapter {
         statement = state;
         pictures = pics;
         resulter = result;
+        lesson = lessonID;
+        nextActivity = nextAct;
+        concept = conceptID;
 
+    }
+
+    //Deafult constructor for just putting buttons in gridview
+    public ButtonAdapter(Context c, String[] buttonNamesp){
+        mContext = c;
+        buttonNames = buttonNamesp;
     }
 
 
@@ -100,6 +116,7 @@ public class ButtonAdapter extends BaseAdapter {
      */
 
     //credit: radhoo, StackOverflow
+    //Helper function for animating the picture change in PictureGameView.java
     private static void ImageViewAnimatedChange(Context c, final ImageView v, final int new_image) {
         final Animation anim_out = AnimationUtils.loadAnimation(c, android.R.anim.fade_out);
         final Animation anim_in  = AnimationUtils.loadAnimation(c, android.R.anim.fade_in);
@@ -120,11 +137,13 @@ public class ButtonAdapter extends BaseAdapter {
         });
         v.startAnimation(anim_out);
     }
+
+    //Used for making truth and false buttons in PictureGameView.java
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
 
-        Button button;
+        final Button button;
         if (convertView == null) {
              //if it's not recycled, initialize some attributes
             button = new Button(mContext);
@@ -137,12 +156,14 @@ public class ButtonAdapter extends BaseAdapter {
 
         button.setText(buttonNames[position]);
         if (button.getText().equals("TRUE")){
+            //set true color to green
             button.getBackground().setColorFilter(0xFF23c438, PorterDuff.Mode.MULTIPLY);
             button.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
                     if (answers[cur + 1].equals("t")){
-                        cur += 2;
+                        //circular queue for statements
+                        cur = (cur + 2) % 20;
                         statement.setText(answers[cur]);
                         resulter.setText("Correct!");
                         Runnable r = new Runnable(){
@@ -152,46 +173,90 @@ public class ButtonAdapter extends BaseAdapter {
                             }
                         };
                         Handler h = new Handler();
+                        //Delay picture change by .75 secs
                         h.postDelayed(r,750);
                         pictureindex++;
+                        //once 5 statements are answered correctly
+                        if (pictureindex > 4){
+                            button.setEnabled(false);
+                            statement.setText("Congratulations!");
+                            Runnable r2 = new Runnable() {
+                                @Override
+                                public void run() {
+                                    Context context = mContext;
+                                    Intent intent = new Intent(context, GameEnd.class);
+                                    intent.putExtra("next_activity", nextActivity);
+                                    intent.putExtra("conceptID", concept);
+                                    intent.putExtra("lessonID", lesson);
+                                    context.startActivity(intent);
+                                }
+                            };
+                            Handler h2 = new Handler();
+                            //Delay transition to game end by 2.5 secs
+                            h2.postDelayed(r2,2500);
+                        }
 
                     }
                     else{
                         resulter.setText("Incorrect! Try again");
+                        cur = (cur + 2) % 20;
+                        statement.setText(answers[cur]);
                     }
                 }
             });
         }
         else if (button.getText().equals("FALSE")){
+            //set false color to red
             button.getBackground().setColorFilter(0xFFce4257, PorterDuff.Mode.MULTIPLY);
             button.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
                     if (answers[cur + 1].equals("f")){
-                        cur += 2;
+                        cur = (cur + 2) % 20;
                         statement.setText(answers[cur]);
                         resulter.setText("Correct!");
                         Runnable r = new Runnable(){
                             @Override
                             public void run(){
-                                //changer.setImageResource(pictures[pictureindex]);
                                 ImageViewAnimatedChange(mContext,changer,pictures[pictureindex]);
                             }
                         };
                         Handler h = new Handler();
+                        //Delay picture change by .75 secs
                         h.postDelayed(r,750);
                         pictureindex++;
+                        //once 5 statements are answered correctly
+                        if (pictureindex > 4){
+                            statement.setText("Congratulations!");
+                            button.setEnabled(false);
+                            Runnable r2 = new Runnable() {
+                                @Override
+                                public void run() {
+                                    Context context = mContext;
+                                    Intent intent = new Intent(context, GameEnd.class);
+                                    intent.putExtra("next_activity", nextActivity);
+                                    intent.putExtra("conceptID", concept);
+                                    intent.putExtra("lessonID", lesson);
+                                    context.startActivity(intent);
+                                }
+                            };
+                            Handler h2 = new Handler();
+                            //Delay transition to game end by 2.5 secs
+                            h2.postDelayed(r2,2500);
+                        }
 
                     }
                     else{
                         resulter.setText("Incorrect! Try again");
+                        cur = (cur + 2) % 20;
+                        statement.setText(answers[cur]);
 
                     }
                 }
             });
         }
         button.setTextColor(Color.WHITE);
-        statement.setText(answers[cur]);
+
         return button;
     }
 

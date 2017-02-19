@@ -34,4 +34,6 @@
     <color name="matchCardSelectedOutline">#eeff00</color>
     <color name="accessoryHighlight">#b8c4f7</color>
     <color name="transparent">#00ffffff</color>
+    <color name="geospinner">#000dff</color>
+    <color name="fracToDecHint">#d600aaff</color>
 </resources>
