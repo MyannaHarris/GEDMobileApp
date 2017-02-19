@@ -61,7 +61,7 @@
             android:id="@+id/instructions"/>
 
         <Button
-            android:text="@string/play"
+            android:text="Play"
             android:layout_marginBottom="@dimen/button_vert_margin"
             android:layout_marginTop="@dimen/button_vert_margin"
             android:layout_below="@id/instructions"
