@@ -43,6 +43,7 @@ public class Game extends AppCompatActivity {
     private BucketGameView bucketGameView;
     private MatchGameView matchGameView;
     private PictureGameView pictureGameView;
+    private ChemistryGameView chemistryGameView;
 
     // Database
     private DatabaseHelper dbHelper;
@@ -104,6 +105,36 @@ public class Game extends AppCompatActivity {
             matchGameView = new MatchGameView(this, texts, answers, conceptID,
                     lessonID, nextActivity, width, height);
             setContentView(matchGameView);
+        } else if (dbHelper.selectGameTemplate(lessonID).equals("chemistry_game")) {
+            ArrayList<String> textInfo = new ArrayList<String>();
+            textInfo.add("_ + _ = 15");
+            textInfo.add("3");
+            textInfo.add("5");
+            textInfo.add("10");
+            textInfo.add("4");
+            ArrayList<String> answers = new ArrayList<String>();
+            answers.add("5");
+            answers.add("10");
+
+            ArrayList<String> textInfo2 = new ArrayList<String>();
+            textInfo2.add("_ + _ = 9");
+            textInfo2.add("3");
+            textInfo2.add("7");
+            textInfo2.add("11");
+            textInfo2.add("-2");
+            ArrayList<String> answers2 = new ArrayList<String>();
+            answers2.add("11");
+            answers2.add("-2");
+
+            ArrayList<ArrayList<String>> texts = new ArrayList<ArrayList<String>>();
+            texts.add(textInfo);
+            texts.add(answers);
+            texts.add(textInfo2);
+            texts.add(answers2);
+
+            chemistryGameView = new ChemistryGameView(this, texts, conceptID,
+                    lessonID, nextActivity, width, height);
+            setContentView(chemistryGameView);
         }
         else if (lessonID == 5){
             pictureGameView = new PictureGameView(this,conceptID,lessonID,nextActivity);
