@@ -120,6 +120,9 @@ public class TextViewAdapter extends BaseAdapter {
         return textView;
     }
 
+    /*
+     * Change pixel measurement into dp measurement
+     */
     public static float convertPixelsToDp(float px,Context context){
 
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
