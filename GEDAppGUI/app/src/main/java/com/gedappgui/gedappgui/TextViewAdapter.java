@@ -20,7 +20,6 @@
 package com.gedappgui.gedappgui;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;

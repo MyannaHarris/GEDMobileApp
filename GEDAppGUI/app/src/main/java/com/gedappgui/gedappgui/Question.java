@@ -18,17 +18,13 @@
 package com.gedappgui.gedappgui;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
-import android.text.Spannable;
 import android.text.Spanned;
-import android.text.style.BackgroundColorSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -36,7 +32,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class Question extends AppCompatActivity {
 
@@ -206,10 +201,14 @@ public class Question extends AppCompatActivity {
             if (selectedString.equals(correctAnswerStr)) {
                 correctAnswers += 1;
                 totalCorrect += 1;
-                ((RadioButton) radioGroup.getChildAt(selectedAnswer-1)).setTextColor(Color.GREEN);
+                ((RadioButton) radioGroup.getChildAt(selectedAnswer-1)).setTextColor(
+                        ContextCompat.getColor(this, R.color.questionCorrect)
+                );
             } else {
                 incorrectAnswers += 1;
-                ((RadioButton) radioGroup.getChildAt(selectedAnswer-1)).setTextColor(Color.RED);
+                ((RadioButton) radioGroup.getChildAt(selectedAnswer-1)).setTextColor(
+                        ContextCompat.getColor(this, R.color.questionIncorrect)
+                );
 
                 // Show correct answer
                 TextView questionTextView = (TextView) findViewById(R.id.question_textView);
@@ -289,7 +288,8 @@ public class Question extends AppCompatActivity {
                 String textAnswer = questionText.get(i+2);
                 ((RadioButton) radioGroup.getChildAt(i)).setText(toHTML(textAnswer));
                 ((RadioButton) radioGroup.getChildAt(i)).setEnabled(true);
-                ((RadioButton) radioGroup.getChildAt(i)).setTextColor(Color.parseColor("#cccccc"));
+                ((RadioButton) radioGroup.getChildAt(i)).setTextColor(
+                        ContextCompat.getColor(this, R.color.colorBodyText));
             }
 
             // Save what the new correct answer should be
