@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class DatabaseHelper{
@@ -979,9 +980,9 @@ public class DatabaseHelper{
             for(int j = k+5; j<k+7;  j++) {
                 questionsAndAnswers.add(questions[j]);
             }
-                //deep copies the array lists of possible answers and qeustions and answer
-                allQAndAs.add(new ArrayList<String>(possibleAnswers));
-                allQAndAs.add(new ArrayList<String>(questionsAndAnswers));
+            //deep copies the array lists of possible answers and qeustions and answer
+            allQAndAs.add(new ArrayList<String>(possibleAnswers));
+            allQAndAs.add(new ArrayList<String>(questionsAndAnswers));
 
         }
 
@@ -1001,6 +1002,36 @@ public class DatabaseHelper{
 
 
         System.out.println(randQAndAs);
+        return randQAndAs;
+    }
+
+    /**
+     * returns the input for a game from a CSL
+     * @param lesson_id the id of the lesson
+     * @return the input for the game (questions and answers)
+     */
+    public ArrayList<ArrayList<String>> selectChemistryGameInput(int lesson_id){
+        open();
+
+        Cursor c = myDatabase.rawQuery("SELECT game_input FROM lessons WHERE lesson_id = " +
+                lesson_id, null);
+        c.moveToFirst();
+        String input = c.getString(0);
+
+        c.close();
+        close();
+
+        ArrayList<ArrayList<String>> randQAndAs = new ArrayList<ArrayList<String>>();
+        ArrayList<String> splitUp = new ArrayList<>();
+
+        String[] options = input.split("[;]");
+
+        for (int i = 0; i < 5; i++) {
+            int randIdx = ( int )(Math.random() * (20-i) + 1);
+            splitUp = new ArrayList<String>(Arrays.asList(options[randIdx].split("[,]")));
+            randQAndAs.add(new ArrayList<String>(splitUp.subList(0,5)));
+            randQAndAs.add(new ArrayList<String>(splitUp.subList(5,7)));
+        }
         return randQAndAs;
     }
 
