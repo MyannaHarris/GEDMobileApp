@@ -15,27 +15,27 @@
 -->
 
 <resources>
-    <color name="colorPrimary">#1d0c43</color>
+    <color name="colorPrimary">#241f69</color>
     <color name="colorPrimaryDark">#000000</color>
-    <color name="colorAccent">#55aaea</color>
-    <color name="colorBackgroundDark">#4e4a53</color>
-    <color name="colorButton">#3c3445</color>
-    <color name="colorHeader1">#1d0c43</color>
+    <color name="colorAccent">#ca7cff</color>
+    <color name="colorBackgroundDark">#212121</color>
+    <color name="colorButton">#160023</color>
+    <color name="colorHeader1">#ca7cff</color>
     <color name="colorBodyText">#cccccc</color>
     <color name="colorButtonText">#cccccc</color>
     <color name="colorMenuText">#cccccc</color>
-    <color name="colorMenuBackground">#3c3445</color>
+    <color name="colorMenuBackground">#111111</color>
     <color name="colorWhite">#ffffff</color>
     <color name="bucketGameBG">#ceaee6</color>
-    <color name="gameCorrect">#119b0e</color>
+    <color name="gameCorrect">#015800</color>
     <color name="gameIncorrect">#961315</color>
     <color name="matchCardBG">#cccccc</color>
-    <color name="matchCardOutline">#3c3445</color>
-    <color name="matchCardSelectedOutline">#eeff00</color>
+    <color name="matchCardOutline">#160023</color>
+    <color name="matchCardSelectedOutline">#241F69</color>
     <color name="accessoryHighlight">#b8c4f7</color>
     <color name="transparent">#00ffffff</color>
-    <color name="geospinner">#000dff</color>
-    <color name="fracToDecHint">#d600aaff</color>
+    <color name="geospinner">#ca7cff</color>
+    <color name="fracToDecHint">#d6585858</color>
     <color name="towerGameButtonText">#ffffff</color>
     <color name="bucketGameStart">#119b0e</color>
     <color name="matchGameText">#000000</color>
@@ -44,4 +44,5 @@
     <color name="questionIncorrect">#ff0000</color>
     <color name="chemistryGameBG">#ceaee6</color>
     <color name="chemistryGameText">#000000</color>
+    <color name="spriteAccessoryBG">#313131</color>
 </resources>
