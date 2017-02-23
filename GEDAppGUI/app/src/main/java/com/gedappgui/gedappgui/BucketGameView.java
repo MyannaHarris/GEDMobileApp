@@ -26,6 +26,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
@@ -93,7 +94,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
     private boolean hideContentToShowAnswer = false;
     private boolean showQuestionAtBeginning = true;
     private int waitToStartNextGame;
-    private Rect startButton;
+    private RectF startButton;
     private String startText;
 
     /*
@@ -149,8 +150,8 @@ public class BucketGameView extends SurfaceView implements Runnable  {
         // Pause to show equation
         waitToStartNextGame = 0;
         showFinishedGameTimer = 40;
-        startText = "Click to start";
-        startButton = new Rect(
+        startText = "Tap to start";
+        startButton = new RectF(
                 (int)((width / 2) - (paint.measureText(startText) / 2)
                     - questionHeight),
                 (int)((height / 2) - (questionHeight * 2)),
@@ -418,21 +419,19 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                     paint);
 
             if (showQuestionAtBeginning) {
-                Rect shadeRect = new Rect(0, 0, width, height);
                 Paint rectAlphaPaint = new Paint();
                 rectAlphaPaint.setStyle(Paint.Style.FILL);
-                //rectAlphaPaint.setAlpha(10);
-                //rectAlphaPaint.setColor(Color.LTGRAY);
-                //canvas.drawRect(shadeRect, rectAlphaPaint);
 
                 rectAlphaPaint.setAlpha(80);
-                rectAlphaPaint.setColor(ContextCompat.getColor(context, R.color.bucketGameStart));
-                canvas.drawRect(startButton, rectAlphaPaint);
+                rectAlphaPaint.setColor(ContextCompat.getColor(context, R.color.bucketGameStartButton));
+                canvas.drawRoundRect(startButton, 30, 30, rectAlphaPaint);
+                paint.setColor(ContextCompat.getColor(context, R.color.bucketGameStartText));
                 canvas.drawText(
                         startText,
                         startButton.centerX() - (paint.measureText(startText) / 2),
                         startButton.centerY() + (questionHeight / 4),
                         paint);
+                paint.setColor(ContextCompat.getColor(context, R.color.bucketGameText));
             }
 
             // Unlocking the canvas
