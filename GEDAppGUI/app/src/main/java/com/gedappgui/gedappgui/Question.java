@@ -213,7 +213,7 @@ public class Question extends AppCompatActivity {
                 // Show correct answer
                 TextView questionTextView = (TextView) findViewById(R.id.question_textView);
                 questionTextView.setText(toHTML(questionTextView.getText() +
-                        " \nCorrect answer: " + correctAnswerStr));
+                        " <br />Correct answer: " + correctAnswerStr));
             }
             System.out.println(correctAnswers);
 
