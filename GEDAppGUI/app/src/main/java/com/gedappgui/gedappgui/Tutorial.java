@@ -37,17 +37,13 @@ public class Tutorial extends AppCompatActivity {
             "Welcome to the tutorial! Use the forward and back buttons to navigate the tutorial. Hit exit to leave at any time.",
             "The Home Screen is the first thing you will see when opening the app. You can use this screen to access all other features",
             "By clicking on the dragon, you can go directly to the dragon accessory screen",
-            "Here you can choose accessories to put on the sprite by dragging them onto the dragon. You can also remove accessories by clicking on the left image",
-            "Click on the tools button on the home screen to go to the tools section",
-            "Here you can access math tools that will help you with memorization of math rules and solving GED questions",
-            "Click on the play button to go to the games screen",
-            "Here you can play the games that you have unlocked by completing lessons",
-            "Click on the achievements button to see what achievements you have earned",
-            "You can click the achievements to see the description of the achievements you have earned",
+            "Here you can choose accessories to put on the sprite by dragging them onto the dragon. You can also remove accessories by clicking on them again",
+            "Click on the tools button on the home screen to go to the tools section. You can access math tools that will help you with memorization of math rules and solving GED questions on this screen",
+            "Click on the play button to go to the games screen. You can play the games that you have unlocked by completing lessons on this screen",
+            "Click on the achievements button to see what achievements you have earned. You can view all of the achievements you have earned on this screen",
             "Click on learn to go to the concepts screen",
             "On this screen you can select from 4 concepts each holding 6 lessons",
             "After clicking on a concept, you can select the most recent lesson you have unlocked or any past lesson",
-            "If you want to go to a previous lesson, you can select where you would like to start in that lesson",
             "The first screen in a lesson is a summary that will give you an overview of the lesson",
             "The next screen has a video, picture, and a short tip on the material in the lesson, we suggest you go through all 3 of these parts before proceeding",
             "You can view two example problems on this screen that are similar to what will be asked later in the lesson",
@@ -55,8 +51,6 @@ public class Tutorial extends AppCompatActivity {
             "After the game, you will be asked some questions on the material similar to questions asked on the GED",
             "After you answer enough questions correctly, you will be able to select an accessory for your sprite and move on",
             "Clicking continue lesson on the home screen will take you to where you left off on the current lesson",
-            "Clicking on settings will bring you to the settings screen",
-            "In settings, you can set a notification, change your name, or mute sounds",
             "Thanks for using our app! You can access this tutorial at anytime in Tools! Have fun and good luck!",
             "Thanks for using our app! You can access this tutorial at anytime in Tools! Have fun and good luck!"
     };
@@ -67,15 +61,11 @@ public class Tutorial extends AppCompatActivity {
             R.drawable.home_screen_sprite,
             R.drawable.closet,
             R.drawable.home_screen_tools,
-            R.drawable.tools,
             R.drawable.home_screen_play,
-            R.drawable.play,
             R.drawable.home_screen_achievements,
-            R.drawable.achievements_tutorial,
             R.drawable.home_screen_learn,
             R.drawable.tutorial_concepts,
             R.drawable.tutorial_lessons,
-            R.drawable.revisit,
             R.drawable.tutorial_summary,
             R.drawable.tutorial_steps,
             R.drawable.tutorial_example,
@@ -83,8 +73,6 @@ public class Tutorial extends AppCompatActivity {
             R.drawable.tutorial_questions,
             R.drawable.tutorial_success,
             R.drawable.home_screen_continue,
-            R.drawable.settings,
-            R.drawable.settings_screen,
             R.drawable.sprite_dragon,
             R.drawable.sprite_dragon
     };
@@ -132,7 +120,7 @@ public class Tutorial extends AppCompatActivity {
         TextView prompt = (TextView)findViewById(R.id.prompt);
         ImageView promptImg = (ImageView) findViewById(R.id.prompt_pic);
         current++;
-        if (current > 23) {
+        if (current > 17) {
             System.out.println(current);
             finish();
         }

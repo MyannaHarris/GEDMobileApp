@@ -35,7 +35,7 @@
     <color name="accessoryHighlight">#b8c4f7</color>
     <color name="transparent">#00ffffff</color>
     <color name="geospinner">#ca7cff</color>
-    <color name="fracToDecHint">#d6585858</color>
+    <color name="fracToDecHint">#ca7cff</color>
     <color name="towerGameButtonText">#ffffff</color>
     <color name="bucketGameStart">#119b0e</color>
     <color name="matchGameText">#000000</color>
@@ -45,4 +45,5 @@
     <color name="chemistryGameBG">#ceaee6</color>
     <color name="chemistryGameText">#000000</color>
     <color name="spriteAccessoryBG">#313131</color>
+    <color name="fractodectext">#b03ffc</color>
 </resources>

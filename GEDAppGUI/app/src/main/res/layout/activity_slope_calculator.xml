@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_slope_calculator"
     android:layout_width="match_parent"
@@ -23,61 +24,113 @@
             android:orientation="vertical" >
 
             <TextView
-                android:text="The slope formula can be written as: \n \n
-                m = (y2 - y1) / (x2 - x1) \n \n For any ordered pair (x1,y1) and (x2,y2). Input values for the ordered pairs below to see the slope and the steps that were taken to find the slope."
+                android:text="The slope formula can be written as: \n\n
+            m = (y2 - y1) / (x2 - x1) \n \nFor any ordered pair (x1,y1) and (x2,y2). Input values for the ordered pairs below to see the slope and the steps that were taken to find the slope."
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:id="@+id/instructions" />
 
-            <EditText
+            <android.support.v7.widget.GridLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberSigned"
-                android:ems="10"
-                android:id="@+id/x1_input"
-                android:hint="Input x1 value"
-                android:maxLength="5"
-                android:layout_above="@+id/y1_input"
-                android:layout_toLeftOf="@+id/x2_input"
-                android:layout_toStartOf="@+id/x2_input" />
+                android:layout_height="match_parent"
+                app:rowCount="2"
+                app:columnCount="5">
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberSigned"
-                android:ems="10"
-                android:id="@+id/y1_input"
-                android:hint="Input y1 value"
-                android:maxLength="5"
-                android:layout_alignParentBottom="true"
-                android:layout_alignLeft="@+id/x1_input"
-                android:layout_alignStart="@+id/x1_input" />
+                <TextView
+                    android:textSize="20sp"
+                    android:text="("
+                    app:layout_column="0"
+                    app:layout_row="0"
+                    />
+                <TextView
+                    android:textSize="20sp"
+                    android:text="("
+                    app:layout_column="0"
+                    app:layout_row="1"
+                    />
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberSigned"
-                android:ems="10"
-                android:id="@+id/x2_input"
-                android:hint="Input x2 value"
-                android:maxLength="5"
-                android:layout_alignBaseline="@+id/x1_input"
-                android:layout_alignBottom="@+id/x1_input"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                <EditText
+                    android:inputType="numberSigned"
+                    android:ems="10"
+                    android:id="@+id/x1_input"
+                    android:hint="Input x1 value"
+                    android:maxLength="5"
+                    app:layout_column="1"
+                    app:layout_row="0"
+                    android:layout_width="140sp"
+                    android:textColor="@color/colorHeader1"/>
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberSigned"
-                android:ems="10"
-                android:id="@+id/y2_input"
-                android:hint="Input y2 value"
-                android:maxLength="5"
-                android:layout_alignParentBottom="true"
-                android:layout_alignRight="@+id/x2_input"
-                android:layout_alignEnd="@+id/x2_input" />
+                <TextView
+                    android:textSize="20sp"
+                    android:text=","
+                    app:layout_column="2"
+                    app:layout_row="0"
+                    />
+
+                <TextView
+                    android:textSize="20sp"
+                    android:text=","
+                    app:layout_column="2"
+                    app:layout_row="1"
+                    />
+
+                <EditText
+                    android:inputType="numberSigned"
+                    android:ems="10"
+                    android:id="@+id/x2_input"
+                    android:hint="Input x2 value"
+                    android:maxLength="5"
+                    app:layout_column="1"
+                    app:layout_row="1"
+                    android:layout_width="140sp"
+                    android:textColor="@color/colorHeader1"/>
+
+                <EditText
+                    android:inputType="numberSigned"
+                    android:ems="10"
+                    android:id="@+id/y1_input"
+                    android:hint="Input y1 value"
+                    android:maxLength="5"
+                    app:layout_column="3"
+                    app:layout_row="0"
+                    android:layout_width="140sp"
+                    android:textColor="@color/colorHeader1"/>
+
+                <TextView
+                    android:textSize="20sp"
+                    android:text=")"
+                    app:layout_column="4"
+                    app:layout_row="0"
+                    />
+
+                <TextView
+                    android:textSize="20sp"
+                    android:text=")"
+                    app:layout_column="4"
+                    app:layout_row="1"
+                    />
+
+                <EditText
+                    android:inputType="numberSigned"
+                    android:ems="10"
+                    android:id="@+id/y2_input"
+                    android:hint="Input y2 value"
+                    android:maxLength="5"
+                    app:layout_column="3"
+                    app:layout_row="1"
+                    android:layout_width="140dp"
+                    android:textColor="@color/colorHeader1"/>
+
+            </android.support.v7.widget.GridLayout>
+
+
+
+
+
+
+
+
 
             <TextView
                 android:text=""
@@ -110,4 +163,5 @@
 
         </LinearLayout>
     </ScrollView>
+
 </RelativeLayout>
