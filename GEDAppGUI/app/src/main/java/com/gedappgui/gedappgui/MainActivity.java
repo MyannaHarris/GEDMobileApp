@@ -78,6 +78,11 @@ public class MainActivity extends AppCompatActivity {
             //set up the global username
             ((MyApplication) this.getApplication()).setName(db.selectUsername());
 
+            //if the dragon name is changed in settings change it in the DB
+            if(!((MyApplication) this.getApplication()).getDragonName().equals(db.selectDragonName())) {
+                ((MyApplication) this.getApplication()).setDragonName(db.selectDragonName());
+            }
+
             // Allow user to control audio with volume buttons on phone
             setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
@@ -114,6 +119,9 @@ public class MainActivity extends AppCompatActivity {
             arcadeButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
             Button classroomButton = (Button) findViewById(R.id.learn_button);
             classroomButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+
+            // Set database for my application
+            ((MyApplication) this.getApplication()).setDBHelper(new DatabaseHelper(this));
         }
 
 
@@ -150,14 +158,9 @@ public class MainActivity extends AppCompatActivity {
             TextView greetingText = (TextView)findViewById(R.id.sprite_speechBubble);
 
             //if the username is changed in settings change it in the DB
-            if(!((MyApplication) this.getApplication()).getName().equals(db.selectUsername())) {
+            /*if(!((MyApplication) this.getApplication()).getName().equals(db.selectUsername())) {
                 db.updateUsername(((MyApplication) this.getApplication()).getName());
-            }
-
-            //if the dragon name is changed in settings change it in the DB
-            if(!((MyApplication) this.getApplication()).getDragonName().equals(db.selectDragonName())) {
-                db.updateUsername(((MyApplication) this.getApplication()).getName());
-            }
+            }*/
 
             String name = db.selectUsername();
             String[] greetings = {

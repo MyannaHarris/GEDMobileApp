@@ -27,6 +27,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.drawable.LayerDrawable;
 import android.media.AudioManager;
+import android.provider.ContactsContract;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.NotificationCompat;
@@ -70,6 +71,9 @@ public class MyApplication extends Application {
     // sprite layers
     private LayerDrawable spriteDrawable;
 
+    // Database helper
+    private DatabaseHelper dbHelper;
+
     // Listens for the preferences changing in the settings
     SharedPreferences.OnSharedPreferenceChangeListener listener =
             new SharedPreferences.OnSharedPreferenceChangeListener() {
@@ -79,6 +83,10 @@ public class MyApplication extends Application {
                 String newName = prefs.getString("username_preference", "");
                 if (!newName.equals("")) {
                     setName(newName);
+
+                    if (dbHelper != null) {
+                        dbHelper.updateUsername(newName);
+                    }
 
                     SharedPreferences.Editor editor = prefs.edit();
                     editor.clear().apply();
@@ -132,7 +140,12 @@ public class MyApplication extends Application {
                 // Change username
                 String newName = prefs.getString("dragonname_preference", "");
                 if (!newName.equals("")) {
-                    setDragonName(newName.substring(0, 1).toUpperCase() + newName.substring(1) );
+                    setDragonName(newName.substring(0, 1).toUpperCase() + newName.substring(1));
+
+                    if (dbHelper != null) {
+                        dbHelper.updateDragonName(
+                                newName.substring(0, 1).toUpperCase() + newName.substring(1));
+                    }
 
                     SharedPreferences.Editor editor = prefs.edit();
                     editor.clear().apply();
@@ -171,6 +184,10 @@ public class MyApplication extends Application {
 
     public void setSharedPreferences(SharedPreferences sharedPrefs) {
         this.prefs = sharedPrefs;
+    }
+
+    public void setDBHelper(DatabaseHelper db) {
+        this.dbHelper = db;
     }
 
     public int getCurrVolume() {

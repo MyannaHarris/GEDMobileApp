@@ -30,6 +30,7 @@
         android:title="@string/username_title"
         android:summary="@string/username_summary"
         android:hint="Name"
+        android:maxLength="10"
         android:textColorHint="@color/colorHint"
         android:defaultValue=""/>
 
@@ -45,6 +46,7 @@
         android:summary="Enter new dragon name"
         android:hint="Dragon Name"
         android:textColorHint="@color/colorHint"
+        android:maxLength="7"
         android:defaultValue=""/>
 
 </PreferenceScreen>
