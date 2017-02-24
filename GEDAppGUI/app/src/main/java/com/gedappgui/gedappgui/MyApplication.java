@@ -80,6 +80,9 @@ public class MyApplication extends Application {
                 if (!newName.equals("")) {
                     setName(newName);
 
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.clear().apply();
+
                     //gives an achievement if they change their username for the first time
                     Intent achievement = new Intent(getApplicationContext(), AchievementPopUp.class);
                     achievement.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -129,7 +132,10 @@ public class MyApplication extends Application {
                 // Change username
                 String newName = prefs.getString("dragonname_preference", "");
                 if (!newName.equals("")) {
-                    setDragonName(newName);
+                    setDragonName(newName.substring(0, 1).toUpperCase() + newName.substring(1) );
+
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.clear().apply();
                 }
             }
         }
