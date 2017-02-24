@@ -237,7 +237,7 @@ public class DatabaseHelper{
     public void insertUser(String username){
         open();
 
-        myDatabase.execSQL("INSERT INTO User VALUES ( 1 , '" + username + "', 1, datetime('NOW'))");
+        myDatabase.execSQL("INSERT INTO User VALUES ( 1 , '" + username + "', 1, datetime('NOW'), 'Dragon')");
 
         String insertQuery = "INSERT INTO user_lessons(user_id, lesson_id, datetime_started) VALUES(1,1,date('NOW'))";
         myDatabase.execSQL(insertQuery);
@@ -350,6 +350,26 @@ public class DatabaseHelper{
         myDatabase.execSQL("UPDATE User SET username = '" + username + "'");
 
         close();
+    }
+
+    /**
+     * Update the users entry in the user table with the given dragon name parameter
+     * @param dragonname the new dragon name for the user
+     */
+    public void updateDragonName(String dragonname) {
+        open();
+
+        myDatabase.execSQL("UPDATE User SET dragon_name = '" + dragonname + "'");
+
+        close();
+    }
+
+    /**
+     * Query that selects the dragon_name of the user in the user table
+     * @return the users dragon name
+     */
+    public String selectDragonName(){
+        return selectString("dragon_name", "user");
     }
 
     /**

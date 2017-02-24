@@ -20,14 +20,11 @@
 package com.gedappgui.gedappgui;
 
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.media.AudioManager;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -154,6 +151,11 @@ public class MainActivity extends AppCompatActivity {
 
             //if the username is changed in settings change it in the DB
             if(!((MyApplication) this.getApplication()).getName().equals(db.selectUsername())) {
+                db.updateUsername(((MyApplication) this.getApplication()).getName());
+            }
+
+            //if the dragon name is changed in settings change it in the DB
+            if(!((MyApplication) this.getApplication()).getDragonName().equals(db.selectDragonName())) {
                 db.updateUsername(((MyApplication) this.getApplication()).getName());
             }
 
@@ -285,6 +287,7 @@ public class MainActivity extends AppCompatActivity {
     public void addSavedAccessory(String name) {
         // Get info from map
         ArrayList<Integer> info = accessoryMap.get(name);
+
 
         int img = 0;
         int icon = 0;

@@ -31,9 +31,18 @@
         android:summary="@string/username_summary"
         android:hint="Name"
         android:defaultValue=""/>
+
     <CheckBoxPreference
         android:defaultValue="false"
         android:title="Send a notification every 24 hours"
         android:key="notification_preference"/>
+
+    <EditTextPreference
+        android:key="dragonname_preference"
+        android:id="@+id/dragonNamePref"
+        android:title="Change Dragon Name"
+        android:summary="Enter new dragon name"
+        android:hint="Dragon Name"
+        android:defaultValue=""/>
 
 </PreferenceScreen>

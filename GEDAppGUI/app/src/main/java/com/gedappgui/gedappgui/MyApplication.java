@@ -43,7 +43,10 @@ public class MyApplication extends Application {
     //object of database class in here as well (getters and setters)
 
     // User's name
-    private String name;
+    private String name = "";
+
+    // Dragon's name
+    private String dragonName = "";
 
     // Whether the use has logged in
     private static boolean loginStatus = false;
@@ -122,13 +125,26 @@ public class MyApplication extends Application {
 
                 }
             }
+            else if (key.equals("dragonname_preference")) {
+                // Change username
+                String newName = prefs.getString("dragonname_preference", "");
+                if (!newName.equals("")) {
+                    setDragonName(newName);
+                }
+            }
         }
     };
 
     public String getName() { return name; }
 
+    public String getDragonName() { return dragonName; }
+
     public void setName(String newName) {
         this.name = newName;
+    }
+
+    public void setDragonName(String newName) {
+        this.dragonName = newName;
     }
 
     public boolean getLoginStatus() {

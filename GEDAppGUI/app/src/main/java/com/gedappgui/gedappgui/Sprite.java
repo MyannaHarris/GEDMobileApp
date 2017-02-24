@@ -136,6 +136,11 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                 // Add accessory to all list
                 if (!accessories.get(i).get(1).equals("5")) {
                     allAccessories.add(accessories.get(i).get(0));
+
+                    // Put accessory on dragon if need be
+                    if (accessories.get(i).get(2).equals("1")) {
+                        addSavedAccessory(accessories.get(i).get(0));
+                    }
                 }
 
                 // Add accessory to specific list
@@ -146,31 +151,15 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                 if (accessories.get(i).get(1).equals("1")) {
                     glasses.add(accessories.get(i).get(0));
 
-                    // Put accessory on dragon if need be
-                    if (accessories.get(i).get(2).equals("1")) {
-                        addSavedAccessory(accessories.get(i).get(0));
-                    }
                 } else if (accessories.get(i).get(1).equals("2")) {
                     hats.add(accessories.get(i).get(0));
 
-                    // Put accessory on dragon if need be
-                    if (accessories.get(i).get(2).equals("1")) {
-                        addSavedAccessory(accessories.get(i).get(0));
-                    }
                 } else if (accessories.get(i).get(1).equals("3")) {
                     shirts.add(accessories.get(i).get(0));
 
-                    // Put accessory on dragon if need be
-                    if (accessories.get(i).get(2).equals("1")) {
-                        addSavedAccessory(accessories.get(i).get(0));
-                    }
                 } else if (accessories.get(i).get(1).equals("4")) {
                     specials.add(accessories.get(i).get(0));
 
-                    // Put accessory on dragon if need be
-                    if (accessories.get(i).get(2).equals("1")) {
-                        addSavedAccessory(accessories.get(i).get(0));
-                    }
                 } else if (accessories.get(i).get(1).equals("5")) {
                     dragons.add(accessories.get(i).get(0));
 
@@ -352,6 +341,11 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         spinner.setSelection(0);
 
         checkAchievements();
+
+        String dragonName = ((MyApplication) this.getApplication()).getDragonName();
+        if (dragonName != null && !dragonName.equals("")) {
+            setTitle(dragonName + "'s Lair");
+        }
     }
 
     /* 
@@ -855,11 +849,11 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
     }
 
     /*
-     * Called from dragon image
+     * Called from left arrow
      * Loops through the different dragon colorings
      */
-    public void changeDragon(View view) {
-        /*if (currDragon == dragons.size() - 1) {
+    public void changeDragonLeft(View view) {
+        if (currDragon == dragons.size() - 1) {
             currDragon = 0;
             addAccessory(dragons.get(currDragon));
         } else {
@@ -867,7 +861,40 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             addAccessory(dragons.get(currDragon));
         }
 
-        checkAchievements();*/
+        checkAchievements();
+    }
+
+    /*
+     * Called from right arrow
+     * Loops through the different dragon colorings
+     */
+    public void changeDragonRight(View view) {
+        if (currDragon == 0) {
+            currDragon = dragons.size() - 1;
+            addAccessory(dragons.get(currDragon));
+        } else {
+            currDragon -= 1;
+            addAccessory(dragons.get(currDragon));
+        }
+
+        checkAchievements();
+    }
+
+    /*
+     * Called from disrobe button
+     * removes all clothing from dragon
+     */
+    public void disrobe(View view) {
+        final ArrayList<ArrayList<String>> accessories = dbHelper.selectAccessories();
+
+        if (accessories != null && accessories.size() > 0) {
+            for (int i = 0; i < accessories.size(); i++) {
+                // Remove all accessories that are on
+                if (!accessories.get(i).get(1).equals("5")) {
+                    addAccessory(accessories.get(i).get(0));
+                }
+            }
+        }
     }
 
     /*
