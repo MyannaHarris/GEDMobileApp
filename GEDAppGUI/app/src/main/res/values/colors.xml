@@ -47,4 +47,5 @@
     <color name="chemistryGameText">#000000</color>
     <color name="spriteAccessoryBG">#313131</color>
     <color name="fractodectext">#b03ffc</color>
+    <color name="colorHint">#55ca7cff</color>
 </resources>

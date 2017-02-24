@@ -30,6 +30,7 @@
         android:title="@string/username_title"
         android:summary="@string/username_summary"
         android:hint="Name"
+        android:textColorHint="@color/colorHint"
         android:defaultValue=""/>
 
     <CheckBoxPreference
@@ -43,6 +44,7 @@
         android:title="Change Dragon Name"
         android:summary="Enter new dragon name"
         android:hint="Dragon Name"
+        android:textColorHint="@color/colorHint"
         android:defaultValue=""/>
 
 </PreferenceScreen>
