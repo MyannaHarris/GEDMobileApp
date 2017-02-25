@@ -69,7 +69,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/sprite_spriteScreen"
         android:id="@+id/sprite_savePhoto"
-        android:layout_width="120dp"
+        android:layout_width="125dp"
+        android:textSize="16sp"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:onClick="savePhoto"/>
 
@@ -78,10 +79,11 @@
         android:layout_marginTop="20dp"
         android:layout_height="wrap_content"
         android:id="@+id/sprite_removeAll"
-        android:layout_width="120dp"
+        android:layout_width="125dp"
         android:layout_below="@id/sprite_spriteScreen"
         android:layout_toRightOf="@id/sprite_savePhoto"
         android:layout_toEndOf="@id/sprite_savePhoto"
+        android:textSize="16sp"
         style="@style/Base.Widget.AppCompat.Button.Borderless"
         android:onClick="disrobe"/>
 
@@ -90,10 +92,11 @@
         android:layout_marginTop="20dp"
         android:layout_height="wrap_content"
         android:id="@+id/sprite_done"
-        android:layout_width="120dp"
+        android:layout_width="125dp"
         android:layout_below="@id/sprite_spriteScreen"
         android:layout_toRightOf="@id/sprite_removeAll"
         android:layout_toEndOf="@id/sprite_removeAll"
+        android:textSize="16sp"
         style="@style/Base.Widget.AppCompat.Button.Borderless"
         android:onClick="done"/>
 

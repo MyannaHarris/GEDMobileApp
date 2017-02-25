@@ -374,7 +374,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         Spinner spinner = (Spinner) findViewById(R.id.accessories_spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.accessories_array, android.R.layout.simple_spinner_item);
+                R.array.accessories_array, R.layout.spinner_larger_text);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
