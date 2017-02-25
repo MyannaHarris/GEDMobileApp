@@ -932,9 +932,12 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
 
         if (accessories != null && accessories.size() > 0) {
             for (int i = 0; i < accessories.size(); i++) {
-                // Remove all accessories that are on
+                // Do NOT remove dragon layer
                 if (!accessories.get(i).get(1).equals("5")) {
-                    addAccessory(accessories.get(i).get(0));
+                    // Remove all accessories that are on
+                    if (accessories.get(i).get(2).equals("1")) {
+                        addAccessory(accessories.get(i).get(0));
+                    }
                 }
             }
         }
