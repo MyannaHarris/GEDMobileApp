@@ -42,6 +42,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -127,6 +128,32 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         // 1 - layer_id
         // 2 - currently_wearing
         dbHelper = new DatabaseHelper(this);
+
+        // Ask for dragon name if this is the first time on this page
+        if(dbHelper.selectDragonName() == null || dbHelper.selectDragonName().equals("")) {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+            alert.setTitle("Please set your dragon's name:");
+
+            // Set an EditText view to get user input
+            final EditText inputText = new EditText(this);
+            alert.setView(inputText);
+
+            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    String lowerName = inputText.getText().toString();
+                    String newName = lowerName.substring(0, 1).toUpperCase() + lowerName.substring(1);
+                    dbHelper.updateDragonName(
+                            newName.substring(0, 1).toUpperCase() + newName.substring(1));
+                    ((MyApplication) Sprite.this.getApplication()).setDragonName(newName);
+                    setTitle(newName + "'s Lair");
+                }
+            });
+
+            AlertDialog dialog = alert.create();
+            dialog.show();
+        }
+
         final ArrayList<ArrayList<String>> accessories = dbHelper.selectAccessories();
 
         // Save what accessories should be displayed

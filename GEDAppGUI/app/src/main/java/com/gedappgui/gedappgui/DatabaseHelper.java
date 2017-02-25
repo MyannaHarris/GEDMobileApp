@@ -237,7 +237,7 @@ public class DatabaseHelper{
     public void insertUser(String username){
         open();
 
-        myDatabase.execSQL("INSERT INTO User VALUES ( 1 , '" + username + "', 1, datetime('NOW'), 'Dragon')");
+        myDatabase.execSQL("INSERT INTO User VALUES ( 1 , '" + username + "', 1, datetime('NOW'), '')");
 
         String insertQuery = "INSERT INTO user_lessons(user_id, lesson_id, datetime_started) VALUES(1,1,date('NOW'))";
         myDatabase.execSQL(insertQuery);

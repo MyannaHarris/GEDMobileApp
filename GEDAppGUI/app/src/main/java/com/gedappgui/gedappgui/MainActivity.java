@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
             //set up the global username
             ((MyApplication) this.getApplication()).setName(db.selectUsername());
 
-            //if the dragon name is changed in settings change it in the DB
+            // Get dragon name from database
             if(!((MyApplication) this.getApplication()).getDragonName().equals(db.selectDragonName())) {
                 ((MyApplication) this.getApplication()).setDragonName(db.selectDragonName());
             }
