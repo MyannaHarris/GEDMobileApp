@@ -121,18 +121,21 @@ public class ChemistryGameView extends RelativeLayout {
             answer1.setId(View.generateViewId());
         }
 
-        relativeLay.setMargins(20, 20, 10, 10);
+        relativeLay.setMargins(10, 10, 10, 10);
         relativeLay.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         relativeLay.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+
         answer1.setLayoutParams(relativeLay);
         answer1.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
         answer1.setHeight((height - 70) / 3);
-        answer1.setWidth((width - 60) / 3);
+        answer1.setWidth((width - 40) / 2);
 
         // Top right textview
         relativeLay = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        relativeLay.setMargins(10, 20, 20, 10);
+        relativeLay.setMargins(10, 10, 10, 10);
+        relativeLay.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        relativeLay.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 
         answer2.setTextSize(convertPixelsToDp(height / 17, context));
         answer2.setTextColor(ContextCompat.getColor(context, R.color.chemistryGameText));
@@ -143,17 +146,17 @@ public class ChemistryGameView extends RelativeLayout {
             answer2.setId(View.generateViewId());
         }
 
-        relativeLay.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-        relativeLay.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         answer2.setLayoutParams(relativeLay);
         answer2.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
         answer2.setHeight((height - 70) / 3);
-        answer2.setWidth((width - 60) / 3);
+        answer2.setWidth((width - 40) / 2);
 
         // Bottom left textview
         relativeLay = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        relativeLay.setMargins(20, 10, 10, 20);
+        relativeLay.setMargins(10, 10, 10, 10);
+        relativeLay.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        relativeLay.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 
         answer3.setTextSize(convertPixelsToDp(height / 17, context));
         answer3.setTextColor(ContextCompat.getColor(context, R.color.chemistryGameText));
@@ -164,17 +167,17 @@ public class ChemistryGameView extends RelativeLayout {
             answer3.setId(View.generateViewId());
         }
 
-        relativeLay.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        relativeLay.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         answer3.setLayoutParams(relativeLay);
         answer3.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
         answer3.setHeight((height - 70) / 3);
-        answer3.setWidth((width - 60) / 3);
+        answer3.setWidth((width - 40) / 2);
 
         // Bottom right textview
         relativeLay = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        relativeLay.setMargins(10, 10, 20, 20);
+        relativeLay.setMargins(10, 10, 10, 10);
+        relativeLay.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        relativeLay.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 
         answer4.setTextSize(convertPixelsToDp(height / 17, context));
         answer4.setTextColor(ContextCompat.getColor(context, R.color.chemistryGameText));
@@ -185,17 +188,16 @@ public class ChemistryGameView extends RelativeLayout {
             answer4.setId(View.generateViewId());
         }
 
-        relativeLay.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        relativeLay.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         answer4.setLayoutParams(relativeLay);
         answer4.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
         answer4.setHeight((height - 70) / 3);
-        answer4.setWidth((width - 60) / 3);
+        answer4.setWidth((width - 40) / 2);
 
         // Cauldron
         relativeLay = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         relativeLay.setMargins(10, 10, 10, 10);
+        relativeLay.addRule(RelativeLayout.CENTER_IN_PARENT);
 
         cauldron.setTextSize(convertPixelsToDp(height / 17, context));
         cauldron.setTextColor(ContextCompat.getColor(context, R.color.chemistryGameText));
@@ -206,11 +208,9 @@ public class ChemistryGameView extends RelativeLayout {
             cauldron.setId(View.generateViewId());
         }
 
-        relativeLay.addRule(RelativeLayout.CENTER_IN_PARENT);
         cauldron.setLayoutParams(relativeLay);
         cauldron.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
         cauldron.setHeight((height - 70) / 3);
-        cauldron.setWidth((width - 40) / 2);
 
         this.setOnTouchListener(new View.OnTouchListener() {
             @Override

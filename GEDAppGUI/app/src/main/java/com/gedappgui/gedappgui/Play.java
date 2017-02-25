@@ -58,11 +58,15 @@ public class Play extends AppCompatActivity {
         lessonIds.add(2);
         lessonIds.add(5);
         lessonIds.add(6);
+        lessonIds.add(4);
+        lessonIds.add(7);
 
         gameNames.add("Bucket Game");
         gameNames.add("Matching Game");
         gameNames.add("Picture Game");
         gameNames.add("Chemistry Game");
+        gameNames.add("Ordering Game");
+        gameNames.add("Madlib Game");
 
         LinearLayout gamesLayout = (LinearLayout) findViewById(R.id.GameLayout);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
