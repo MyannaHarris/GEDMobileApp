@@ -87,12 +87,6 @@ public class ChemistryGameView extends RelativeLayout {
         // Set background color of page
         this.setBackgroundColor(ContextCompat.getColor(context, R.color.chemistryGameBG));
 
-        // Set up current question
-        questionTexts = texts.get(0);
-        answerTexts = texts.get(1);
-        System.out.println(answerTexts);
-        numAnswers = answerTexts.size();
-
         // Create textviews
         answer1 = new TextView(context);
         answer2 = new TextView(context);
@@ -289,6 +283,7 @@ public class ChemistryGameView extends RelativeLayout {
             // Set up current question
             questionTexts = texts.get(currQuestion * 2);
             answerTexts = texts.get(currQuestion * 2 + 1);
+            //System.out.println(answerTexts);
             numAnswers = answerTexts.size();
             numCorrectAnswers = 0;
 
