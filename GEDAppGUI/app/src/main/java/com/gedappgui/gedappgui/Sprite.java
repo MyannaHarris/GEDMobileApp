@@ -131,22 +131,38 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
 
         // Ask for dragon name if this is the first time on this page
         if(dbHelper.selectDragonName() == null || dbHelper.selectDragonName().equals("")) {
-            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            AlertDialog.Builder alert = new AlertDialog.Builder(this, R.style.AlertDialogAppearance);
 
             alert.setTitle("Please set your dragon's name:");
 
             // Set an EditText view to get user input
             final EditText inputText = new EditText(this);
+            inputText.setHint("Dragon name");
+            inputText.setHintTextColor(ContextCompat.getColor(this, R.color.colorHint));
             alert.setView(inputText);
 
             alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     String lowerName = inputText.getText().toString();
-                    String newName = lowerName.substring(0, 1).toUpperCase() + lowerName.substring(1);
-                    dbHelper.updateDragonName(
-                            newName.substring(0, 1).toUpperCase() + newName.substring(1));
-                    ((MyApplication) Sprite.this.getApplication()).setDragonName(newName);
-                    setTitle(newName + "'s Lair");
+                    String newName;
+                    if (!lowerName.equals("") && lowerName.length() > 0) {
+                        if (lowerName.length() < 2) {
+                            newName = lowerName.substring(0, 1).toUpperCase();
+                            dbHelper.updateDragonName(newName);
+                            ((MyApplication) Sprite.this.getApplication()).setDragonName(newName);
+                            setTitle(newName + "'s Lair");
+                        } else {
+                            newName = lowerName.substring(0, 1).toUpperCase() + lowerName.substring(1);
+                            dbHelper.updateDragonName(newName);
+                            ((MyApplication) Sprite.this.getApplication()).setDragonName(newName);
+                            setTitle(newName + "'s Lair");
+                        }
+                    } else {
+                        newName = "Unknown";
+                        dbHelper.updateDragonName(newName);
+                        ((MyApplication) Sprite.this.getApplication()).setDragonName(newName);
+                        setTitle(newName + "'s Lair");
+                    }
                 }
             });
 
