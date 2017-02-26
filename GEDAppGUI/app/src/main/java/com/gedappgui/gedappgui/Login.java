@@ -163,11 +163,20 @@ public class Login extends AppCompatActivity {
 
         EditText username = (EditText)findViewById(R.id.username_editText);
 
+        String newName = username.getText().toString();
+
         //sets the global username to the new name
-        ((MyApplication) this.getApplication()).setName(username.getText().toString());
+        if (newName == null || newName.length() < 1) {
+            newName = "";
+        } else if (newName.length() < 2) {
+            newName = newName.substring(0, 1).toUpperCase();
+        } else {
+            newName = newName.substring(0, 1).toUpperCase() + newName.substring(1);
+        }
+        ((MyApplication) this.getApplication()).setName(newName);
 
         //Inserting the user information in the user table and setting the username in the database
-        db.insertUser(username.getText().toString());
+        db.insertUser(newName);
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK |

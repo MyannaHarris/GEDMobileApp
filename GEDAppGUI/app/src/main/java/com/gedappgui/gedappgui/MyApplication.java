@@ -81,11 +81,21 @@ public class MyApplication extends Application {
             if (key.equals("username_preference")) {
                 // Change username
                 String newName = prefs.getString("username_preference", "");
-                if (!newName.equals("")) {
-                    setName(newName);
+                if (!newName.equals("") && newName.length() > 0) {
+                    if (newName.length() < 2) {
+                        setName(newName.substring(0, 1).toUpperCase());
 
-                    if (dbHelper != null) {
-                        dbHelper.updateUsername(newName);
+                        if (dbHelper != null) {
+                            dbHelper.updateUsername(
+                                    newName.substring(0, 1).toUpperCase());
+                        }
+                    } else {
+                        setName(newName.substring(0, 1).toUpperCase() + newName.substring(1));
+
+                        if (dbHelper != null) {
+                            dbHelper.updateUsername(
+                                    newName.substring(0, 1).toUpperCase() + newName.substring(1));
+                        }
                     }
 
                     SharedPreferences.Editor editor = prefs.edit();
