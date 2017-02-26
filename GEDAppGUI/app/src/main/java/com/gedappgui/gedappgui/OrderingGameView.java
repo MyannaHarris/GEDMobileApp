@@ -26,7 +26,6 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -123,14 +122,14 @@ public class OrderingGameView extends LinearLayout {
         topLabel.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
         topLabel.setTextColor(ContextCompat.getColor(context, R.color.orderingGameText));
         topLabel.setTextSize(convertPixelsToDp(height / 17, context));
-        topLabel.setBackgroundColor(Color.BLUE);
+        topLabel.setBackgroundColor(ContextCompat.getColor(context, R.color.orderingGameTopColor));
 
         // Set up bottomLabel
         bottomLabel.setLayoutParams(linearParams);
         bottomLabel.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
         bottomLabel.setTextColor(ContextCompat.getColor(context, R.color.orderingGameText));
         bottomLabel.setTextSize(convertPixelsToDp(height / 17, context));
-        bottomLabel.setBackgroundColor(Color.CYAN);
+        bottomLabel.setBackgroundColor(ContextCompat.getColor(context, R.color.orderingGameBottomColor));
 
         // Set up the current question
         setUp();
@@ -285,7 +284,7 @@ public class OrderingGameView extends LinearLayout {
                 newTextView.setHeight((height - (30 + 10 * answerTexts.size())) / (answerTexts.size() + 2));
                 newTextView.setTextColor(ContextCompat.getColor(context, R.color.orderingGameText));
                 newTextView.setTextSize(convertPixelsToDp(height / 17, context));
-                newTextView.setBackgroundColor(Color.RED);
+                newTextView.setBackgroundColor(ContextCompat.getColor(context, R.color.orderingGameMiddleColor));
 
                 items.add(newTextView);
             }
