@@ -30,14 +30,10 @@
         android:title="@string/username_title"
         android:summary="@string/username_summary"
         android:hint="Name"
+        android:textColor="@color/colorAccent"
         android:maxLength="10"
         android:textColorHint="@color/colorHint"
         android:defaultValue=""/>
-
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:title="Send a notification every 24 hours"
-        android:key="notification_preference"/>
 
     <EditTextPreference
         android:key="dragonname_preference"
@@ -45,8 +41,14 @@
         android:title="Change Dragon Name"
         android:summary="Enter new dragon name"
         android:hint="Dragon Name"
+        android:textColor="@color/colorAccent"
         android:textColorHint="@color/colorHint"
         android:maxLength="7"
         android:defaultValue=""/>
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:title="Send a notification every 24 hours"
+        android:key="notification_preference"/>
 
 </PreferenceScreen>

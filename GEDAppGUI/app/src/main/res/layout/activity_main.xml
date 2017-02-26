@@ -54,7 +54,7 @@
 
             android:src="@drawable/layers"
             android:contentDescription="@string/sprite"
-            android:onClick="gotToSprite"/>
+            android:onClick="goToSprite"/>
 
         <TextView
             android:layout_width="0dp"
@@ -112,7 +112,7 @@
 
             android:id="@+id/continue_button"
             android:text="@string/continue_lesson"
-            android:onClick="gotToContinueLesson" />
+            android:onClick="goToContinueLesson" />
 
         <Button
             android:layout_width="0dp"
@@ -124,7 +124,7 @@
 
             android:id="@+id/learn_button"
             android:text="@string/learn"
-            android:onClick="gotToLearn"/>
+            android:onClick="goToLearn"/>
 
         <Button
             android:layout_width="0dp"
@@ -136,7 +136,7 @@
 
             android:id="@+id/achievements_button"
             android:text="@string/achievements"
-            android:onClick="gotToAchievements"/>
+            android:onClick="goToAchievements"/>
 
         <Button
             android:layout_width="0dp"
@@ -148,7 +148,7 @@
 
             android:id="@+id/play_button"
             android:text="@string/play"
-            android:onClick="gotToPlay"/>
+            android:onClick="goToPlay"/>
 
         <Button
             android:layout_width="0dp"
@@ -160,7 +160,7 @@
 
             android:id="@+id/tools_button"
             android:text="@string/tools"
-            android:onClick="gotToTools"/>
+            android:onClick="goToTools"/>
 
         <Button
             android:layout_width="0dp"
@@ -172,7 +172,7 @@
 
             android:id="@+id/settings_button"
             android:text="@string/settings"
-            android:onClick="gotToSettings" />
+            android:onClick="goToSettings" />
 
     </android.support.v7.widget.GridLayout>
 

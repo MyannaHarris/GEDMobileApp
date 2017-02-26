@@ -317,7 +317,7 @@ public class MainActivity extends AppCompatActivity {
      * Opens Sprite view when button is clicked
      * Called when the user clicks the Sprite
      */
-    public void gotToSprite(View view) {
+    public void goToSprite(View view) {
         Intent intent = new Intent(this, Sprite.class);
         startActivity(intent);
     }
@@ -326,7 +326,7 @@ public class MainActivity extends AppCompatActivity {
      * Opens Learn (Concepts) view when button is clicked
      * Called when the user clicks the Learn button
      */
-    public void gotToLearn(View view) {
+    public void goToLearn(View view) {
         Intent intent = new Intent(this, LearnConcepts.class);
         startActivity(intent);
     }
@@ -335,7 +335,7 @@ public class MainActivity extends AppCompatActivity {
      * Opens Play (Games) view when button is clicked
      * Called when the user clicks the Play button
      */
-    public void gotToPlay(View view) {
+    public void goToPlay(View view) {
         Intent intent = new Intent(this, Play.class);
         startActivity(intent);
     }
@@ -344,7 +344,7 @@ public class MainActivity extends AppCompatActivity {
      * Opens Achievements view when button is clicked
      * Called when the user clicks the Achievements button
      */
-    public void gotToAchievements(View view) {
+    public void goToAchievements(View view) {
         Intent intent = new Intent(this, Achievements.class);
         startActivity(intent);
     }
@@ -354,7 +354,7 @@ public class MainActivity extends AppCompatActivity {
      * Opens Tools view when button is clicked
      * Called when the user clicks the Tools button
      */
-    public void gotToTools(View view) {
+    public void goToTools(View view) {
         Intent intent = new Intent(this, Tools.class);
         startActivity(intent);
     }
@@ -363,7 +363,7 @@ public class MainActivity extends AppCompatActivity {
      * Opens Settings view when button is clicked
      * Called when the user clicks the Settings button
      */
-    public void gotToSettings(View view) {
+    public void goToSettings(View view) {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
@@ -372,16 +372,16 @@ public class MainActivity extends AppCompatActivity {
      * Opens Tutorial view when button is clicked
      * Called when the user clicks the Tutorial button
      */
-    public void gotToTutorial(View view) {
+    /*public void goToTutorial(View view) {
         Intent intent = new Intent(this, Tutorial.class);
         startActivity(intent);
-    }
+    }*/
 
     /*
      * Opens Lesson Summary view when button is clicked
      * Called when the user clicks the Continue Lesson button
      */
-    public void gotToContinueLesson(View view) {
+    public void goToContinueLesson(View view) {
         Intent intentSummary = new Intent(MainActivity.this, LessonSummary.class);
 
         final int lessonID = db.selectCurrentLessonID();

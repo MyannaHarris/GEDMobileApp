@@ -896,11 +896,11 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
      * Loops through the different dragon colorings
      */
     public void changeDragonLeft(View view) {
-        if (currDragon == dragons.size() - 1) {
-            currDragon = 0;
+        if (currDragon == 0) {
+            currDragon = dragons.size() - 1;
             addAccessory(dragons.get(currDragon));
         } else {
-            currDragon += 1;
+            currDragon -= 1;
             addAccessory(dragons.get(currDragon));
         }
 
@@ -912,11 +912,11 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
      * Loops through the different dragon colorings
      */
     public void changeDragonRight(View view) {
-        if (currDragon == 0) {
-            currDragon = dragons.size() - 1;
+        if (currDragon == dragons.size() - 1) {
+            currDragon = 0;
             addAccessory(dragons.get(currDragon));
         } else {
-            currDragon -= 1;
+            currDragon += 1;
             addAccessory(dragons.get(currDragon));
         }
 

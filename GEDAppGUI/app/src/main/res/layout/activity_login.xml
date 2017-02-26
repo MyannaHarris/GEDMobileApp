@@ -54,6 +54,7 @@
         android:maxLines="1"
         android:inputType="text"
         android:textColor="@color/colorBodyText"
+        android:textColorHint="@color/colorHint"
         android:maxLength="10"/>
 
     <Button
