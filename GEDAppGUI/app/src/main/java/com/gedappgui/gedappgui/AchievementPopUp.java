@@ -20,15 +20,16 @@ package com.gedappgui.gedappgui;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.util.DisplayMetrics;
 import android.content.Intent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Button;
+import android.view.MotionEvent;
 import android.util.TypedValue;
 
 import java.io.IOException;
@@ -49,7 +50,7 @@ public class AchievementPopUp extends AppCompatActivity {
 
         //only executes the pop up if the achievement hasn't been earned yet
         if(!db.achievementExists(achievementID)) {
-            setContentView(R.layout.activity_pop_up_info);
+            setContentView(R.layout.activity_pop_up);
 
             String desc = db.selectAchievementDesc(achievementID);
             String img = db.selectAchievementImg(achievementID);
@@ -101,7 +102,6 @@ public class AchievementPopUp extends AppCompatActivity {
         lesson_imageView.setLayoutParams(layoutParams);
         Bitmap achievementImg = getFromAssets(img);
         lesson_imageView.setImageBitmap(achievementImg);
-        //lesson_imageView.setImageResource(R.drawable.welcome);
 
     }
 
@@ -127,11 +127,51 @@ public class AchievementPopUp extends AppCompatActivity {
         return bitmap;
     }
 
+    /*
+     * hides bottom navigation bar
+     * Called after onCreate on first creation
+     * Called every time this activity gets the focus
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (Build.VERSION.SDK_INT >= 19) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            //View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            //| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            //| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
+    }
+
+    /* 
+     * Shows and hides the bottom navigation bar when user swipes at it on screen
+     * Called when the focus of the window changes to this activity
+     */
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus && Build.VERSION.SDK_INT >= 19) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            //View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            //| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            //| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
+    }
+
     /**
      * exits the activity and returns to the previous where this activity was called
-     * @param view the view of the activity
+     * when the user clicks anywhere
+     * @param event the event the user creates
      */
-    public void exitPopUp(View view) {
-        finish();
+    public boolean dispatchTouchEvent(MotionEvent event)
+    {
+        this.finish();
+        return false;
     }
 }
