@@ -115,7 +115,7 @@ public class OrderingGameView extends LinearLayout {
         // Layout variable to set layout of textviews
         linearParams = new LinearLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        linearParams.setMargins(10, 5, 10, 5);
+        linearParams.setMargins(10, 2, 10, 3);
 
         // Set up topLabel
         topLabel.setLayoutParams(linearParams);
