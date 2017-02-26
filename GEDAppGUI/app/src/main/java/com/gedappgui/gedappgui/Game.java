@@ -44,6 +44,7 @@ public class Game extends AppCompatActivity {
     private MatchGameView matchGameView;
     private PictureGameView pictureGameView;
     private ChemistryGameView chemistryGameView;
+    private OrderingGameView orderingGameView;
 
     // Database
     private DatabaseHelper dbHelper;
@@ -111,12 +112,50 @@ public class Game extends AppCompatActivity {
             chemistryGameView = new ChemistryGameView(this, texts, conceptID,
                     lessonID, nextActivity, width, height);
             setContentView(chemistryGameView);
-        }
-        else if (lessonID == 5){
+        } else if (lessonID == 5){
             pictureGameView = new PictureGameView(this,conceptID,lessonID,nextActivity);
             setContentView(pictureGameView);
-        }
-        else{
+        } else if (dbHelper.selectGameTemplate(lessonID).equals("order_game")) {
+            //ArrayList<ArrayList<String>> texts = dbHelper.selectChemistryGameInput(lessonID);
+
+            ArrayList<ArrayList<String>> gameQuestions = new ArrayList<ArrayList<String>>();
+
+            ArrayList<String> texts = new ArrayList<String>();
+            texts.add("Least");
+            texts.add("Greatest");
+            texts.add("5");
+            texts.add("10");
+            texts.add("3");
+            texts.add("1");
+            texts.add("7");
+            ArrayList<String> answers = new ArrayList<String>();
+            answers.add("1");
+            answers.add("3");
+            answers.add("5");
+            answers.add("7");
+            answers.add("10");
+
+            gameQuestions.add(texts);
+            gameQuestions.add(answers);
+
+            texts = new ArrayList<String>();
+            texts.add("Greatest");
+            texts.add("Least");
+            texts.add("3");
+            texts.add("4");
+            texts.add("1");
+            answers = new ArrayList<String>();
+            answers.add("4");
+            answers.add("3");
+            answers.add("1");
+
+            gameQuestions.add(texts);
+            gameQuestions.add(answers);
+
+            orderingGameView = new OrderingGameView(this, gameQuestions, conceptID,
+                    lessonID, nextActivity, width, height);
+            setContentView(orderingGameView);
+        } else{
             ArrayList<ArrayList<String>> gameQuestions = new ArrayList<ArrayList<String>>();
 
             ArrayList<String> texts = new ArrayList<String>();

@@ -48,4 +48,6 @@
     <color name="spriteAccessoryBG">#313131</color>
     <color name="fractodectext">#b03ffc</color>
     <color name="colorHint">#55ca7cff</color>
+    <color name="orderingGameBG">#ceaee6</color>
+    <color name="orderingGameText">#000000</color>
 </resources>

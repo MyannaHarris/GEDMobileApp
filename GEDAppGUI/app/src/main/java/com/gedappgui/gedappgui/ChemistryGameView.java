@@ -20,6 +20,7 @@ package com.gedappgui.gedappgui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -253,8 +254,14 @@ public class ChemistryGameView extends RelativeLayout {
 
                                     numCorrectAnswers += 1;
                                     if (numCorrectAnswers == numAnswers) {
-                                        currQuestion += 1;
-                                        setUp();
+                                        // Pause
+                                        new Handler().postDelayed(new Runnable() {
+                                            public void run() {
+                                                // Start next question
+                                                currQuestion += 1;
+                                                setUp();
+                                            }
+                                        }, 500);
                                     }
                                 }
                             }
