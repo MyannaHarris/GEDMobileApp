@@ -33,6 +33,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -139,6 +140,10 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             final EditText inputText = new EditText(this);
             inputText.setHint("Dragon name");
             inputText.setHintTextColor(ContextCompat.getColor(this, R.color.colorHint));
+            inputText.setFilters(new InputFilter[] {
+                    new InputFilter.LengthFilter(10)
+            });
+
             alert.setView(inputText);
 
             alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
