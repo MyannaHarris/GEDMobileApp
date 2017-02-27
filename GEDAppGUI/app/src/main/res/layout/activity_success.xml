@@ -27,6 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/congratulations"
         android:layout_centerHorizontal="true"
+        android:textAlignment="center"
         android:layout_marginTop="60dp"
         android:id="@+id/accessory_choice"
         android:textSize="18sp" />
@@ -72,5 +73,16 @@
         android:numColumns="3"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/accessory_choice"></android.support.v7.widget.GridLayout>
+
+    <TextView
+        android:id="@+id/pick_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/accessory_options"
+        android:text="@string/pick"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        android:layout_marginTop="20dp"
+        android:textSize="18sp"/>
 
 </RelativeLayout>

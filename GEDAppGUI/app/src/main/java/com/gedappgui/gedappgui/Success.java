@@ -39,6 +39,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -86,6 +88,8 @@ public class Success extends AppCompatActivity {
                 accessories.add(ids.get(i)); // accessory id
                 accessories.add(accessoryMap.get(ids.get(i))); // accessory image
             }
+            TextView helperText = (TextView) findViewById(R.id.pick_location);
+            helperText.setText("Once you decide what accessory you want, choose where you\'d like to go next!");
 
             checkAchievements(totalQuestions, totalCorrect);
         }
