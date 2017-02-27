@@ -269,7 +269,7 @@ public class MatchGameView extends LinearLayout{
                             }
 
                             try {
-                                Thread.sleep(300);
+                                Thread.sleep(400);
                             } catch (InterruptedException e) {
                             }
                         }
@@ -401,7 +401,7 @@ public class MatchGameView extends LinearLayout{
                                 }
 
                                 try {
-                                    Thread.sleep(300);
+                                    Thread.sleep(400);
                                 } catch (InterruptedException e) {
                                 }
                             }
