@@ -20,6 +20,7 @@
 
 package com.gedappgui.gedappgui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Build;
@@ -103,7 +104,9 @@ public class Game extends AppCompatActivity {
             answers.add(1);
             answers.add(2);
 
-            matchGameView = new MatchGameView(this, texts, answers, conceptID,
+            Activity activity = (Activity)this;
+
+            matchGameView = new MatchGameView(this, activity, texts, answers, conceptID,
                     lessonID, nextActivity, width, height);
             setContentView(matchGameView);
         } else if (dbHelper.selectGameTemplate(lessonID).equals("chemistry_game")) {

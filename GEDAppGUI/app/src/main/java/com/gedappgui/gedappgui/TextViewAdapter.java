@@ -41,17 +41,20 @@ public class TextViewAdapter extends BaseAdapter {
     // Size of screen
     private int width;
     private int height;
+    private int statusBarHeight;
 
     /*
      * Constructor
      * Gets the context and image ids so they can be used later
      */
-    public TextViewAdapter(Context c, String[] textsp, int widthp, int heightp) {
+    public TextViewAdapter(Context c, String[] textsp, int widthp, int heightp,
+                           int statusBarHeightp) {
 
         mContext = c;
         texts = textsp;
         width = widthp;
         height = heightp;
+        statusBarHeight = statusBarHeightp;
     }
 
 
@@ -108,7 +111,7 @@ public class TextViewAdapter extends BaseAdapter {
                         R.drawable.match_game_unselected));
             }
 
-            textView.setHeight(height / (texts.length / 2) - 20);
+            textView.setHeight((height - statusBarHeight - 15) / (texts.length / 2) - 20);
             textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
             textView.setTextColor(ContextCompat.getColor(mContext, R.color.matchGameText));
             textView.setPadding(8, 8, 8, 8);

@@ -17,14 +17,17 @@
 
 package com.gedappgui.gedappgui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -70,7 +73,8 @@ public class MatchGameView extends LinearLayout{
     /*
      * Constructor
      */
-    public MatchGameView(Context contextp, ArrayList<String> textsp, final ArrayList<Integer> answersp,
+    public MatchGameView(Context contextp, Activity activity,
+                         ArrayList<String> textsp, final ArrayList<Integer> answersp,
                          int conceptIDp, int lessonIDp, int nextActivityp,
                          int width, int height) {
         super(contextp);
@@ -90,10 +94,16 @@ public class MatchGameView extends LinearLayout{
         texts = textsp;
         answers = answersp;
 
+        // Get status bar height to deal with on phones that have the status bar showing
+        Rect rectangle = new Rect();
+        Window window = activity.getWindow();
+        window.getDecorView().getWindowVisibleDisplayFrame(rectangle);
+        int statusBarHeight = rectangle.top;
+
         // Fill gridview with texts
         gridview = new GridView(context);
         gridview.setAdapter(new TextViewAdapter(context, texts.toArray(new String[texts.size()]),
-                width, height));
+                width, height, statusBarHeight));
 
         // Set other gridview formatting
         gridview.setNumColumns(2);
@@ -104,7 +114,7 @@ public class MatchGameView extends LinearLayout{
 
         // Add margins around gridview
         LinearLayout.LayoutParams linearLayout = new LinearLayout.LayoutParams(
-                LayoutParams.MATCH_PARENT, height);
+                LayoutParams.MATCH_PARENT, height - statusBarHeight);
         linearLayout.setMargins(10, 5, 10, 10);
         gridview.setLayoutParams(linearLayout);
 
@@ -123,11 +133,12 @@ public class MatchGameView extends LinearLayout{
                                 (int)event.getY());
                         TextView vw = (TextView) gridview.getChildAt(position);
 
-                        if (vw != null) {
+                        if (vw != null && vw.getText() != null && !vw.getText().equals("")) {
                             start = vw;
                         }
 
-                        if (vw != null && newMatch && secondChoiceDone) {
+                        if (vw != null  && vw.getText() != null && !vw.getText().equals("")
+                                && newMatch && secondChoiceDone) {
                             // If this is the first card selected, save it
 
                             choice1TextView = (TextView)vw;
@@ -149,7 +160,10 @@ public class MatchGameView extends LinearLayout{
                                 Thread.sleep(300);
                             } catch (InterruptedException e) {
                             }
-                        }  else if (vw != null && secondChoiceDone) {
+                        }  else if (vw != null  && vw.getText() != null && !vw.getText().equals("")
+                                && secondChoiceDone &&
+                                choice1TextView.getText() != null &&
+                                !choice1TextView.getText().equals("")) {
                             // If this is the second card selected, check answer
 
                             choice2TextView = (TextView) vw;
@@ -222,6 +236,10 @@ public class MatchGameView extends LinearLayout{
                                                         context.startActivity(intent);
                                                     }
 
+                                                    choice1TextView = new TextView(context);
+                                                    choice2TextView = new TextView(context);
+                                                    start = new TextView(context);
+
                                                     newMatch = true;
                                                     secondChoiceDone = true;
                                                 }
@@ -259,6 +277,10 @@ public class MatchGameView extends LinearLayout{
                                                                 R.drawable.match_game_unselected));
                                                     }
 
+                                                    choice1TextView = new TextView(context);
+                                                    choice2TextView = new TextView(context);
+                                                    start = new TextView(context);
+
                                                     newMatch = true;
                                                     secondChoiceDone = true;
                                                 }
@@ -279,7 +301,10 @@ public class MatchGameView extends LinearLayout{
                                 (int)event.getY());
                         TextView v = (TextView) gridview.getChildAt(position);
 
-                        if (start != v) {
+                        if (start != v  && choice1TextView.getText() != null &&
+                                !choice1TextView.getText().equals("") &&
+                                start.getText() != null && !start.getText().equals("") &&
+                                v.getText() != null && !v.getText().equals("")) {
 
                             if (v != null && secondChoiceDone) {
                                 // If this is the second card selected, check answer
@@ -354,6 +379,10 @@ public class MatchGameView extends LinearLayout{
                                                             context.startActivity(intent);
                                                         }
 
+                                                        choice1TextView = new TextView(context);
+                                                        choice2TextView = new TextView(context);
+                                                        start = new TextView(context);
+
                                                         newMatch = true;
                                                         secondChoiceDone = true;
                                                     }
@@ -390,6 +419,10 @@ public class MatchGameView extends LinearLayout{
                                                             choice1TextView.setBackground(ContextCompat.getDrawable(context,
                                                                     R.drawable.match_game_unselected));
                                                         }
+
+                                                        choice1TextView = new TextView(context);
+                                                        choice2TextView = new TextView(context);
+                                                        start = new TextView(context);
 
                                                         newMatch = true;
                                                         secondChoiceDone = true;
