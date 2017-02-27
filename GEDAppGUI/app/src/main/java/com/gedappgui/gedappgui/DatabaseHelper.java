@@ -1047,7 +1047,7 @@ public class DatabaseHelper{
         String[] options = input.split("[;]");
 
         for (int i = 0; i < 5; i++) {
-            int randIdx = ( int )(Math.random() * (20-i) + 1);
+            int randIdx = ( int )(Math.random() * (20-i));
             splitUp = new ArrayList<String>(Arrays.asList(options[randIdx].split("[&]")));
             randQAndAs.add(new ArrayList<String>(splitUp.subList(0,5)));
             randQAndAs.add(new ArrayList<String>(splitUp.subList(5,7)));
