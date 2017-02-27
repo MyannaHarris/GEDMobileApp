@@ -301,9 +301,11 @@ public class MatchGameView extends LinearLayout{
                                 (int)event.getY());
                         TextView v = (TextView) gridview.getChildAt(position);
 
-                        if (start != v  && choice1TextView.getText() != null &&
+                        if (start != null && start != v  && choice1TextView != null &&
+                                choice1TextView.getText() != null &&
                                 !choice1TextView.getText().equals("") &&
                                 start.getText() != null && !start.getText().equals("") &&
+                                v != null &&
                                 v.getText() != null && !v.getText().equals("")) {
 
                             if (v != null && secondChoiceDone) {
