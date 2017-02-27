@@ -14,4 +14,5 @@
     <item name ="madlibGameNoun" type="id"/>
     <item name ="madlibGameNn" type="id"/>
     <item name ="madlibGameSentence" type="id"/>
+    <item name ="madlibGameSubmit" type="id"/>
 </resources>

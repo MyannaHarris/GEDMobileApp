@@ -117,16 +117,17 @@ public class Game extends AppCompatActivity {
             chemistryGameView = new ChemistryGameView(this, texts, conceptID,
                     lessonID, nextActivity, width, height);
             setContentView(chemistryGameView);
-       /* }else if (dbHelper.selectGameTemplate(lessonID).equals("madlib_game")){
+        }else if (dbHelper.selectGameTemplate(lessonID).equals("madlib_game")){
             ArrayList<ArrayList<String>> texts = new ArrayList<ArrayList<String>>();
             madlibGameView = new MadlibGameView(this, conceptID, lessonID,
                     nextActivity, width, height);
             ScrollView scroll = new ScrollView(this);
+            madlibGameView.setFocusableInTouchMode(true);
             scroll.addView(madlibGameView);
 
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-            setContentView(scroll);*/
+            setContentView(scroll);
         } else if (dbHelper.selectGameTemplate(lessonID).equals("picture_game")){
             String pass_string = dbHelper.selectPicGameInput(lessonID);
             pictureGameView = new PictureGameView(this,conceptID,lessonID,nextActivity,pass_string);
