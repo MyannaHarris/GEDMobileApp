@@ -740,6 +740,39 @@ public class DatabaseHelper{
     }
 
     /**
+     * Query to select all questions for a given lesson
+     * @param lesson_id id of the lesson
+     * @return all questions in a random order, grouped by difficulty
+     */
+    public ArrayList<ArrayList<ArrayList<String>>> getAllQuestions(int lesson_id) {
+        open();
+
+        ArrayList<ArrayList<ArrayList<String>>> allQs = new ArrayList<>();
+        for (int i = 1; i < 4; i++) {
+            ArrayList<ArrayList<String>> someQs = new ArrayList<>();
+            Cursor c = myDatabase.rawQuery("SELECT question_text, numbers, answer_1, answer_2, answer_3" +
+                    ", answer_4, correct_answer FROM Answers JOIN question_template ON " +
+                    "Answers.question_id=question_template.question_id WHERE question_template.lesson_id=" +
+                    lesson_id + " AND difficulty=" + i + " ORDER BY RANDOM()", null);
+
+            while (c.moveToNext()) {
+
+                ArrayList<String> oneQ = new ArrayList<>();
+                for (int j = 0; j < 7; j++) {
+                    oneQ.add(c.getString(j));
+                }
+                someQs.add(oneQ);
+            }
+
+            c.close();
+            allQs.add(someQs);
+        }
+
+        close();
+        return allQs;
+    }
+
+    /**
      * Query to select a random question text given the lesson and the difficulty
      * @param lesson_id id of the lesson
      * @param difficulty the difficulty of the question

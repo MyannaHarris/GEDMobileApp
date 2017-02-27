@@ -49,6 +49,7 @@ public class Question extends AppCompatActivity {
     private int conceptID;
     private int redo;
     private ArrayList<String> questionText;
+    private ArrayList<ArrayList<ArrayList<String>>> allQuestions;
 
     /*
      * Starts the activity and shows corresponding view on screen
@@ -65,13 +66,14 @@ public class Question extends AppCompatActivity {
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-        // Get question group info
+        // Get all questions
         dbHelper = new DatabaseHelper(this);
-        questionText = dbHelper.selectQuestionText(lessonID, currentLevel);
+        allQuestions = dbHelper.getAllQuestions(lessonID);
 
 
         // Put new question text up
         String question = "";
+        questionText = allQuestions.get(currentLevel-1).get(0);
         String[] template = questionText.get(0).split("%NUM%");
         String[] text =  questionText.get(1).split(";");
         int j=0;
@@ -101,6 +103,7 @@ public class Question extends AppCompatActivity {
 
         // Save what the new correct answer should be
         correctAnswerStr = questionText.get(6);
+        allQuestions.get(currentLevel-1).remove(0);
     }
 
     /*
@@ -262,7 +265,10 @@ public class Question extends AppCompatActivity {
             }
 
             // get new question
-            questionText = dbHelper.selectQuestionText(lessonID, currentLevel);
+            if (allQuestions.get(currentLevel-1).size() < 1) {
+                allQuestions = dbHelper.getAllQuestions(lessonID);
+            }
+            questionText = allQuestions.get(currentLevel-1).get(0);
 
             // Put new question text up
             String question = "";
@@ -297,6 +303,7 @@ public class Question extends AppCompatActivity {
 
             submitButton.setText("Submit");
 
+            allQuestions.get(currentLevel-1).remove(0);
 
         }
     }
