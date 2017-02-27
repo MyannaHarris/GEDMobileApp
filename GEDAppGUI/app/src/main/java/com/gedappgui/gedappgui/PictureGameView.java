@@ -20,6 +20,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -47,21 +49,41 @@ public class PictureGameView extends LinearLayout {
             "TRUE",
             "FALSE"
     };
-    private String splits = "|-4| - 2 = 2,t,|-2| = 3,f,|4| - |-4| = 4,f,-5 + |20| = 15,t," +
-            "-|-3| + 1 = -2,t,|-10| - |-11| = -1,t,|-19| + |-4| = -25,f,|-7| * 5 = 35,t," +
-            "|3| * -|-6| = 18,f,|-10| / -2 = -5,t";
-    private int[] abs_pics = {
+    private String splits;
+    private int[] L5_pics = {
             R.drawable.lesson5game_0,
             R.drawable.lesson5game_1,
             R.drawable.lesson5game_2,
             R.drawable.lesson5game_3,
             R.drawable.lesson5game_4,
             R.drawable.lesson5game_5
-
-
+    };
+    private int[] L12_pics = {
+            R.drawable.lesson12game_0,
+            R.drawable.lesson12game_1,
+            R.drawable.lesson12game_2,
+            R.drawable.lesson12game_3,
+            R.drawable.lesson12game_4,
+            R.drawable.lesson12game_5
+    };
+    private int[] L16_pics = {
+            R.drawable.lesson16game_0,
+            R.drawable.lesson16game_1,
+            R.drawable.lesson16game_2,
+            R.drawable.lesson16game_3,
+            R.drawable.lesson16game_4,
+            R.drawable.lesson16game_5
+    };
+    private int[] L19_pics = {
+            R.drawable.lesson19game_0,
+            R.drawable.lesson19game_1,
+            R.drawable.lesson19game_2,
+            R.drawable.lesson19game_3,
+            R.drawable.lesson19game_4,
+            R.drawable.lesson19game_5
     };
 
-    public PictureGameView(Context contextp, int conceptIDp, int lessonIDp, int nextActivityp){
+    public PictureGameView(Context contextp, int conceptIDp, int lessonIDp, int nextActivityp, String passer){
         super(contextp);
 
         conceptid = conceptIDp;
@@ -72,11 +94,9 @@ public class PictureGameView extends LinearLayout {
         statement = new TextView(context);
         result = new TextView(context);
         int[] pass_pics;
+        splits = passer;
 
-        //determines initial picture based on lessonid
-        if (true){
-            pass_pics = abs_pics;
-        }
+
         //Change layout to vertical view
         this.setOrientation(LinearLayout.VERTICAL);
         this.setLayoutParams(new LayoutParams( LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
@@ -86,6 +106,7 @@ public class PictureGameView extends LinearLayout {
                 LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(10, 80, 10, 80);
         statement.setLayoutParams(layoutParams);
+        //statement.setPadding(0,0,0,0);
 
         LinearLayout.LayoutParams linearLayout = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -93,7 +114,7 @@ public class PictureGameView extends LinearLayout {
 
         String[] init = splits.split(",");
 
-        statement.setText(init[0]);
+        statement.setText(toHTML(init[0]));
         statement.setTextSize(20);
         statement.setTextColor(Color.WHITE);
         statement.setGravity(Gravity.CENTER);
@@ -101,8 +122,23 @@ public class PictureGameView extends LinearLayout {
         this.addView(statement);
 
         changer = new ImageView(context);
-        if (lessonid == 5) {
+        //determines initial picture based on lessonid
+        if (lessonid == 5){
+            pass_pics = L5_pics;
             changer.setImageResource(R.drawable.lesson5game_0);
+        }
+        else if (lessonid == 12){
+            pass_pics = L12_pics;
+            changer.setImageResource(R.drawable.lesson12game_0);
+        }
+        else if (lessonid == 16){
+            pass_pics = L16_pics;
+            changer.setImageResource(R.drawable.lesson16game_0);
+        }
+        //must be lesson 19
+        else {
+            pass_pics = L19_pics;
+            changer.setImageResource(R.drawable.lesson19game_0);
         }
         changer.setLayoutParams(linearLayout);
 
@@ -113,7 +149,6 @@ public class PictureGameView extends LinearLayout {
         buttons.setHorizontalSpacing(10);
         buttons.setVerticalSpacing(10);
 
-        layoutParams.setMargins(10, 80, 10, 80);
         result.setLayoutParams(layoutParams);
         result.setText("");
         result.setTextSize(20);
@@ -132,5 +167,14 @@ public class PictureGameView extends LinearLayout {
         this.addView(changer);
 
 
+    }
+
+    public Spanned toHTML(String input) {
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            return Html.fromHtml(input, Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            return Html.fromHtml(input);
+        }
     }
 }

@@ -115,8 +115,9 @@ public class Game extends AppCompatActivity {
             chemistryGameView = new ChemistryGameView(this, texts, conceptID,
                     lessonID, nextActivity, width, height);
             setContentView(chemistryGameView);
-        } else if (lessonID == 5){
-            pictureGameView = new PictureGameView(this,conceptID,lessonID,nextActivity);
+        } else if (lessonID == 5 || lessonID == 12 || lessonID == 16 || lessonID == 19){
+            String pass_string = dbHelper.selectPicGameInput(lessonID);
+            pictureGameView = new PictureGameView(this,conceptID,lessonID,nextActivity,pass_string);
             setContentView(pictureGameView);
         } else if (dbHelper.selectGameTemplate(lessonID).equals("order_game")) {
             //ArrayList<ArrayList<String>> texts = dbHelper.selectChemistryGameInput(lessonID);

@@ -1056,6 +1056,25 @@ public class DatabaseHelper{
     }
 
     /**
+     * returns the input for the pic game as a comma delimited string
+     * @param lesson_id the id of the lesson
+     * @return the input for the game (questions and answers)
+     */
+    public String selectPicGameInput(int lesson_id){
+        open();
+
+        Cursor c = myDatabase.rawQuery("SELECT game_input FROM lessons WHERE lesson_id = " +
+                lesson_id, null);
+        c.moveToFirst();
+        String input = c.getString(0);
+
+        c.close();
+        close();
+
+        return input;
+    }
+
+    /**
      * gets the name of the game template we are using for the given lesson
      * @param lesson_id the id of the lesson
      * @return the name of the game template being used

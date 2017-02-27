@@ -22,6 +22,8 @@ import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -159,7 +161,7 @@ public class ButtonAdapter extends BaseAdapter {
                     if (answers[cur + 1].equals("t")){
                         //circular queue for statements
                         cur = (cur + 2) % 20;
-                        statement.setText(answers[cur]);
+                        statement.setText(toHTML(answers[cur]));
                         resulter.setText("Correct!");
                         Runnable r = new Runnable(){
                             @Override
@@ -187,15 +189,15 @@ public class ButtonAdapter extends BaseAdapter {
                                 }
                             };
                             Handler h2 = new Handler();
-                            //Delay transition to game end by 2.5 secs
-                            h2.postDelayed(r2,2500);
+                            //Delay transition to game end by 2.75 secs
+                            h2.postDelayed(r2,2750);
                         }
 
                     }
                     else{
                         resulter.setText("Incorrect! Try again");
                         cur = (cur + 2) % 20;
-                        statement.setText(answers[cur]);
+                        statement.setText(toHTML(answers[cur]));
                     }
                 }
             });
@@ -208,7 +210,7 @@ public class ButtonAdapter extends BaseAdapter {
                 public void onClick(View v){
                     if (answers[cur + 1].equals("f")){
                         cur = (cur + 2) % 20;
-                        statement.setText(answers[cur]);
+                        statement.setText(toHTML(answers[cur]));
                         resulter.setText("Correct!");
                         Runnable r = new Runnable(){
                             @Override
@@ -236,15 +238,15 @@ public class ButtonAdapter extends BaseAdapter {
                                 }
                             };
                             Handler h2 = new Handler();
-                            //Delay transition to game end by 2.5 secs
-                            h2.postDelayed(r2,2500);
+                            //Delay transition to game end by 2.75 secs
+                            h2.postDelayed(r2,2750);
                         }
 
                     }
                     else{
-                        resulter.setText("Incorrect! Try again");
+                        resulter.setText(toHTML("Incorrect! Try again"));
                         cur = (cur + 2) % 20;
-                        statement.setText(answers[cur]);
+                        statement.setText(toHTML(answers[cur]));
 
                     }
                 }
@@ -253,6 +255,15 @@ public class ButtonAdapter extends BaseAdapter {
         button.setTextColor(ContextCompat.getColor(mContext, R.color.towerGameButtonText));
 
         return button;
+    }
+
+    public Spanned toHTML(String input) {
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            return Html.fromHtml(input, Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            return Html.fromHtml(input);
+        }
     }
 
 
