@@ -104,8 +104,8 @@ public class MatchGameView extends LinearLayout{
 
         // Add margins around gridview
         LinearLayout.LayoutParams linearLayout = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        linearLayout.setMargins(10, 10, 10, 10);
+                LayoutParams.MATCH_PARENT, height);
+        linearLayout.setMargins(10, 5, 10, 10);
         gridview.setLayoutParams(linearLayout);
 
         // Set background color of page
