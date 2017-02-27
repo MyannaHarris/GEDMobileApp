@@ -28,7 +28,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
-
+import android.view.WindowManager;
+import android.widget.ScrollView;
 import java.util.ArrayList;
 
 public class Game extends AppCompatActivity {
@@ -46,6 +47,7 @@ public class Game extends AppCompatActivity {
     private PictureGameView pictureGameView;
     private ChemistryGameView chemistryGameView;
     private OrderingGameView orderingGameView;
+    private MadlibGameView madlibGameView;
 
     // Database
     private DatabaseHelper dbHelper;
@@ -115,7 +117,17 @@ public class Game extends AppCompatActivity {
             chemistryGameView = new ChemistryGameView(this, texts, conceptID,
                     lessonID, nextActivity, width, height);
             setContentView(chemistryGameView);
-        } else if (lessonID == 5 || lessonID == 12 || lessonID == 16 || lessonID == 19){
+       /* }else if (dbHelper.selectGameTemplate(lessonID).equals("madlib_game")){
+            ArrayList<ArrayList<String>> texts = new ArrayList<ArrayList<String>>();
+            madlibGameView = new MadlibGameView(this, conceptID, lessonID,
+                    nextActivity, width, height);
+            ScrollView scroll = new ScrollView(this);
+            scroll.addView(madlibGameView);
+
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
+            setContentView(scroll);*/
+        } else if (dbHelper.selectGameTemplate(lessonID).equals("picture_game")){
             String pass_string = dbHelper.selectPicGameInput(lessonID);
             pictureGameView = new PictureGameView(this,conceptID,lessonID,nextActivity,pass_string);
             setContentView(pictureGameView);

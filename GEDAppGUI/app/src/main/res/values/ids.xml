@@ -5,4 +5,13 @@
     <item name="chemistryGameTextView3" type="id" />
     <item name="chemistryGameTextView4" type="id" />
     <item name="chemistryGameTextViewAnswer" type="id" />
+    <item name ="madlibGameAdjective" type="id"/>
+    <item name ="madlibGameAdj" type="id"/>
+    <item name ="madlibGameVerb" type="id"/>
+    <item name ="madlibGameVrb" type="id"/>
+    <item name ="madlibGameName" type="id"/>
+    <item name ="madlibGameNm" type="id"/>
+    <item name ="madlibGameNoun" type="id"/>
+    <item name ="madlibGameNn" type="id"/>
+    <item name ="madlibGameSentence" type="id"/>
 </resources>
