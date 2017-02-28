@@ -62,7 +62,7 @@
             android:layout_alignStart="@+id/DecimalInput"
             android:maxLength="10"
             android:hint="3/4"
-            android:textColorHint="@color/fracToDecHint"
+            android:textColorHint="@color/colorHint"
             android:textColor="@color/fractodectext"/>
 
         <TextView
@@ -109,7 +109,7 @@
             android:layout_below="@+id/textView2"
             android:layout_centerHorizontal="true"
             android:hint="2.08"
-            android:textColorHint="@color/fracToDecHint"
+            android:textColorHint="@color/colorHint"
             android:textColor="@color/fractodectext"/>
 
         <TextView
