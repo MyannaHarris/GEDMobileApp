@@ -94,13 +94,6 @@ public class OrderingGameView extends LinearLayout {
         lastTextView = new TextView(context);
         dragTextView = new TextView(context);
 
-        // Special drag textview parameters
-        LinearLayout.LayoutParams dragParams = new LinearLayout.LayoutParams(
-                LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        dragTextView.setLayoutParams(dragParams);
-        dragTextView.setTextColor(ContextCompat.getColor(context, R.color.orderingGameText));
-        dragTextView.setTextSize(convertPixelsToDp(height / 17, context));
-
         // Set background color of page
         this.setBackgroundColor(ContextCompat.getColor(context, R.color.orderingGameBG));
 
@@ -134,6 +127,14 @@ public class OrderingGameView extends LinearLayout {
         // Set up the current question
         setUp();
 
+        // Special drag textview parameters
+        LinearLayout.LayoutParams dragParams = new LinearLayout.LayoutParams(
+                LayoutParams.WRAP_CONTENT, (height - (30 + 10 * answerTexts.size())) / (answerTexts.size() + 2));
+        dragTextView.setLayoutParams(dragParams);
+        dragTextView.setTextColor(ContextCompat.getColor(context, R.color.orderingGameText));
+        dragTextView.setTextSize(convertPixelsToDp(height / 17, context));
+        dragTextView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+
         // Set up listener for dragging and checking answer
         this.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -152,7 +153,7 @@ public class OrderingGameView extends LinearLayout {
 
                                 //touch is within this child
                                 lastTextView = child;
-                                dragTextView.setText((String) lastTextView.getText().toString());
+                                dragTextView.setText((String) child.getText().toString());
                                 dragging = true;
                             }
                         }
@@ -164,6 +165,7 @@ public class OrderingGameView extends LinearLayout {
                             // Imitate moving the item
                             dragTextView.setVisibility(View.GONE);
                             linearLayout.removeView(dragTextView);
+
                             dragTextView.setVisibility(View.VISIBLE);
                             linearLayout.addView(dragTextView);
                             dragTextView.setX(event.getRawX() - dragTextView.getWidth() / 2);

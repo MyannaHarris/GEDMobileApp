@@ -26,6 +26,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:gravity="center"
+    android:layout_gravity="center"
     tools:context="com.gedappgui.gedappgui.Sprite">
 
     <Button
@@ -71,6 +73,9 @@
         android:id="@+id/sprite_savePhoto"
         android:layout_width="125dp"
         android:textSize="16sp"
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        android:layout_toLeftOf="@+id/sprite_removeAll"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:onClick="savePhoto"/>
 
@@ -80,9 +85,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/sprite_removeAll"
         android:layout_width="125dp"
+        android:layout_gravity="center"
         android:layout_below="@id/sprite_spriteScreen"
-        android:layout_toRightOf="@id/sprite_savePhoto"
-        android:layout_toEndOf="@id/sprite_savePhoto"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
         android:textSize="16sp"
         style="@style/Base.Widget.AppCompat.Button.Borderless"
         android:onClick="disrobe"/>
@@ -93,9 +99,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/sprite_done"
         android:layout_width="125dp"
+        android:layout_gravity="center"
         android:layout_below="@id/sprite_spriteScreen"
-        android:layout_toRightOf="@id/sprite_removeAll"
-        android:layout_toEndOf="@id/sprite_removeAll"
+        android:layout_toRightOf="@+id/sprite_removeAll"
+        android:layout_centerInParent="true"
         android:textSize="16sp"
         style="@style/Base.Widget.AppCompat.Button.Borderless"
         android:onClick="done"/>
