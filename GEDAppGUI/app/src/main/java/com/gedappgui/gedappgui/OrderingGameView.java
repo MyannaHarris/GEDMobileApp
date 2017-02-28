@@ -162,12 +162,11 @@ public class OrderingGameView extends LinearLayout {
                         if (dragging) {
                             lastTextView.setText("");
 
-                            // Imitate moving the item
-                            dragTextView.setVisibility(View.GONE);
-                            linearLayout.removeView(dragTextView);
+                            if (dragTextView.getParent() != linearLayout) {
+                                dragTextView.setVisibility(View.VISIBLE);
+                                linearLayout.addView(dragTextView);
+                            }
 
-                            dragTextView.setVisibility(View.VISIBLE);
-                            linearLayout.addView(dragTextView);
                             dragTextView.setX(event.getRawX() - dragTextView.getWidth() / 2);
                             dragTextView.setY(event.getRawY() - dragTextView.getHeight() / 2);
 

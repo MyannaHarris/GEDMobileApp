@@ -79,6 +79,9 @@ public class ChemistryGameView extends RelativeLayout {
     // Screen size for calulating sizes
     private int height;
 
+    // textviews that are done
+    private ArrayList<Integer> doneTextViews;
+
     /*
      * Instantiate Chemistry game
      */
@@ -96,6 +99,9 @@ public class ChemistryGameView extends RelativeLayout {
         conceptID = conceptIDp;
         lessonID = lessonIDp;
         nextActivity = nextActivityp;
+
+        // List of textViews that have already been used
+        doneTextViews = new ArrayList<Integer>();
 
         if (Build.VERSION.SDK_INT < 19) {
             // Moves bucket up higher
@@ -263,32 +269,34 @@ public class ChemistryGameView extends RelativeLayout {
                                 chosenChildIdx = i;
 
                                 //touch is within this child
-                                child.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
-                                if (i == 0) {
-                                    dragTextView.setCompoundDrawablesWithIntrinsicBounds(
-                                            0, R.drawable.chem_potion1, 0, 0);
-                                } else if (i == 1) {
-                                    dragTextView.setCompoundDrawablesWithIntrinsicBounds(
-                                            0, R.drawable.chem_potion2, 0, 0);
-                                } else if (i == 2) {
-                                    dragTextView.setCompoundDrawablesWithIntrinsicBounds(
-                                            0, R.drawable.chem_potion3, 0, 0);
-                                } else if (chosenChildIdx == 3) {
-                                    dragTextView.setCompoundDrawablesWithIntrinsicBounds(
-                                            0, R.drawable.chem_potion4, 0, 0);
+                                if (!doneTextViews.contains((Integer)chosenChildIdx)) {
+                                    child.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                                    if (chosenChildIdx == 0) {
+                                        dragTextView.setCompoundDrawablesWithIntrinsicBounds(
+                                                0, R.drawable.chem_potion1, 0, 0);
+                                    } else if (chosenChildIdx == 1) {
+                                        dragTextView.setCompoundDrawablesWithIntrinsicBounds(
+                                                0, R.drawable.chem_potion2, 0, 0);
+                                    } else if (chosenChildIdx == 2) {
+                                        dragTextView.setCompoundDrawablesWithIntrinsicBounds(
+                                                0, R.drawable.chem_potion3, 0, 0);
+                                    } else if (chosenChildIdx == 3) {
+                                        dragTextView.setCompoundDrawablesWithIntrinsicBounds(
+                                                0, R.drawable.chem_potion4, 0, 0);
+                                    }
+                                    //dragTextView.setText(child.getText());
+                                    chosenChildStr = child.getText().toString();
+                                    draggingAnswer = true;
                                 }
-                                //dragTextView.setText(child.getText());
-                                chosenChildStr = child.getText().toString();
-                                draggingAnswer = true;
                             }
                         }
                         break;
                     case MotionEvent.ACTION_MOVE:
                         if (draggingAnswer) {
-                            dragTextView.setVisibility(View.GONE);
-                            r.removeView(dragTextView);
-                            dragTextView.setVisibility(View.VISIBLE);
-                            r.addView(dragTextView);
+                            if (dragTextView.getParent() != r) {
+                                dragTextView.setVisibility(View.VISIBLE);
+                                r.addView(dragTextView);
+                            }
                             dragTextView.setX(event.getRawX() - dragTextView.getWidth() / 2);
                             dragTextView.setY(event.getRawY() - dragTextView.getHeight() / 2);
                         }
@@ -299,6 +307,8 @@ public class ChemistryGameView extends RelativeLayout {
                                     y > cauldron.getTop() && y < cauldron.getBottom()) {
                                 if (answerTexts.contains(chosenChildStr)) {
                                     answerTexts.remove(chosenChildStr);
+
+                                    doneTextViews.add(chosenChildIdx);
 
                                     // Writes caught answer to question at the top
                                     String newText = (String) cauldron.getText();
@@ -320,7 +330,7 @@ public class ChemistryGameView extends RelativeLayout {
                                                 currQuestion += 1;
                                                 setUp();
                                             }
-                                        }, 500);
+                                        }, 600);
                                     }
                                 } else {
                                     TextView child = (TextView) r.getChildAt(chosenChildIdx);
@@ -384,6 +394,8 @@ public class ChemistryGameView extends RelativeLayout {
             //System.out.println(answerTexts);
             numAnswers = answerTexts.size();
             numCorrectAnswers = 0;
+
+            doneTextViews.clear();
 
             cauldron.setText(questionTexts.get(0));
             if (questionTexts.get(0).length() < 20) {
