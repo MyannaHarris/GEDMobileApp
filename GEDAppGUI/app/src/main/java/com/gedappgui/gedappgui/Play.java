@@ -22,6 +22,8 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -37,6 +39,10 @@ public class Play extends AppCompatActivity {
     private ArrayList<Integer> lessonIds;
     private ArrayList<String> gameNames;
 
+    // Screen size
+    int width;
+    int height;
+
     /*
      * Starts the activity and shows corresponding view on screen
      */
@@ -50,6 +56,12 @@ public class Play extends AppCompatActivity {
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+        // Get screen size
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        width = dm.widthPixels;
+        height = dm.heightPixels;
 
         lessonIds = new ArrayList<Integer>();
         gameNames = new ArrayList<String>();
@@ -77,6 +89,7 @@ public class Play extends AppCompatActivity {
             Button game = new Button(this);
             game.setText(gameNames.get(i));
             game.setLayoutParams(layoutParams);
+            game.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
             game.setTag(lessonIds.get(i));
             gamesLayout.addView(game);
 
