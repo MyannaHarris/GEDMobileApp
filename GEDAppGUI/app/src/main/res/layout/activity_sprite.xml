@@ -45,7 +45,7 @@
     <ImageView
         android:id="@+id/sprite_spriteScreen"
         android:scaleType="fitCenter"
-        android:paddingBottom="@dimen/picture_padding"
+        android:paddingBottom="10dp"
         android:src="@drawable/layers"
         android:contentDescription="@string/sprite"
         android:layout_width="250dp"
@@ -66,43 +66,41 @@
         android:onClick="changeDragonRight"/>
 
     <Button
-        android:text="Save Photo"
+        android:text="Disrobe"
         android:layout_marginTop="20dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/sprite_spriteScreen"
         android:id="@+id/sprite_savePhoto"
-        android:layout_width="125dp"
+        android:layout_width="wrap_content"
         android:textSize="16sp"
         android:layout_gravity="center"
-        android:layout_centerInParent="true"
-        android:layout_toLeftOf="@+id/sprite_removeAll"
+        android:layout_alignParentLeft="true"
         style="@style/Widget.AppCompat.Button.Borderless"
-        android:onClick="savePhoto"/>
+        android:onClick="disrobe"/>
 
     <Button
-        android:text="Disrobe"
+        android:text="Save Photo"
         android:layout_marginTop="20dp"
         android:layout_height="wrap_content"
         android:id="@+id/sprite_removeAll"
-        android:layout_width="125dp"
+        android:layout_width="wrap_content"
         android:layout_gravity="center"
         android:layout_below="@id/sprite_spriteScreen"
         android:layout_centerHorizontal="true"
         android:layout_centerInParent="true"
         android:textSize="16sp"
         style="@style/Base.Widget.AppCompat.Button.Borderless"
-        android:onClick="disrobe"/>
+        android:onClick="savePhoto"/>
 
     <Button
         android:text="Done"
         android:layout_marginTop="20dp"
         android:layout_height="wrap_content"
         android:id="@+id/sprite_done"
-        android:layout_width="125dp"
+        android:layout_width="wrap_content"
         android:layout_gravity="center"
         android:layout_below="@id/sprite_spriteScreen"
-        android:layout_toRightOf="@+id/sprite_removeAll"
-        android:layout_centerInParent="true"
+        android:layout_alignParentRight="true"
         android:textSize="16sp"
         style="@style/Base.Widget.AppCompat.Button.Borderless"
         android:onClick="done"/>

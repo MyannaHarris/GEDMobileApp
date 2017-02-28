@@ -35,19 +35,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -111,6 +115,25 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         // Set up for editing sprite
         spriteDrawable = ((MyApplication) this.getApplication()).getSpriteDrawable();
         spriteImage = (ImageView) findViewById(R.id.sprite_spriteScreen);
+
+        // Get screen size
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        width = dm.widthPixels;
+        height = dm.heightPixels;
+
+        // Dynamically set imageview size
+        RelativeLayout.LayoutParams relativeLay = (RelativeLayout.LayoutParams)spriteImage.getLayoutParams();
+        relativeLay.height = (int)(width * 4 / 6);
+        relativeLay.width = (int)(width * 4 / 6);
+
+        // Change text size to be dynamic
+        Button button = (Button) findViewById(R.id.sprite_savePhoto);
+        button.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        button = (Button) findViewById(R.id.sprite_removeAll);
+        button.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        button = (Button) findViewById(R.id.sprite_done);
+        button.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
 
         // instantiate lists
         allAccessories = new ArrayList<String>();
@@ -224,12 +247,6 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         spriteLayout = (RelativeLayout)findViewById(R.id.sprite_relativeLayout);
         currAccessory = new ImageView(Sprite.this);
 
-        // Get screen size
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-        width = dm.widthPixels;
-        height = dm.heightPixels;
-
         // First display all accessories
         layout = (LinearLayout) findViewById(R.id.linear_sprite);
         for (int i = 0; i < allAccessories.size(); i++) {
@@ -241,7 +258,8 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             ImageView imageView = new ImageView(this);
             imageView.setId(i);
             imageView.setPadding(8, 8, 8, 8);
-            imageView.setLayoutParams(new LinearLayout.LayoutParams(255, 255));
+            imageView.setLayoutParams(new LinearLayout.LayoutParams((int)(width * 4 / 12),
+                    (int)(width * 4 / 12)));
             imageView.setImageBitmap(BitmapFactory.decodeResource(
                     getResources(), icon));
             imageView.setTag(allAccessories.get(i));
@@ -377,9 +395,34 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         Spinner spinner = (Spinner) findViewById(R.id.accessories_spinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.accessories_array, R.layout.spinner_larger_text);
+
+        // Create an ArrayAdapter using the string array and a special spinner layout
+        //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+        //        R.array.accessories_array, R.layout.spinner_larger_text);
+
+        // Create an ArrayAdapter using the string array and a special spinner layout
+        // make text dynamically size
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(
+                this, R.layout.spinner_larger_text,
+                getResources().getTextArray(R.array.accessories_array)) {
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                if (v instanceof TextView)
+                    ((TextView) v).setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+                return v;
+            }
+            @Override
+            public View getDropDownView(int position, View convertView,
+                                        ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
+                if (v instanceof TextView)
+                    ((TextView) v).setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+                return v;
+            }
+        };
+
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
