@@ -97,7 +97,7 @@ public class TextViewAdapter extends BaseAdapter {
         if (convertView == null) {
              // If it's not recycled, initialize some attributes
             textView = new TextView(mContext);
-            textView.setTextSize(convertPixelsToDp(height / 20, mContext));
+            textView.setTextSize(convertPixelsToDp(height / 30, mContext));
             textView.setLayoutParams(
                     new GridView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.MATCH_PARENT));
@@ -114,7 +114,7 @@ public class TextViewAdapter extends BaseAdapter {
             textView.setHeight((height - statusBarHeight - 15) / (texts.length / 2) - 20);
             textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
             textView.setTextColor(ContextCompat.getColor(mContext, R.color.matchGameText));
-            textView.setPadding(8, 8, 8, 8);
+            textView.setPadding(10, 8, 10, 8);
         } else {
             textView = (TextView) convertView;
         }

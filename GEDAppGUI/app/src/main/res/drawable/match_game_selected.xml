@@ -4,6 +4,6 @@
 
     <solid android:color="@color/matchCardBG" />
     <stroke android:color="@color/matchCardSelectedOutline"
-        android:width="10dp" />
+        android:width="8dp" />
     <corners android:radius="20dp" />
 </shape>
