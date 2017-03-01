@@ -75,7 +75,13 @@ public class GameIntro extends AppCompatActivity {
         String intro = dbHelper.selectIntroduction(lessonID);
         String instruct = dbHelper.selectInstructions(lessonID);
         String name = dbHelper.selectLessonTitle(lessonID);
-        String welcome = "Welcome to the " + name + " Game!";
+        String welcome = "";
+        if(lessonID == 1){
+            welcome = "Welcome to " + name + " Game!";
+        }
+        else{
+            welcome = "Welcome to the " + name + " Game!";
+        }
 
         instructions.setText(instruct);
         welcomeMessage.setText(welcome);

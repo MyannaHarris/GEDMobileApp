@@ -91,20 +91,17 @@ public class Game extends AppCompatActivity {
         //template_id = 2 is match game
         } else if (dbHelper.selectGameTemplate(lessonID).equals("match_game")) {
 
-            ArrayList<String> texts = new ArrayList<String>();
-            texts.add("1 + 2 = _");
-            texts.add("3 * 4 = _");
-            texts.add("_ + 5 = 10");
-            texts.add("3");
-            texts.add("12");
-            texts.add("5");
+            ArrayList<String> texts = dbHelper.selectMatchGameInput(lessonID);
+
             ArrayList<Integer> answers = new ArrayList<Integer>();
-            answers.add(3);
-            answers.add(4);
-            answers.add(5);
-            answers.add(0);
-            answers.add(1);
-            answers.add(2);
+            for(int i = 5; i <10; i++){
+                answers.add(i);
+            }
+            for(int j = 0; j<5; j++){
+                answers.add(j);
+            }
+
+            System.out.println(answers);
 
             Activity activity = (Activity)this;
 

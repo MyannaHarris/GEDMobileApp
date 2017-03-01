@@ -168,14 +168,14 @@ public class MainActivity extends AppCompatActivity {
                     "Hello \n" + name + "!\nWelcome to the app!",
                     "Have you checked my closet?",
                     "Have you played any games recently?",
-                    "Did you know you can change my color? Go to my closet and tap on me!",
+                    "Did you know you can change my color? Go to my lair and tap on me!",
                     "I love Math! Don't you,\n" + name + "?",
                     "Check out the tools for some cool references!"
             };
 
             //without the DB
 
-            String greeting = "Hello " + name + "!\nWelcome to the app.";
+            String greeting = "Hello \n" + name + "!\nWelcome to the app.";
 
             //with the DB pulling information
             //String greeting = "Hello " + db.selectUsername();

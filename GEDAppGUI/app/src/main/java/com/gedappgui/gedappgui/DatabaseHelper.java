@@ -1063,6 +1063,48 @@ public class DatabaseHelper{
      * @param lesson_id the id of the lesson
      * @return the input for the game (questions and answers)
      */
+    public ArrayList<String> selectMatchGameInput(int lesson_id){
+        open();
+
+        Cursor c = myDatabase.rawQuery("SELECT game_input FROM lessons WHERE lesson_id = " +
+                lesson_id, null);
+        c.moveToFirst();
+        String input = c.getString(0);
+
+        c.close();
+        close();
+
+        ArrayList<String> allQAndAs = new ArrayList<String>();
+        ArrayList<String> randQ = new ArrayList<String>();
+        ArrayList<String> randA = new ArrayList<String>();
+
+        String[] questions = input.split("[,]");
+        for(int i = 0; i<questions.length;i++){
+            allQAndAs.add(questions[i]);
+            System.out.println(questions[i]);
+        }
+
+        //choose 5 random questions of the 20 to give to the user in the game
+        for(int r = 0; r < 5; r++) {
+            //randomly generate 1s and zeroes
+            double rand = Math.abs(Math.round(Math.random() * 19-r));
+            randQ.add(allQAndAs.remove((int) rand));
+            randA.add(allQAndAs.remove((int)(rand + (19-r))));
+        }
+
+        System.out.println(randQ);
+        System.out.println(randA);
+        randQ.addAll(randA);
+
+        System.out.println(randQ);
+        return randQ;
+    }
+
+    /**
+     * returns the input for a game from a CSL
+     * @param lesson_id the id of the lesson
+     * @return the input for the game (questions and answers)
+     */
     public ArrayList<ArrayList<String>> selectChemistryGameInput(int lesson_id){
         open();
 
