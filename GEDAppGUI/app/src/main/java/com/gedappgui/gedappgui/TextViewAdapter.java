@@ -97,7 +97,7 @@ public class TextViewAdapter extends BaseAdapter {
         if (convertView == null) {
              // If it's not recycled, initialize some attributes
             textView = new TextView(mContext);
-            textView.setTextSize(convertPixelsToDp(height / 17, mContext));
+            textView.setTextSize(convertPixelsToDp(height / 20, mContext));
             textView.setLayoutParams(
                     new GridView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.MATCH_PARENT));

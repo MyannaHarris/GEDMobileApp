@@ -103,6 +103,10 @@ public class MainActivity extends AppCompatActivity {
             int width = dm.widthPixels;
             int height = dm.heightPixels;
 
+            // Set size of text for greetings
+            TextView greetingText = (TextView)findViewById(R.id.sprite_speechBubble);
+            greetingText.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
+
             //Typeface face = Typeface.createFromAsset(getAssets(), "PERRYGOT.TTF");
             Button toolsButton = (Button) findViewById(R.id.tools_button);
             toolsButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
