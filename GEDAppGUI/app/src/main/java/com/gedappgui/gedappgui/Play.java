@@ -24,6 +24,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,6 +32,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -42,6 +44,9 @@ public class Play extends AppCompatActivity {
     // Screen size
     int width;
     int height;
+
+    // Database
+    private DatabaseHelper dbHelper;
 
     /*
      * Starts the activity and shows corresponding view on screen
@@ -63,45 +68,55 @@ public class Play extends AppCompatActivity {
         width = dm.widthPixels;
         height = dm.heightPixels;
 
-        lessonIds = new ArrayList<Integer>();
-        gameNames = new ArrayList<String>();
+        dbHelper = new DatabaseHelper(this);
+        int currLessonId = dbHelper.selectCurrentLessonID();
 
-        lessonIds.add(1);
-        lessonIds.add(2);
-        lessonIds.add(5);
-        lessonIds.add(6);
-        lessonIds.add(4);
-        lessonIds.add(7);
+        if (currLessonId > 1) {
 
-        gameNames.add("Bucket Game");
-        gameNames.add("Matching Game");
-        gameNames.add("Picture Game");
-        gameNames.add("Chemistry Game");
-        gameNames.add("Ordering Game");
-        gameNames.add("Madlib Game");
+            lessonIds = new ArrayList<Integer>();
+            gameNames = new ArrayList<String>();
 
-        LinearLayout gamesLayout = (LinearLayout) findViewById(R.id.GameLayout);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
+            for (int i = 1; i <= currLessonId - 1; i ++) {
+                lessonIds.add(i);
+                gameNames.add(dbHelper.selectLessonTitle(i));
+            }
 
-        for (int i = 0; i < lessonIds.size(); i++) {
-            Button game = new Button(this);
-            game.setText(gameNames.get(i));
-            game.setLayoutParams(layoutParams);
-            game.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
-            game.setTag(lessonIds.get(i));
-            gamesLayout.addView(game);
+            LinearLayout gamesLayout = (LinearLayout) findViewById(R.id.GameLayout);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.MATCH_PARENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT);
 
-            game.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Button gameButton = (Button) v;
-                    Intent intent = new Intent(Play.this, GameIntro.class);
-                    intent.putExtra("next_activity", 1);
-                    intent.putExtra("lessonID", (Integer)gameButton.getTag());
-                    startActivity(intent);
-                }
-            });
+            for (int i = 0; i < lessonIds.size(); i++) {
+                Button game = new Button(this);
+                game.setText(gameNames.get(i));
+                game.setLayoutParams(layoutParams);
+                game.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) (height / 35));
+                game.setTag(lessonIds.get(i));
+                gamesLayout.addView(game);
+
+                game.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Button gameButton = (Button) v;
+                        Intent intent = new Intent(Play.this, GameIntro.class);
+                        intent.putExtra("next_activity", 1);
+                        intent.putExtra("lessonID", (Integer) gameButton.getTag());
+                        startActivity(intent);
+                    }
+                });
+            }
+        } else {
+            LinearLayout gamesLayout = (LinearLayout) findViewById(R.id.GameLayout);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.MATCH_PARENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins(20, 50, 20, 20);
+
+            TextView noGame = new TextView(this);
+            noGame.setGravity(Gravity.CENTER);
+            noGame.setText("Please finish lessons to get games for your arcade.");
+            noGame.setLayoutParams(layoutParams);
+            noGame.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) (height / 35));
+            gamesLayout.addView(noGame);
         }
     }
 

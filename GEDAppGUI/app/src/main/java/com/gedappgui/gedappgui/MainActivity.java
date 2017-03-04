@@ -390,16 +390,18 @@ public class MainActivity extends AppCompatActivity {
 
         final int lessonID = db.selectCurrentLessonID();
         System.out.println(lessonID);
-        final String lessonTitle = db.selectLessonTitle(lessonID);
-        System.out.println(lessonTitle);
-        final int conceptID = db.selectConceptID(lessonID);
-        System.out.println(conceptID);
+        if (lessonID < 25) {
+            final String lessonTitle = db.selectLessonTitle(lessonID);
+            System.out.println(lessonTitle);
+            final int conceptID = db.selectConceptID(lessonID);
+            System.out.println(conceptID);
 
-        intentSummary.putExtra("lessonTitle", lessonTitle);
-        intentSummary.putExtra("conceptID",conceptID);
-        intentSummary.putExtra("lessonID",lessonID);
+            intentSummary.putExtra("lessonTitle", lessonTitle);
+            intentSummary.putExtra("conceptID", conceptID);
+            intentSummary.putExtra("lessonID", lessonID);
 
-        MainActivity.this.startActivity(intentSummary);
+            MainActivity.this.startActivity(intentSummary);
+        }
     }
 
     /*
