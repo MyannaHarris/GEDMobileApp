@@ -85,6 +85,13 @@ Last Edit: 10-29-16
             android:onClick="goToPlaceValues"/>
 
         <Button
+            android:text="Next Gen Zone Links"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/links"
+            android:onClick="goToLinks"/>
+
+        <Button
             android:text="Tutorial"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -93,6 +100,7 @@ Last Edit: 10-29-16
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:onClick="goToTutorial"/>
+
     </LinearLayout>
 
 

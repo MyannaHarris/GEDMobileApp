@@ -1,9 +1,9 @@
 /*
- * Tools.java
+ * NGZLinks.java
  *
- * Tools page activity
+ * Links page activity
  *
- * View from which students can select a study tool to look at
+ * View from which students can select aa link which will launch in their browser
  *
  * Worked on by:
  * Myanna Harris
@@ -11,7 +11,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 10-26-16
+ * Last Edit: 3-4-16
  *
  */
 
@@ -22,26 +22,45 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
-public class Tools extends AppCompatActivity {
+public class NGZLinks extends AppCompatActivity {
 
-    /*
-     * Starts the activity and shows corresponding view on screen
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tools);
+        setContentView(R.layout.activity_ngzlinks);
 
         // Allow homeAsUpIndicator (back arrow) to desplay on action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+        //gives an achievement if the user uses a tool for the first time
+        Intent achievement = new Intent(this, AchievementPopUp.class);
+        achievement.putExtra("achievementID", 7);
+        startActivity(achievement);
+
+        //set links for clicking
+        TextView home = (TextView) findViewById(R.id.home_link);
+        TextView info = (TextView) findViewById(R.id.information);
+        TextView job = (TextView) findViewById(R.id.Job);
+        TextView passport = (TextView) findViewById(R.id.passport);
+        TextView who = (TextView) findViewById(R.id.who);
+        home.setMovementMethod(LinkMovementMethod.getInstance());
+        info.setMovementMethod(LinkMovementMethod.getInstance());
+        job.setMovementMethod(LinkMovementMethod.getInstance());
+        passport.setMovementMethod(LinkMovementMethod.getInstance());
+        who.setMovementMethod(LinkMovementMethod.getInstance());
+
+
     }
 
     /*
@@ -82,57 +101,6 @@ public class Tools extends AppCompatActivity {
     }
 
     /*
-     * Called by a tool being selected
-     * Opens fraction to decimal tool
-     */
-    public void goTofracdectool(View view) {
-        Intent intent = new Intent(this, FractionToDecimalTool.class);
-        startActivity(intent);
-    }
-
-    /*
-     * Called by a tool being selected
-     * Opens fraction to decimal tool
-     */
-    public void goToFormulas(View view) {
-        Intent intent = new Intent(this, FormulaMemorization.class);
-        startActivity(intent);
-    }
-
-    /*
-     * Called by a tool being selected
-     * Opens fraction to decimal tool
-     */
-    public void goToSlopeCalculator(View view) {
-        Intent intent = new Intent(this, SlopeCalculator.class);
-        startActivity(intent);
-    }
-
-    public void goToGeoAssist (View view){
-        Intent intent = new Intent(this, GeoAssist.class);
-        startActivity(intent);
-    }
-
-    public void goToPlaceValues (View view){
-        Intent intent = new Intent(this, PlaceValues.class);
-        startActivity(intent);
-    }
-
-    /*
-     * Opens Tutorial view when button is clicked
-     * Called when the user clicks the Settings button
-     */
-    public void goToTutorial(View view){
-        Intent intent = new Intent(this, Tutorial.class);
-        startActivity(intent);
-    }
-
-    public void goToLinks(View view){
-        Intent intent = new Intent(this, NGZLinks.class);
-        startActivity(intent);
-    }
-
-    /*
      * Sets what menu will be in the action bar
      * homeonlymenu has the settings button and the home button
      */
@@ -155,9 +123,7 @@ public class Tools extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                Intent intentHomeTools = new Intent(this, MainActivity.class);
-                intentHomeTools.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intentHomeTools);
+                finish();
                 return true;
             // action with ID action_refresh was selected
             case R.id.action_home:

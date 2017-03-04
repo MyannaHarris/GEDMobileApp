@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_ngzlinks"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.gedappgui.gedappgui.NGZLinks">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:text="@string/Home"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/home_link"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:padding="20dp" />
+
+        <TextView
+            android:text="@string/Passport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/passport"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:padding="20dp" />
+
+        <TextView
+            android:text="@string/Information"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/information"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:padding="20dp" />
+
+        <TextView
+            android:text="@string/Who"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/who"
+            android:textSize="20sp"
+            android:padding="20dp"
+            android:gravity="center"/>
+
+        <TextView
+            android:text="@string/Job"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/Job"
+            android:textSize="20sp"
+            android:padding="20dp"
+            android:gravity="center"/>
+    </LinearLayout>
+</RelativeLayout>
