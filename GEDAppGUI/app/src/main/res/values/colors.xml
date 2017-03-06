@@ -50,7 +50,7 @@
     <color name="colorHint">#55ca7cff</color>
     <color name="orderingGameBG">#ceaee6</color>
     <color name="orderingGameText">#000000</color>
-    <color name="orderingGameTopColor">#ea2a2a</color>
-    <color name="orderingGameBottomColor">#1f8cca</color>
-    <color name="orderingGameMiddleColor">#981ec9</color>
+    <color name="orderingGameTopColor">#ead02a</color>
+    <color name="orderingGameBottomColor">#ca251f</color>
+    <color name="orderingGameMiddleColor">#c95d1e</color>
 </resources>
