@@ -174,7 +174,8 @@ public class MainActivity extends AppCompatActivity {
                     "Have you played any games recently?",
                     "Did you know you can change my color? Go to my lair and tap on me!",
                     "I love Math! Don't you,\n" + name + "?",
-                    "Check out the tools for some cool references!"
+                    "Check out the tools for some cool references!",
+                    "Did you know you can change my name? Go to settings and click 'Change Dragon Name'!"
             };
 
             //without the DB
