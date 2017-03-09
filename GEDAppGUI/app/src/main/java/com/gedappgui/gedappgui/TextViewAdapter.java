@@ -87,6 +87,20 @@ public class TextViewAdapter extends BaseAdapter {
     }
 
     /*
+     * clears the adapter
+     */
+    public void clear() {
+        texts = new String[0];
+    }
+
+    /*
+     * Sets new adapter contents
+     */
+    public void setTexts(String[] textsp) {
+        texts = textsp;
+    }
+
+    /*
      * Creates the components for the adapter
      * returns an imageview
      */
@@ -117,6 +131,14 @@ public class TextViewAdapter extends BaseAdapter {
             textView.setPadding(10, 8, 10, 8);
         } else {
             textView = (TextView) convertView;
+            if (Build.VERSION.SDK_INT < 16) {
+                // Sets Drawable as background on older API
+                textView.setBackgroundDrawable(ContextCompat.getDrawable(mContext,
+                        R.drawable.match_game_unselected));
+            } else {
+                textView.setBackground(ContextCompat.getDrawable(mContext,
+                        R.drawable.match_game_unselected));
+            }
         }
 
         textView.setText(texts[position]);

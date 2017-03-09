@@ -1063,7 +1063,7 @@ public class DatabaseHelper{
      * @param lesson_id the id of the lesson
      * @return the input for the game (questions and answers)
      */
-    public ArrayList<String> selectMatchGameInput(int lesson_id){
+    public ArrayList<ArrayList<String>> selectMatchGameInput(int lesson_id){
         open();
 
         Cursor c = myDatabase.rawQuery("SELECT game_input FROM lessons WHERE lesson_id = " +
@@ -1074,6 +1074,7 @@ public class DatabaseHelper{
         c.close();
         close();
 
+        ArrayList<ArrayList<String>> finalTexts = new ArrayList<ArrayList<String>>();
         ArrayList<String> allQAndAs = new ArrayList<String>();
         ArrayList<String> randQ = new ArrayList<String>();
         ArrayList<String> randA = new ArrayList<String>();
@@ -1084,8 +1085,8 @@ public class DatabaseHelper{
             System.out.println(questions[i]);
         }
 
-        //choose 5 random questions of the 20 to give to the user in the game
-        for(int r = 0; r < 5; r++) {
+        //choose 3 random questions of the 20 to give to the user in the game
+        for(int r = 0; r < 3; r++) {
             //randomly generate 1s and zeroes
             double rand = Math.abs(Math.round(Math.random() * 19-r));
             randQ.add(allQAndAs.remove((int) rand));
@@ -1095,9 +1096,26 @@ public class DatabaseHelper{
         System.out.println(randQ);
         System.out.println(randA);
         randQ.addAll(randA);
+        finalTexts.add(randQ);
+
+        randQ = new ArrayList<String>();
+        randA = new ArrayList<String>();
+        //choose 3 random questions of the 20 to give to the user in the game
+        for(int r = 3; r < 6; r++) {
+            //randomly generate 1s and zeroes
+            double rand = Math.abs(Math.round(Math.random() * 19-r));
+            randQ.add(allQAndAs.remove((int) rand));
+            randA.add(allQAndAs.remove((int)(rand + (19-r))));
+        }
 
         System.out.println(randQ);
-        return randQ;
+        System.out.println(randA);
+        randQ.addAll(randA);
+        finalTexts.add(randQ);
+
+
+        System.out.println(randQ);
+        return finalTexts;
     }
 
     /**
@@ -1126,6 +1144,36 @@ public class DatabaseHelper{
             splitUp = new ArrayList<String>(Arrays.asList(options[randIdx].split("[&]")));
             randQAndAs.add(new ArrayList<String>(splitUp.subList(0,5)));
             randQAndAs.add(new ArrayList<String>(splitUp.subList(5,7)));
+        }
+        return randQAndAs;
+    }
+
+    /**
+     * returns the input for a game
+     * @param lesson_id the id of the lesson
+     * @return the input for the game (questions and answers)
+     */
+    public ArrayList<ArrayList<String>> selectOrderGameInput(int lesson_id){
+        open();
+
+        Cursor c = myDatabase.rawQuery("SELECT game_input FROM lessons WHERE lesson_id = " +
+                lesson_id, null);
+        c.moveToFirst();
+        String input = c.getString(0);
+
+        c.close();
+        close();
+
+        ArrayList<ArrayList<String>> randQAndAs = new ArrayList<ArrayList<String>>();
+        ArrayList<String> splitUp = new ArrayList<>();
+
+        String[] options = input.split("[;]");
+
+        for (int i = 0; i < 5; i++) {
+            int randIdx = ( int )(Math.random() * (20-i));
+            splitUp = new ArrayList<String>(Arrays.asList(options[randIdx].split("[#]")));
+            randQAndAs.add(new ArrayList<String>(splitUp.subList(0,5)));
+            randQAndAs.add(new ArrayList<String>(splitUp.subList(5,10)));
         }
         return randQAndAs;
     }

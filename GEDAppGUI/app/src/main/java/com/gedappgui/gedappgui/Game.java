@@ -91,13 +91,13 @@ public class Game extends AppCompatActivity {
         //template_id = 2 is match game
         } else if (dbHelper.selectGameTemplate(lessonID).equals("match_game")) {
 
-            ArrayList<String> texts = dbHelper.selectMatchGameInput(lessonID);
+            ArrayList<ArrayList<String>> texts = dbHelper.selectMatchGameInput(lessonID);
 
             ArrayList<Integer> answers = new ArrayList<Integer>();
-            for(int i = 5; i <10; i++){
+            for(int i = 3; i <6; i++){
                 answers.add(i);
             }
-            for(int j = 0; j<5; j++){
+            for(int j = 0; j<3; j++){
                 answers.add(j);
             }
 
@@ -130,43 +130,39 @@ public class Game extends AppCompatActivity {
             pictureGameView = new PictureGameView(this,conceptID,lessonID,nextActivity,pass_string);
             setContentView(pictureGameView);
         } else if (dbHelper.selectGameTemplate(lessonID).equals("order_game")) {
-            //ArrayList<ArrayList<String>> texts = dbHelper.selectChemistryGameInput(lessonID);
+            //ArrayList<ArrayList<String>> texts = dbHelper.selectOrderGameInput(lessonID);
 
-            ArrayList<ArrayList<String>> gameQuestions = new ArrayList<ArrayList<String>>();
+            ArrayList<ArrayList<String>> texts = new ArrayList<ArrayList<String>>();
 
-            ArrayList<String> texts = new ArrayList<String>();
-            texts.add("Least");
-            texts.add("Greatest");
-            texts.add("5");
-            texts.add("10");
-            texts.add("3");
-            texts.add("1");
-            texts.add("7");
+            ArrayList<String> qs = new ArrayList<String>();
+            qs.add("5");
+            qs.add("10");
+            qs.add("3");
+            qs.add("1");
+            qs.add("7");
             ArrayList<String> answers = new ArrayList<String>();
-            answers.add("1");
-            answers.add("3");
-            answers.add("5");
-            answers.add("7");
             answers.add("10");
+            answers.add("7");
+            answers.add("5");
+            answers.add("3");
+            answers.add("1");
 
-            gameQuestions.add(texts);
-            gameQuestions.add(answers);
+            texts.add(qs);
+            texts.add(answers);
 
-            texts = new ArrayList<String>();
-            texts.add("Greatest");
-            texts.add("Least");
-            texts.add("3");
-            texts.add("4");
-            texts.add("1");
+            qs = new ArrayList<String>();
+            qs.add("3");
+            qs.add("4");
+            qs.add("1");
             answers = new ArrayList<String>();
             answers.add("4");
             answers.add("3");
             answers.add("1");
 
-            gameQuestions.add(texts);
-            gameQuestions.add(answers);
+            texts.add(qs);
+            texts.add(answers);
 
-            orderingGameView = new OrderingGameView(this, gameQuestions, conceptID,
+            orderingGameView = new OrderingGameView(this, texts, conceptID,
                     lessonID, nextActivity, width, height);
             setContentView(orderingGameView);
         } else{

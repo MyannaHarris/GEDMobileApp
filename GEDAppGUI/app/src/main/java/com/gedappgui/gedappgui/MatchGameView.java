@@ -45,7 +45,7 @@ public class MatchGameView extends LinearLayout{
     private int nextActivity;
 
     // Array to hold options for match cards
-    private ArrayList<String> texts;
+    private ArrayList<ArrayList<String>> texts;
 
     // Array to hold correct matches
     private ArrayList<Integer> answers;
@@ -70,13 +70,24 @@ public class MatchGameView extends LinearLayout{
     // Context of game
     private Context context;
 
+    // Count number of rounds done
+    private int numRoundsDone = 0;
+
+    // screen size variables
+    private int width;
+    private int height;
+    private int statusBarHeight;
+
+    // Adapter for gridview
+    private TextViewAdapter textViewAdapter;
+
     /*
      * Constructor
      */
     public MatchGameView(Context contextp, Activity activity,
-                         ArrayList<String> textsp, final ArrayList<Integer> answersp,
+                         ArrayList<ArrayList<String>> textsp, final ArrayList<Integer> answersp,
                          int conceptIDp, int lessonIDp, int nextActivityp,
-                         int width, int height) {
+                         int widthp, int heightp) {
         super(contextp);
 
         // Set context
@@ -94,16 +105,22 @@ public class MatchGameView extends LinearLayout{
         texts = textsp;
         answers = answersp;
 
+        // Screen size
+        width = widthp;
+        height = heightp;
+
         // Get status bar height to deal with on phones that have the status bar showing
         Rect rectangle = new Rect();
         Window window = activity.getWindow();
         window.getDecorView().getWindowVisibleDisplayFrame(rectangle);
-        int statusBarHeight = rectangle.top;
+        statusBarHeight = rectangle.top;
 
         // Fill gridview with texts
         gridview = new GridView(context);
-        gridview.setAdapter(new TextViewAdapter(context, texts.toArray(new String[texts.size()]),
-                width, height, statusBarHeight));
+        textViewAdapter = new TextViewAdapter(context,
+                texts.get(0).toArray(new String[texts.get(0).size()]),
+                width, height, statusBarHeight);
+        gridview.setAdapter(textViewAdapter);
 
         // Set other gridview formatting
         gridview.setNumColumns(2);
@@ -224,16 +241,53 @@ public class MatchGameView extends LinearLayout{
                                                                 R.drawable.match_game_correct));
                                                     }
 
-                                                    // Check if game is done
-                                                    if (numMatches >= texts.size() / 2) {
-                                                        // Go to GameEnd page if done with game
+                                                    // Check if round is done
+                                                    if (numMatches >= texts.get(0).size() / 2) {
 
-                                                        Context context = getContext();
-                                                        Intent intent = new Intent(context, GameEnd.class);
-                                                        intent.putExtra("next_activity", nextActivity);
-                                                        intent.putExtra("conceptID", conceptID);
-                                                        intent.putExtra("lessonID", lessonID);
-                                                        context.startActivity(intent);
+                                                        numRoundsDone++;
+                                                        // Check if game is done
+                                                        if (numRoundsDone >= texts.size()) {
+
+                                                            if (nextActivity == 1) {
+                                                                // Infinite play in Play area
+
+                                                                // Go to GameEnd page if done with game
+
+                                                                Context context = getContext();
+                                                                Intent intent = new Intent(context, GameEnd.class);
+                                                                intent.putExtra("next_activity", nextActivity);
+                                                                intent.putExtra("conceptID", conceptID);
+                                                                intent.putExtra("lessonID", lessonID);
+                                                                context.startActivity(intent);
+
+                                                            } else {
+
+                                                                // Go to GameEnd page if done with game
+
+                                                                Context context = getContext();
+                                                                Intent intent = new Intent(context, GameEnd.class);
+                                                                intent.putExtra("next_activity", nextActivity);
+                                                                intent.putExtra("conceptID", conceptID);
+                                                                intent.putExtra("lessonID", lessonID);
+                                                                context.startActivity(intent);
+                                                            }
+                                                        } else {
+
+                                                            textViewAdapter.clear();
+                                                            textViewAdapter.setTexts(
+                                                                    texts.get(numRoundsDone).toArray(
+                                                                            new String[texts.get(numRoundsDone).size()])
+                                                            );
+                                                            textViewAdapter.notifyDataSetChanged();
+
+                                                            numMatches = 0;
+                                                            newMatch = true;
+                                                            secondChoiceDone = true;
+
+                                                            choice1TextView = new TextView(context);
+                                                            choice2TextView = new TextView(context);
+                                                            start = new TextView(context);
+                                                        }
                                                     }
 
                                                     choice1TextView = new TextView(context);
@@ -369,16 +423,54 @@ public class MatchGameView extends LinearLayout{
                                                                     R.drawable.match_game_correct));
                                                         }
 
-                                                        // Check if game is done
-                                                        if (numMatches >= texts.size() / 2) {
-                                                            // Go to GameEnd page if done with game
+                                                        // Check if round is done
+                                                        if (numMatches >= texts.get(0).size() / 2) {
 
-                                                            Context context = getContext();
-                                                            Intent intent = new Intent(context, GameEnd.class);
-                                                            intent.putExtra("next_activity", nextActivity);
-                                                            intent.putExtra("conceptID", conceptID);
-                                                            intent.putExtra("lessonID", lessonID);
-                                                            context.startActivity(intent);
+                                                            numRoundsDone++;
+
+                                                            // Check if game is done
+                                                            if (numRoundsDone >= texts.size()) {
+
+                                                                if (nextActivity == 1) {
+                                                                    // Infinite play in Play area
+
+                                                                    // Go to GameEnd page if done with game
+
+                                                                    Context context = getContext();
+                                                                    Intent intent = new Intent(context, GameEnd.class);
+                                                                    intent.putExtra("next_activity", nextActivity);
+                                                                    intent.putExtra("conceptID", conceptID);
+                                                                    intent.putExtra("lessonID", lessonID);
+                                                                    context.startActivity(intent);
+
+                                                                } else {
+
+                                                                    // Go to GameEnd page if done with game
+
+                                                                    Context context = getContext();
+                                                                    Intent intent = new Intent(context, GameEnd.class);
+                                                                    intent.putExtra("next_activity", nextActivity);
+                                                                    intent.putExtra("conceptID", conceptID);
+                                                                    intent.putExtra("lessonID", lessonID);
+                                                                    context.startActivity(intent);
+                                                                }
+                                                            } else {
+
+                                                                textViewAdapter.clear();
+                                                                textViewAdapter.setTexts(
+                                                                        texts.get(numRoundsDone).toArray(
+                                                                                new String[texts.get(numRoundsDone).size()])
+                                                                );
+                                                                textViewAdapter.notifyDataSetChanged();
+
+                                                                numMatches = 0;
+                                                                newMatch = true;
+                                                                secondChoiceDone = true;
+
+                                                                choice1TextView = new TextView(context);
+                                                                choice2TextView = new TextView(context);
+                                                                start = new TextView(context);
+                                                            }
                                                         }
 
                                                         choice1TextView = new TextView(context);
