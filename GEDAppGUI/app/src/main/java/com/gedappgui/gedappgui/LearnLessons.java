@@ -249,7 +249,7 @@ public class LearnLessons extends AppCompatActivity {
                     lessonDialog.setItems(new CharSequence[]
                                     {"Summary - A brief intro",
                                             "Steps - Further explanation",
-                                            "Example - Worked out problems",
+                                            "Examples - Solved problems",
                                             "Game - Practice game",
                                             "Questions - Practice problems"},
                             new DialogInterface.OnClickListener() {
@@ -372,7 +372,7 @@ public class LearnLessons extends AppCompatActivity {
                     lessonDialog.setItems(new CharSequence[]
                                     {"Summary - A brief intro",
                                             "Steps - Further explanation",
-                                            "Example - Worked out problems",
+                                            "Examples - Solved problems",
                                             "Game - Practice game",
                                             "Questions - Practice problems"},
                             new DialogInterface.OnClickListener() {
