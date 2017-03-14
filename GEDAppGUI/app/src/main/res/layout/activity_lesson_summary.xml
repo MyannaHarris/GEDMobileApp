@@ -35,7 +35,7 @@
 
         <Button
             android:paddingTop="10dp"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/lessonSteps"
             android:layout_marginRight="@dimen/button_horiz_margin"

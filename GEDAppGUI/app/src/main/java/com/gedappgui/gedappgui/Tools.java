@@ -22,10 +22,14 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 
 public class Tools extends AppCompatActivity {
 
@@ -42,6 +46,41 @@ public class Tools extends AppCompatActivity {
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+        Button fracbtn = (Button) findViewById(R.id.fracdectool);
+        Button slopebtn = (Button) findViewById(R.id.slopeCalculator);
+        Button membtn = (Button) findViewById(R.id.FormMem);
+        Button geobtn = (Button) findViewById(R.id.geoassist);
+        Button placebtn = (Button) findViewById(R.id.placevalues);
+        Button linksbtn = (Button) findViewById(R.id.links);
+        Button tutbtn = (Button) findViewById(R.id.tutorial_button);
+
+
+
+        ViewGroup.LayoutParams params = fracbtn.getLayoutParams();
+
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+
+        params.height = (height/8);
+
+        fracbtn.setLayoutParams(params);
+        fracbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        slopebtn.setLayoutParams(params);
+        slopebtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        membtn.setLayoutParams(params);
+        membtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        geobtn.setLayoutParams(params);
+        geobtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        placebtn.setLayoutParams(params);
+        placebtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        linksbtn.setLayoutParams(params);
+        linksbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        tutbtn.setLayoutParams(params);
+        tutbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+
     }
 
     /*

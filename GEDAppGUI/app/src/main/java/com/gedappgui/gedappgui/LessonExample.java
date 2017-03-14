@@ -24,10 +24,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class LessonExample extends AppCompatActivity {
@@ -55,6 +58,15 @@ public class LessonExample extends AppCompatActivity {
 
         DatabaseHelper db = new DatabaseHelper(this);
         setExamples(db, lessonID);
+
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+
+        Button nextbtn = (Button) findViewById(R.id.lessonGame);
+
+        nextbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
     }
 
     /* 

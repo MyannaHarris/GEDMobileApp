@@ -39,9 +39,12 @@
         android:layout_below="@id/accomplished"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:id="@+id/move_on"
         android:textSize="20sp"
-        android:onClick="goToNext"/>
+        android:onClick="goToNext"
+        android:layout_alignLeft="@+id/congratulations"
+        android:layout_alignStart="@+id/congratulations"
+        android:layout_alignRight="@+id/accomplished"
+        android:layout_alignEnd="@+id/accomplished" />
 
 </RelativeLayout>

@@ -14,7 +14,10 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <ImageView
             android:layout_width="match_parent"
@@ -27,44 +30,52 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/prompt"
-            android:textSize="20dp"/>
+            android:textSize="20dp"
+            android:paddingBottom="15sp"/>
+
     </LinearLayout>
 
-    <RelativeLayout
+    <android.support.v7.widget.GridLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="429dp"
+        app:rowCount="1"
+        app:columnCount="3"
+        android:padding="@dimen/button_horiz_margin"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
-        <Button
-            android:text="Back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tutorial_back"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:onClick="goBack"/>
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="409dp">
 
         <Button
             android:text="Forward"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/tutorial_forward"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
+            app:layout_column="2"
+            app:layout_row="0"
             android:onClick="goForward"/>
 
         <Button
             android:text="Exit"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/tutorial_exit"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
+            app:layout_column="1"
+            app:layout_row="0"
+            app:layout_gravity="fill_horizontal"
             android:onClick="exitTutorial"/>
-    </RelativeLayout>
+
+        <Button
+            android:text="Back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/tutorial_back"
+            app:layout_gravity="fill_horizontal"
+            android:onClick="goBack"
+            app:layout_column="0"
+            app:layout_row="0"/>
+
+
+    </android.support.v7.widget.GridLayout>
+
 </RelativeLayout>

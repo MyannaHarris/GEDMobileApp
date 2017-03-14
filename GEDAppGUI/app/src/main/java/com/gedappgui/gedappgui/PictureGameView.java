@@ -22,6 +22,7 @@ import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.Spanned;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -114,8 +115,9 @@ public class PictureGameView extends LinearLayout {
 
         String[] init = splits.split(",");
 
+
         statement.setText(toHTML(init[0]));
-        statement.setTextSize(20);
+        statement.setTextSize(25);
         statement.setTextColor(Color.WHITE);
         statement.setGravity(Gravity.CENTER);
         //adding statement to top of view

@@ -37,8 +37,11 @@
         android:id="@+id/to_redoExample"
         android:textSize="20sp"
         android:onClick="goToRedoExample"
+        android:layout_marginBottom="18dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp" />
+        android:layout_alignLeft="@+id/great_work"
+        android:layout_alignStart="@+id/great_work"
+        android:layout_alignRight="@+id/great_work"
+        android:layout_alignEnd="@+id/great_work" />
 
 </RelativeLayout>

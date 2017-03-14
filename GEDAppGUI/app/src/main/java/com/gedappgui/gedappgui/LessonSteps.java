@@ -31,12 +31,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -90,6 +93,15 @@ public class LessonSteps extends AppCompatActivity {
         String lessonAdvice = dbHelper.selectLessonAdvice(lessonID);
         TextView advice = (TextView) findViewById(R.id.advice_text);
         advice.setText(toHTML(lessonAdvice));
+
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+
+        Button nextbtn = (Button) findViewById(R.id.lessonExample);
+
+        nextbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
 
 
     }

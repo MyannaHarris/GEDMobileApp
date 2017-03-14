@@ -84,7 +84,9 @@ public class Play extends AppCompatActivity {
             LinearLayout gamesLayout = (LinearLayout) findViewById(R.id.GameLayout);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     RelativeLayout.LayoutParams.MATCH_PARENT,
-                    RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    (height/8));
+
+
 
             for (int i = 0; i < lessonIds.size(); i++) {
                 Button game = new Button(this);

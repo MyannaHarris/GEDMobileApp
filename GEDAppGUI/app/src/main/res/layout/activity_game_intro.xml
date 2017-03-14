@@ -67,10 +67,13 @@
             android:layout_below="@id/instructions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:id="@+id/play_button"
             android:textSize="18sp"
-            android:onClick="goToGame"/>
+            android:onClick="goToGame"
+            android:layout_alignLeft="@+id/welcome_message"
+            android:layout_alignStart="@+id/welcome_message"
+            android:layout_alignRight="@+id/welcome_message"
+            android:layout_alignEnd="@+id/welcome_message" />
 
 </RelativeLayout>
 

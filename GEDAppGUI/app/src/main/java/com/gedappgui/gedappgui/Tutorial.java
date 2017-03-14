@@ -22,6 +22,8 @@ import android.media.Image;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -77,7 +79,7 @@ public class Tutorial extends AppCompatActivity {
             R.drawable.sprite_dragon
     };
 
-    //index for tutorial points
+    //index for tutorial pictures and text
     private int current = 0;
 
     @Override
@@ -91,6 +93,20 @@ public class Tutorial extends AppCompatActivity {
 
         //disables back button at beginning
         checkButtons();
+
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+
+
+        //sets dynamic sizes for the buttons on tutorial
+        Button backbtn = (Button)findViewById(R.id.tutorial_back);
+        backbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        Button forwardbtn = (Button)findViewById(R.id.tutorial_forward);
+        forwardbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        Button exitbtn = (Button)findViewById(R.id.tutorial_exit);
+        exitbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
 
     }
 
