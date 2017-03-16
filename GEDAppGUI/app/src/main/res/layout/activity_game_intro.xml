@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/welcome_message"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="24dp"
             android:id="@+id/instruction_label"
             android:textAlignment="center"
             android:textSize="20sp"/>

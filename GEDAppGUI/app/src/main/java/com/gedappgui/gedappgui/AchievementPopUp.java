@@ -1,7 +1,7 @@
 /*
  * AchievementPopUp.java
  *
- * The activity to display a popup for when achievements are earned in the app
+ * The activity to display a popup for when an achievement is earned in the app
  *
  * Worked on by:
  * Myanna Harris
@@ -9,9 +9,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Created by jjans on 11/25/16.
- *
- * Last Edit: 11-29-16
+ * Last Edit: 3-16-2017
  *
  */
 
@@ -39,6 +37,12 @@ public class AchievementPopUp extends AppCompatActivity {
     DatabaseHelper db;
     int achievementID;
 
+    /**
+     * Starts the activity and shows corresponding view on screen
+     * @param savedInstanceState If the activity is being re-initialized after previously being
+     *                           shut down then this Bundle contains the data it most recently
+     *                           supplied in onSaveInstanceState(Bundle). Otherwise it is null.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,10 +52,11 @@ public class AchievementPopUp extends AppCompatActivity {
         Intent mIntent = getIntent();
         achievementID = mIntent.getIntExtra("achievementID", 0);
 
-        //only executes the pop up if the achievement hasn't been earned yet
+        //only executes the pop up (activity) if the achievement hasn't been earned yet
         if(!db.achievementExists(achievementID)) {
             setContentView(R.layout.activity_pop_up);
 
+            //gets the coresponding achievement information from the db
             String desc = db.selectAchievementDesc(achievementID);
             String img = db.selectAchievementImg(achievementID);
             String name = db.selectAchievementName(achievementID);
@@ -65,41 +70,45 @@ public class AchievementPopUp extends AppCompatActivity {
             int width = dm.widthPixels;
             int height = dm.heightPixels;
 
-            int popup_height = (int) (height/5);
-            int popup_width = (int) (width);
+            int popup_height = height/5;
+            getWindow().setLayout(width, popup_height);
 
-            getWindow().setLayout(popup_width, popup_height);
-
-            //adds the correct text data to the UI
-            setUpPopUp(desc, img, name, popup_height, popup_width);
+            //sets up the pop up with the correct image, name and description
+            setUpPopUp(desc, img, name, popup_height, width);
         }
-        //the achievement has already been earned
+        //if the achievement has already been earned, finish the activity
         else {
             finish();
         }
     }
 
     /**
-     * Adds the correct text from the database to the popup user interface
+     * Adds the correct name, description and image of the achievement
+     * from the database to the popup activity
      * @param desc the description string of the achievement
      * @param img the image name string of the achievement
      * @param name the name string of the achievement
+     * @param height the height of the popup
+     * @param width the width of the popup
      */
     private void setUpPopUp(String desc, String img, String name, int height, int width){
-
+        //sets the description texts
         TextView description = (TextView) findViewById(R.id.achievement_desc);
         description.setText(desc);
         description.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/7);
 
+        //sets the name texts
         TextView a_name = (TextView) findViewById(R.id.achievement_name);
         a_name.setText(name);
         a_name.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/6));
 
 
-        // get correct image from database
+        // get correct image from database and adjusts its size
         ImageView lesson_imageView = (ImageView) findViewById(R.id.achievement_badge);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(width/4, height);
         lesson_imageView.setLayoutParams(layoutParams);
+
+        //gets the image from assets
         Bitmap achievementImg = getFromAssets(img);
         lesson_imageView.setImageBitmap(achievementImg);
 
@@ -108,7 +117,7 @@ public class AchievementPopUp extends AppCompatActivity {
     /**
      * Returns a bitmap of the image with the given name found in the assets folder
      * @param imgName the name of the image you want
-     * @return the
+     * @return the bitmap from assets
      *
      * modified Myanna's code from LessonSteps
      */
@@ -117,18 +126,20 @@ public class AchievementPopUp extends AppCompatActivity {
         AssetManager assetManager = getAssets();
         InputStream in = null;
 
+        //tries to find the given filename in assets
         try {
             in = assetManager.open("achievement_pics/" + imgName);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        //creates a bitmap from the file got from assets
         Bitmap bitmap = BitmapFactory.decodeStream(in);
         return bitmap;
     }
 
-    /*
-     * hides bottom navigation bar
+    /**
+     * Hides bottom navigation bar
      * Called after onCreate on first creation
      * Called every time this activity gets the focus
      */
@@ -146,9 +157,10 @@ public class AchievementPopUp extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /* 
+    /**
      * Shows and hides the bottom navigation bar when user swipes at it on screen
      * Called when the focus of the window changes to this activity
+     * @param hasFocus true or false based on if the focus of the window changes to this activity
      */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -165,8 +177,8 @@ public class AchievementPopUp extends AppCompatActivity {
     }
 
     /**
-     * exits the activity and returns to the previous where this activity was called
-     * when the user clicks anywhere
+     * exits the activity and returns to the previous activity where this popup was called
+     * when the user clicks anywhere on the screen
      * @param event the event the user creates
      */
     public boolean dispatchTouchEvent(MotionEvent event)

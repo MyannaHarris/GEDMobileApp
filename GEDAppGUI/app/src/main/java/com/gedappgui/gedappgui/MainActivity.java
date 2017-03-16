@@ -42,7 +42,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-
 public class MainActivity extends AppCompatActivity {
 
     // Database
@@ -55,8 +54,11 @@ public class MainActivity extends AppCompatActivity {
     // Sprite Accessory variables
     private Map<String, ArrayList<Integer>> accessoryMap;
 
-    /*
-     * Starts the first activity and shows corresponding view on screen
+    /**
+     * Starts the activity and shows corresponding view on screen
+     * @param savedInstanceState If the activity is being re-initialized after previously being
+     *                           shut down then this Bundle contains the data it most recently
+     *                           supplied in onSaveInstanceState(Bundle). Otherwise it is null.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,11 +67,9 @@ public class MainActivity extends AppCompatActivity {
         db = new DatabaseHelper(this);
 
         if (db.firstTimeLogin()){
-
             // Show login first time the app is opened
             Intent intent = new Intent(this, Login.class);
             startActivity(intent);
-
         }
         else {
             // Show home screen whenever app is opened after that
@@ -86,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
             // Allow user to control audio with volume buttons on phone
             setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
+            //set up the dragon image with all his potential layers
             spriteImage = (ImageView)findViewById(R.id.sprite_homeScreen);
-
             ((MyApplication) this.getApplication()).setSpriteDrawable(
                     (LayerDrawable) ContextCompat.getDrawable(this, R.drawable.layers)
             );
@@ -98,21 +98,19 @@ public class MainActivity extends AppCompatActivity {
             // make dictionary of image ids
             makeDictionary();
 
+            //get metrics of the screen
             DisplayMetrics dm = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(dm);
             int width = dm.widthPixels;
             int height = dm.heightPixels;
 
-            // Set size of text for greetings
+            // Set dynamic size of text for greetings
             TextView greetingText = (TextView)findViewById(R.id.sprite_speechBubble);
             greetingText.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
 
-            //Typeface face = Typeface.createFromAsset(getAssets(), "PERRYGOT.TTF");
+            //sets a dynamic size for the button text on the main page
             Button toolsButton = (Button) findViewById(R.id.tools_button);
             toolsButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
-            //toolsButton.setTypeface(face);
-
-            //sets a dynamic size for the button text on the main page
             Button curLessButton = (Button) findViewById(R.id.continue_button);
             curLessButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
             Button achievementButton = (Button) findViewById(R.id.achievements_button);
@@ -129,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        //gives an achievement if the user earns all accessories
+        //gives an achievement if the user earns all achievements
         if(db.usedAllFeatures()){
             Intent achievement = new Intent(this, AchievementPopUp.class);
             achievement.putExtra("achievementID", 5);
@@ -137,10 +135,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /*
+    /**
      * Re-checks the username that the app needs to print when homescreen is opened
      * Set sprite image
-     * hide bottom navigation bar
+     * Hides bottom navigation bar
      * Called after onCreate on first creation
      * Called every time this activity gets the focus
      */
@@ -161,11 +159,7 @@ public class MainActivity extends AppCompatActivity {
         if(!db.firstTimeLogin()){
             TextView greetingText = (TextView)findViewById(R.id.sprite_speechBubble);
 
-            //if the username is changed in settings change it in the DB
-            /*if(!((MyApplication) this.getApplication()).getName().equals(db.selectUsername())) {
-                db.updateUsername(((MyApplication) this.getApplication()).getName());
-            }*/
-
+            //create list of greetings
             String name = db.selectUsername();
             String[] greetings = {
                     "There's Math to do \n" + name + "!",
@@ -178,14 +172,8 @@ public class MainActivity extends AppCompatActivity {
                     "Did you know you can change my name? Go to settings and click 'Change Dragon Name'!"
             };
 
-            //without the DB
-
-            String greeting = "Hello \n" + name + "!\nWelcome to the app.";
-
-            //with the DB pulling information
-            //String greeting = "Hello " + db.selectUsername();
+            //sets greeting to a random greeting
             Random rand = new Random();
-
             greetingText.setText(greetings[rand.nextInt(7)]);
 
             // Sprite image
@@ -208,9 +196,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /* 
+    /**
      * Shows and hides the bottom navigation bar when user swipes at it on screen
      * Called when the focus of the window changes to this activity
+     * @param hasFocus true or false based on if the focus of the window changes to this activity
      */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -226,9 +215,10 @@ public class MainActivity extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /*
+    /**
      * Sets what menu will be in the action bar
-     * mainmenu has the settings button and continue lesson button
+     * @param menu The options menu in which we place the items.
+     * @return true
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -237,11 +227,14 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    /*
+    /**
      * Listens for selections from the menu in the action bar
      * Does action corresponding to selected item
-     * continue lesson = goes to beginning of current lesson
+     * home = goes to homescreen
      * settings = goes to settings page
+     * android.R.id.home = go to the activity that called the current activity
+     * @param item that is selected from the menu in the action bar
+     * @return true
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -273,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    /*
+    /**
      * Listens for the back button on the bottom navigation bar
      * leaves app if pressed
      */
@@ -292,10 +285,18 @@ public class MainActivity extends AppCompatActivity {
      * 1 - icon image id
      * 2 - ImageView layer id
      */
+
+    /**
+     * Add accessory to sprite
+     * Map from name:
+     * 0 - actual image id
+     * 1 - icon image id
+     * 2 - ImageView layer id
+     * @param name the name of the saved accessory
+     */
     public void addSavedAccessory(String name) {
         // Get info from map
         ArrayList<Integer> info = accessoryMap.get(name);
-
 
         int img = 0;
         int icon = 0;
@@ -318,79 +319,81 @@ public class MainActivity extends AppCompatActivity {
         spriteImage.invalidate();
     }
 
-    /*
+    /**
      * Opens Sprite view when button is clicked
      * Called when the user clicks the Sprite
+     * @param view current view
      */
     public void goToSprite(View view) {
         Intent intent = new Intent(this, Sprite.class);
         startActivity(intent);
     }
 
-    /*
+    /**
      * Opens Learn (Concepts) view when button is clicked
      * Called when the user clicks the Learn button
+     * @param view current view
      */
     public void goToLearn(View view) {
         Intent intent = new Intent(this, LearnConcepts.class);
         startActivity(intent);
     }
 
-    /*
+    /**
      * Opens Play (Games) view when button is clicked
      * Called when the user clicks the Play button
+     * @param view current view
      */
     public void goToPlay(View view) {
         Intent intent = new Intent(this, Play.class);
         startActivity(intent);
     }
 
-    /*
+    /**
      * Opens Achievements view when button is clicked
      * Called when the user clicks the Achievements button
+     * @param view current view
      */
     public void goToAchievements(View view) {
         Intent intent = new Intent(this, Achievements.class);
         startActivity(intent);
     }
 
-
-    /*
+    /**
      * Opens Tools view when button is clicked
      * Called when the user clicks the Tools button
+     * @param view current view
      */
     public void goToTools(View view) {
         Intent intent = new Intent(this, Tools.class);
         startActivity(intent);
     }
 
-    /*
+    /**
      * Opens Settings view when button is clicked
      * Called when the user clicks the Settings button
+     * @param view current view
      */
     public void goToSettings(View view) {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
 
-    /*
-     * Opens Tutorial view when button is clicked
-     * Called when the user clicks the Tutorial button
-     */
-    /*public void goToTutorial(View view) {
-        Intent intent = new Intent(this, Tutorial.class);
-        startActivity(intent);
-    }*/
-
-    /*
+    /**
      * Opens Lesson Summary view when button is clicked
      * Called when the user clicks the Continue Lesson button
+     * @param view current view
      */
     public void goToContinueLesson(View view) {
         Intent intentSummary = new Intent(MainActivity.this, LessonSummary.class);
 
+        //gets the current lesson id
         final int lessonID = db.selectCurrentLessonID();
+
+        //for test purposes
         System.out.println(lessonID);
+
+        //check to see if it is a valid lesson
         if (lessonID < 25) {
             final String lessonTitle = db.selectLessonTitle(lessonID);
             System.out.println(lessonTitle);
@@ -405,7 +408,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /*
+    /**
      * Make dictionary for accessories
      */
     public void makeDictionary() {

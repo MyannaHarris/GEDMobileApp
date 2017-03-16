@@ -1,7 +1,7 @@
 /*
  * GameEnd.java
  *
- * GameEnd page activity
+ * Game end page activity
  *
  * View that displays how a student did during the game
  *
@@ -10,8 +10,6 @@
  * Kristina Spring
  * Jasmine Jans
  * Jimmy Sherman
- *
- * Created by jasminejans on 10/29/16.
  *
  * Last Edit: 11-6-16
  *
@@ -30,15 +28,20 @@ import android.view.MenuItem;
 import android.view.View;
 
 public class GameEnd extends AppCompatActivity {
+    //globals for current concept id, lesson id and redo id
     private int conceptID;
     private int lessonID;
     private int redo;
+
     // int to hold whether to go to questions or play next
     // 0 = questions, 1 = play
     private int nextActivity;
 
-    /*
+    /**
      * Starts the activity and shows corresponding view on screen
+     * @param savedInstanceState If the activity is being re-initialized after previously being
+     *                           shut down then this Bundle contains the data it most recently
+     *                           supplied in onSaveInstanceState(Bundle). Otherwise it is null.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +60,8 @@ public class GameEnd extends AppCompatActivity {
         nextActivity = mIntent.getIntExtra("next_activity", 1);
     }
 
-    /*
-     * hides bottom navigation bar
+    /**
+     * Hides bottom navigation bar
      * Called after onCreate on first creation
      * Called every time this activity gets the focus
      */
@@ -76,9 +79,10 @@ public class GameEnd extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /* 
+    /**
      * Shows and hides the bottom navigation bar when user swipes at it on screen
      * Called when the focus of the window changes to this activity
+     * @param hasFocus true or false based on if the focus of the window changes to this activity
      */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -94,7 +98,7 @@ public class GameEnd extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /*
+    /**
      * Listens for the back button on the bottom navigation bar
      * Stops app from allowing the back button to do anything
      */
@@ -103,9 +107,10 @@ public class GameEnd extends AppCompatActivity {
         // Do nothing when back pressed from home screen
     }
 
-    /*
+    /**
      * Sets what menu will be in the action bar
-     * homeonlymenu has the settings button and the home button
+     * @param menu The options menu in which we place the items.
+     * @return true
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -114,11 +119,14 @@ public class GameEnd extends AppCompatActivity {
         return true;
     }
 
-    /*
+    /**
      * Listens for selections from the menu in the action bar
      * Does action corresponding to selected item
      * home = goes to homescreen
      * settings = goes to settings page
+     * android.R.id.home = go to the activity that called the current activity
+     * @param item that is selected from the menu in the action bar
+     * @return true
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -141,18 +149,21 @@ public class GameEnd extends AppCompatActivity {
         return true;
     }
 
-    /*
+    /**
      * Goes to the expected next activity
-     * If Play called the game then it goes to play
+     * If Arcade called the game then it goes to play
      * Otherwise it goes to Question
+     * @param view current view
      */
     public void goToNext(View view) {
+        //if called from the arcade
         if (nextActivity == 1) {
             Intent intent = new Intent(this, Play.class);
             intent.putExtra("conceptID",conceptID);
             intent.putExtra("lessonID",lessonID);
             startActivity(intent);
         }
+        //if called through a lesson
         else {
             Intent intent = new Intent(this, Question.class);
             intent.putExtra("conceptID",conceptID);

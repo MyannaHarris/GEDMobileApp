@@ -14,6 +14,7 @@
  * Last Edit: 1-22-17
  *
  */
+
 package com.gedappgui.gedappgui;
 
 import android.content.Intent;
@@ -37,6 +38,7 @@ import java.util.List;
 
 public class GeoAssist extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
+    //creates the global array of summaries describing select geometric shapes
     private String[] summaries = {
             "\n\nA circle is a closed set of points that are the same distance from a certain point." +
                     "The area is the space inside of a circle. The diameter is a line segment with endpoints" +
@@ -60,6 +62,8 @@ public class GeoAssist extends AppCompatActivity implements AdapterView.OnItemSe
 
     };
 
+    //creates the global array of example describing how to calculate certain measurements of
+    // select geometric shapes
     private String[] examples ={
             "\nCircumference = pi * diameter \n\nArea = pi * radius^2 \n\ninterior angle sum = 360 degrees\n\n",
             "\nPerimeter = side1 + side2 +side3 \n\nArea = 1/2 * base * height \n\nPythagorean Relationship - " +
@@ -77,6 +81,7 @@ public class GeoAssist extends AppCompatActivity implements AdapterView.OnItemSe
             "\nVolume = pi * r^2 * Height\n\nSurface Area = 2 * pi * r^2 + height * (2 * pi * radius)"
     };
 
+    //creates the global array of picture of select geometric shapes
     private int[] pics = {
             R.drawable.radius,
             R.drawable.triangletypes,
@@ -88,6 +93,13 @@ public class GeoAssist extends AppCompatActivity implements AdapterView.OnItemSe
             R.drawable.pyramid,
             R.drawable.cylinder
     };
+
+    /**
+     * Starts the activity and shows corresponding view on screen
+     * @param savedInstanceState If the activity is being re-initialized after previously being
+     *                           shut down then this Bundle contains the data it most recently
+     *                           supplied in onSaveInstanceState(Bundle). Otherwise it is null.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,9 +111,11 @@ public class GeoAssist extends AppCompatActivity implements AdapterView.OnItemSe
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
+        //creates a spinner for selection of geometric shapes
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
 
+        //creates the list of possible geometric shapes available in the spinner
         List<String> categories = new ArrayList<String>();
         categories.add("Circle");
         categories.add("Triangle");
@@ -128,26 +142,42 @@ public class GeoAssist extends AppCompatActivity implements AdapterView.OnItemSe
         startActivity(achievement);
     }
 
+    /**
+     * sets the image, example and summary to the texts that correlate
+     * with the shape at the given position
+     * @param parent parents adapterView
+     * @param view current view
+     * @param position position of item
+     * @param id id
+     */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        //sets up the texts views and image view
         ((TextView) parent.getChildAt(0)).setTextColor(Color.BLUE);
         ((TextView) parent.getChildAt(0)).setTextSize(20);
         TextView summary = (TextView)findViewById(R.id.summary);
         TextView example = (TextView)findViewById(R.id.shape_examples);
         ImageView img = (ImageView) findViewById(R.id.shapepicture);
+
+        //sets the image, example and summary to the texts that correlate with the shape at the
+        // given position
         summary.setText(summaries[position]);
         example.setText(examples[position]);
         img.setImageResource(pics[position]);
 
     }
 
+    /**
+     * When nothing is selected, do nothing
+     * @param parent the parent adapter view
+     */
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
 
-    /*
-     * hides bottom navigation bar
+    /**
+     * Hides bottom navigation bar
      * Called after onCreate on first creation
      * Called every time this activity gets the focus
      */
@@ -165,9 +195,10 @@ public class GeoAssist extends AppCompatActivity implements AdapterView.OnItemSe
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /* 
+    /**
      * Shows and hides the bottom navigation bar when user swipes at it on screen
      * Called when the focus of the window changes to this activity
+     * @param hasFocus true or false based on if the focus of the window changes to this activity
      */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -183,9 +214,10 @@ public class GeoAssist extends AppCompatActivity implements AdapterView.OnItemSe
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /*
+    /**
      * Sets what menu will be in the action bar
-     * homeonlymenu has the settings button and the home button
+     * @param menu The options menu in which we place the items.
+     * @return true
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -194,12 +226,14 @@ public class GeoAssist extends AppCompatActivity implements AdapterView.OnItemSe
         return true;
     }
 
-    /*
+    /**
      * Listens for selections from the menu in the action bar
      * Does action corresponding to selected item
      * home = goes to homescreen
      * settings = goes to settings page
      * android.R.id.home = go to the activity that called the current activity
+     * @param item that is selected from the menu in the action bar
+     * @return true
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

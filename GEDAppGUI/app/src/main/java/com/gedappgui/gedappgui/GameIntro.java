@@ -1,7 +1,7 @@
 /*
- * Game.java
+ * GameIntro.java
  *
- * Game page activity
+ * Game intro page activity
  *
  * View that hosts the game intro
  * which gives the student instructions on how to play the game
@@ -11,8 +11,6 @@
  * Kristina Spring
  * Jasmine Jans
  * Jimmy Sherman
- *
- * Created by jasminejans on 10/29/16.
  *
  * Last Edit: 2-6-17
  *
@@ -32,9 +30,11 @@ import android.view.View;
 import android.widget.TextView;
 
 public class GameIntro extends AppCompatActivity {
+    //globals for current concept id, lesson id and redo id
     private int conceptID;
     private int lessonID;
     private int redo;
+
     // int to hold whether to go to questions or play next
     // 0 = questions, 1 = play
     private int nextActivity;
@@ -42,8 +42,11 @@ public class GameIntro extends AppCompatActivity {
     // Database
     private DatabaseHelper dbHelper;
 
-    /*
+    /**
      * Starts the activity and shows corresponding view on screen
+     * @param savedInstanceState If the activity is being re-initialized after previously being
+     *                           shut down then this Bundle contains the data it most recently
+     *                           supplied in onSaveInstanceState(Bundle). Otherwise it is null.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,7 @@ public class GameIntro extends AppCompatActivity {
 
         setContentView(R.layout.activity_game_intro);
 
+        //gets all the current db information (lesson id, concept id, redo)
         Intent mIntent = getIntent();
         conceptID = mIntent.getIntExtra("conceptID", 0);
         lessonID = mIntent.getIntExtra("lessonID", 0);
@@ -68,14 +72,18 @@ public class GameIntro extends AppCompatActivity {
         // Database to get game instructions
         dbHelper = new DatabaseHelper(this);
 
+        //gets the game instructions views
         TextView instructions = (TextView) findViewById(R.id.instructions);
         TextView introduction = (TextView) findViewById(R.id.welcome_message);
         TextView welcomeMessage = (TextView) findViewById(R.id.welcome);
 
+        //gets the game instructions strings from the db
         String intro = dbHelper.selectIntroduction(lessonID);
         String instruct = dbHelper.selectInstructions(lessonID);
         String name = dbHelper.selectLessonTitle(lessonID);
         String welcome = "";
+
+        //check for first lesson, special case
         if(lessonID == 1){
             welcome = "Welcome to " + name + " Game!";
         }
@@ -83,14 +91,14 @@ public class GameIntro extends AppCompatActivity {
             welcome = "Welcome to the " + name + " Game!";
         }
 
+        //sets the views for the correct instructions
         instructions.setText(instruct);
         welcomeMessage.setText(welcome);
         introduction.setText(intro);
-
     }
 
-    /*
-     * hides bottom navigation bar
+    /**
+     * Hides bottom navigation bar
      * Called after onCreate on first creation
      * Called every time this activity gets the focus
      */
@@ -108,9 +116,10 @@ public class GameIntro extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /* 
+    /**
      * Shows and hides the bottom navigation bar when user swipes at it on screen
      * Called when the focus of the window changes to this activity
+     * @param hasFocus true or false based on if the focus of the window changes to this activity
      */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -126,11 +135,12 @@ public class GameIntro extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /*
+    /**
      * Called when Play button clicked
      * Goes to the game activity
      * intent.putExtra("next_activity", nextActivity);
      *   = sends nextActivity to tell game whether to go to question or play next
+     * @param view current view
      */
     public void goToGame(View view) {
         Intent intent = new Intent(this, Game.class);
@@ -141,9 +151,10 @@ public class GameIntro extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /*
+    /**
      * Sets what menu will be in the action bar
-     * homeonlymenu has the settings button and the home button
+     * @param menu The options menu in which we place the items.
+     * @return true
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -152,12 +163,14 @@ public class GameIntro extends AppCompatActivity {
         return true;
     }
 
-    /*
+    /**
      * Listens for selections from the menu in the action bar
      * Does action corresponding to selected item
      * home = goes to homescreen
      * settings = goes to settings page
      * android.R.id.home = go to the activity that called the current activity
+     * @param item that is selected from the menu in the action bar
+     * @return true
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

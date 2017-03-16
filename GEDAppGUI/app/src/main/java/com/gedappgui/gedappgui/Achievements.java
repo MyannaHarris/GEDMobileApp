@@ -3,7 +3,8 @@
  *
  * Achievements page activity
  *
- * View that displays student's achievements and lets them see decriptions of achievements
+ * View that displays all the student's earned achievements and lets them
+ * see descriptions of achievements (how they earned them)
  *
  * Worked on by:
  * Myanna Harris
@@ -33,12 +34,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-
 
 public class Achievements extends AppCompatActivity {
 
@@ -48,8 +47,11 @@ public class Achievements extends AppCompatActivity {
 
     GridView gridview;
 
-    /*
+    /**
      * Starts the activity and shows corresponding view on screen
+     * @param savedInstanceState If the activity is being re-initialized after previously being
+     *                           shut down then this Bundle contains the data it most recently
+     *                           supplied in onSaveInstanceState(Bundle). Otherwise it is null.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,44 +67,44 @@ public class Achievements extends AppCompatActivity {
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-        // Fill gridview with achievements
+        //Create gridview of achievements
         gridview = (GridView) findViewById(R.id.achievements_gridView);
 
+        //get a list of all achievement images
         ArrayList<String> images = db.selectAchievementsImgs();
         Bitmap[] buttonPictures;
-        //adds the keeping score achievement if it hasnt been used yet
+
+        //adds the keeping score achievement if it hasn't been earned yet
         if(!db.achievementExists(6)) {
             buttonPictures = new Bitmap[images.size()+1];
             buttonPictures[images.size()] = getFromAssets("keepingscore.png");
         }
+        //if keeping score achievement is added, just create array
         else{
             buttonPictures = new Bitmap[images.size()];
         }
 
+        //fill buttonPictures array with bitmaps of all earned achievements
         for (int i = 0; i < images.size(); i++) {
             buttonPictures[i] = getFromAssets(images.get(i));
         }
 
-        /*Integer[] buttons = new Integer[images.size()];
-        for(int i = 0; i < images.size(); i++) {
-            buttons[i] = R.drawable.welcome;
-        }*/
-
+        //get size of the screen
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
+        //use the bitmap button adapter to create buttons of the gridview images
         gridview.setAdapter(new BitmapButtonAdapter(this, buttonPictures, width, height));
-        //gridview.setAdapter(new ButtonAdapter(this, buttons));
 
-        //lesson_imageView.setImageResource(R.drawable.welcome);
-
-        //gives an achievement if the user opens the achievements in for the first time
+        //gives an achievement (adds to the database) if the user opens the achievements
+        // screen for the first time
         Intent achievement = new Intent(this, AchievementPopUp.class);
         achievement.putExtra("achievementID", 6);
         startActivity(achievement);
 
+        //create buttons of each achievement image
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
 
@@ -113,12 +115,16 @@ public class Achievements extends AppCompatActivity {
                 String achievementDesc = "";
                 String achievementName = "";
                 String achievementImg = "";
+
+                //get the desc, name and image that corresponds to the achievements position
+                //in the gridview
                 if(position >= 0 && position < desc.size()){
                     achievementDesc = desc.get(position);
                     achievementName = name.get(position);
                     achievementImg = imgs.get(position);
                 }
 
+                //opens the AchievementInfo activity and send it all necessary information
                 Intent achievement = new Intent(v.getContext(), AchievementInfo.class);
                 achievement.putExtra("achievementName", achievementName);
                 achievement.putExtra("achievementDesc", achievementDesc);
@@ -131,7 +137,7 @@ public class Achievements extends AppCompatActivity {
     /**
      * Returns a bitmap of the image with the given name found in the assets folder
      * @param imgName the name of the image you want
-     * @return the
+     * @return the bitmap from assets
      *
      * modified Myanna's code from LessonSteps
      */
@@ -140,18 +146,20 @@ public class Achievements extends AppCompatActivity {
         AssetManager assetManager = getAssets();
         InputStream in = null;
 
+        //tries to find the given filename in assets
         try {
             in = assetManager.open("achievement_pics/" + imgName);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        //creates a bitmap from the file got from assets
         Bitmap bitmap = BitmapFactory.decodeStream(in);
         return bitmap;
     }
 
-    /*
-     * hides bottom navigation bar
+    /**
+     * Hides bottom navigation bar
      * Called after onCreate on first creation
      * Called every time this activity gets the focus
      */
@@ -169,9 +177,10 @@ public class Achievements extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /* 
+    /**
      * Shows and hides the bottom navigation bar when user swipes at it on screen
      * Called when the focus of the window changes to this activity
+     * @param hasFocus true or false based on if the focus of the window changes to this activity
      */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -187,9 +196,10 @@ public class Achievements extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /*
+    /**
      * Sets what menu will be in the action bar
-     * homeonlymenu has the settings button and the home button
+     * @param menu The options menu in which we place the items.
+     * @return true
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -198,12 +208,14 @@ public class Achievements extends AppCompatActivity {
         return true;
     }
 
-    /*
+    /**
      * Listens for selections from the menu in the action bar
      * Does action corresponding to selected item
      * home = goes to homescreen
      * settings = goes to settings page
      * android.R.id.home = go to the activity that called the current activity
+     * @param item that is selected from the menu in the action bar
+     * @return true
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

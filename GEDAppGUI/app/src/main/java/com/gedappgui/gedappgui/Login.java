@@ -20,7 +20,6 @@ package com.gedappgui.gedappgui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.media.AudioManager;
 import android.os.Build;
 import android.support.v4.content.IntentCompat;
@@ -28,10 +27,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -39,8 +36,11 @@ public class Login extends AppCompatActivity {
 
     private DatabaseHelper db;
 
-    /*
-     * Starts the Login activity and shows corresponding view on screen
+    /**
+     * Starts the activity and shows corresponding view on screen
+     * @param savedInstanceState If the activity is being re-initialized after previously being
+     *                           shut down then this Bundle contains the data it most recently
+     *                           supplied in onSaveInstanceState(Bundle). Otherwise it is null.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +97,7 @@ public class Login extends AppCompatActivity {
         });*/
     }
 
-    /*
+    /**
      * Listens for the back button on the bottom navigation bar
      * leaves app if pressed
      */
@@ -109,8 +109,8 @@ public class Login extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /*
-     * hides bottom navigation bar
+    /**
+     * Hides bottom navigation bar
      * Called after onCreate on first creation
      * Called every time this activity gets the focus
      */
@@ -128,9 +128,10 @@ public class Login extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /* 
+    /**
      * Shows and hides the bottom navigation bar when user swipes at it on screen
      * Called when the focus of the window changes to this activity
+     * @param hasFocus true or false based on if the focus of the window changes to this activity
      */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -146,11 +147,12 @@ public class Login extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /*
+    /**
      * Changes first page of app to HomeScreen
      * Called when the user clicks the Login button
      * Also sets the user's name for the app
      *  and sets the login status so the login page no longer appears
+     * @param view the view of the activity
      */
     public void setLogin(View view) {
         InputMethodManager inputManager = (InputMethodManager)
@@ -159,10 +161,11 @@ public class Login extends AppCompatActivity {
         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                 InputMethodManager.HIDE_NOT_ALWAYS);
 
+        //set login status
         ((MyApplication) this.getApplication()).setLoginStatus(true);
 
+        //gets the new username
         EditText username = (EditText)findViewById(R.id.username_editText);
-
         String newName = username.getText().toString();
 
         //sets the global username to the new name
@@ -178,6 +181,7 @@ public class Login extends AppCompatActivity {
         //Inserting the user information in the user table and setting the username in the database
         db.insertUser(newName);
 
+        //starts the main activity of the app
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK |
                 IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
@@ -188,7 +192,7 @@ public class Login extends AppCompatActivity {
         achievement.putExtra("achievementID", 1);
         startActivity(achievement);
 
-        //Show tutorial on first time login
+        //Shows the tutorial if the user is logging in for the first time
         Intent intentT = new Intent(this, Tutorial.class);
         startActivity(intentT);
     }
