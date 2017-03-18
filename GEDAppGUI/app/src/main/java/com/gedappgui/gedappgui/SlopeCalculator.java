@@ -34,7 +34,12 @@ import android.widget.TextView;
 
 public class SlopeCalculator extends AppCompatActivity {
 
-
+    /**
+     * Starts the activity and shows corresponding view on screen
+     * @param savedInstanceState If the activity is being re-initialized after previously being
+     *                           shut down then this Bundle contains the data it most recently
+     *                           supplied in onSaveInstanceState(Bundle). Otherwise it is null.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +59,7 @@ public class SlopeCalculator extends AppCompatActivity {
         achievement.putExtra("achievementID", 7);
         startActivity(achievement);
 
+        //listener for action Done on the keyboard, evaluates the slope inputs
         EditText y2input = (EditText)findViewById(R.id.y2_input);
         y2input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -71,6 +77,13 @@ public class SlopeCalculator extends AppCompatActivity {
      * Listener for the Find slope button
      * Makes a string that shows the steps to find the slope if valid inputs are made
      * If not, throws an error string and exits.
+     */
+
+    /**
+     * Listener for the Find slope button
+     * Makes a string that shows the steps to find the slope if valid inputs are made
+     * If not, throws an error string and exits.
+     * @param view the slope button that is pressed
      */
     public void MakeString (View view){
         String steps;
@@ -119,9 +132,10 @@ public class SlopeCalculator extends AppCompatActivity {
         onResume();
     }
 
-    /*
+    /**
      * Listener for the Reset button
      * Sets the current stepbystep text to null
+     * @param view the reset button that was pressed
      */
     public void ResetText(View view){
         TextView stepbystep = (TextView)findViewById(R.id.stepbystep);
@@ -148,9 +162,10 @@ public class SlopeCalculator extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /* 
+    /**
      * Shows and hides the bottom navigation bar when user swipes at it on screen
      * Called when the focus of the window changes to this activity
+     * @param hasFocus true or false based on if the focus of the window changes to this activity
      */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -166,9 +181,10 @@ public class SlopeCalculator extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /*
+    /**
      * Sets what menu will be in the action bar
-     * homeonlymenu has the settings button and the home button
+     * @param menu The options menu in which we place the items.
+     * @return true
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -177,12 +193,14 @@ public class SlopeCalculator extends AppCompatActivity {
         return true;
     }
 
-    /*
+    /**
      * Listens for selections from the menu in the action bar
      * Does action corresponding to selected item
      * home = goes to homescreen
      * settings = goes to settings page
      * android.R.id.home = go to the activity that called the current activity
+     * @param item that is selected from the menu in the action bar
+     * @return true
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

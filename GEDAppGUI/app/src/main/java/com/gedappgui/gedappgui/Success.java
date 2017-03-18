@@ -30,11 +30,14 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayout;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -69,6 +72,25 @@ public class Success extends AppCompatActivity {
         redo = mIntent.getIntExtra("redoComplete", 0);
         int totalCorrect = mIntent.getIntExtra("totalCorrect", 0);
         int totalQuestions = mIntent.getIntExtra("totalQuestions", 0);
+
+        //get screen dimensions
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int height = dm.heightPixels;
+
+//        Button spritebtn = (Button)findViewById(R.id.to_sprite);
+//        spritebtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+//        Button conceptsbtn = (Button)findViewById(R.id.to_concepts);
+//        conceptsbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+//        Button lessonbtn = (Button)findViewById(R.id.to_lesson);
+//        lessonbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+//        //set heights for button
+//        ViewGroup.LayoutParams params = spritebtn.getLayoutParams();
+//        params.height = (height/10);
+//
+//        spritebtn.setLayoutParams(params);
+//        conceptsbtn.setLayoutParams(params);
+//        lessonbtn.setLayoutParams(params);
 
         ArrayList<Integer> accessories = new ArrayList<>();
 

@@ -36,6 +36,13 @@ import android.widget.TextView;
 
 public class FractionToDecimalTool extends AppCompatActivity {
 
+
+    /**
+     * Starts the activity and shows corresponding view on screen
+     * @param savedInstanceState If the activity is being re-initialized after previously being
+     *                           shut down then this Bundle contains the data it most recently
+     *                           supplied in onSaveInstanceState(Bundle). Otherwise it is null.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,11 +53,13 @@ public class FractionToDecimalTool extends AppCompatActivity {
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
+        //listener for Next action on keyboard
         EditText fraction_text = (EditText)findViewById(R.id.FractionInput);
         fraction_text.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                    //evaluates answer and closes keyoboard
                     View view = findViewById(R.id.submitButton);
                     evaluateText(view);
                     InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -60,7 +69,7 @@ public class FractionToDecimalTool extends AppCompatActivity {
                 return false;
             }
         });
-
+        //listener for Done action on keyboard
         EditText decimal_text = (EditText)findViewById(R.id.DecimalInput);
         decimal_text.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -79,11 +88,12 @@ public class FractionToDecimalTool extends AppCompatActivity {
         startActivity(achievement);
     }
 
-    /*
-    * Button listener for submit,
-    * Calls helper functions for evaluating inputs of fraction and decimal
-    * and setting the answers to the correct outputs
-    */
+    /**
+     * Button listener for submit,
+     * Calls helper functions for evaluating inputs of fraction and decimal
+     * and setting the answers to the correct outputs
+     * @param view the button that was pressed
+     */
     public void evaluateText(View view){
         EditText fraction_text = (EditText)findViewById(R.id.FractionInput);
         String fraction = fraction_text.getText().toString();
@@ -95,17 +105,19 @@ public class FractionToDecimalTool extends AppCompatActivity {
         TextView decimal_answer = (TextView)findViewById(R.id.DecimalAnswer);
         decimal_answer.setText(evaluateDecimal(decimal));
 
+        //hides keyboard after evaluating
         onResume();
 
 
     }
 
-    /*
-       Function for converting the decimal input to a fraction.
-       Checks for validity of the input and then calculates the
-       fraction using the gcd of the numerator and denominator.
-       Returns a string object, the answer if valid and an error string if invalid.
-
+    /**
+     * Function for converting the decimal input to a fraction.
+     * Checks for validity of the input and then calculates the
+     * fraction using the gcd of the numerator and denominator.
+     * Returns a string object, the answer if valid and an error string if invalid.
+     * @param decimal the string representation of the decimal input
+     * @return an error string or the reduced fractional form of the decimal as a string
      */
     public static String evaluateDecimal(String decimal) {
         if (decimal.equals("")){
@@ -116,19 +128,24 @@ public class FractionToDecimalTool extends AppCompatActivity {
             if (top.length > 2){
                 return "Invalid input, Example inputs: 0.33, 1.89";
             }
+            //converts right side of decimal to an integer by a power of ten
             int bottom_int = (int) Math.pow((double) 10, (double) (top[1].length()));
+            //converts left side of decimal to integer
             int top_int = Integer.parseInt(top[0] + top[1]);
-            System.out.println(bottom_int);
-            System.out.println(top_int);
+            //finds GCD of top and bottom
             int gcd = gcd_convert(top_int, bottom_int);
+            //reduces and returns fraction
             return (Integer.toString(top_int/gcd) + "/" + Integer.toString(bottom_int/gcd));
         }
 
         return "Invalid input, Example inputs: 0.33, 1.89";
     }
-    /*
-        Helper function for finding the greatest common divisor of the numerator and denominator
 
+    /**
+     * Helper function for finding the greatest common divisor of the numerator and denominator
+     * @param top the top portion of the decimal fraction
+     * @param bottom the bottom portion of the decimal fraction
+     * @return the greatest common divisor of top and bottom
      */
     public static int gcd_convert(int top, int bottom){
         if (bottom == 0){
@@ -137,18 +154,21 @@ public class FractionToDecimalTool extends AppCompatActivity {
         return gcd_convert(bottom, top % bottom);
     }
 
-    /*
-    * Function for converting fraction input to decimal output
-    * checks for validity of the fraction before converting into decimal
-    * outputs error strings if the string is invalid or the answer as a
-    * string object.
-    */
+    /**
+     * Function for converting fraction input to decimal output
+     * checks for validity of the fraction before converting into decimal
+     * outputs error strings if the string is invalid or the answer as a
+     * string object.
+     * @param fraction the string representation of the fraction input
+     * @return an error message or the decimal form of the fraction as a string
+     */
     public static String evaluateFraction(String fraction) {
         double numerator;
         double denominator;
         if (fraction.equals("")){
             return "";
         }
+        //checks to see if the input is a valid fraction before evaluating
         if (fraction.contains("/")){
             String[] ratio = fraction.split("/");
             if (ratio.length > 2){
@@ -190,9 +210,10 @@ public class FractionToDecimalTool extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /* 
+    /**
      * Shows and hides the bottom navigation bar when user swipes at it on screen
      * Called when the focus of the window changes to this activity
+     * @param hasFocus true or false based on if the focus of the window changes to this activity
      */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -208,9 +229,10 @@ public class FractionToDecimalTool extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /*
+    /**
      * Sets what menu will be in the action bar
-     * homeonlymenu has the settings button and the home button
+     * @param menu The options menu in which we place the items.
+     * @return true
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -219,12 +241,14 @@ public class FractionToDecimalTool extends AppCompatActivity {
         return true;
     }
 
-    /*
+    /**
      * Listens for selections from the menu in the action bar
      * Does action corresponding to selected item
      * home = goes to homescreen
      * settings = goes to settings page
      * android.R.id.home = go to the activity that called the current activity
+     * @param item that is selected from the menu in the action bar
+     * @return true
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

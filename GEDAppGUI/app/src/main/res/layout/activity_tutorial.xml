@@ -49,7 +49,7 @@
         <Button
             android:text="Forward"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/tutorial_forward"
             app:layout_column="2"
             app:layout_row="0"
@@ -58,7 +58,7 @@
         <Button
             android:text="Exit"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/tutorial_exit"
             app:layout_column="1"
             app:layout_row="0"
@@ -68,9 +68,8 @@
         <Button
             android:text="Back"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/tutorial_back"
-            app:layout_gravity="fill_horizontal"
             android:onClick="goBack"
             app:layout_column="0"
             app:layout_row="0"/>

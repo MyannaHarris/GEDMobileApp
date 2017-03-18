@@ -33,8 +33,11 @@ public class Redo extends AppCompatActivity {
     private int lessonID;
     private int conceptID;
 
-    /*
+    /**
      * Starts the activity and shows corresponding view on screen
+     * @param savedInstanceState If the activity is being re-initialized after previously being
+     *                           shut down then this Bundle contains the data it most recently
+     *                           supplied in onSaveInstanceState(Bundle). Otherwise it is null.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +72,10 @@ public class Redo extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /* 
+    /**
      * Shows and hides the bottom navigation bar when user swipes at it on screen
      * Called when the focus of the window changes to this activity
+     * @param hasFocus true or false based on if the focus of the window changes to this activity
      */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -87,7 +91,7 @@ public class Redo extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /*
+    /**
      * Listens for the back button on the bottom navigation bar
      * Stops app from allowing the back button to do anything
      */
@@ -96,9 +100,11 @@ public class Redo extends AppCompatActivity {
         // Do nothing when back pressed from home screen
     }
 
-    /*
+    /**
      * Sets what menu will be in the action bar
      * homeonlymenu has the settings button and the home button
+     * @param menu the menu that is pressed
+     * @return
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -107,11 +113,14 @@ public class Redo extends AppCompatActivity {
         return true;
     }
 
-    /*
+    /**
      * Listens for selections from the menu in the action bar
      * Does action corresponding to selected item
      * home = goes to homescreen
      * settings = goes to settings page
+     * android.R.id.home = go to the activity that called the current activity
+     * @param item that is selected from the menu in the action bar
+     * @return true
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -134,9 +143,10 @@ public class Redo extends AppCompatActivity {
         return true;
     }
 
-    /*
+    /**
      * Called when move on button clicked
      * Opens the RedoExample page
+     * @param view the button that is pressed
      */
     public void goToRedoExample(View view) {
         Intent intent = new Intent(this, RedoExample.class);

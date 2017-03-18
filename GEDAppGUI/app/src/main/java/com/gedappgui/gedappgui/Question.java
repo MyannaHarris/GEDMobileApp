@@ -25,7 +25,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -62,6 +65,19 @@ public class Question extends AppCompatActivity {
         conceptID = mIntent.getIntExtra("conceptID", 0);
         lessonID = mIntent.getIntExtra("lessonID", 0);
         redo = mIntent.getIntExtra("redoComplete", 0);
+
+
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int height = dm.heightPixels;
+
+        Button submitbtn = (Button)findViewById(R.id.submit_answer_button);
+        submitbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        //set heights for button
+        ViewGroup.LayoutParams params = submitbtn.getLayoutParams();
+        params.height = (height/10);
+
+        submitbtn.setLayoutParams(params);
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);

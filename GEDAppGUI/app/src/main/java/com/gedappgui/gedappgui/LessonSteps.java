@@ -56,8 +56,11 @@ public class LessonSteps extends AppCompatActivity {
     // Deal with video
     private WebView webView;
 
-    /*
+    /**
      * Starts the activity and shows corresponding view on screen
+     * @param savedInstanceState If the activity is being re-initialized after previously being
+     *                           shut down then this Bundle contains the data it most recently
+     *                           supplied in onSaveInstanceState(Bundle). Otherwise it is null.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,18 +97,23 @@ public class LessonSteps extends AppCompatActivity {
         TextView advice = (TextView) findViewById(R.id.advice_text);
         advice.setText(toHTML(lessonAdvice));
 
+        //get screen dimensions
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
         Button nextbtn = (Button) findViewById(R.id.lessonExample);
-
+        //set dynamic text size
         nextbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
-
 
     }
 
+    /**
+     * method for retrieving bitmap of lesson pictures
+     * @param strName the path where the picture are located
+     * @return bitmap for accessing lesson pictures
+     */
     private Bitmap getBitmapFromAsset(String strName)
     {
         AssetManager assetManager = getAssets();
@@ -119,7 +127,7 @@ public class LessonSteps extends AppCompatActivity {
         return bitmap;
     }
 
-    /*
+    /**
      * hides bottom navigation bar
      * Called after onCreate on first creation
      * Called every time this activity gets the focus
@@ -140,7 +148,7 @@ public class LessonSteps extends AppCompatActivity {
         webView.onResume();
     }
 
-    /*
+    /**
      * hides bottom navigation bar
      * Called after onCreate on first creation
      * Called every time this activity gets the focus
@@ -152,9 +160,10 @@ public class LessonSteps extends AppCompatActivity {
         webView.onPause();
     }
 
-    /* 
+    /**
      * Shows and hides the bottom navigation bar when user swipes at it on screen
      * Called when the focus of the window changes to this activity
+     * @param hasFocus true or false based on if the focus of the window changes to this activity
      */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -170,9 +179,10 @@ public class LessonSteps extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /*
+    /**
      * Sets what menu will be in the action bar
-     * homeonlymenu has the settings button and the home button
+     * @param menu The options menu in which we place the items.
+     * @return true
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -181,12 +191,14 @@ public class LessonSteps extends AppCompatActivity {
         return true;
     }
 
-    /*
+    /**
      * Listens for selections from the menu in the action bar
      * Does action corresponding to selected item
      * home = goes to homescreen
      * settings = goes to settings page
      * android.R.id.home = go to the activity that called the current activity
+     * @param item that is selected from the menu in the action bar
+     * @return true
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -213,9 +225,10 @@ public class LessonSteps extends AppCompatActivity {
         return true;
     }
 
-    /*
+    /**
      * Called when the move on button is clicked
      * Opens the Lesson example page
+     * @param view the button that was pressed
      */
     public void gotToLessonExample(View view) {
         Intent intent = new Intent(this, LessonExample.class);
@@ -224,8 +237,10 @@ public class LessonSteps extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /* Makes HTML tags in strings work
-     * Mostly for powers (ex: 3^2)
+    /**
+     * Converts database strings to HTML to support superscripts
+     * @param input the string to be converted
+     * @return Spanned object to be passed into the setText method
      */
     public Spanned toHTML(String input) {
 

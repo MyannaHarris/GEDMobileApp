@@ -36,8 +36,11 @@ public class RedoExample extends AppCompatActivity {
     private int lessonID;
     private int conceptID;
 
-    /*
+    /**
      * Starts the activity and shows corresponding view on screen
+     * @param savedInstanceState If the activity is being re-initialized after previously being
+     *                           shut down then this Bundle contains the data it most recently
+     *                           supplied in onSaveInstanceState(Bundle). Otherwise it is null.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +57,11 @@ public class RedoExample extends AppCompatActivity {
         DatabaseHelper db = new DatabaseHelper(this);
         setRedos(db, lessonID);
     }
-    /*
-        Sets the redo examples using the database
+
+    /**
+     * Sets the redo examples using the database
+     * @param db the database helper object
+     * @param lesson_id the current lesson number
      */
     public void setRedos(DatabaseHelper db, int lesson_id){
         ArrayList<String> redos = new ArrayList<>();
@@ -67,7 +73,8 @@ public class RedoExample extends AppCompatActivity {
         redo_2.setText(redos.get(1));
         redo_3.setText(redos.get(2));
     }
-    /*
+
+    /**
      * hides bottom navigation bar
      * Called after onCreate on first creation
      * Called every time this activity gets the focus
@@ -86,9 +93,10 @@ public class RedoExample extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /* 
+    /**
      * Shows and hides the bottom navigation bar when user swipes at it on screen
      * Called when the focus of the window changes to this activity
+     * @param hasFocus true or false based on if the focus of the window changes to this activity
      */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -113,9 +121,11 @@ public class RedoExample extends AppCompatActivity {
         // Do nothing when back pressed from home screen
     }
 
-    /*
+    /**
      * Sets what menu will be in the action bar
      * homeonlymenu has the settings button and the home button
+     * @param menu the menu that is clicked
+     * @return true
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -124,12 +134,14 @@ public class RedoExample extends AppCompatActivity {
         return true;
     }
 
-    /*
-     * Listens for selections from the menu in the action bar
-     * Does action corresponding to selected item
-     * home = goes to homescreen
-     * settings = goes to settings page
-     * android.R.id.home = go to the activity that called the current activity
+    /**
+    * Listens for selections from the menu in the action bar
+    * Does action corresponding to selected item
+    * home = goes to homescreen
+    * settings = goes to settings page
+    * android.R.id.home = go to the activity that called the current activity
+    * @param item that is selected from the menu in the action bar
+    * @return true
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -152,11 +164,12 @@ public class RedoExample extends AppCompatActivity {
         return true;
     }
 
-    /*
+    /**
      * Called by the move on to game button being clicked
      * Opens the lesson game
      * intent.putExtra("next_activity", 0);
      *   = sends 0 to tell game to go to question activity next
+     * @param view the button that calls this function
      */
     public void gotToLessonGame(View view) {
         Intent intent = new Intent(this, GameIntro.class);
@@ -168,9 +181,10 @@ public class RedoExample extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /*
+    /**
      * Called by the skip game being clicked
      * Skips to the questions
+     * @param view the button that calls this function
      */
     public void skipTheLessonGame(View view) {
         Intent intent = new Intent(this, Question.class);

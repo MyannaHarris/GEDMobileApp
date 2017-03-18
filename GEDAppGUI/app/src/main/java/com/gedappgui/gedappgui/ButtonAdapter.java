@@ -51,9 +51,20 @@ public class ButtonAdapter extends BaseAdapter {
     private int concept;
     private int nextActivity;
 
-    /*
+
+    /**
      * Constructor for PictureGameView buttons
-     * Gets the variables from PictureGameView to use in create the buttons and events
+     * Gets the variables from PictureGameView to use in creating the buttons and events
+     * @param c the activity's current context
+     * @param buttonNamesp an array of button names to add
+     * @param change the initial picture
+     * @param splitter the split data to run the game
+     * @param state the initial equation at the top
+     * @param pics the set of pictures to go through
+     * @param result the Textview that tells the user if they are right or wrong
+     * @param lessonID the current lesson index
+     * @param conceptID the current concept index
+     * @param nextAct the GameEnd activity to be launched when the game is completed
      */
     public ButtonAdapter(Context c, String[] buttonNamesp, ImageView change, String splitter,
                          TextView state, int[] pics, TextView result, int lessonID,
@@ -72,48 +83,58 @@ public class ButtonAdapter extends BaseAdapter {
 
     }
 
-    //Deafult constructor for just putting buttons in gridview
+    /**
+     * Deafult constructor for just putting buttons in gridview
+     * @param c the current activity's context
+     * @param buttonNamesp the names of the button being put into the gridlayout
+     */
     public ButtonAdapter(Context c, String[] buttonNamesp){
         mContext = c;
         buttonNames = buttonNamesp;
     }
 
-
-    /*
-     * Gets the number of itams to put in the view
-     *
-     * returns imageIds.length
+    /**
+     *  Gets the number of itams to put in the view
+     * @return number of buttons to put in
      */
     @Override
     public int getCount() {
         return buttonNames.length;
     }
 
-    /*
+    /**
      * Does not do anything but needed to implement BaseAdapter
      * returns null
+     * @param position null
+     * @return null
      */
     @Override
     public Object getItem(int position) {
         return null;
     }
 
-    /*
+    /**
      * Does not do anything but needed to implement BaseAdapter
      * returns the position sent to the method
+     * @param position the position of the button
+     * @return position of the button
      */
     @Override
     public long getItemId(int position) {
         return position;
     }
 
-    /*
-     * Creates the components for the adapter
-     * returns an imageview
-     */
 
     //credit: radhoo, StackOverflow
     //Helper function for animating the picture change in PictureGameView.java
+
+    /**
+     * credit: radhoo, StackOverflow
+     * Helper function for animating the picture change in PictureGameView.java
+     * @param c the current activities context
+     * @param v the current imageview
+     * @param new_image the new imageview
+     */
     private static void ImageViewAnimatedChange(Context c, final ImageView v, final int new_image) {
         final Animation anim_out = AnimationUtils.loadAnimation(c, android.R.anim.fade_out);
         final Animation anim_in  = AnimationUtils.loadAnimation(c, android.R.anim.fade_in);
@@ -135,7 +156,15 @@ public class ButtonAdapter extends BaseAdapter {
         v.startAnimation(anim_out);
     }
 
-    //Used for making truth and false buttons in PictureGameView.java
+
+
+    /**
+     * Used for making truth and false buttons in PictureGameView.java
+     * @param position the position of the view in the gridlayout
+     * @param convertView the view going into the layout
+     * @param parent the gridlayout
+     * @return new button to be put into the gridview
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -180,6 +209,7 @@ public class ButtonAdapter extends BaseAdapter {
                             Runnable r2 = new Runnable() {
                                 @Override
                                 public void run() {
+                                    //starts GameEnd activity
                                     Context context = mContext;
                                     Intent intent = new Intent(context, GameEnd.class);
                                     intent.putExtra("next_activity", nextActivity);
@@ -212,6 +242,7 @@ public class ButtonAdapter extends BaseAdapter {
                         cur = (cur + 2) % 20;
                         statement.setText(toHTML(answers[cur]));
                         resulter.setText("Correct!");
+                        //changes picture
                         Runnable r = new Runnable(){
                             @Override
                             public void run(){
@@ -229,6 +260,7 @@ public class ButtonAdapter extends BaseAdapter {
                             Runnable r2 = new Runnable() {
                                 @Override
                                 public void run() {
+                                    //starts GameEnd activity
                                     Context context = mContext;
                                     Intent intent = new Intent(context, GameEnd.class);
                                     intent.putExtra("next_activity", nextActivity);
@@ -245,6 +277,7 @@ public class ButtonAdapter extends BaseAdapter {
                     }
                     else{
                         resulter.setText(toHTML("Incorrect! Try again"));
+                        //circular queue
                         cur = (cur + 2) % 20;
                         statement.setText(toHTML(answers[cur]));
 
@@ -257,6 +290,11 @@ public class ButtonAdapter extends BaseAdapter {
         return button;
     }
 
+    /**
+     * Converts database strings to HTML to support superscripts
+     * @param input the string to be converted
+     * @return Spanned object to be passed into the setText method
+     */
     public Spanned toHTML(String input) {
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {

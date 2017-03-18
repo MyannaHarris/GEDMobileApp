@@ -51,6 +51,8 @@ public class PictureGameView extends LinearLayout {
             "FALSE"
     };
     private String splits;
+
+    //names of all of the possible picture repositories
     private int[] L5_pics = {
             R.drawable.lesson5game_0,
             R.drawable.lesson5game_1,
@@ -84,6 +86,14 @@ public class PictureGameView extends LinearLayout {
             R.drawable.lesson19game_5
     };
 
+    /**
+     * Constructor for making the top statement, buttons, and imageview
+     * @param contextp the current activity context
+     * @param conceptIDp the current concept index
+     * @param lessonIDp the current lesson index
+     * @param nextActivityp the next activity index
+     * @param passer the data for the game
+     */
     public PictureGameView(Context contextp, int conceptIDp, int lessonIDp, int nextActivityp, String passer){
         super(contextp);
 
@@ -103,16 +113,17 @@ public class PictureGameView extends LinearLayout {
         this.setLayoutParams(new LayoutParams( LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         this.setOrientation(LinearLayout.VERTICAL);
 
+        //set layout params and padding for the top statement
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(10, 80, 10, 80);
         statement.setLayoutParams(layoutParams);
-        //statement.setPadding(0,0,0,0);
 
         LinearLayout.LayoutParams linearLayout = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         linearLayout.setMargins(10, 10, 10, 10);
 
+        //split the database content into an array of string to make it easier to work with
         String[] init = splits.split(",");
 
 
@@ -151,6 +162,7 @@ public class PictureGameView extends LinearLayout {
         buttons.setHorizontalSpacing(10);
         buttons.setVerticalSpacing(10);
 
+        //initialize the result text to null
         result.setLayoutParams(layoutParams);
         result.setText("");
         result.setTextSize(20);
@@ -171,6 +183,11 @@ public class PictureGameView extends LinearLayout {
 
     }
 
+    /**
+     * Converts database strings to HTML to support superscripts
+     * @param input the string to be converted
+     * @return Spanned object to be passed into the setText method
+     */
     public Spanned toHTML(String input) {
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {

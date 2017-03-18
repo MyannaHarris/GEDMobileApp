@@ -17,6 +17,7 @@
 package com.gedappgui.gedappgui;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.media.Image;
 import android.os.Build;
@@ -28,6 +29,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -100,6 +102,7 @@ public class Tutorial extends AppCompatActivity {
         int height = dm.heightPixels;
 
 
+
         //sets dynamic sizes for the buttons on tutorial
         Button backbtn = (Button)findViewById(R.id.tutorial_back);
         backbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
@@ -107,6 +110,19 @@ public class Tutorial extends AppCompatActivity {
         forwardbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
         Button exitbtn = (Button)findViewById(R.id.tutorial_exit);
         exitbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+//        TextView prompt = (TextView)findViewById(R.id.prompt);
+//        prompt.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/25));
+
+//        int btncolor =  exitbtn.getSolidColor();
+//        backbtn.setBackgroundColor(btncolor);
+
+        //set heights for buttons
+//        ViewGroup.LayoutParams params = exitbtn.getLayoutParams();
+//        params.height = (height/8);
+//
+//        exitbtn.setLayoutParams(params);
+//        forwardbtn.setLayoutParams(params);
+//        backbtn.setLayoutParams(params);
 
     }
 

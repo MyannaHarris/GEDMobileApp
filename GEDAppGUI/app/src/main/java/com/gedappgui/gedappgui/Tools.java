@@ -33,8 +33,11 @@ import android.widget.Button;
 
 public class Tools extends AppCompatActivity {
 
-    /*
+    /**
      * Starts the activity and shows corresponding view on screen
+     * @param savedInstanceState If the activity is being re-initialized after previously being
+     *                           shut down then this Bundle contains the data it most recently
+     *                           supplied in onSaveInstanceState(Bundle). Otherwise it is null.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,7 @@ public class Tools extends AppCompatActivity {
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
+        //buttons for resizing
         Button fracbtn = (Button) findViewById(R.id.fracdectool);
         Button slopebtn = (Button) findViewById(R.id.slopeCalculator);
         Button membtn = (Button) findViewById(R.id.FormMem);
@@ -58,14 +62,14 @@ public class Tools extends AppCompatActivity {
 
 
         ViewGroup.LayoutParams params = fracbtn.getLayoutParams();
-
+        //get screen dimensions
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
         int height = dm.heightPixels;
-
+        //set button height
         params.height = (height/8);
-
+        //apply dynamic button test size and height
         fracbtn.setLayoutParams(params);
         fracbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
         slopebtn.setLayoutParams(params);
@@ -102,9 +106,10 @@ public class Tools extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /* 
+    /**
      * Shows and hides the bottom navigation bar when user swipes at it on screen
      * Called when the focus of the window changes to this activity
+     * @param hasFocus true or false based on if the focus of the window changes to this activity
      */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -120,60 +125,80 @@ public class Tools extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /*
+    /**
      * Called by a tool being selected
      * Opens fraction to decimal tool
+     * @param view
      */
     public void goTofracdectool(View view) {
         Intent intent = new Intent(this, FractionToDecimalTool.class);
         startActivity(intent);
     }
 
-    /*
+    /**
      * Called by a tool being selected
-     * Opens fraction to decimal tool
+     * Opens formulas tool
+     * @param view
      */
     public void goToFormulas(View view) {
         Intent intent = new Intent(this, FormulaMemorization.class);
         startActivity(intent);
     }
 
-    /*
+    /**
      * Called by a tool being selected
-     * Opens fraction to decimal tool
+     * Opens slope calculator tool
+     * @param view
      */
     public void goToSlopeCalculator(View view) {
         Intent intent = new Intent(this, SlopeCalculator.class);
         startActivity(intent);
     }
 
+    /**
+     * Called by a tool being selected
+     * Opens geo assist tool
+     * @param view
+     */
     public void goToGeoAssist (View view){
         Intent intent = new Intent(this, GeoAssist.class);
         startActivity(intent);
     }
 
+    /**
+     * Called by a tool being selected
+     * Opens place values tool
+     * @param view
+     */
     public void goToPlaceValues (View view){
         Intent intent = new Intent(this, PlaceValues.class);
         startActivity(intent);
     }
 
-    /*
+    /**
      * Opens Tutorial view when button is clicked
-     * Called when the user clicks the Settings button
+     * Called when the user clicks the tutorial button
+     * @param view
      */
     public void goToTutorial(View view){
         Intent intent = new Intent(this, Tutorial.class);
         startActivity(intent);
     }
 
+    /**
+     * Opens links tool
+     * callled when user clicks the link button
+     * @param view
+     */
     public void goToLinks(View view){
         Intent intent = new Intent(this, NGZLinks.class);
         startActivity(intent);
     }
 
-    /*
+    /**
      * Sets what menu will be in the action bar
-     * homeonlymenu has the settings button and the home button
+     * @param menu The options menu in which we place the items.
+     * @return true
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -182,12 +207,14 @@ public class Tools extends AppCompatActivity {
         return true;
     }
 
-    /*
+    /**
      * Listens for selections from the menu in the action bar
      * Does action corresponding to selected item
      * home = goes to homescreen
      * settings = goes to settings page
      * android.R.id.home = go to the activity that called the current activity
+     * @param item that is selected from the menu in the action bar
+     * @return true
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
