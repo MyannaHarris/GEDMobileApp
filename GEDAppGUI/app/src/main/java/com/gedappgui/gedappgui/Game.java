@@ -130,9 +130,9 @@ public class Game extends AppCompatActivity {
             pictureGameView = new PictureGameView(this,conceptID,lessonID,nextActivity,pass_string);
             setContentView(pictureGameView);
         } else if (dbHelper.selectGameTemplate(lessonID).equals("order_game")) {
-            //ArrayList<ArrayList<String>> texts = dbHelper.selectOrderGameInput(lessonID);
+            ArrayList<ArrayList<String>> texts = dbHelper.selectOrderGameInput(lessonID);
 
-            ArrayList<ArrayList<String>> texts = new ArrayList<ArrayList<String>>();
+            /*ArrayList<ArrayList<String>> texts = new ArrayList<ArrayList<String>>();
 
             ArrayList<String> qs = new ArrayList<String>();
             qs.add("5");
@@ -160,7 +160,7 @@ public class Game extends AppCompatActivity {
             answers.add("1");
 
             texts.add(qs);
-            texts.add(answers);
+            texts.add(answers);*/
 
             orderingGameView = new OrderingGameView(this, texts, conceptID,
                     lessonID, nextActivity, width, height);
