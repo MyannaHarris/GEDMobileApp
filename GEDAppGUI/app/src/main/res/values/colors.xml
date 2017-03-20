@@ -31,7 +31,7 @@
     <color name="gameIncorrect">#961315</color>
     <color name="matchCardBG">#cccccc</color>
     <color name="matchCardOutline">#160023</color>
-    <color name="matchCardSelectedOutline">#241F69</color>
+    <color name="matchCardSelectedOutline">#4a0ba4</color>
     <color name="accessoryHighlight">#b8c4f7</color>
     <color name="transparent">#00ffffff</color>
     <color name="geospinner">#ca7cff</color>

@@ -102,7 +102,7 @@ public class Success extends AppCompatActivity {
 
         if (!(dbHelper.isLessonAlreadyStarted(lessonID+1))) {
             TextView pickText = (TextView) findViewById(R.id.accessory_choice);
-            pickText.setText("Pick your sprite accessory:");
+            pickText.setText("Pick an accessory:");
             // get random accessories user doesn't have from db and put them in ArrayList
             ArrayList<Integer> ids = dbHelper.getRandomAccessories();
             for (int i=0; i<ids.size(); i++) {
