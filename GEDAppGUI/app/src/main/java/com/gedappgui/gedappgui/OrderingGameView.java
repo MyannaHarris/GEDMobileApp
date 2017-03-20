@@ -260,12 +260,12 @@ public class OrderingGameView extends LinearLayout {
             bottomLabel.setHeight((height - (30 + 10 * answerTexts.size())) / (answerTexts.size() + 2));
 
             // Set up current labels
-            topLabel.setText(questionTexts.get(0));
-            bottomLabel.setText(questionTexts.get(1));
+            topLabel.setText("Greatest");
+            bottomLabel.setText("Least");
 
             // Remove label texts
-            questionTexts.remove(0);
-            questionTexts.remove(0);
+            //questionTexts.remove(0);
+            //questionTexts.remove(0);
 
             // Nothing dragging at start
             dragging = false;
