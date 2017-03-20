@@ -320,7 +320,6 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                         inDragon = false;
                         break;
                 }
-                checkAchievements();
                 return true;
             }
         });
@@ -431,8 +430,6 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         spinner.setOnItemSelectedListener(this);
         spinner.setSelection(0);
 
-        checkAchievements();
-
         String dragonName = ((MyApplication) this.getApplication()).getDragonName();
         if (dragonName != null && !dragonName.equals("")) {
             setTitle(dragonName + "'s Lair");
@@ -537,29 +534,6 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             achievement.putExtra("achievementID", 20);
             startActivity(achievement);
         }
-
-        /*
-        //gives an achievement if the user earns 3 accessories
-        if(dbHelper.countAccessoriesEarned() >= 3){
-            Intent achievement = new Intent(this, AchievementPopUp.class);
-            achievement.putExtra("achievementID", 15);
-            startActivity(achievement);
-        }
-
-        //gives an achievement if the user earns 8 accessories
-        if(dbHelper.countAccessoriesEarned() >= 8){
-            Intent achievement = new Intent(this, AchievementPopUp.class);
-            achievement.putExtra("achievementID", 16);
-            startActivity(achievement);
-        }
-
-        //gives an achievement if the user earns all accessories
-        if(dbHelper.countAccessoriesEarned() >= 24){
-            Intent achievement = new Intent(this, AchievementPopUp.class);
-            achievement.putExtra("achievementID", 17);
-            startActivity(achievement);
-        }
-        */
     }
 
     /*
@@ -697,8 +671,6 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                 }
             });
         }
-
-        checkAchievements();
     }
 
     /*
@@ -744,8 +716,6 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                 }
             });
         }
-
-        checkAchievements();
     }
 
     /*
@@ -791,8 +761,6 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                 }
             });
         }
-
-        checkAchievements();
     }
 
     /*
@@ -838,8 +806,6 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                 }
             });
         }
-
-        checkAchievements();
     }
 
     /*
@@ -885,8 +851,6 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                 }
             });
         }
-
-        checkAchievements();
     }
 
     /*
@@ -951,8 +915,6 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             currDragon -= 1;
             addAccessory(dragons.get(currDragon));
         }
-
-        checkAchievements();
     }
 
     /*
@@ -967,8 +929,6 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             currDragon += 1;
             addAccessory(dragons.get(currDragon));
         }
-
-        checkAchievements();
     }
 
     /*
@@ -1017,8 +977,6 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                 showAll(view);
                 break;
         }
-
-        checkAchievements();
     }
 
     /*
