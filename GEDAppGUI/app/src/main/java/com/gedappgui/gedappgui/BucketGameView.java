@@ -532,6 +532,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                 if (showQuestionAtBeginning) {
                     if (startButton.contains((int)motionEvent.getX(), (int)motionEvent.getY())) {
                         showQuestionAtBeginning = false;
+                        waitToStartNextGame = 30;
                     }
                 }
                 break;
