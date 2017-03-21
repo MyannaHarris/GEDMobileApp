@@ -67,34 +67,6 @@ public class Login extends AppCompatActivity {
                 return false;
             }
         });
-
-        // Disable login button while keyboard is open
-        // Re-enable it when keyboard closes
-        /*getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(
-                new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-
-                Button button = (Button) findViewById(R.id.login_button);
-
-                Rect r = new Rect();
-                getWindow().getDecorView().getWindowVisibleDisplayFrame(r);
-                int screenHeight = getWindow().getDecorView().getRootView().getHeight();
-
-                // r.bottom is the position above soft keypad or device button.
-                // if keypad is shown, the r.bottom is smaller than that before.
-                int keypadHeight = screenHeight - r.bottom;
-
-                if (keypadHeight > screenHeight * 0.15) { // 0.15 ratio is perhaps enough to determine keypad height.
-                    // keyboard is opened
-                    button.setEnabled(false);
-                }
-                else {
-                    // keyboard is closed
-                    button.setEnabled(true);
-                }
-            }
-        });*/
     }
 
     /**

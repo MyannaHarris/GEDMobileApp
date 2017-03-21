@@ -278,14 +278,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /*
-     * Add accessory to sprite
-     * Map from name:
-     * 0 - actual image id
-     * 1 - icon image id
-     * 2 - ImageView layer id
-     */
-
     /**
      * Add accessory to sprite
      * Map from name:
