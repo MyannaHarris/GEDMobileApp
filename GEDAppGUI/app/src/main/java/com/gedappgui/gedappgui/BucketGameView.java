@@ -13,7 +13,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 2-6-17
+ * Last Edit: 3-19-17
  *
  */
 
@@ -97,8 +97,15 @@ public class BucketGameView extends SurfaceView implements Runnable  {
     private RectF startButton;
     private String startText;
 
-    /*
-     * Constructor
+    /**
+     * Constructor for game
+     * @param contextp Context of the activity
+     * @param widthp Width of the screen in pixels
+     * @param heightp Height of screen in pixels
+     * @param gameQuestionsp List of data for the game
+     * @param conceptIDp ID of the current concept
+     * @param lessonIDp ID of the current lesson
+     * @param nextActivityp Number indicating what the activity after the game should be
      */
     public BucketGameView(Context contextp, int widthp, int heightp,
                           ArrayList<ArrayList<String>> gameQuestionsp, int conceptIDp,
@@ -174,7 +181,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
         startTime = System.currentTimeMillis();
     }
 
-    /*
+    /**
      * Game loop
      * Calls the update and such
      * Limits the FPS
@@ -204,7 +211,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
         }
     }
 
-    /*
+    /**
      * Called during game loop
      * Updates where stuff is
      * Checks if answer is correct
@@ -214,18 +221,21 @@ public class BucketGameView extends SurfaceView implements Runnable  {
     private void update() {
         bucket.update();
 
+        // Count down the next round timer to pause and show the user the new question
         if (waitToStartNextGame > 0) {
             waitToStartNextGame -= 1;
         }
 
+        // Count down the finished game timer to pause and show the user their correct answers
         if (correctAnswers >= numAnswers && showFinishedGameTimer > 0) {
             showFinishedGameTimer -= 1;
             hideContentToShowAnswer = true;
         }
 
-        // Updating the enemy coordinate with respect to player speed
+        // Updating the numbers' coordinates
         for(int i=0; i<numberCount; i++){
 
+            // Only update numbers if the game is not paused to show the question or answer
             if(showFinishedGameTimer == 40 && !showQuestionAtBeginning
                     && waitToStartNextGame == 0) {
                 numbers[i].update();
@@ -235,8 +245,12 @@ public class BucketGameView extends SurfaceView implements Runnable  {
             if (Rect.intersects(bucket.getDetectCollision(), numbers[i].getDetectCollision())) {
                 // Moving enemy outside the left edge
                 numbers[i].setX(-200);
+
+                // Check if it is a correct answer
                 if (answers.contains(numbers[i].getText())) {
 
+                    // Remove number from answers if correct so only the
+                    //      correct answers not yet gotten count from now on
                     answers.remove(numbers[i].getText());
 
                     // Writes caught answer to question at the top
@@ -245,6 +259,8 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                         correctAnswer = true;
                     }
                     else if(lessonID == 8){
+                        // This lesson does not have items to replace
+                        //      as it is summing things in the question
                         correctAnswer = true;
                     }
                     else{
@@ -255,27 +271,39 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                     correctAnswers += 1;
                 }
 
+                // Show if user got answer correct or incorrect
                 showResult = true;
             }
 
             // If the question was gotten correct
             if (correctAnswers >= numAnswers) {
-                hideContentToShowAnswer = true;
-                if (showFinishedGameTimer == 0) {
-                    if (currentQuestion + 3 <= gameQuestions.size() - 1) {
-                        // Go to next question if there is another question left to go to
 
+                // Don't show the numbers so user can see their correct answers
+                hideContentToShowAnswer = true;
+
+                // Wait so user can see their answers
+                if (showFinishedGameTimer == 0) {
+                    // Go to next question if there is another question left to go to
+                    if (currentQuestion + 3 <= gameQuestions.size() - 1) {
+
+                        // Increment question by 2 since every 2 lists in the master list
+                        //      are for a single question
                         currentQuestion += 2;
+                        // Reset number of correct answers for this round to 0
                         correctAnswers = 0;
 
+                        // The lists of information from the master list
+                        // Evens are numbers to drop
+                        // Odds are the question and answers
                         ArrayList<String> texts = gameQuestions.get(currentQuestion);
                         ArrayList<String> answersStr = gameQuestions.get(currentQuestion + 1);
 
-                        numberCount = texts.size();
-                        question = answersStr.get(0);
-                        answersStr.remove(0);
-                        answers = answersStr;
-                        numAnswers = answers.size();
+                        // Get next question information
+                        numberCount = texts.size(); // Number of falling numbers
+                        question = answersStr.get(0); // Question to put at top
+                        answersStr.remove(0); // Remove question from list
+                        answers = answersStr; // Save all of the answers in a global list
+                        numAnswers = answers.size(); // Number of answers for the question
 
                         //initializing drawing objects
                         surfaceHolder = getHolder();
@@ -285,15 +313,17 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                         Rect bounds = new Rect();
                         paint.getTextBounds(question, 0, question.length(), bounds);
                         questionHeight = bounds.height();
+
+                        // Reset timers and booleans that pause between rounds
+                        // Number of loops to wait to show what answer the user got right to finish the round
                         showFinishedGameTimer = 40;
-                        hideContentToShowAnswer = false;
-                        //showQuestionAtBeginning = true;
-                        waitToStartNextGame = 30;
+                        hideContentToShowAnswer = false; // Whether to show the numbers
+                        waitToStartNextGame = 30; // Number of loops to wait before dropping numbers
 
                         // Reset answer variables
-                        showResult = false;
-                        correctAnswer = false;
-                        showResultTimer = 10;
+                        showResult = false; // Whether to show the "Correct" or "Incorrect"
+                        correctAnswer = false; // Whether the user has gotten a correct answer
+                        showResultTimer = 10; // Number of loops to show the result word
 
                         // Initializing number object array
                         numbers = new BucketNumber[numberCount];
@@ -305,8 +335,8 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                         // Save start time to limit fps
                         startTime = System.currentTimeMillis();
                     } else {
-                        // Go to GameEnd page if done with game
 
+                        // Go to GameEnd page if done with game
                         Context context = getContext();
                         Intent intent = new Intent(context, GameEnd.class);
                         intent.putExtra("next_activity", nextActivity);
@@ -319,7 +349,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
         }
     }
 
-    /*
+    /**
      * Called during game loop
      * Draws all of the game items
      */
@@ -331,6 +361,8 @@ public class BucketGameView extends SurfaceView implements Runnable  {
 
             // Drawing a background color for canvas
             canvas.drawColor(ContextCompat.getColor(context, R.color.bucketGameBG));
+
+            // Draw bitmap to bacjground of game
             Bitmap dragonBG = BitmapFactory.decodeResource(
                     getResources(),R.drawable.game_goldchest);
             Paint alphaPaint = new Paint();
@@ -338,16 +370,17 @@ public class BucketGameView extends SurfaceView implements Runnable  {
             canvas.drawBitmap(dragonBG, width / 2 - dragonBG.getWidth() / 2,
                     height / 2 - dragonBG.getHeight() / 2, alphaPaint);
 
-            // Write question to screen
+            // Draw question to screen
             canvas.drawText(
                     question,
                     (width / 2 - (int)paint.measureText(question) / 2),
                     questionHeight,
                     paint);
 
+            // Draw numbers only if in game and not during breaks between rounds
             if(!hideContentToShowAnswer && !showQuestionAtBeginning
                     && waitToStartNextGame == 0) {
-                //drawing the falling numbers
+                // Drawing the falling numbers
                 for (int i = 0; i < numberCount; i++) {
                     Bitmap coinImg = BitmapFactory.decodeResource(getResources(),
                             R.drawable.game_goldcoin);
@@ -355,6 +388,8 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                             (int) ((float)height / 12),
                             (int) ((float)height / 12), false);
                     int x = numbers[i].getText().length();
+
+                    // Draw the coin image
                     if (x > 1) {
                         // Draw double character answer
                         canvas.drawBitmap(
@@ -371,6 +406,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                                 numbers[i].getY() - ((float)height / 16),
                                 paint);
                     }
+                    // Draw the text
                     canvas.drawText(
                             numbers[i].getText(),
                             numbers[i].getX(),
@@ -384,6 +420,8 @@ public class BucketGameView extends SurfaceView implements Runnable  {
             if ((showResult || hideContentToShowAnswer) && waitToStartNextGame == 0) {
 
                 if (correctAnswer || hideContentToShowAnswer) {
+                    // Show if user catches a correct number or
+                    //      if user finishes question correctly
                     paint.setColor(ContextCompat.getColor(context, R.color.gameCorrect));
                     canvas.drawText(
                             "CORRECT",
@@ -391,8 +429,10 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                             height / 2 - dragonBG.getHeight() / 2 - 20,
                             paint
                     );
+                    // Return paint color to black for text falling
                     paint.setColor(ContextCompat.getColor(context, R.color.bucketGameText));
                 } else if(!hideContentToShowAnswer) {
+                    // Show if user catches incorrect number
                     paint.setColor(ContextCompat.getColor(context, R.color.gameIncorrect));
                     canvas.drawText(
                             "INCORRECT",
@@ -400,6 +440,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                             height / 2 - dragonBG.getHeight() / 2 - 20,
                             paint
                     );
+                    // Return paint color to black for text falling
                     paint.setColor(ContextCompat.getColor(context, R.color.bucketGameText));
                 }
                 // Keep "Correct" or "Incorrect" on screen long enough to read
@@ -411,19 +452,23 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                 }
             }
 
-            // Drawing the player
+            // Drawing the player (bucket)
             canvas.drawBitmap(
                     bucket.getBitmap(),
                     bucket.getX(),
                     bucket.getY(),
                     paint);
 
+            // Waits for user to tap button before starting first round
+            // Draws only the question, bucket, and button
             if (showQuestionAtBeginning) {
+                // Set special settings for drawing the button
                 Paint rectAlphaPaint = new Paint();
                 rectAlphaPaint.setStyle(Paint.Style.FILL);
-
                 rectAlphaPaint.setAlpha(80);
                 rectAlphaPaint.setColor(ContextCompat.getColor(context, R.color.bucketGameStartButton));
+
+                // Draw the start button
                 canvas.drawRoundRect(startButton, 30, 30, rectAlphaPaint);
                 paint.setColor(ContextCompat.getColor(context, R.color.bucketGameStartText));
                 canvas.drawText(
@@ -439,7 +484,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
         }
     }
 
-    /*
+    /**
      * Thread control
      */
     private void control() {
@@ -450,7 +495,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
         }
     }
 
-    /*
+    /**
      * Pauses game/thread when page is left
      */
     public void pause() {
@@ -464,7 +509,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
         }
     }
 
-    /*
+    /**
      * Resumes game/thread when page is returned to
      */
     public void resume() {
@@ -475,7 +520,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
         gameThread.start();
     }
 
-    /*
+    /**
      * Reads touch events to move bucket
      */
     @Override
@@ -483,6 +528,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
         final int action = MotionEventCompat.getActionMasked(motionEvent);
         switch (action) {
             case MotionEvent.ACTION_UP:
+                // Waits for user to tap button before starting first round
                 if (showQuestionAtBeginning) {
                     if (startButton.contains((int)motionEvent.getX(), (int)motionEvent.getY())) {
                         showQuestionAtBeginning = false;

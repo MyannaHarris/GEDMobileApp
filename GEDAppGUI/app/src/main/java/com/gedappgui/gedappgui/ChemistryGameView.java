@@ -11,7 +11,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 2-19-17
+ * Last Edit: 3-19-17
  *
  */
 
@@ -82,8 +82,15 @@ public class ChemistryGameView extends RelativeLayout {
     // textviews that are done
     private ArrayList<Integer> doneTextViews;
 
-    /*
-     * Instantiate Chemistry game
+    /**
+     * Constructor for game
+     * @param contextp Context of the activity
+     * @param textsp List of data for the game
+     * @param conceptIDp ID of the current concept
+     * @param lessonIDp ID of the current lesson
+     * @param nextActivityp Number indicating what the activity after the game should be
+     * @param width Width of the screen in pixels
+     * @param heightp Height of screen in pixels
      */
     public ChemistryGameView(Context contextp, ArrayList<ArrayList<String>> textsp,
                              int conceptIDp, int lessonIDp, int nextActivityp,
@@ -141,6 +148,7 @@ public class ChemistryGameView extends RelativeLayout {
         answer1.setTextSize(convertPixelsToDp(height / 17, context));
         answer1.setTextColor(ContextCompat.getColor(context, R.color.chemistryGameText));
 
+        // Older versions have ids set differently
         if (Build.VERSION.SDK_INT < 17) {
             answer1.setId(R.id.chemistryGameTextView1);
         } else {
@@ -156,6 +164,7 @@ public class ChemistryGameView extends RelativeLayout {
         answer1.setHeight((height - 70) / 3 - 10);
         answer1.setWidth((width - 40) / 2);
 
+        // Draw potion
         answer1.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.chem_potion1, 0, 0);
 
         // Top right textview
@@ -168,6 +177,7 @@ public class ChemistryGameView extends RelativeLayout {
         answer2.setTextSize(convertPixelsToDp(height / 17, context));
         answer2.setTextColor(ContextCompat.getColor(context, R.color.chemistryGameText));
 
+        // Older versions have ids set differently
         if (Build.VERSION.SDK_INT < 17) {
             answer2.setId(R.id.chemistryGameTextView2);
         } else {
@@ -179,6 +189,7 @@ public class ChemistryGameView extends RelativeLayout {
         answer2.setHeight((height - 70) / 3 - 10);
         answer2.setWidth((width - 40) / 2);
 
+        // Draw potion
         answer2.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.chem_potion2, 0, 0);
 
         // Bottom left textview
@@ -191,6 +202,7 @@ public class ChemistryGameView extends RelativeLayout {
         answer3.setTextSize(convertPixelsToDp(height / 17, context));
         answer3.setTextColor(ContextCompat.getColor(context, R.color.chemistryGameText));
 
+        // Older versions have ids set differently
         if (Build.VERSION.SDK_INT < 17) {
             answer3.setId(R.id.chemistryGameTextView3);
         } else {
@@ -202,6 +214,7 @@ public class ChemistryGameView extends RelativeLayout {
         answer3.setHeight((height - 70) / 3 - 10);
         answer3.setWidth((width - 40) / 2);
 
+        // Draw potion
         answer3.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.chem_potion3, 0, 0);
 
         // Bottom right textview
@@ -214,6 +227,7 @@ public class ChemistryGameView extends RelativeLayout {
         answer4.setTextSize(convertPixelsToDp(height / 17, context));
         answer4.setTextColor(ContextCompat.getColor(context, R.color.chemistryGameText));
 
+        // Older versions have ids set differently
         if (Build.VERSION.SDK_INT < 17) {
             answer4.setId(R.id.chemistryGameTextView4);
         } else {
@@ -225,6 +239,7 @@ public class ChemistryGameView extends RelativeLayout {
         answer4.setHeight((height - 70) / 3 - 10);
         answer4.setWidth((width - 40) / 2);
 
+        // Draw potion
         answer4.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.chem_potion4, 0, 0);
 
         // Cauldron
@@ -236,6 +251,7 @@ public class ChemistryGameView extends RelativeLayout {
         cauldron.setTextSize(convertPixelsToDp(height / 17, context));
         cauldron.setTextColor(ContextCompat.getColor(context, R.color.chemistryGameText));
 
+        // Older versions have ids set differently
         if (Build.VERSION.SDK_INT < 17) {
             cauldron.setId(R.id.chemistryGameTextViewAnswer);
         } else {
@@ -246,11 +262,14 @@ public class ChemistryGameView extends RelativeLayout {
         cauldron.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
         cauldron.setHeight((height - 70) / 3 + 40);
 
+        // Make sure cauldron is the correct size
+        // Draw cauldron
         Drawable cauldronDraw = ContextCompat.getDrawable(context, R.drawable.chem_cauldron);
         cauldronDraw.setBounds(new Rect(0, 0, (height - 70) * 2 / 8 + 40,
                 (height - 70) * 2 / 8 + 40));
         cauldron.setCompoundDrawables(null, cauldronDraw, null, null);
 
+        // Set touch listener on this layout
         this.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -260,32 +279,43 @@ public class ChemistryGameView extends RelativeLayout {
 
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
+                        // Check what child if any was touched
                         for (int i=0; i<getChildCount(); i++){
                             TextView child = (TextView) r.getChildAt(i);
                             if(child != cauldron &&
                                     x > child.getLeft() && x < child.getRight() &&
                                     y > child.getTop() && y < child.getBottom()){
 
+                                // Save that index to know what answer was selected
                                 chosenChildIdx = i;
 
                                 //touch is within this child
                                 if (!doneTextViews.contains((Integer)chosenChildIdx)) {
+                                    // Remove potion from that textview
                                     child.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+                                    // Set that textview's potion to the dragging textview
                                     if (chosenChildIdx == 0) {
+                                        // Top left
                                         dragTextView.setCompoundDrawablesWithIntrinsicBounds(
                                                 0, R.drawable.chem_potion1, 0, 0);
                                     } else if (chosenChildIdx == 1) {
+                                        // Top right
                                         dragTextView.setCompoundDrawablesWithIntrinsicBounds(
                                                 0, R.drawable.chem_potion2, 0, 0);
                                     } else if (chosenChildIdx == 2) {
+                                        // Bottom left
                                         dragTextView.setCompoundDrawablesWithIntrinsicBounds(
                                                 0, R.drawable.chem_potion3, 0, 0);
                                     } else if (chosenChildIdx == 3) {
+                                        // Bottom right
                                         dragTextView.setCompoundDrawablesWithIntrinsicBounds(
                                                 0, R.drawable.chem_potion4, 0, 0);
                                     }
-                                    //dragTextView.setText(child.getText());
+
+                                    // Save the chosen answer's text
                                     chosenChildStr = child.getText().toString();
+                                    // Begin dragging
                                     draggingAnswer = true;
                                 }
                             }
@@ -294,20 +324,31 @@ public class ChemistryGameView extends RelativeLayout {
                     case MotionEvent.ACTION_MOVE:
                         if (draggingAnswer) {
                             if (dragTextView.getParent() != r) {
+                                // Add dragging textview to the layout if it is not there already
                                 dragTextView.setVisibility(View.VISIBLE);
                                 r.addView(dragTextView);
                             }
+
+                            // Move dragging textview
                             dragTextView.setX(event.getRawX() - dragTextView.getWidth() / 2);
                             dragTextView.setY(event.getRawY() - dragTextView.getHeight() / 2);
                         }
                         break;
                     case MotionEvent.ACTION_UP:
                         if (draggingAnswer) {
+                            // Check if potion was dragged onto cauldron
                             if (x > cauldron.getLeft() && x < cauldron.getRight() &&
                                     y > cauldron.getTop() && y < cauldron.getBottom()) {
+
+                                // Check if the answer is correct
                                 if (answerTexts.contains(chosenChildStr)) {
+
+                                    // Remove answer string if correct so it wont be
+                                    //      recognized as an answer again
                                     answerTexts.remove(chosenChildStr);
 
+                                    // Add the textview to the done list so it can't be
+                                    //      dragged anymore
                                     doneTextViews.add(chosenChildIdx);
 
                                     // Writes caught answer to question at the top
@@ -322,6 +363,7 @@ public class ChemistryGameView extends RelativeLayout {
                                     }
 
                                     numCorrectAnswers += 1;
+                                    // Checks if round is completed
                                     if (numCorrectAnswers == numAnswers) {
                                         // Pause
                                         new Handler().postDelayed(new Runnable() {
@@ -333,39 +375,51 @@ public class ChemistryGameView extends RelativeLayout {
                                         }, 600);
                                     }
                                 } else {
+                                    // Put potion back if answer is wrong
                                     TextView child = (TextView) r.getChildAt(chosenChildIdx);
 
                                     if (chosenChildIdx == 0) {
+                                        // Top left
                                         child.setCompoundDrawablesWithIntrinsicBounds(
                                                 0, R.drawable.chem_potion1, 0, 0);
                                     } else if (chosenChildIdx == 1) {
+                                        // Top right
                                         child.setCompoundDrawablesWithIntrinsicBounds(
                                                 0, R.drawable.chem_potion2, 0, 0);
                                     } else if (chosenChildIdx == 2) {
+                                        // Bottom left
                                         child.setCompoundDrawablesWithIntrinsicBounds(
                                                 0, R.drawable.chem_potion3, 0, 0);
                                     } else if (chosenChildIdx == 3) {
+                                        // Bottom right
                                         child.setCompoundDrawablesWithIntrinsicBounds(
                                                 0, R.drawable.chem_potion4, 0, 0);
                                     }
                                 }
                             } else {
+                                // Put potion back if not dropped on the cauldron
                                 TextView child = (TextView) r.getChildAt(chosenChildIdx);
 
                                 if (chosenChildIdx == 0) {
+                                    // Top left
                                     child.setCompoundDrawablesWithIntrinsicBounds(
                                             0, R.drawable.chem_potion1, 0, 0);
                                 } else if (chosenChildIdx == 1) {
+                                    // Top right
                                     child.setCompoundDrawablesWithIntrinsicBounds(
                                             0, R.drawable.chem_potion2, 0, 0);
                                 } else if (chosenChildIdx == 2) {
+                                    // Bottom left
                                     child.setCompoundDrawablesWithIntrinsicBounds(
                                             0, R.drawable.chem_potion3, 0, 0);
                                 } else if (chosenChildIdx == 3) {
+                                    // Bottom right
                                     child.setCompoundDrawablesWithIntrinsicBounds(
                                             0, R.drawable.chem_potion4, 0, 0);
                                 }
                             }
+                            // Stop dragging the chosen potion
+                            // Remove the dragging textview from the layout
                             draggingAnswer = false;
                             dragTextView.setVisibility(View.GONE);
                             r.removeView(dragTextView);
@@ -376,6 +430,7 @@ public class ChemistryGameView extends RelativeLayout {
             }
         });
 
+        // Add the textviews to the layout
         this.addView(answer1);
         this.addView(answer2);
         this.addView(answer3);
@@ -383,7 +438,7 @@ public class ChemistryGameView extends RelativeLayout {
         this.addView(cauldron);
     }
 
-    /*
+    /**
      * Set up question and answer text
      */
     private void setUp() {
@@ -391,18 +446,25 @@ public class ChemistryGameView extends RelativeLayout {
             // Set up current question
             questionTexts = texts.get(currQuestion * 2);
             answerTexts = texts.get(currQuestion * 2 + 1);
-            //System.out.println(answerTexts);
+
+            // Save number of answers
             numAnswers = answerTexts.size();
             numCorrectAnswers = 0;
 
+            // Clear the list of textviews that have already been used and
+            //      can't be used as an answer again
             doneTextViews.clear();
 
+            // Set question text
             cauldron.setText(questionTexts.get(0));
+            // Set text size based on how long the question is
             if (questionTexts.get(0).length() < 20) {
                 cauldron.setTextSize(convertPixelsToDp(height / 17, context));
             } else {
                 cauldron.setTextSize(convertPixelsToDp(height / 20, context));
             }
+
+            // Set answer texts and potion images
             answer1.setText(questionTexts.get(1));
             answer1.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.chem_potion1, 0, 0);
             answer2.setText(questionTexts.get(2));
@@ -412,11 +474,12 @@ public class ChemistryGameView extends RelativeLayout {
             answer4.setText(questionTexts.get(4));
             answer4.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.chem_potion4, 0, 0);
         } else {
+            // End the game if all questions have been answered correctly
             endGame();
         }
     }
 
-    /*
+    /**
      * Move on to game end page
      */
     private void endGame() {
@@ -427,8 +490,11 @@ public class ChemistryGameView extends RelativeLayout {
         context.startActivity(intent);
     }
 
-    /*
+    /**
      * Change pixel measurement into dp measurement
+     * @param px The pixels
+     * @param context The context of the activity
+     * @return dp - The measurement in dp
      */
     public static float convertPixelsToDp(float px,Context context){
 

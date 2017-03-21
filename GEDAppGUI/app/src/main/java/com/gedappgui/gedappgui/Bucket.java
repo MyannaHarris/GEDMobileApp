@@ -13,7 +13,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 2-6-17
+ * Last Edit: 3-19-17
  *
  */
 
@@ -53,8 +53,12 @@ public class Bucket {
     private int height;
     private int questionHeight;
 
-    /*
-     * Constructor
+    /**
+     * Constructor for bucket object that student uses to catch falling numbers
+     * @param context Context of the activity using the bucket
+     * @param widthp Width of the screen in pixels
+     * @param heightp Height of screen in pixels
+     * @param questionHeightp Measured height of text from Paint object
      */
     public Bucket(Context context, int widthp, int heightp, int questionHeightp) {
         // Set base values for coordinates
@@ -100,24 +104,26 @@ public class Bucket {
         detectCollision =  new Rect(x, y, bitmap.getWidth(), bitmap.getHeight());
     }
 
-    /*
+    /**
      * Setter
-     * Set start X coordinate
+     * Sets start X coordinate
+     * @param newX The new x coordinate to start at
      */
     public void startMoveBucket(int newX) {
         startX = newX;
     }
 
-    /*
+    /**
      * Setter
-     * Set change in x coordinate
+     * Sets change in X coordinate
+     * @param newX The new x coordinate moved to
      */
     public void stopMoveBucket(int newX) {
         dx = (int)(startX - newX + questionHeight * 1.1);
     }
 
-    /*
-     * Update coordinate
+    /**
+     * Update x coordinate
      */
     public void update(){
         // Updating x coordinate
@@ -143,33 +149,37 @@ public class Bucket {
         detectCollision.bottom = y + bitmap.getHeight();
     }
 
-    /*
+    /**
      * Getter
      * Gets the rectangle to check for collisions
+     * @return detectCollision - The rectangle around the bucket
      */
     public Rect getDetectCollision() {
         return detectCollision;
     }
 
-    /*
+    /**
      * Getter
      * Gets the bitmap used
+     * @return bitmap - The bitmap of the bucket
      */
     public Bitmap getBitmap() {
         return bitmap;
     }
 
-    /*
+    /**
      * Getter
      * Gets the x-coordinate
+     * @return x - The x coordinate of the bucket
      */
     public int getX() {
         return x;
     }
 
-    /*
+    /**
      * Getter
      * Gets the y-coordinate
+     * @return y - The y coordinate of the bucket
      */
     public int getY() {
         return y;

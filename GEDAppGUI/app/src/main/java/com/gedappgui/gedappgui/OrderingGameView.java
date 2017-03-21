@@ -11,7 +11,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 2-24-17
+ * Last Edit: 3-20-17
  *
  */
 
@@ -19,7 +19,6 @@ package com.gedappgui.gedappgui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
@@ -151,7 +150,8 @@ public class OrderingGameView extends LinearLayout {
                             if(x > child.getLeft() && x < child.getRight() &&
                                     y > child.getTop() && y < child.getBottom()){
 
-                                //touch is within this child
+                                // Touch is within this child
+                                // Set up dragging textviews text and start dragging
                                 lastTextView = child;
                                 dragTextView.setText((String) child.getText().toString());
                                 dragging = true;
@@ -160,13 +160,16 @@ public class OrderingGameView extends LinearLayout {
                         break;
                     case MotionEvent.ACTION_MOVE:
                         if (dragging) {
+                            // Blank out textviews that you pass over
                             lastTextView.setText("");
 
+                            // If dragging textview is not in layout, put it in layout
                             if (dragTextView.getParent() != linearLayout) {
                                 dragTextView.setVisibility(View.VISIBLE);
                                 linearLayout.addView(dragTextView);
                             }
 
+                            // Move dragging textview by changing its coordinates
                             dragTextView.setX(event.getRawX() - dragTextView.getWidth() / 2);
                             dragTextView.setY(event.getRawY() - dragTextView.getHeight() / 2);
 
@@ -176,7 +179,9 @@ public class OrderingGameView extends LinearLayout {
                                 if (x > child.getLeft() && x < child.getRight() &&
                                         y > child.getTop() && y < child.getBottom()) {
 
-                                    //touch is within this child
+                                    // Touch is within this child
+                                    // Swap texts in textviews that user is passing
+                                    //      over with dragging textview
                                     lastTextView.setText(child.getText());
                                     child.setText("");
                                     lastTextView = child;
@@ -186,9 +191,11 @@ public class OrderingGameView extends LinearLayout {
                         break;
                     case MotionEvent.ACTION_UP:
                         if (dragging && getChildCount() > (answerTexts.size() + 2)) {
-                            // Swicth last position of order
+                            // Check if dropped in an actual position
                             boolean inTextView = false;
                             for (int i = 0; i < getChildCount(); i++) {
+                                // Switch dragged item with item in position dropped on
+
                                 TextView child = (TextView) linearLayout.getChildAt(i);
                                 if (x > child.getLeft() && x < child.getRight() &&
                                         y > child.getTop() && y < child.getBottom()) {
@@ -199,7 +206,8 @@ public class OrderingGameView extends LinearLayout {
                                         child = (TextView) linearLayout.getChildAt(getChildCount() - 3);
                                     }
 
-                                    //touch is within this child
+                                    // Touch is within this child
+                                    // Set new textview values to reflect change in order
                                     lastTextView.setText(child.getText());
                                     child.setText(dragTextView.getText());
 
@@ -221,8 +229,9 @@ public class OrderingGameView extends LinearLayout {
                                 }
                             }
 
+                            // Move on to next question if ordered correctly
                             if (questionDone) {
-                                // Pause
+                                // Pause if correct so user can see answer
                                 new Handler().postDelayed(new Runnable() {
                                     public void run() {
                                         // Set up next question
@@ -232,7 +241,7 @@ public class OrderingGameView extends LinearLayout {
                                 }, 500);
                             }
 
-                            // Delete moving textView
+                            // Delete moving textView from layout
                             dragging = false;
                             dragTextView.setVisibility(View.GONE);
                             linearLayout.removeView(dragTextView);
@@ -245,15 +254,16 @@ public class OrderingGameView extends LinearLayout {
         });
     }
 
-    /*
+    /**
      * Set up question and answer text
      */
     private void setUp() {
         if (currQuestion * 2 < texts.size()) {
+            // If there are more questions left
+
             // Set up item texts
             questionTexts = texts.get(currQuestion * 2);
             answerTexts = texts.get(currQuestion * 2 + 1);
-            //System.out.println(answerTexts);
 
             // Set up label heights
             topLabel.setHeight((height - (30 + 10 * answerTexts.size())) / (answerTexts.size() + 2));
@@ -263,14 +273,10 @@ public class OrderingGameView extends LinearLayout {
             topLabel.setText("Greatest");
             bottomLabel.setText("Least");
 
-            // Remove label texts
-            //questionTexts.remove(0);
-            //questionTexts.remove(0);
-
             // Nothing dragging at start
             dragging = false;
 
-            // Delete item textviews
+            // Delete item textviews to load new ones
             items.clear();
 
             // Delete items in Layout
@@ -290,6 +296,7 @@ public class OrderingGameView extends LinearLayout {
                 items.add(newTextView);
             }
 
+            // Add views to layout
             this.addView(topLabel);
             for (int i = 0; i < items.size(); i++) {
                 this.addView(items.get(i));
@@ -297,11 +304,12 @@ public class OrderingGameView extends LinearLayout {
             this.addView(bottomLabel);
 
         } else {
+            // If done with all rounds, end game
             endGame();
         }
     }
 
-    /*
+    /**
      * Move on to game end page
      */
     private void endGame() {
@@ -312,8 +320,11 @@ public class OrderingGameView extends LinearLayout {
         context.startActivity(intent);
     }
 
-    /*
+    /**
      * Change pixel measurement into dp measurement
+     * @param px The pixels
+     * @param context The context of the activity
+     * @return dp - The measurement in dp
      */
     public static float convertPixelsToDp(float px,Context context){
 

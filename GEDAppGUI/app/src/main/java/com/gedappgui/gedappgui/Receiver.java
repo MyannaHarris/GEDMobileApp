@@ -13,7 +13,7 @@
  *
  * Created by myannaharris on 11/7/16.
  *
- * Last Edit: 11-7-16
+ * Last Edit: 3-19-17
  *
  */
 
@@ -30,9 +30,11 @@ public class Receiver extends BroadcastReceiver {
     // Intent extra key
     public static String NOTIFICATION = "notification";
 
-    /*
+    /**
      * Called when a request is received
      * Sends notification when received
+     * @param context Context of activity
+     * @param intent Intent that carries notification
      */
     public void onReceive(Context context, Intent intent) {
 

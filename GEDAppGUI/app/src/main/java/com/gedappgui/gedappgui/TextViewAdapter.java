@@ -13,7 +13,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 2-12-17
+ * Last Edit: 3-20-17
  *
  */
 
@@ -43,9 +43,14 @@ public class TextViewAdapter extends BaseAdapter {
     private int height;
     private int statusBarHeight;
 
-    /*
+    /**
      * Constructor
      * Gets the context and image ids so they can be used later
+     * @param c Context of the activity
+     * @param textsp List of strings to put in the textviews
+     * @param widthp Width of the screen in pixels
+     * @param heightp Height of the screen in pixels
+     * @param statusBarHeightp Height of the status bar to calculate height of textviews
      */
     public TextViewAdapter(Context c, String[] textsp, int widthp, int heightp,
                            int statusBarHeightp) {
@@ -57,52 +62,56 @@ public class TextViewAdapter extends BaseAdapter {
         statusBarHeight = statusBarHeightp;
     }
 
-
-    /*
-     * Gets the number of itams to put in the view
-     *
-     * returns imageIds.length
+    /**
+     * Gets the number of items to put in the view
+     * @return texts.length - Number of textviews
      */
     @Override
     public int getCount() {
         return texts.length;
     }
 
-    /*
+    /**
      * Does not do anything but needed to implement BaseAdapter
-     * returns null
+     * @param position Position in the gridview
+     * @return null
      */
     @Override
     public Object getItem(int position) {
         return null;
     }
 
-    /*
+    /**
      * Does not do anything but needed to implement BaseAdapter
-     * returns the position sent to the method
+     * @param position Position in the gridview
+     * @return position - Position in the gridview
      */
     @Override
     public long getItemId(int position) {
         return position;
     }
 
-    /*
-     * clears the adapter
+    /**
+     * Clears the adapter so no textviews are in it
      */
     public void clear() {
         texts = new String[0];
     }
 
-    /*
+    /**
      * Sets new adapter contents
+     * @param textsp New strings for textviews
      */
     public void setTexts(String[] textsp) {
         texts = textsp;
     }
 
-    /*
+    /**
      * Creates the components for the adapter
-     * returns an imageview
+     * @param position Position of textview in gridview
+     * @param convertView Old view that is at that position
+     * @param parent Parent group of the view
+     * @return textView - The textview at the position
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -145,8 +154,11 @@ public class TextViewAdapter extends BaseAdapter {
         return textView;
     }
 
-    /*
+    /**
      * Change pixel measurement into dp measurement
+     * @param px Pixel measurement
+     * @param context Context of the activity
+     * @return dp - dp Measurement
      */
     public static float convertPixelsToDp(float px,Context context){
 

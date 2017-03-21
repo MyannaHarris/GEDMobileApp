@@ -13,7 +13,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 2-6-17
+ * Last Edit: 3-19-17
  *
  */
 
@@ -51,8 +51,12 @@ public class BucketNumber {
     // Height of question text
     private int questionHeight;
 
-    /*
-     * Constructor
+    /**
+     * Constructor for number object that student catches in bucket
+     * @param widthp Width of the screen in pixels
+     * @param heightp Height of screen in pixels
+     * @param textString Number text of the number
+     * @param questionHeightp Measured height of text from Paint object
      */
     public BucketNumber(int widthp, int heightp, String textString, int questionHeightp) {
 
@@ -96,7 +100,7 @@ public class BucketNumber {
                 y, (int)((questionHeight * 1.8) / 2), 10);
     }
 
-    /*
+    /**
      * Update coordinates
      */
     public void update(){
@@ -120,52 +124,49 @@ public class BucketNumber {
         detectCollision.bottom = y + 20;
     }
 
-    /*
+    /**
      * Setter
      * Sets the x coordinate
      * Helps with changing x-coordinate after collision
+     * @param x New x to set x to
      */
     public void setX(int x){
         this.x = x;
     }
 
-    /*
+    /**
      * Getter
      * Gets the rectangle to check for collisions
+     * @return detectCollision - The rectangle around the number
      */
     public Rect getDetectCollision() {
         return detectCollision;
     }
 
-    /*
+    /**
      * Getter
      * Gets the text used
+     * @return text - The number
      */
     public String getText() {
         return text;
     }
 
-    /*
+    /**
      * Getter
      * Gets the x-coordinate
+     * @return x - The x coordinate
      */
     public int getX() {
         return x;
     }
 
-    /*
+    /**
      * Getter
      * Gets the y-coordinate
+     * @return y - The y coordinate
      */
     public int getY() {
         return y;
-    }
-
-    /*
-     * Getter
-     * Gets the speed
-     */
-    public int getSpeed() {
-        return speed;
     }
 }

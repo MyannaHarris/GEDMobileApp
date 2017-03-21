@@ -11,7 +11,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 2-12-17
+ * Last Edit: 3-19-17
  *
  */
 
@@ -26,7 +26,6 @@ import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -81,8 +80,17 @@ public class MatchGameView extends LinearLayout{
     // Adapter for gridview
     private TextViewAdapter textViewAdapter;
 
-    /*
-     * Constructor
+    /**
+     * Constructor for game
+     * @param contextp Context of the activity
+     * @param activity Reference to the current activity
+     * @param textsp List of data for the game
+     * @param answersp List fo answers for the game
+     * @param conceptIDp ID of the current concept
+     * @param lessonIDp ID of the current lesson
+     * @param nextActivityp Number indicating what the activity after the game should be
+     * @param widthp Width of the screen in pixels
+     * @param heightp Height of screen in pixels
      */
     public MatchGameView(Context contextp, Activity activity,
                          ArrayList<ArrayList<String>> textsp, final ArrayList<Integer> answersp,
@@ -102,6 +110,7 @@ public class MatchGameView extends LinearLayout{
         lessonID = lessonIDp;
         nextActivity = nextActivityp;
 
+        // Save the data for game globally
         texts = textsp;
         answers = answersp;
 
@@ -116,6 +125,7 @@ public class MatchGameView extends LinearLayout{
         statusBarHeight = rectangle.top;
 
         // Fill gridview with texts
+        // Take first group of texts (3 pairs)
         gridview = new GridView(context);
         textViewAdapter = new TextViewAdapter(context,
                 texts.get(0).toArray(new String[texts.get(0).size()]),
@@ -138,7 +148,7 @@ public class MatchGameView extends LinearLayout{
         // Set background color of page
         this.setBackgroundColor(ContextCompat.getColor(context, R.color.bucketGameBG));
 
-        // Set listener
+        // Set listener on layout
         gridview.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
@@ -146,16 +156,20 @@ public class MatchGameView extends LinearLayout{
 
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
+                        // Save what position in the gridlayout was clicked
                         position = gridview.pointToPosition((int)event.getX(),
                                 (int)event.getY());
                         TextView vw = (TextView) gridview.getChildAt(position);
 
+                        // Save start in case of drag
                         if (vw != null && vw.getText() != null && !vw.getText().equals("")) {
                             start = vw;
                         }
 
+                        // Check if this is the first or second card
                         if (vw != null  && vw.getText() != null && !vw.getText().equals("")
                                 && newMatch && secondChoiceDone) {
+
                             // If this is the first card selected, save it
 
                             choice1TextView = (TextView)vw;
@@ -163,6 +177,9 @@ public class MatchGameView extends LinearLayout{
                                     !choice1TextView.getText().equals("")) {
                                 choice1 = position;
                                 newMatch = false;
+
+                                // Change background of card to reflect it is selected
+                                // Different for different SDK versions
                                 if (Build.VERSION.SDK_INT < 16) {
                                     // Sets Drawable as background on older API
                                     choice1TextView.setBackgroundDrawable(ContextCompat.getDrawable(context,
@@ -173,6 +190,7 @@ public class MatchGameView extends LinearLayout{
                                 }
                             }
 
+                            // Pause to make sure glitches aren't caused by concurrent call to listener
                             try {
                                 Thread.sleep(300);
                             } catch (InterruptedException e) {
@@ -181,6 +199,7 @@ public class MatchGameView extends LinearLayout{
                                 && secondChoiceDone &&
                                 choice1TextView.getText() != null &&
                                 !choice1TextView.getText().equals("")) {
+
                             // If this is the second card selected, check answer
 
                             choice2TextView = (TextView) vw;
@@ -190,6 +209,8 @@ public class MatchGameView extends LinearLayout{
                                 secondChoiceDone = false;
                                 choice2 = position;
 
+                                // Change background of card to reflect it is selected
+                                // Different for different SDK versions
                                 if (Build.VERSION.SDK_INT < 16) {
                                     // Sets Drawable as background on older API
                                     choice2TextView.setBackgroundDrawable(
@@ -205,6 +226,8 @@ public class MatchGameView extends LinearLayout{
                                         if (answers.get(choice1) == choice2) {
                                             // Check if answer is right
 
+                                            // Change background of card to reflect it is correct
+                                            // Different for different SDK versions
                                             if (Build.VERSION.SDK_INT < 16) {
                                                 // Sets Drawable as background on older API
 
@@ -226,7 +249,9 @@ public class MatchGameView extends LinearLayout{
 
                                                     choice1TextView.setText("");
 
-                                                    // Change BGs
+                                                    // Change background of card to reflect it is
+                                                    //      done being used
+                                                    // Different for different SDK versions
                                                     if (Build.VERSION.SDK_INT < 16) {
                                                         // Sets Drawable as background on older API
 
@@ -245,6 +270,7 @@ public class MatchGameView extends LinearLayout{
                                                     if (numMatches >= texts.get(0).size() / 2) {
 
                                                         numRoundsDone++;
+
                                                         // Check if game is done
                                                         if (numRoundsDone >= texts.size()) {
 
@@ -273,13 +299,17 @@ public class MatchGameView extends LinearLayout{
                                                             }
                                                         } else {
 
+                                                            // Clear all the cards
                                                             textViewAdapter.clear();
+                                                            // Add new cards for next round
                                                             textViewAdapter.setTexts(
                                                                     texts.get(numRoundsDone).toArray(
                                                                             new String[texts.get(numRoundsDone).size()])
                                                             );
                                                             textViewAdapter.notifyDataSetChanged();
 
+                                                            // Reset textviews and variables for next
+                                                            //      pair
                                                             numMatches = 0;
                                                             newMatch = true;
                                                             secondChoiceDone = true;
@@ -290,6 +320,8 @@ public class MatchGameView extends LinearLayout{
                                                         }
                                                     }
 
+                                                    // Reset textviews and variables for next
+                                                    //      pair
                                                     choice1TextView = new TextView(context);
                                                     choice2TextView = new TextView(context);
                                                     start = new TextView(context);
@@ -301,6 +333,8 @@ public class MatchGameView extends LinearLayout{
                                         } else {
                                             // Return BGs to normal if answer is wrong
 
+                                            // Change background of card to reflect it is incorrect
+                                            // Different for different SDK versions
                                             if (Build.VERSION.SDK_INT < 16) {
                                                 // Sets Drawable as background on older API
 
@@ -318,6 +352,9 @@ public class MatchGameView extends LinearLayout{
                                             new Handler().postDelayed(new Runnable() {
                                                 public void run() {
 
+                                                    // Change background of card to reflect it is
+                                                    //      not selected
+                                                    // Different for different SDK versions
                                                     if (Build.VERSION.SDK_INT < 16) {
                                                         // Sets Drawable as background on older API
                                                         choice2TextView.setBackgroundDrawable(ContextCompat.getDrawable(
@@ -331,6 +368,8 @@ public class MatchGameView extends LinearLayout{
                                                                 R.drawable.match_game_unselected));
                                                     }
 
+                                                    // Reset textviews and variables for next
+                                                    //      pair
                                                     choice1TextView = new TextView(context);
                                                     choice2TextView = new TextView(context);
                                                     start = new TextView(context);
@@ -344,6 +383,7 @@ public class MatchGameView extends LinearLayout{
                                 }, 300);
                             }
 
+                            // Pause to make sure glitches aren't caused by concurrent call to listener
                             try {
                                 Thread.sleep(400);
                             } catch (InterruptedException e) {
@@ -355,6 +395,7 @@ public class MatchGameView extends LinearLayout{
                                 (int)event.getY());
                         TextView v = (TextView) gridview.getChildAt(position);
 
+                        // Lots of checks to make sure null pointer exceptions can't happen
                         if (start != null && start != v  && choice1TextView != null &&
                                 choice1TextView.getText() != null &&
                                 !choice1TextView.getText().equals("") &&
@@ -372,6 +413,8 @@ public class MatchGameView extends LinearLayout{
                                     secondChoiceDone = false;
                                     choice2 = position;
 
+                                    // Change background of card to reflect it is selected
+                                    // Different for different SDK versions
                                     if (Build.VERSION.SDK_INT < 16) {
                                         // Sets Drawable as background on older API
                                         choice2TextView.setBackgroundDrawable(
@@ -387,6 +430,8 @@ public class MatchGameView extends LinearLayout{
                                             if (answers.get(choice1) == choice2) {
                                                 // Check if answer is right
 
+                                                // Change background of card to reflect it is correct
+                                                // Different for different SDK versions
                                                 if (Build.VERSION.SDK_INT < 16) {
                                                     // Sets Drawable as background on older API
 
@@ -408,7 +453,9 @@ public class MatchGameView extends LinearLayout{
 
                                                         choice1TextView.setText("");
 
-                                                        // Change BGs
+                                                        // Change background of card to reflect it is
+                                                        //      done being used
+                                                        // Different for different SDK versions
                                                         if (Build.VERSION.SDK_INT < 16) {
                                                             // Sets Drawable as background on older API
 
@@ -456,13 +503,17 @@ public class MatchGameView extends LinearLayout{
                                                                 }
                                                             } else {
 
+                                                                // Clear all the cards
                                                                 textViewAdapter.clear();
+                                                                // Add new cards for next round
                                                                 textViewAdapter.setTexts(
                                                                         texts.get(numRoundsDone).toArray(
                                                                                 new String[texts.get(numRoundsDone).size()])
                                                                 );
                                                                 textViewAdapter.notifyDataSetChanged();
 
+                                                                // Reset textviews and variables for next
+                                                                //      pair
                                                                 numMatches = 0;
                                                                 newMatch = true;
                                                                 secondChoiceDone = true;
@@ -473,6 +524,8 @@ public class MatchGameView extends LinearLayout{
                                                             }
                                                         }
 
+                                                        // Reset textviews and variables for next
+                                                        //      pair
                                                         choice1TextView = new TextView(context);
                                                         choice2TextView = new TextView(context);
                                                         start = new TextView(context);
@@ -484,6 +537,9 @@ public class MatchGameView extends LinearLayout{
                                             } else {
                                                 // Return BGs to normal if answer is wrong
 
+                                                // Change background of card to reflect it is
+                                                //      incorrect
+                                                // Different for different SDK versions
                                                 if (Build.VERSION.SDK_INT < 16) {
                                                     // Sets Drawable as background on older API
 
@@ -501,6 +557,9 @@ public class MatchGameView extends LinearLayout{
                                                 new Handler().postDelayed(new Runnable() {
                                                     public void run() {
 
+                                                        // Change background of card to reflect it is
+                                                        //      not selected
+                                                        // Different for different SDK versions
                                                         if (Build.VERSION.SDK_INT < 16) {
                                                             // Sets Drawable as background on older API
                                                             choice2TextView.setBackgroundDrawable(ContextCompat.getDrawable(
@@ -514,6 +573,8 @@ public class MatchGameView extends LinearLayout{
                                                                     R.drawable.match_game_unselected));
                                                         }
 
+                                                        // Reset textviews and variables for next
+                                                        //      pair
                                                         choice1TextView = new TextView(context);
                                                         choice2TextView = new TextView(context);
                                                         start = new TextView(context);
@@ -527,6 +588,7 @@ public class MatchGameView extends LinearLayout{
                                     }, 300);
                                 }
 
+                                // Pause to make sure glitches aren't caused by concurrent call to listener
                                 try {
                                     Thread.sleep(400);
                                 } catch (InterruptedException e) {
@@ -539,6 +601,7 @@ public class MatchGameView extends LinearLayout{
             }
         });
 
+        // Add gridview to layout
         this.addView(gridview);
     }
 

@@ -14,7 +14,7 @@
  *
  * Created by jasminejans on 10/29/16.
  *
- * Last Edit: 2-6-17
+ * Last Edit: 3-19-17
  *
  */
 
@@ -33,6 +33,7 @@ import android.widget.ScrollView;
 import java.util.ArrayList;
 
 public class Game extends AppCompatActivity {
+    // Next intent information
     private int conceptID;
     private int lessonID;
     private int redo;
@@ -40,8 +41,7 @@ public class Game extends AppCompatActivity {
     // 0 = questions, 1 = play
     private int nextActivity;
 
-    // Game name to load correct game
-    private String gameName;
+    // Game objects to load different games
     private BucketGameView bucketGameView;
     private MatchGameView matchGameView;
     private PictureGameView pictureGameView;
@@ -52,14 +52,20 @@ public class Game extends AppCompatActivity {
     // Database
     private DatabaseHelper dbHelper;
 
-    /*
+    /**
      * Starts the activity and shows corresponding view on screen
+     * @param savedInstanceState If the activity is being re-initialized after previously being
+     *                           shut down then this Bundle contains the data it most recently
+     *                           supplied in onSaveInstanceState(Bundle). Otherwise it is null.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Set default content for no game present
         setContentView(R.layout.activity_game);
+
+        // Get information from intent
         Intent mIntent = getIntent();
         conceptID = mIntent.getIntExtra("conceptID", 0);
         lessonID = mIntent.getIntExtra("lessonID", 0);
@@ -82,17 +88,24 @@ public class Game extends AppCompatActivity {
 
         //checks for which template to use, aka which kind of game
         if (dbHelper.selectGameTemplate(lessonID).equals("bucket_game")) {
-            ArrayList<ArrayList<String>> gameQuestions = dbHelper.selectBucketGameInput(lessonID);
-            System.out.println(gameQuestions);
 
+            // Get content for bucket game from database
+            ArrayList<ArrayList<String>> gameQuestions = dbHelper.selectBucketGameInput(lessonID);
+
+            // Create game object
             bucketGameView = new BucketGameView(this, width, height, gameQuestions,
                     conceptID, lessonID, nextActivity);
+
+            // Set the game as the view
             setContentView(bucketGameView);
+
         //template_id = 2 is match game
         } else if (dbHelper.selectGameTemplate(lessonID).equals("match_game")) {
 
+            // Get content for matching game from database
             ArrayList<ArrayList<String>> texts = dbHelper.selectMatchGameInput(lessonID);
 
+            // Create list with answer ids
             ArrayList<Integer> answers = new ArrayList<Integer>();
             for(int i = 3; i <6; i++){
                 answers.add(i);
@@ -101,20 +114,29 @@ public class Game extends AppCompatActivity {
                 answers.add(j);
             }
 
-            System.out.println(answers);
-
+            // Get reference to current activity
             Activity activity = (Activity)this;
 
+            // Create game object
             matchGameView = new MatchGameView(this, activity, texts, answers, conceptID,
                     lessonID, nextActivity, width, height);
+
+            // Set the game as the view
             setContentView(matchGameView);
         } else if (dbHelper.selectGameTemplate(lessonID).equals("chemistry_game")) {
+
+            // Get content for chemistry game from database
             ArrayList<ArrayList<String>> texts = dbHelper.selectChemistryGameInput(lessonID);
 
+            // Create game object
             chemistryGameView = new ChemistryGameView(this, texts, conceptID,
                     lessonID, nextActivity, width, height);
+
+            // Set the game as the view
             setContentView(chemistryGameView);
         }else if (dbHelper.selectGameTemplate(lessonID).equals("madlib_game")){
+
+            // Create game object
             ArrayList<ArrayList<String>> texts = new ArrayList<ArrayList<String>>();
             madlibGameView = new MadlibGameView(this, conceptID, lessonID,
                     nextActivity, width, height);
@@ -124,48 +146,32 @@ public class Game extends AppCompatActivity {
 
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
+            // Set the game as the view
             setContentView(scroll);
         } else if (dbHelper.selectGameTemplate(lessonID).equals("picture_game")){
+
+            // Get content for picture game from database
             String pass_string = dbHelper.selectPicGameInput(lessonID);
+
+            // Create game object
             pictureGameView = new PictureGameView(this,conceptID,lessonID,nextActivity,pass_string);
+
+            // Set the game as the view
             setContentView(pictureGameView);
         } else if (dbHelper.selectGameTemplate(lessonID).equals("order_game")) {
+
+            // Get content for ordering game from database
             ArrayList<ArrayList<String>> texts = dbHelper.selectOrderGameInput(lessonID);
 
-            /*ArrayList<ArrayList<String>> texts = new ArrayList<ArrayList<String>>();
-
-            ArrayList<String> qs = new ArrayList<String>();
-            qs.add("5");
-            qs.add("10");
-            qs.add("3");
-            qs.add("1");
-            qs.add("7");
-            ArrayList<String> answers = new ArrayList<String>();
-            answers.add("10");
-            answers.add("7");
-            answers.add("5");
-            answers.add("3");
-            answers.add("1");
-
-            texts.add(qs);
-            texts.add(answers);
-
-            qs = new ArrayList<String>();
-            qs.add("3");
-            qs.add("4");
-            qs.add("1");
-            answers = new ArrayList<String>();
-            answers.add("4");
-            answers.add("3");
-            answers.add("1");
-
-            texts.add(qs);
-            texts.add(answers);*/
-
+            // Create game object
             orderingGameView = new OrderingGameView(this, texts, conceptID,
                     lessonID, nextActivity, width, height);
+
+            // Set the game as the view
             setContentView(orderingGameView);
         } else{
+            // Made up bucket game content to run when no game is specified
+
             ArrayList<ArrayList<String>> gameQuestions = new ArrayList<ArrayList<String>>();
 
             ArrayList<String> texts = new ArrayList<String>();
@@ -198,14 +204,17 @@ public class Game extends AppCompatActivity {
             gameQuestions.add(texts);
             gameQuestions.add(answers);
 
+            // Create game object
             bucketGameView = new BucketGameView(this, width, height, gameQuestions,
                     conceptID, lessonID, nextActivity);
+
+            // Set the game as the view
             setContentView(bucketGameView);
         }
     }
 
-    /*
-     * hides bottom navigation bar
+    /**
+     * Hides bottom navigation bar
      * Called after onCreate on first creation
      * Called every time this activity gets the focus
      */
@@ -221,13 +230,15 @@ public class Game extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
 
+        // Resumes bucket game since it has a game loop
         if (bucketGameView != null)
             bucketGameView.resume();
     }
 
-    /* 
+    /**
      * Shows and hides the bottom navigation bar when user swipes at it on screen
      * Called when the focus of the window changes to this activity
+     * @param hasFocus true or false based on if the focus of the window changes to this activity
      */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -242,19 +253,26 @@ public class Game extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    //pausing the game when activity is paused
+    /**
+     * Pauses this activity when it is left by a new activity being put on top of it in the stack
+     */
     @Override
     protected void onPause() {
         super.onPause();
+
+        // Pauses bucket game since it uses a game loop
         if (bucketGameView != null)
             bucketGameView.pause();
     }
 
-    /*
+    /**
+     * Used when the page does not have a game to load
+     *
      * Goes to the GameEnd activity
      * Called when the game is over
      * intent.putExtra("next_activity", nextActivity);
      *   = sends nextActivity to tell game whether to go to question or play next
+     * @param view The current view calling the method
      */
     public void goToGameEnd(View view) {
         Intent intent = new Intent(this, GameEnd.class);

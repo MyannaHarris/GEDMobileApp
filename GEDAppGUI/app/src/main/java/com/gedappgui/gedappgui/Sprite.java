@@ -12,7 +12,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 11-17-17
+ * Last Edit: 3-20-17
  *
  */
 
@@ -79,7 +79,9 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
     private ArrayList<String> dragons;
     private int currDragon = 0;
 
+    // Layout for the accessories
     private LinearLayout layout;
+    // Map from accessory names to drawable ids
     private Map<String, ArrayList<Integer>> accessoryMap;
 
     // Save x values for swiping on dragon
@@ -97,8 +99,11 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
     private boolean dragBool = false;
     private String dragIcon;
 
-    /*
+    /**
      * Starts the activity and shows corresponding view on screen
+     * @param savedInstanceState If the activity is being re-initialized after previously being
+     *                           shut down then this Bundle contains the data it most recently
+     *                           supplied in onSaveInstanceState(Bundle). Otherwise it is null.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,13 +172,18 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                     new InputFilter.LengthFilter(10)
             });
 
+            // Add editview box to alert pop-up
             alert.setView(inputText);
 
+            // Saves dragons name and makes first letter uppercase and closes alert
             alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
+                    // Read input
                     String lowerName = inputText.getText().toString();
                     String newName;
+
                     if (!lowerName.equals("") && lowerName.length() > 0) {
+                        // Make first letter uppercase
                         if (lowerName.length() < 2) {
                             newName = lowerName.substring(0, 1).toUpperCase();
                             dbHelper.updateDragonName(newName);
@@ -186,6 +196,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                             setTitle(newName + "'s Lair");
                         }
                     } else {
+                        // If no name provided, make the name "Unknown"
                         newName = "Unknown";
                         dbHelper.updateDragonName(newName);
                         ((MyApplication) Sprite.this.getApplication()).setDragonName(newName);
@@ -194,10 +205,12 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                 }
             });
 
+            // Creates and shows alert
             AlertDialog dialog = alert.create();
             dialog.show();
         }
 
+        // Get accessory info from database
         final ArrayList<ArrayList<String>> accessories = dbHelper.selectAccessories();
 
         // Save what accessories should be displayed
@@ -255,6 +268,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             int icon = info.get(1);
             int layer = info.get(2);
 
+            // Create new accessory imageview
             ImageView imageView = new ImageView(this);
             imageView.setId(i);
             imageView.setPadding(8, 8, 8, 8);
@@ -264,8 +278,11 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                     getResources(), icon));
             imageView.setTag(allAccessories.get(i));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+            // Put accessory imageview in linear layout
             layout.addView(imageView);
 
+            // Add listener to deal with dragging and clicking accessory
             imageView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -295,12 +312,15 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             public boolean onTouch(View v, MotionEvent event) {
                 switch(event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
+                        // Read ouch in dragon to see if a swipe to change the color happens
                         inDragon = true;
                         x1 = (int)event.getRawX();
                         break;
                     case MotionEvent.ACTION_UP:
+                        // Read the new x coordinate to see if a swipe left or a swipe right happened
                         x2 = (int)event.getRawX();
                         if(inDragon && x1 > x2) {
+                            // Right swipe
                             if (currDragon == dragons.size() - 1) {
                                 currDragon = 0;
                                 addAccessory(dragons.get(currDragon));
@@ -309,6 +329,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                                 addAccessory(dragons.get(currDragon));
                             }
                         } else if (inDragon && x2 > x1){
+                            // Left swipe
                             if (currDragon == 0) {
                                 currDragon = dragons.size() - 1;
                                 addAccessory(dragons.get(currDragon));
@@ -325,6 +346,11 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         });
     }
 
+    /**
+     * Sends event to listener then process touch itself
+     * @param event Motion event
+     * @return super.dispatchTouchEvent(event) send event to other listeners
+     */
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
 
@@ -332,35 +358,44 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             switch(event.getAction()) {
                 case MotionEvent.ACTION_MOVE:
                     if (currAccessory != null) {
+                        // Remove dragging accessory imageView before moving it
                         currAccessory.setVisibility(View.GONE);
                         spriteLayout.removeView(currAccessory);
                     }
 
+                    // Get icon to drag
                     ArrayList<Integer> info = accessoryMap.get(dragIcon);
                     int icon = info.get(1);
 
+                    // Create new imageview to drag
                     currAccessory = new ImageView(Sprite.this);
                     currAccessory.setPadding(8, 8, 8, 8);
                     currAccessory.setLayoutParams(new RelativeLayout.LayoutParams(255, 255));
                     currAccessory.setImageBitmap(BitmapFactory.decodeResource(
                             getResources(), icon));
 
+                    // Add imageview to activity layout
                     spriteLayout.addView(currAccessory);
 
+                    // Move accessory imageview
                     currAccessory.setX(event.getRawX() - 190);
                     currAccessory.setY(event.getRawY() - 300);
                     break;
                 case MotionEvent.ACTION_UP:
+                    // Remove dragging imageview from activity layout when it is dropped
                     currAccessory.setVisibility(View.GONE);
                     spriteLayout.removeView(currAccessory);
 
+                    // Get rectangle around dragon imageview
                     ImageView dragonImageView = (ImageView)findViewById(R.id.sprite_spriteScreen);
                     Rect editTextRect = new Rect();
                     dragonImageView.getHitRect(editTextRect);
 
+                    // If accessory dropped on dragon, add to dragon and database
                     if (editTextRect.contains((int)event.getRawX(), (int)event.getRawY())) {
                         addAccessory(dragIcon);
                     }
+                    // Stop dragging
                     dragBool = false;
                     break;
             }
@@ -369,9 +404,9 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         return super.dispatchTouchEvent(event);
     }
 
-    /*
-     * sets the sprite drawable
-     * hides bottom navigation bar
+    /**
+     * Sets the sprite drawable
+     * Hides bottom navigation bar
      * Called after onCreate on first creation
      * Called every time this activity gets the focus
      */
@@ -424,21 +459,23 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
 
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
         spinner.setSelection(0);
 
+        // Get dragon name to update title of the page
         String dragonName = ((MyApplication) this.getApplication()).getDragonName();
         if (dragonName != null && !dragonName.equals("")) {
             setTitle(dragonName + "'s Lair");
         }
     }
 
-    /* 
+    /**
      * Shows and hides the bottom navigation bar when user swipes at it on screen
      * Called when the focus of the window changes to this activity
+     * @param hasFocus true or false based on if the focus of the window changes to this activity
      */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -455,8 +492,8 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         }
     }
 
-    /*
-     * sets the sprite drawable global variable
+    /**
+     * Sets the sprite drawable global variable
      * Called when activity loses focus
      */
     @Override
@@ -466,9 +503,11 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                 Sprite.this.getApplication()).setSpriteDrawable(spriteDrawable);
     }
 
-    /*
+    /**
      * Sets what menu will be in the action bar
      * homeonlymenu has the settings button and the home button
+     * @param menu The options menu in which we place the items.
+     * @return true
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -477,12 +516,14 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         return true;
     }
 
-    /*
+    /**
      * Listens for selections from the menu in the action bar
      * Does action corresponding to selected item
      * home = goes to homescreen
      * settings = goes to settings page
      * android.R.id.home = go to the activity that called the current activity
+     * @param item that is selected from the menu in the action bar
+     * @return true
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -493,13 +534,13 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                 intentHomeSprite.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intentHomeSprite);
                 return true;
-            // action with ID action_refresh was selected
+            // Action with ID action_refresh was selected
             case R.id.action_home:
                 Intent intentHome = new Intent(this, MainActivity.class);
                 intentHome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intentHome);
                 break;
-            // action with ID action_settings was selected
+            // Action with ID action_settings was selected
             case R.id.action_settings:
                 Intent intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
@@ -511,24 +552,25 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         return true;
     }
 
+    /**
+     * Check if user has earned an achievement
+     */
     private void checkAchievements() {
-        System.out.println(dbHelper.countAccessoriesEarned());
-
-        //gives an achievement if the user make their sprite wear 5 accessories
+        // Gives an achievement if the user make their sprite wear 5 accessories
         if (dbHelper.countAccessoriesWorn() == 6) {
             Intent achievement = new Intent(this, AchievementPopUp.class);
             achievement.putExtra("achievementID", 18);
             startActivity(achievement);
         }
 
-        //gives an achievement if the user dresses their sprite with a monocle, top hat and cane
+        // Gives an achievement if the user dresses their sprite with a monocle, top hat and cane
         if (dbHelper.isFancy()) {
             Intent achievement = new Intent(this, AchievementPopUp.class);
             achievement.putExtra("achievementID", 19);
             startActivity(achievement);
         }
 
-        //gives an achievement if the user dresses their sprite with a party hat
+        // Gives an achievement if the user dresses their sprite with a party hat
         if (dbHelper.isWearingPartyHat()) {
             Intent achievement = new Intent(this, AchievementPopUp.class);
             achievement.putExtra("achievementID", 20);
@@ -536,12 +578,13 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         }
     }
 
-    /*
-     * Add accessory to sprite
+    /**
+     * Add accessory that is saved in the database already to sprite
      * Map from name:
      * 0 - actual image id
      * 1 - icon image id
      * 2 - ImageView layer id
+     * @param name The string name of the accessory
      */
     public void addSavedAccessory(String name) {
         // Get info from map
@@ -551,6 +594,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         int icon = 0;
         int layer = 0;
 
+        // For when the dragon is changed since it only has the img and layer
         if (info.size() > 2) {
             img = info.get(0);
             icon = info.get(1);
@@ -564,18 +608,21 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         Drawable newItem;
         newItem = (Drawable) ContextCompat.getDrawable(Sprite.this, img);
         spriteDrawable.setDrawableByLayerId(layer, newItem);
+
+        // Set new imageview content for dragon
         spriteImage.setImageDrawable(spriteDrawable);
         spriteImage.invalidate();
 
         checkAchievements();
     }
 
-    /*
-     * Add accessory to sprite
+    /**
+     * Add or remove accessory and save to database
      * Map from name:
      * 0 - actual image id
      * 1 - icon image id
      * 2 - ImageView layer id
+     * @param name The string name of the accessory
      */
     public void addAccessory(String name) {
 
@@ -586,6 +633,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         int icon = 0;
         int layer = 0;
 
+        // For when the dragon is changed since it only has the img and layer
         if (info.size() > 2) {
             img = info.get(0);
             icon = info.get(1);
@@ -603,10 +651,15 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
 
         newItem = (Drawable) ContextCompat.getDrawable(Sprite.this, img);
         if (newItem.getConstantState().equals(oldItem.getConstantState())) {
+            // Remove accessory if already on dragon
             spriteDrawable.setDrawableByLayerId(layer, blankItem);
+
+            // Set removed in database
             dbHelper.takeOffClothing(name);
         } else {
+            // Add accessory if not on dragon
             spriteDrawable.setDrawableByLayerId(layer, newItem);
+
             // Set accessory in database
             if (layer == R.id.accessory_glasses) {
                 dbHelper.updateCurrentlyWearing(name, 1);
@@ -622,17 +675,21 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                 dbHelper.updateCurrentlyWearing(name, 6);
             }
         }
+
+        // Set new imageview content for dragon
         spriteImage.setImageDrawable(spriteDrawable);
         spriteImage.invalidate();
 
         checkAchievements();
     }
 
-    /*
+    /**
      * Called from glasses button
      * Shows glasses accessories
+     * @param view The view that called the method
      */
     public void showGlasses(View view) {
+        // Empty linear layout
         layout.removeAllViews();
 
         for (int i = 0; i < glasses.size(); i++) {
@@ -641,6 +698,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             int icon = info.get(1);
             int layer = info.get(2);
 
+            // Create new accessory imageview
             ImageView imageView = new ImageView(this);
             imageView.setId(i);
             imageView.setPadding(8, 8, 8, 8);
@@ -649,8 +707,11 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                     getResources(), icon));
             imageView.setTag(glasses.get(i));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+            // Put accessory imageview in linear layout
             layout.addView(imageView);
 
+            // Add listener to deal with dragging and clicking accessory
             imageView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -673,11 +734,13 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         }
     }
 
-    /*
+    /**
      * Called from shirt button
      * Shows shirt accessories
+     * @param view The view that called the method
      */
     public void showShirts(View view) {
+        // Empty linear layout
         layout.removeAllViews();
 
         for (int i = 0; i < shirts.size(); i++) {
@@ -686,6 +749,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             int icon = info.get(1);
             int layer = info.get(2);
 
+            // Create new accessory imageview
             ImageView imageView = new ImageView(this);
             imageView.setId(i);
             imageView.setPadding(8, 8, 8, 8);
@@ -694,8 +758,11 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                     getResources(), icon));
             imageView.setTag(shirts.get(i));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+            // Put accessory imageview in linear layout
             layout.addView(imageView);
 
+            // Add listener to deal with dragging and clicking accessory
             imageView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -718,11 +785,13 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         }
     }
 
-    /*
-     * Called from bling button
-     * Shows bling accessories
+    /**
+     * Called from special button
+     * Shows special accessories
+     * @param view The view that called the method
      */
     public void showSpecial(View view) {
+        // Empty linear layout
         layout.removeAllViews();
 
         for (int i = 0; i < specials.size(); i++) {
@@ -731,6 +800,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             int icon = info.get(1);
             int layer = info.get(2);
 
+            // Create new accessory imageview
             ImageView imageView = new ImageView(this);
             imageView.setId(i);
             imageView.setPadding(8, 8, 8, 8);
@@ -739,8 +809,11 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                     getResources(), icon));
             imageView.setTag(specials.get(i));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+            // Put accessory imageview in linear layout
             layout.addView(imageView);
 
+            // Add listener to deal with dragging and clicking accessory
             imageView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -763,11 +836,13 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         }
     }
 
-    /*
+    /**
      * Called from hat button
      * Shows hat accessories
+     * @param view The view that called the method
      */
     public void showHats(View view) {
+        // Empty linear layout
         layout.removeAllViews();
 
         for (int i = 0; i < hats.size(); i++) {
@@ -776,6 +851,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             int icon = info.get(1);
             int layer = info.get(2);
 
+            // Create new accessory imageview
             ImageView imageView = new ImageView(this);
             imageView.setId(i);
             imageView.setPadding(8, 8, 8, 8);
@@ -784,8 +860,11 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                     getResources(), icon));
             imageView.setTag(hats.get(i));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+            // Put accessory imageview in linear layout
             layout.addView(imageView);
 
+            // Add listener to deal with dragging and clicking accessory
             imageView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -808,11 +887,13 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         }
     }
 
-    /*
-     * Called from bling button
-     * Shows bling accessories
+    /**
+     * Called from all button
+     * Shows all accessories
+     * @param view The view that called the method
      */
     public void showAll(View view) {
+        // Empty linear layout
         layout.removeAllViews();
 
         for (int i = 0; i < allAccessories.size(); i++) {
@@ -821,6 +902,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             int icon = info.get(1);
             int layer = info.get(2);
 
+            // Create new accessory imageview
             ImageView imageView = new ImageView(this);
             imageView.setId(i);
             imageView.setPadding(8, 8, 8, 8);
@@ -829,8 +911,11 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                     getResources(), icon));
             imageView.setTag(allAccessories.get(i));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+            // Put accessory imageview in linear layout
             layout.addView(imageView);
 
+            // Add listener to deal with dragging and clicking accessory
             imageView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -853,9 +938,10 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         }
     }
 
-    /*
+    /**
      * Called from save photo button
      * Saves copy of dragon and accessories to camera roll
+     * @param view The view that called the method
      */
     public void savePhoto(View view) {
 
@@ -892,9 +978,10 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         dialog.show();
     }
 
-    /*
+    /**
      * Called from done button
-     * Saves changes to dragon
+     * Saves changes to dragon (Does nothing)
+     * @param view The view that called the method
      */
     public void done(View view) {
 
@@ -903,9 +990,10 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         startActivity(intentHome);
     }
 
-    /*
+    /**
      * Called from left arrow
      * Loops through the different dragon colorings
+     * @param view The view that called the method
      */
     public void changeDragonLeft(View view) {
         if (currDragon == 0) {
@@ -917,9 +1005,10 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         }
     }
 
-    /*
+    /**
      * Called from right arrow
      * Loops through the different dragon colorings
+     * @param view The view that called the method
      */
     public void changeDragonRight(View view) {
         if (currDragon == dragons.size() - 1) {
@@ -931,9 +1020,10 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         }
     }
 
-    /*
+    /**
      * Called from disrobe button
      * removes all clothing from dragon
+     * @param view The view that called the method
      */
     public void disrobe(View view) {
         final ArrayList<ArrayList<String>> accessories = dbHelper.selectAccessories();
@@ -951,9 +1041,13 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         }
     }
 
-    /*
+    /**
      * Called from combo box
      * Changes what accessory list is displayed
+     * @param parent The adapter view for the combo box
+     * @param view The view that triggered the listener
+     * @param position The position in the combobox that was selected
+     * @param id The id
      */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -979,19 +1073,22 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         }
     }
 
-    /*
+    /**
      * Called from combobox
      * Makes the auto-selection to be "All"
+     * @param parent The adapter view for the combo box
      */
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         parent.setSelection(0);
     }
 
-    /*
+    /**
      * Make dictionary for accessories
+     * Maps accessory name in database to drawable ids
      */
     public void makeDictionary() {
+        // Glasses
         ArrayList<Integer> ids = new ArrayList<Integer>();
         ids.add(R.drawable.sprite_glasses);
         ids.add(R.drawable.sprite_glasses_icon);
@@ -1023,6 +1120,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         ids.add(R.id.accessory_glasses);
         accessoryMap.put("sprite_grannyglasses", ids);
 
+        // Hats
         ids = new ArrayList<Integer>();
         ids.add(R.drawable.sprite_brownhat);
         ids.add(R.drawable.sprite_brownhat_icon);
@@ -1054,6 +1152,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         ids.add(R.id.accessory_hat);
         accessoryMap.put("sprite_ribbonhat", ids);
 
+        // Shirts
         ids = new ArrayList<Integer>();
         ids.add(R.drawable.sprite_shirt_long);
         ids.add(R.drawable.sprite_shirt_long_icon);
@@ -1085,6 +1184,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         ids.add(R.id.accessory_shirt);
         accessoryMap.put("sprite_tropicalshirt", ids);
 
+        // Specials
         ids = new ArrayList<Integer>();
         ids.add(R.drawable.sprite_cane);
         ids.add(R.drawable.sprite_cane_icon);
@@ -1116,6 +1216,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         ids.add(R.id.accessory_wingItem);
         accessoryMap.put("sprite_treasure", ids);
 
+        // Dragons
         ids = new ArrayList<Integer>();
         ids.add(R.drawable.sprite_dragon);
         ids.add(R.id.accessory_dragon);
