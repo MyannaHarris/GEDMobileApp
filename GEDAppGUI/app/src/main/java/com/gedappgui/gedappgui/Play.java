@@ -11,7 +11,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 1-29-17
+ * Last Edit: 3-20-17
  *
  */
 
@@ -48,15 +48,18 @@ public class Play extends AppCompatActivity {
     // Database
     private DatabaseHelper dbHelper;
 
-    /*
+    /**
      * Starts the activity and shows corresponding view on screen
+     * @param savedInstanceState If the activity is being re-initialized after previously being
+     *                           shut down then this Bundle contains the data it most recently
+     *                           supplied in onSaveInstanceState(Bundle). Otherwise it is null.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
 
-        // Allow homeAsUpIndicator (back arrow) to desplay on action bar
+        // Allow homeAsUpIndicator (back arrow) to display on action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Allow user to control audio with volume buttons on phone
@@ -68,26 +71,30 @@ public class Play extends AppCompatActivity {
         width = dm.widthPixels;
         height = dm.heightPixels;
 
+        // Get current lesson from the database
         dbHelper = new DatabaseHelper(this);
         int currLessonId = dbHelper.selectCurrentLessonID();
 
+        // Only show information if the user has completed at least one lesson
+        // The current lesson id is one higher than the number of lessons the user has completed
         if (currLessonId > 1) {
 
             lessonIds = new ArrayList<Integer>();
             gameNames = new ArrayList<String>();
 
+            // Fill lessonIds and gameNames with corresponding information
             for (int i = 1; i <= currLessonId - 1; i ++) {
                 lessonIds.add(i);
                 gameNames.add(dbHelper.selectLessonTitle(i));
             }
 
+            // Get layout to add buttons to and set up layout parameters
             LinearLayout gamesLayout = (LinearLayout) findViewById(R.id.GameLayout);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     RelativeLayout.LayoutParams.MATCH_PARENT,
                     (height/8));
 
-
-
+            // Actually put in buttons
             for (int i = 0; i < lessonIds.size(); i++) {
                 Button game = new Button(this);
                 game.setText(gameNames.get(i));
@@ -96,6 +103,7 @@ public class Play extends AppCompatActivity {
                 game.setTag(lessonIds.get(i));
                 gamesLayout.addView(game);
 
+                // Button functionality, a listener for each one
                 game.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         Button gameButton = (Button) v;
@@ -106,7 +114,9 @@ public class Play extends AppCompatActivity {
                     }
                 });
             }
-        } else {
+        }
+        // If the user hasn't completed any lessons, add a bit of text into the layout
+        else {
             LinearLayout gamesLayout = (LinearLayout) findViewById(R.id.GameLayout);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     RelativeLayout.LayoutParams.MATCH_PARENT,
@@ -122,8 +132,8 @@ public class Play extends AppCompatActivity {
         }
     }
 
-    /*
-     * hides bottom navigation bar
+    /**
+     * Hides bottom navigation bar
      * Called after onCreate on first creation
      * Called every time this activity gets the focus
      */
@@ -141,9 +151,10 @@ public class Play extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /* 
+    /**
      * Shows and hides the bottom navigation bar when user swipes at it on screen
      * Called when the focus of the window changes to this activity
+     * @param hasFocus true or false based on if the focus of the window changes to this activity
      */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -159,9 +170,10 @@ public class Play extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /*
+    /**
      * Sets what menu will be in the action bar
-     * homeonlymenu has the settings button and the home button
+     * @param menu The options menu in which we place the items.
+     * @return true
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -170,12 +182,14 @@ public class Play extends AppCompatActivity {
         return true;
     }
 
-    /*
+    /**
      * Listens for selections from the menu in the action bar
      * Does action corresponding to selected item
      * home = goes to homescreen
      * settings = goes to settings page
      * android.R.id.home = go to the activity that called the current activity
+     * @param item that is selected from the menu in the action bar
+     * @return true
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

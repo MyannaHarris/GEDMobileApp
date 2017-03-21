@@ -11,7 +11,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 11-6-16
+ * Last Edit: 3-20-17
  *
  */
 
@@ -38,6 +38,7 @@ import java.util.ArrayList;
 
 public class Question extends AppCompatActivity {
 
+    // Globals to keep track of how the user is doing answering questions
     private int selectedAnswer = 0;
     private DatabaseHelper dbHelper;
     private int correctAnswers = 0;
@@ -54,8 +55,11 @@ public class Question extends AppCompatActivity {
     private ArrayList<String> questionText;
     private ArrayList<ArrayList<ArrayList<String>>> allQuestions;
 
-    /*
+    /**
      * Starts the activity and shows corresponding view on screen
+     * @param savedInstanceState If the activity is being re-initialized after previously being
+     *                           shut down then this Bundle contains the data it most recently
+     *                           supplied in onSaveInstanceState(Bundle). Otherwise it is null.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,14 +70,14 @@ public class Question extends AppCompatActivity {
         lessonID = mIntent.getIntExtra("lessonID", 0);
         redo = mIntent.getIntExtra("redoComplete", 0);
 
-
+        // Create buttons of dynamic size
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int height = dm.heightPixels;
 
         Button submitbtn = (Button)findViewById(R.id.submit_answer_button);
         submitbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
-        //set heights for button
+        // Set heights for button
         ViewGroup.LayoutParams params = submitbtn.getLayoutParams();
         params.height = (height/10);
 
@@ -106,7 +110,7 @@ public class Question extends AppCompatActivity {
         questionTextView.setText(toHTML(question));
         questionTextView.setTextSize(20);
 
-        // set radio buttons
+        // Set radio buttons
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.question_answer_group);
         for (int i = 0; i < radioGroup.getChildCount(); i++) {
             String textAnswer = questionText.get(i+2);
@@ -122,8 +126,8 @@ public class Question extends AppCompatActivity {
         allQuestions.get(currentLevel-1).remove(0);
     }
 
-    /*
-     * hides bottom navigation bar
+    /**
+     * Hides bottom navigation bar
      * Called after onCreate on first creation
      * Called every time this activity gets the focus
      */
@@ -141,9 +145,10 @@ public class Question extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /* 
+    /**
      * Shows and hides the bottom navigation bar when user swipes at it on screen
      * Called when the focus of the window changes to this activity
+     * @param hasFocus true or false based on if the focus of the window changes to this activity
      */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -159,7 +164,7 @@ public class Question extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /*
+    /**
      * Listens for the back button on the bottom navigation bar
      * Stops app from allowing the back button to do anything
      */
@@ -168,42 +173,19 @@ public class Question extends AppCompatActivity {
         // Do nothing when back pressed from home screen
     }
 
-    /*
-     * Called when enough questions were answered correctly
-     * Opens the Success page
-     */
-    public void goToSuccess(View view) {
-        Intent intent = new Intent(this, Success.class);
-        intent.putExtra("conceptID",conceptID);
-        intent.putExtra("lessonID",lessonID);
-        intent.putExtra("redoComplete", redo);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-    }
-
-    /*
-     * Called when not enough questions were answered correctly
-     * Opens the Redo page
-     */
-    public void goToRedo(View view) {
-        Intent intent = new Intent(this, Redo.class);
-        intent.putExtra("conceptID",conceptID);
-        intent.putExtra("lessonID",lessonID);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-    }
-
-    /*
-     * Called when user submits answer
-     * Shows whether answer was correct
+    /**
+     * Determines whether or not an answer was correct and shows the correct answer if it was not
+     * Called when the user submits an answer
+     * @param view current view
      */
     public void evaluateAnswer(View view) {
         Button submitButton = (Button) view;
 
+        // Make sure an answer is selected and submit button says Submit
         if (selectedAnswer > 0 && submitButton.getText().equals("Submit")) {
             // If answer has been selected, submit and check it
 
-            // disable radio buttons
+            // Disable radio buttons
             RadioGroup radioGroup = (RadioGroup) findViewById(R.id.question_answer_group);
             for (int i = 0; i < radioGroup.getChildCount(); i++) {
                 ((RadioButton) radioGroup.getChildAt(i)).setEnabled(false);
@@ -241,10 +223,11 @@ public class Question extends AppCompatActivity {
 
             numQuestion += 1;
 
-        } else if (submitButton.getText().equals("Continue")) {
-            // If button is used to continue
+        }
+        // If button is used to continue
+        else if (submitButton.getText().equals("Continue")) {
 
-            // if user gets two incorrect answers, difficulty decreases or they are given more help,
+            // If user gets two incorrect answers, difficulty decreases or they are given more help,
             //      depending on what their level is
             if (incorrectAnswers > 1) {
                 if (currentLevel < 2) {
@@ -261,7 +244,7 @@ public class Question extends AppCompatActivity {
                 }
             }
 
-            // if user gets two correct answers, difficulty increases or they are done, depending
+            // If user gets two correct answers, difficulty increases or they are done, depending
             //      on what their level is
             if (correctAnswers > 1) {
                 if (currentLevel > 2) {
@@ -280,7 +263,7 @@ public class Question extends AppCompatActivity {
                 }
             }
 
-            // get new question
+            // Get new question
             if (allQuestions.get(currentLevel-1).size() < 1) {
                 allQuestions = dbHelper.getAllQuestions(lessonID);
             }
@@ -324,8 +307,10 @@ public class Question extends AppCompatActivity {
         }
     }
 
-    /* Makes HTML tags in strings work
-     * Mostly for powers (ex: 3^2)
+    /**
+     * Converts database strings to HTML to support superscripts
+     * @param input the string to be converted
+     * @return Spanned object to be passed into the setText method
      */
     public Spanned toHTML(String input) {
 
@@ -337,9 +322,10 @@ public class Question extends AppCompatActivity {
 
     }
 
-    /*
-     * Called when selects an answer
-     * Saves what answer was selected
+    /**
+     * Saves the answer a user selects
+     * Called when the user selects an answer
+     * @param view current view
      */
     public void onRadioButtonClicked(View view) {
         // Is the button now checked?

@@ -12,7 +12,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 11-14-16
+ * Last Edit: 3-20-17
  *
  */
 
@@ -43,11 +43,11 @@ public class LearnConcepts extends AppCompatActivity {
 
     private GridLayout gridlayout;
 
-    /*
+    /**
      * Starts the activity and shows corresponding view on screen
-     * TO COME: Gets concept information from the database
-     *   then passes information to setGridInfo, a function to dynamically add to
-     *   the GridLayout
+     * @param savedInstanceState If the activity is being re-initialized after previously being
+     *                           shut down then this Bundle contains the data it most recently
+     *                           supplied in onSaveInstanceState(Bundle). Otherwise it is null.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +70,8 @@ public class LearnConcepts extends AppCompatActivity {
 
     }
 
-    /*
-     * hides bottom navigation bar
+    /**
+     * Hides bottom navigation bar
      * Called after onCreate on first creation
      * Called every time this activity gets the focus
      */
@@ -89,9 +89,10 @@ public class LearnConcepts extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /* 
+    /**
      * Shows and hides the bottom navigation bar when user swipes at it on screen
      * Called when the focus of the window changes to this activity
+     * @param hasFocus true or false based on if the focus of the window changes to this activity
      */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -107,9 +108,10 @@ public class LearnConcepts extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /*
+    /**
      * Sets what menu will be in the action bar
-     * homeonlymenu has the settings button and the home button
+     * @param menu The options menu in which we place the items.
+     * @return true
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -118,12 +120,14 @@ public class LearnConcepts extends AppCompatActivity {
         return true;
     }
 
-    /*
+    /**
      * Listens for selections from the menu in the action bar
      * Does action corresponding to selected item
      * home = goes to homescreen
      * settings = goes to settings page
      * android.R.id.home = go to the activity that called the current activity
+     * @param item that is selected from the menu in the action bar
+     * @return true
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -152,21 +156,24 @@ public class LearnConcepts extends AppCompatActivity {
         return true;
     }
 
-    /*
+    /**
      * Dynamically adds views to the GridLayout - one row per concept
      * Each concept has an ImageView, holding the image to create the "path"
      *   and a TextView, holding the concept name; the order of the views is
      *   decided by whether the row is even or not
      * Calls createConceptName and createConceptImg to actually make the views
+     * @param titles each concept that should be on the page
      */
     public void setGridInfo(ArrayList titles) {
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int maxWidth = metrics.widthPixels/2;
 
+        // Add each concept in the list
         int totalConcepts = titles.size();
         for (int row = 0; row < totalConcepts; row++) {
 
+            // Set up layout parameters for items to be inserted into the Grid Layout
             GridLayout.Spec thisRow = GridLayout.spec(row, 1);
             GridLayout.Spec col0 = GridLayout.spec(0, 1);
             GridLayout.Spec col1 = GridLayout.spec(1, 1);
@@ -179,6 +186,7 @@ public class LearnConcepts extends AppCompatActivity {
             TextView conceptName = createConceptName(row, titles.get(row).toString(), maxWidth, (row%2));
             ImageView conceptImg = createConceptImg(row, (totalConcepts-1), (row%2), maxWidth);
 
+            // If the row is even put the text second else put text first
             if (row % 2 == 0) {
                 gridlayout.addView(conceptName,gridLayoutParam1);
                 gridlayout.addView(conceptImg,gridLayoutParam0);
@@ -190,11 +198,13 @@ public class LearnConcepts extends AppCompatActivity {
         }
     }
 
-    /*
+    /**
      * Creates a TextView for the concept name that links to the lessons page
-     * title is the text that is put into the view,
-     * maxWidth makes sure the text stays on its half of the screen
-     * odd determines if the text is aligned to the left or to the right
+     * @param index Makes the Text View clickable to the correct lessons page
+     * @param title the text put into the TextView
+     * @param maxWidth Ensures the text stays on its half of the screen
+     * @param odd Determines whether the text is left or right aligned
+     * @return the finished TextView, ready to be put into the layout
      */
     public TextView createConceptName(int index, String title, int maxWidth, int odd) {
         final int conceptID = index+1;
@@ -224,14 +234,18 @@ public class LearnConcepts extends AppCompatActivity {
         return conceptName;
     }
 
-    /*
+    /**
      * Creates an ImageView for the image that links to the lessons page
-     * What image is used is determined by what row the image is being added to:
+     * The image used is determined by what row the image is being added to:
      *     there is an image for the first row
      *     there is an image for odd middle rows
      *     there is an image for even middle rows
      *     there are two images for the last row, depending on whether it is even or odd
-     * maxWidth is used to make sure the image does not exceed more than half of the screen
+     * @param index Makes the Text View clickable to the correct lesson summary
+     * @param max the index of the last item
+     * @param odd Determines whether the image is left or right aligned
+     * @param maxWidth used to make sure the image does not exceed more than half of the screen
+     * @return an Image View set up with correct parameters to be put onto the page
      */
     public ImageView createConceptImg(int index, int max, int odd, int maxWidth) {
         final int conceptID = index+1;
@@ -251,6 +265,8 @@ public class LearnConcepts extends AppCompatActivity {
                 LearnConcepts.this.startActivity(activityChangeIntent);
             }
         });
+
+        // Set the correct image depending on the place of the lesson in the list
         if (odd == 0) {
             if (index == 0) {
                 conceptImg.setImageResource(R.drawable.goldchest_start);

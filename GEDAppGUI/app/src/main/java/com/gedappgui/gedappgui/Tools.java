@@ -11,7 +11,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 10-26-16
+ * Last Edit: 3-20-17
  *
  */
 
@@ -50,7 +50,7 @@ public class Tools extends AppCompatActivity {
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-        //buttons for resizing
+        // Buttons for resizing
         Button fracbtn = (Button) findViewById(R.id.fracdectool);
         Button slopebtn = (Button) findViewById(R.id.slopeCalculator);
         Button membtn = (Button) findViewById(R.id.FormMem);
@@ -60,16 +60,15 @@ public class Tools extends AppCompatActivity {
         Button tutbtn = (Button) findViewById(R.id.tutorial_button);
 
 
-
         ViewGroup.LayoutParams params = fracbtn.getLayoutParams();
-        //get screen dimensions
+        // Get screen dimensions
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
         int height = dm.heightPixels;
-        //set button height
+        // Set button height
         params.height = (height/8);
-        //apply dynamic button test size and height
+        // Apply dynamic button test size and height
         fracbtn.setLayoutParams(params);
         fracbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
         slopebtn.setLayoutParams(params);
@@ -87,8 +86,8 @@ public class Tools extends AppCompatActivity {
 
     }
 
-    /*
-     * hides bottom navigation bar
+    /**
+     * Hides bottom navigation bar
      * Called after onCreate on first creation
      * Called every time this activity gets the focus
      */
@@ -128,7 +127,7 @@ public class Tools extends AppCompatActivity {
     /**
      * Called by a tool being selected
      * Opens fraction to decimal tool
-     * @param view
+     * @param view current view
      */
     public void goTofracdectool(View view) {
         Intent intent = new Intent(this, FractionToDecimalTool.class);
@@ -138,7 +137,7 @@ public class Tools extends AppCompatActivity {
     /**
      * Called by a tool being selected
      * Opens formulas tool
-     * @param view
+     * @param view current view
      */
     public void goToFormulas(View view) {
         Intent intent = new Intent(this, FormulaMemorization.class);
@@ -148,7 +147,7 @@ public class Tools extends AppCompatActivity {
     /**
      * Called by a tool being selected
      * Opens slope calculator tool
-     * @param view
+     * @param view current view
      */
     public void goToSlopeCalculator(View view) {
         Intent intent = new Intent(this, SlopeCalculator.class);
@@ -158,7 +157,7 @@ public class Tools extends AppCompatActivity {
     /**
      * Called by a tool being selected
      * Opens geo assist tool
-     * @param view
+     * @param view current view
      */
     public void goToGeoAssist (View view){
         Intent intent = new Intent(this, GeoAssist.class);
@@ -168,7 +167,7 @@ public class Tools extends AppCompatActivity {
     /**
      * Called by a tool being selected
      * Opens place values tool
-     * @param view
+     * @param view current view
      */
     public void goToPlaceValues (View view){
         Intent intent = new Intent(this, PlaceValues.class);
@@ -178,7 +177,7 @@ public class Tools extends AppCompatActivity {
     /**
      * Opens Tutorial view when button is clicked
      * Called when the user clicks the tutorial button
-     * @param view
+     * @param view current view
      */
     public void goToTutorial(View view){
         Intent intent = new Intent(this, Tutorial.class);
@@ -188,7 +187,7 @@ public class Tools extends AppCompatActivity {
     /**
      * Opens links tool
      * callled when user clicks the link button
-     * @param view
+     * @param view current view
      */
     public void goToLinks(View view){
         Intent intent = new Intent(this, NGZLinks.class);

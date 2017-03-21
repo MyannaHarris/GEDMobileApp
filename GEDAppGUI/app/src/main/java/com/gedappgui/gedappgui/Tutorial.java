@@ -11,7 +11,7 @@
         * Jasmine Jans
         * Jimmy Sherman
         *
-        * Last Edit: 2-1-17
+        * Last Edit: 3-20-17
         *
         */
 package com.gedappgui.gedappgui;
@@ -37,6 +37,7 @@ import android.widget.TextView;
 
 public class Tutorial extends AppCompatActivity {
 
+    // Set prompts for each page of tutorial
     private String[] prompts = {
             "Welcome to the tutorial! Use the forward and back buttons to navigate the tutorial. Hit exit to leave at any time.",
             "The Home Screen is the first thing you will see when opening the app. You can use this screen to access all other features.",
@@ -59,6 +60,7 @@ public class Tutorial extends AppCompatActivity {
             "Thanks for using our app! You can access this tutorial at anytime in Tools! Have fun and good luck!"
     };
 
+    // Set pictures for each page of tutorial
     private int[] tutorial_pics = {
             R.drawable.sprite_dragon,
             R.drawable.home_screen,
@@ -84,6 +86,12 @@ public class Tutorial extends AppCompatActivity {
     //index for tutorial pictures and text
     private int current = 0;
 
+    /**
+     * Starts the activity and shows corresponding view on screen
+     * @param savedInstanceState If the activity is being re-initialized after previously being
+     *                           shut down then this Bundle contains the data it most recently
+     *                           supplied in onSaveInstanceState(Bundle). Otherwise it is null.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +101,7 @@ public class Tutorial extends AppCompatActivity {
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
 
-        //disables back button at beginning
+        // Disable back button at beginning
         checkButtons();
 
         DisplayMetrics dm = new DisplayMetrics();
@@ -103,13 +111,15 @@ public class Tutorial extends AppCompatActivity {
 
 
 
-        //sets dynamic sizes for the buttons on tutorial
+        // Set dynamic sizes for the buttons on tutorial
         Button backbtn = (Button)findViewById(R.id.tutorial_back);
         backbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
         Button forwardbtn = (Button)findViewById(R.id.tutorial_forward);
         forwardbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
         Button exitbtn = (Button)findViewById(R.id.tutorial_exit);
         exitbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        /////// * Kristina: I was not sure if I should delete the following commented out code,
+        ///////             so I need Jimmy to look at it and decide
 //        TextView prompt = (TextView)findViewById(R.id.prompt);
 //        prompt.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/25));
 
@@ -129,12 +139,18 @@ public class Tutorial extends AppCompatActivity {
     /*
      * Exits the tutorial
      */
+
+    /**
+     * Exits the tutorial when the user chooses to do so
+     * @param view current view
+     */
     public void exitTutorial(View view){
         finish();
     }
 
-    /*
-     * Goes back one image and text
+    /**
+     * Goes back one image and text in the tutorial
+     * @param view current view
      */
     public void goBack(View view){
         TextView prompt = (TextView)findViewById(R.id.prompt);
@@ -145,13 +161,15 @@ public class Tutorial extends AppCompatActivity {
         promptImg.setImageResource(tutorial_pics[current]);
     }
 
-    /*
+    /**
      * Goes forward one image and text
+     * @param view current view
      */
     public void goForward(View view){
         TextView prompt = (TextView)findViewById(R.id.prompt);
         ImageView promptImg = (ImageView) findViewById(R.id.prompt_pic);
         current++;
+        // If it's the end, leave the tutorial
         if (current > 17) {
             System.out.println(current);
             finish();
@@ -161,7 +179,7 @@ public class Tutorial extends AppCompatActivity {
         promptImg.setImageResource(tutorial_pics[current]);
     }
 
-    /*
+    /**
      * Disables back button if at beginning, disables forward button if at end
      */
     public void checkButtons(){
@@ -174,8 +192,8 @@ public class Tutorial extends AppCompatActivity {
 
     }
 
-    /*
-     * hides bottom navigation bar
+    /**
+     * Hides bottom navigation bar
      * Called after onCreate on first creation
      * Called every time this activity gets the focus
      */
@@ -193,9 +211,10 @@ public class Tutorial extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /* 
+    /**
      * Shows and hides the bottom navigation bar when user swipes at it on screen
      * Called when the focus of the window changes to this activity
+     * @param hasFocus true or false based on if the focus of the window changes to this activity
      */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {

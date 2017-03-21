@@ -11,7 +11,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 11-6-16
+ * Last Edit: 3-20-17
  *
  */
 
@@ -38,27 +38,32 @@ public class LessonExample extends AppCompatActivity {
     private int conceptID;
     private int lessonID;
 
-    /*
+    /**
      * Starts the activity and shows corresponding view on screen
+     * @param savedInstanceState If the activity is being re-initialized after previously being
+     *                           shut down then this Bundle contains the data it most recently
+     *                           supplied in onSaveInstanceState(Bundle). Otherwise it is null.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Get information from intents passed from the previous page
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lesson_example);
         Intent mIntent = getIntent();
         conceptID = mIntent.getIntExtra("conceptID", 0);
         lessonID = mIntent.getIntExtra("lessonID", 0);
 
-        // Allow homeAsUpIndicator (back arrow) to desplay on action bar
+        // Allow homeAsUpIndicator (back arrow) to display on action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-
+        // Set up database helper in order to get example text onto the page
         DatabaseHelper db = new DatabaseHelper(this);
         setExamples(db, lessonID);
 
+        // Create button to go to next step, the Game Intro page
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
@@ -69,9 +74,10 @@ public class LessonExample extends AppCompatActivity {
         nextbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
     }
 
-    /* 
-     * Takes a DatabaseHelper object and queries the database for example 1 and example 2 and then
-     * places the text into the screen.
+    /**
+     * Queries the database for two examples and then places them on the screen
+     * @param db DatabaseHelper object to use to query the database
+     * @param id the lesson ID to get examples for
      */
     private void setExamples(DatabaseHelper db, int id){
         String example_1 = db.selectLessonExample1(id);
@@ -82,8 +88,8 @@ public class LessonExample extends AppCompatActivity {
         ex_2.setText(toHTML(example_2));
     }
 
-    /*
-     * hides bottom navigation bar
+    /**
+     * Hides bottom navigation bar
      * Called after onCreate on first creation
      * Called every time this activity gets the focus
      */
@@ -101,9 +107,10 @@ public class LessonExample extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /* 
+    /**
      * Shows and hides the bottom navigation bar when user swipes at it on screen
      * Called when the focus of the window changes to this activity
+     * @param hasFocus true or false based on if the focus of the window changes to this activity
      */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -119,9 +126,10 @@ public class LessonExample extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /*
+    /**
      * Sets what menu will be in the action bar
-     * homeonlymenu has the settings button and the home button
+     * @param menu The options menu in which we place the items.
+     * @return true
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -130,12 +138,14 @@ public class LessonExample extends AppCompatActivity {
         return true;
     }
 
-    /*
+    /**
      * Listens for selections from the menu in the action bar
      * Does action corresponding to selected item
      * home = goes to homescreen
      * settings = goes to settings page
      * android.R.id.home = go to the activity that called the current activity
+     * @param item that is selected from the menu in the action bar
+     * @return true
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -162,11 +172,11 @@ public class LessonExample extends AppCompatActivity {
         return true;
     }
 
-    /*
-     * Called when the button to move on is clicked
-     * Opens the Game intro
-     * intent.putExtra("next_activity", 0);
-     *   = sends 0 to tell game to go to question activity next
+    /**
+     * Opens Game Intro, passing concept ID and lesson ID information to that class, as
+     *     well as a 0 for next_activity to tell the game to go to the question activity after
+     * Called when the Next button is pressed
+     * @param view current view
      */
     public void gotToLessonGame(View view) {
         Intent intent = new Intent(this, GameIntro.class);
@@ -177,8 +187,10 @@ public class LessonExample extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /* Makes HTML tags in strings work
-     * Mostly for powers (ex: 3^2)
+    /**
+     * Converts database strings to HTML to support superscripts
+     * @param input the string to be converted
+     * @return Spanned object to be passed into the setText method
      */
     public Spanned toHTML(String input) {
 

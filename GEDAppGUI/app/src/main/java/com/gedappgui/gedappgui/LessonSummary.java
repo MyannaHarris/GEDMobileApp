@@ -11,7 +11,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 11-6-16
+ * Last Edit: 3-20-17
  *
  */
 
@@ -37,27 +37,34 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class LessonSummary extends AppCompatActivity {
-
+    // Globals for database access, concept ID, lesson ID, and lesson offset
     private DatabaseHelper dbHelper;
     private int conceptID;
-    private int lessonOffset;
     private int lessonID;
+    // this is for navigation from the lessons page, which doesn't know the lesson ids
+    private int lessonOffset;
 
-    /*
+    /**
      * Starts the activity and shows corresponding view on screen
+     * @param savedInstanceState If the activity is being re-initialized after previously being
+     *                           shut down then this Bundle contains the data it most recently
+     *                           supplied in onSaveInstanceState(Bundle). Otherwise it is null.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        // Get lesson information from database
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lesson_summary);
         dbHelper = new DatabaseHelper(this);
         Intent mIntent = getIntent();
         conceptID = mIntent.getIntExtra("conceptID", 0);
         String lessonTitle = mIntent.getStringExtra("lessonTitle");
-
+        // If the lesson ID is passed, get that
         if (mIntent.getExtras().containsKey("lessonID")) {
             lessonID = mIntent.getIntExtra("lessonID", 0);
         }
+        // Otherwise, get the lesson ID using the offset value
         else {
             lessonOffset = mIntent.getIntExtra("offset", 0);
             lessonID = dbHelper.selectLessonID(conceptID,lessonOffset);
@@ -69,20 +76,23 @@ public class LessonSummary extends AppCompatActivity {
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
+        // Set the title on the page
         TextView title = (TextView) findViewById(R.id.lessonSummary_title);
         title.setText(lessonTitle);
 
+        // Set the summary text on the page
         String lessonSummary = dbHelper.selectLessonSummary(lessonID);
         TextView summary = (TextView) findViewById(R.id.lessonSummary_text);
         summary.setText(toHTML(lessonSummary));
 
-        //make current lesson this one...because we're on it now
+        //  Make current lesson this one...because we're on it now
         System.out.println("prev lesson: "+dbHelper.selectCurrentLessonID());
         if (dbHelper.selectCurrentLessonID() != lessonID) {
             dbHelper.updateCurrentLessonID(lessonID);
         }
         System.out.println("curr lesson: "+dbHelper.selectCurrentLessonID());
 
+        // Create button to go to next step, the Lesson Steps page
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
@@ -93,8 +103,8 @@ public class LessonSummary extends AppCompatActivity {
         nextbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
     }
 
-    /*
-     * hides bottom navigation bar
+    /**
+     * Hides bottom navigation bar
      * Called after onCreate on first creation
      * Called every time this activity gets the focus
      */
@@ -112,9 +122,10 @@ public class LessonSummary extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /* 
+    /**
      * Shows and hides the bottom navigation bar when user swipes at it on screen
      * Called when the focus of the window changes to this activity
+     * @param hasFocus true or false based on if the focus of the window changes to this activity
      */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -130,9 +141,10 @@ public class LessonSummary extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /*
+    /**
      * Sets what menu will be in the action bar
-     * homeonlymenu has the settings button and the home button
+     * @param menu The options menu in which we place the items.
+     * @return true
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -141,12 +153,14 @@ public class LessonSummary extends AppCompatActivity {
         return true;
     }
 
-    /*
+    /**
      * Listens for selections from the menu in the action bar
      * Does action corresponding to selected item
      * home = goes to homescreen
      * settings = goes to settings page
      * android.R.id.home = go to the activity that called the current activity
+     * @param item that is selected from the menu in the action bar
+     * @return true
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -175,9 +189,10 @@ public class LessonSummary extends AppCompatActivity {
         return true;
     }
 
-    /*
-     * Called when the move on button is clicked
-     * Opens the lesson steps page
+    /**
+     * Opens the lesson steps page, passing concept ID and lesson ID information to that class
+     * Called when the Next button is pressed
+     * @param view current view
      */
     public void gotToLessonSteps(View view) {
         Intent intent = new Intent(this, LessonSteps.class);
@@ -186,8 +201,10 @@ public class LessonSummary extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /* Makes HTML tags in strings work
-     * Mostly for powers (ex: 3^2)
+    /**
+     * Converts database strings to HTML to support superscripts
+     * @param input the string to be converted
+     * @return Spanned object to be passed into the setText method
      */
     public Spanned toHTML(String input) {
 

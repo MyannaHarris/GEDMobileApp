@@ -14,7 +14,7 @@
  *
  * Created by jasminejans on 10/29/16.
  *
- * Last Edit: 11-6-16
+ * Last Edit: 3-20-17
  *
  */
 
@@ -59,8 +59,11 @@ public class Success extends AppCompatActivity {
 
     private Map<Integer, Integer> accessoryMap;
 
-    /*
+    /**
      * Starts the activity and shows corresponding view on screen
+     * @param savedInstanceState If the activity is being re-initialized after previously being
+     *                           shut down then this Bundle contains the data it most recently
+     *                           supplied in onSaveInstanceState(Bundle). Otherwise it is null.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,37 +76,24 @@ public class Success extends AppCompatActivity {
         int totalCorrect = mIntent.getIntExtra("totalCorrect", 0);
         int totalQuestions = mIntent.getIntExtra("totalQuestions", 0);
 
-        //get screen dimensions
+        // Get screen dimensions
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int height = dm.heightPixels;
-
-//        Button spritebtn = (Button)findViewById(R.id.to_sprite);
-//        spritebtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
-//        Button conceptsbtn = (Button)findViewById(R.id.to_concepts);
-//        conceptsbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
-//        Button lessonbtn = (Button)findViewById(R.id.to_lesson);
-//        lessonbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
-//        //set heights for button
-//        ViewGroup.LayoutParams params = spritebtn.getLayoutParams();
-//        params.height = (height/10);
-//
-//        spritebtn.setLayoutParams(params);
-//        conceptsbtn.setLayoutParams(params);
-//        lessonbtn.setLayoutParams(params);
 
         ArrayList<Integer> accessories = new ArrayList<>();
 
         dbHelper = new DatabaseHelper(this);
 
-        // make dictionary of image ids
+        // Make dictionary of image ids
         accessoryMap = new HashMap<Integer, Integer>();
         makeDictionary();
 
+        // If the next lesson is newly unlocked, the user receives an accessory
         if (!(dbHelper.isLessonAlreadyStarted(lessonID+1))) {
             TextView pickText = (TextView) findViewById(R.id.accessory_choice);
             pickText.setText("Pick an accessory:");
-            // get random accessories user doesn't have from db and put them in ArrayList
+            // Get random accessories user doesn't have from db and put them in ArrayList
             ArrayList<Integer> ids = dbHelper.getRandomAccessories();
             for (int i=0; i<ids.size(); i++) {
                 accessoryGiven = ids.get(i);
@@ -124,7 +114,7 @@ public class Success extends AppCompatActivity {
 
         gridlayout = (GridLayout) findViewById(R.id.accessory_options);
 
-        //put things in the gridlayout
+        // Put things in the grid layout
         setAccessoryInfo(accessories);
         if (dbHelper.isLastLesson(lessonID)) {
             RelativeLayout page = (RelativeLayout) findViewById(R.id.successPage);
@@ -132,8 +122,8 @@ public class Success extends AppCompatActivity {
         }
     }
 
-    /*
-     * hides bottom navigation bar
+    /**
+     * Hides bottom navigation bar
      * Called after onCreate on first creation
      * Called every time this activity gets the focus
      */
@@ -151,9 +141,10 @@ public class Success extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /* 
+    /**
      * Shows and hides the bottom navigation bar when user swipes at it on screen
      * Called when the focus of the window changes to this activity
+     * @param hasFocus true or false based on if the focus of the window changes to this activity
      */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -169,7 +160,11 @@ public class Success extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    //checks to see if any achievements can be awarded
+    /**
+     * Checks to see if any achievements can be awarded and awards them accordingly
+     * @param totalQuestions the number of questions the user answered
+     * @param totalCorrect the number of questions the user answered correctly
+     */
     private void checkAchievements(int totalQuestions, int totalCorrect){
         if(totalQuestions!=0){
             if(totalCorrect%totalQuestions == 0){
@@ -186,7 +181,7 @@ public class Success extends AppCompatActivity {
             }
         }
 
-        //Achievement for the first lesson completion
+        // Achievement for the first lesson completion
         if(!dbHelper.achievementExists(8)) {
             //gives an achievement if they complete a lesson for the first time
             Intent achievement = new Intent(getApplicationContext(), AchievementPopUp.class);
@@ -195,37 +190,37 @@ public class Success extends AppCompatActivity {
             startActivity(achievement);
         }
 
-        //gives an achievement if the user completes the first concept
+        // Give an achievement if the user completes the first concept
         if(lessonID == 6 && !dbHelper.achievementExists(9)){
             Intent achievement = new Intent(this, AchievementPopUp.class);
             achievement.putExtra("achievementID", 9);
             startActivity(achievement);
         }
 
-        //gives an achievement if the user completes the second concept
+        // Give an achievement if the user completes the second concept
         if(lessonID == 12 && !dbHelper.achievementExists(10)){
             Intent achievement = new Intent(this, AchievementPopUp.class);
             achievement.putExtra("achievementID", 10);
             startActivity(achievement);
         }
 
-        //gives an achievement if the user completes the final concept
+        // Give an achievement if the user completes the final concept
         if(lessonID == 24 && !dbHelper.achievementExists(11)){
             Intent achievement = new Intent(this, AchievementPopUp.class);
             achievement.putExtra("achievementID", 11);
             startActivity(achievement);
         }
 
-        //gives an achievement if the user completes the lesson after going over the redos
+        // Give an achievement if the user completes the lesson after going over the Redo area
         if(redo == 1 && !dbHelper.achievementExists(14)){
             Intent achievement = new Intent(this, AchievementPopUp.class);
             achievement.putExtra("achievementID", 14);
             startActivity(achievement);
         }
 
-        //checks to make sure that a user is going through a new lesson and not a repeated lesson
+        // Check to make sure that a user is going through a new lesson and not a repeated lesson
         if(!(dbHelper.isLessonAlreadyStarted(lessonID+1))) {
-            //gives an achievement if the user earns 3 accessories use >= if on sprite page
+            // Gives an achievement if the user earns 3 accessories use >= if on sprite page
             if (dbHelper.countAccessoriesEarned() == 3) {
                 Intent achievement = new Intent(this, AchievementPopUp.class);
                 achievement.putExtra("achievementID", 15);
@@ -233,7 +228,7 @@ public class Success extends AppCompatActivity {
             }
 
 
-        //gives an achievement if the user earns 8 accessories use >= if on sprite page
+        // Gives an achievement if the user earns 8 accessories use >= if on sprite page
             if(dbHelper.countAccessoriesEarned() == 8) {
                 Intent achievement = new Intent(this, AchievementPopUp.class);
                 achievement.putExtra("achievementID", 16);
@@ -241,7 +236,7 @@ public class Success extends AppCompatActivity {
             }
 
 
-        //gives an achievement if the user earns all accessories use >= if on sprite page
+        // Gives an achievement if the user earns all accessories use >= if on sprite page
             if(dbHelper.countAccessoriesEarned() == 24) {
                 Intent achievement = new Intent(this, AchievementPopUp.class);
                 achievement.putExtra("achievementID", 17);
@@ -251,7 +246,7 @@ public class Success extends AppCompatActivity {
 
     }
 
-    /*
+    /**
      * Listens for the back button on the bottom navigation bar
      * Stops app from allowing the back button to do anything
      */
@@ -260,9 +255,10 @@ public class Success extends AppCompatActivity {
         // Do nothing when back pressed from home screen
     }
 
-    /*
+    /**
      * Sets what menu will be in the action bar
-     * homeonlymenu has the settings button and the home button
+     * @param menu The options menu in which we place the items.
+     * @return true
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -271,11 +267,14 @@ public class Success extends AppCompatActivity {
         return true;
     }
 
-    /*
+    /**
      * Listens for selections from the menu in the action bar
      * Does action corresponding to selected item
      * home = goes to homescreen
      * settings = goes to settings page
+     * android.R.id.home = go to the activity that called the current activity
+     * @param item that is selected from the menu in the action bar
+     * @return true
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -300,9 +299,9 @@ public class Success extends AppCompatActivity {
         return true;
     }
 
-    /*
-     * Called by concept button
-     * Opens concepts page
+    /**
+     * Opens concepts page, Called by user pressing to Concept button
+     * @param view current view
      */
     public void goToConcepts(View view) {
         giveUserItem();
@@ -311,9 +310,9 @@ public class Success extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /*
-     * Called by next lesson button
-     * Opens next lessons summary page
+    /**
+     * Opens next lesson's summary page, Called by user pressing To Next Lesson button
+     * @param view current view
      */
     public void goToNextLesson(View view) {
         final String lessonTitle = dbHelper.selectLessonTitle(lessonID+1);
@@ -326,15 +325,20 @@ public class Success extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /*
-     * Called by sprite button
-     * Opens sprite page
+    /**
+     * Opens sprite page, Called by user pressing to Lair button
+     * @param view current view
      */
     public void goToSprite(View view) {
         giveUserItem();
         Intent intent = new Intent(this, Sprite.class);
         startActivity(intent);
     }
+
+    /**
+     * Adds accessories into layout
+     * @param accessories the accessory IDs and images
+     */
     public void setAccessoryInfo(ArrayList<Integer> accessories) {
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -343,6 +347,7 @@ public class Success extends AppCompatActivity {
 
         GridLayout.Spec thisRow = GridLayout.spec(0, 1);
 
+        // Place each accessory into the layout
         for (int i = 0; i < length; i++) {
             GridLayout.Spec col = GridLayout.spec(i+1,1);
             GridLayout.LayoutParams gridLayoutParam0 = new GridLayout.LayoutParams(thisRow, col);
@@ -354,12 +359,20 @@ public class Success extends AppCompatActivity {
 
     }
 
+    /**
+     * Creates the accessory image views correctly and makes them clickable
+     * @param img the image information
+     * @param id the id of the accessory, so it can be given
+     * @param maxWidth the maximum width of the image
+     * @return the created image view
+     */
     ImageView createAccessoryImage(Integer img, int id, int maxWidth) {
         final int finalID = id;
         ImageView imgView = new ImageView(this);
         imgView.setMaxWidth(maxWidth);
         imgView.setAdjustViewBounds(true);
         imgView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        // Make the accessory able to be selected
         imgView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
@@ -381,11 +394,14 @@ public class Success extends AppCompatActivity {
         return imgView;
     }
 
+    /**
+     * Gives user the item they choose from the three accessory options
+     */
     void giveUserItem() {
         dbHelper.giveAccessory(accessoryGiven);
     }
 
-    /*
+    /**
      * Make dictionary for accessories
      */
     public void makeDictionary() {

@@ -12,7 +12,7 @@
  * Jimmy Sherman
  * Kristina Spring
  *
- * Last Edit: 1-16-17
+ * Last Edit: 3-20-17
  *
  */
 
@@ -59,23 +59,6 @@ public class DatabaseHelper{
             file = new File(((Activity) this.myContext).getApplication().getFilesDir(), DB_NAME);
 
             createDatabase();
-
-            //check for availability of the external storage
-            //keep in mind external storage is public
-                /*if(isExternalStorageReadable() && isExternalStorageWritable()) {
-                    //copies the database file in assets to a new file in external storage
-                    file = new File(getExternalFilesDir(Environment.getDataDirectory().getAbsolutePath()).getAbsolutePath(), "GEDPrep.db");
-                    System.out.println("external");
-                    copy();
-                }
-                else{*/
-            //if external is not available
-            // we must copy to local app storage that is at risk of being cleared
-
-            //send a popup here maybe that notifies the user of the risks?
-            //System.out.println("fail");
-            //}
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -84,40 +67,22 @@ public class DatabaseHelper{
     /**
      * Test Constructor
      *
-     * Takes and ksaves a reference to a database
+     * Takes and saves a reference to a database
      */
     public DatabaseHelper(SQLiteDatabase testDB, File testFile){
         this.myDatabase = testDB;
         this.file = testFile;
     }
 
-    /* Checks if external storage is available write
-    public boolean isExternalStorageWritable() {
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            return true;
-        }
-        return false;
-    }
-
-    Checks if external storage is available to read
-    public boolean isExternalStorageReadable() {
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state) ||
-                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-            return true;
-        }
-        return false;
-    } */
-
     /**
      * Creates a empty database in internal memory and copies our own database to it
-     * */
+     */
     private void createDatabase() throws IOException{
 
         boolean dbExist = checkDatabase();
         SQLiteDatabase db_Read;
 
+        // If database doesn't exist, make a new one from the file
         if(!dbExist){
             System.out.println("should not exist");
             // By calling this method an empty database will be created into the default system
@@ -144,6 +109,7 @@ public class DatabaseHelper{
         System.out.println("checking database");
         SQLiteDatabase checkDB = null;
 
+        // Tries to open database to determine if it exists or not
         try{
             checkDB = SQLiteDatabase.openDatabase(
                     file.getPath(), null, SQLiteDatabase.OPEN_READWRITE);
@@ -154,26 +120,24 @@ public class DatabaseHelper{
         boolean dbExists = checkDB != null;
 
         if(dbExists){
-            System.out.println("exists");
             checkDB.close();
         }
-        //return false; //used for overwriting database on emulator
         return dbExists;
     }
 
     /**
      * Copies the database from the assets-folder to the just created empty database in
      * internal memory, from where it will be accessed and used.
-     * */
+     */
     private void copyDatabase() throws IOException{
 
-        //Open your local db as the input stream
+        // Open your local db as the input stream
         InputStream myInput = myContext.getApplicationContext().getAssets().open("gedV4.db");
 
-        //Open the empty db as the output stream
+        // Open the empty db as the output stream
         OutputStream myOutput = new FileOutputStream(file);
 
-        //transfer bytes from the inputfile to the outputfile
+        // Transfer bytes from the inputfile to the outputfile
         byte[] buffer = new byte[1024];
         int length;
 
@@ -181,7 +145,7 @@ public class DatabaseHelper{
             myOutput.write(buffer, 0, length);
         }
 
-        //Close the streams
+        // Close the streams
         myOutput.flush();
         myOutput.close();
         myInput.close();
@@ -441,17 +405,6 @@ public class DatabaseHelper{
      * @return the lessonID of the current lesson
      */
     public int selectCurrentLessonID() {
-        /*open();
-
-        Cursor c = myDatabase.rawQuery("SELECT current_lesson FROM user", null);
-        c.moveToFirst();
-        int currentLessonID = c.getInt(0);
-        //c = myDatabase.rawQuery("SELECT lesson_name FROM lessons WHERE lesson_id = " + currentLessonID, null);
-        //String lessonName = c.getString(0);
-
-        c.close();
-        close();*/
-
         return selectInt("current_lesson", "user");
     }
 
@@ -567,10 +520,6 @@ public class DatabaseHelper{
     public ArrayList<String> selectLessons(int concept_id){
         open();
 
-       /* Cursor c = myDatabase.rawQuery("SELECT lesson_name FROM user_lessons JOIN lessons " +
-                "ON lessons.lesson_id = user_lessons.lesson_id WHERE concept_id = " + concept_id +
-                " AND datetime_started != NULL", null);
-        */
         Cursor c = myDatabase.rawQuery("SELECT lesson_name FROM user_lessons JOIN lessons " +
                 "ON lessons.lesson_id = user_lessons.lesson_id WHERE concept_id = " + concept_id, null);
         ArrayList<String> lessonNames = new ArrayList<>();
@@ -748,6 +697,7 @@ public class DatabaseHelper{
         open();
 
         ArrayList<ArrayList<ArrayList<String>>> allQs = new ArrayList<>();
+        // Gets each difficulty individually so problems of the same difficulty are grouped together
         for (int i = 1; i < 4; i++) {
             ArrayList<ArrayList<String>> someQs = new ArrayList<>();
             Cursor c = myDatabase.rawQuery("SELECT question_text, numbers, answer_1, answer_2, answer_3" +
@@ -857,6 +807,7 @@ public class DatabaseHelper{
         c.close();
         close();
 
+        // If the count is 7, all features have been used and achievements for them given
         if(count == 7) {
             return true;
         }
@@ -923,7 +874,7 @@ public class DatabaseHelper{
         //there are 8 skins already in the user_achievements that we need to subtract
         int count = (c.getInt(0)) - 8;
 
-        //if accesorries are given on the success page, we need to up the count by one
+        //if accessories are given on the success page, we need to up the count by one
         //so that the achievement is given when they are about to get a 3rd accessory
         count += 1;
 
@@ -951,7 +902,7 @@ public class DatabaseHelper{
         c.close();
         close();
 
-        //if count is three than he is wearing all three necessary things to be fancy
+        // If count is three than he is wearing all three necessary things to be fancy
         if(count == 3){
             return true;
         }
@@ -1139,6 +1090,7 @@ public class DatabaseHelper{
 
         String[] options = input.split("[;]");
 
+        // Get five unique random questions
         for (int i = 0; i < 5; i++) {
             int randIdx = ( int )(Math.random() * (20-i));
             splitUp = new ArrayList<String>(Arrays.asList(options[randIdx].split("[&]")));
@@ -1169,6 +1121,7 @@ public class DatabaseHelper{
 
         String[] options = input.split("[;]");
 
+        // Get five unique random questions
         for (int i = 0; i < 5; i++) {
             int randIdx = ( int )(Math.random() * (20-i));
             splitUp = new ArrayList<String>(Arrays.asList(options[randIdx].split("[#]")));
@@ -1262,31 +1215,6 @@ public class DatabaseHelper{
         myDatabase.execSQL("UPDATE user SET current_lesson="+newLessonID);
         close();
     }
-
-    /*/**
-     * Method to update what accessory is on sprite
-     * @param lessonID of the lesson completed
-     */
-    /*public void isWearing(int lessonID) {
-        open();
-        // set time for completed lesson
-        String updateQuery = "UPDATE user_lessons SET datetime_finished=date('now') WHERE lesson_id="
-                + lessonID;
-        myDatabase.execSQL(updateQuery);
-        int newLessonID = lessonID + 1;
-        // if next lesson is not already in user_lessons, add it
-        Cursor c = myDatabase.rawQuery("SELECT count(lesson_id) FROM user_lessons WHERE lesson_id="
-                + newLessonID,null);
-        c.moveToFirst();
-        int test = c.getInt(0);
-        if (test < 1) {
-            String insertQuery = "INSERT INTO user_lessons(user_id, lesson_id, datetime_started) VALUES(1,"+newLessonID+",date('now'))";
-            myDatabase.execSQL(insertQuery);
-        }
-        //change current lesson
-        myDatabase.execSQL("UPDATE user SET current_lesson="+newLessonID);
-        close();
-    }*/
 
     /**
      * gets an arraylist of random accessories
