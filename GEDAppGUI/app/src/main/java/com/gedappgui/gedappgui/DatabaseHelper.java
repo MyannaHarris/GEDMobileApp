@@ -1030,7 +1030,14 @@ public class DatabaseHelper{
         ArrayList<String> randQ = new ArrayList<String>();
         ArrayList<String> randA = new ArrayList<String>();
 
-        String[] questions = input.split("[,]");
+        String[] questions;
+        if(lesson_id == 23){
+            questions = input.split("[#]");
+        }
+        else{
+            questions = input.split("[,]");
+        }
+
         for(int i = 0; i<questions.length;i++){
             allQAndAs.add(questions[i]);
             System.out.println(questions[i]);
