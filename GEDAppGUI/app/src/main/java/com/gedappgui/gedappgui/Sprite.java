@@ -353,7 +353,6 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
      */
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-
         if(dragBool) {
             switch(event.getAction()) {
                 case MotionEvent.ACTION_MOVE:

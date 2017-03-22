@@ -98,8 +98,6 @@ public class Game extends AppCompatActivity {
 
             // Set the game as the view
             setContentView(bucketGameView);
-
-        //template_id = 2 is match game
         } else if (dbHelper.selectGameTemplate(lessonID).equals("match_game")) {
 
             // Get content for matching game from database
