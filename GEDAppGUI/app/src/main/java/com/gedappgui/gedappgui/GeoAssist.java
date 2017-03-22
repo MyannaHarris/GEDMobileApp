@@ -40,14 +40,14 @@ public class GeoAssist extends AppCompatActivity implements AdapterView.OnItemSe
 
     //creates the global array of summaries describing select geometric shapes
     private String[] summaries = {
-            "\n\nA circle is a closed set of points that are the same distance from a certain point." +
+            "\n\nA circle is a closed set of points that are the same distance from a certain point. " +
                     "The area is the space inside of a circle. The diameter is a line segment with endpoints" +
-                    "on the edges of the circle where the line passes through the center. The radius is a line segment" +
-                    "that connects the center of the circle to any point on the circle. The constant value pi" +
+                    " on the edges of the circle where the line passes through the center. The radius is a line segment" +
+                    " that connects the center of the circle to any point on the circle. The constant value pi" +
                     " is often used to perform calculations with circles. In the test you will use the value 3.14.",
             "\n\nA triangle is a closed three-sided figure. A triangle can be classified depending on its " +
                     "sides and angles: \n\nEquilateral Triangle - All sides are equal in length and all angles " +
-                    "are 60 degrees \n\nIsoceles Triangle - Two sides are equal in length causing the angles opposite" +
+                    "are 60 degrees \n\nIsoceles Triangle - Two sides are equal in length causing the angles opposite " +
                     "these sides to be equal \n\nScalene Triangle - No sides are equal and no angles are equal \n\n" +
                     "Right Triangle - One angle measures 90 degrees \n\nAcute Triangle - All angles measure less than 90 degrees" +
                     "\n\nObtuse Triangle - One angle is greater than 90 degrees",
