@@ -17,7 +17,7 @@
         android:weightSum="1">
 
         <TextView
-            android:text="Use the scrollbar to select a place value on the decimal number and see how to represent that place value! \n"
+            android:text="Use the slider to select a place value on the decimal number and see how to represent that place value! \n"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/instructions_place"
