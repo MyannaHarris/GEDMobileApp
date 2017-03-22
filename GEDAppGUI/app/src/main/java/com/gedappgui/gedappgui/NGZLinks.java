@@ -65,11 +65,9 @@ public class NGZLinks extends AppCompatActivity {
         job.setMovementMethod(LinkMovementMethod.getInstance());
         passport.setMovementMethod(LinkMovementMethod.getInstance());
         who.setMovementMethod(LinkMovementMethod.getInstance());
-
-
     }
 
-    /*
+    /**
      * hides bottom navigation bar
      * Called after onCreate on first creation
      * Called every time this activity gets the focus

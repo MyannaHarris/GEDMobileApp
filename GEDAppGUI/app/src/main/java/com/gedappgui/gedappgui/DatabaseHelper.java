@@ -1093,7 +1093,7 @@ public class DatabaseHelper{
         close();
 
         ArrayList<ArrayList<String>> randQAndAs = new ArrayList<ArrayList<String>>();
-        ArrayList<String> splitUp = new ArrayList<>();
+        ArrayList<String> splitUp;
 
         String[] options = input.split("[;]");
 
@@ -1124,7 +1124,7 @@ public class DatabaseHelper{
         close();
 
         ArrayList<ArrayList<String>> randQAndAs = new ArrayList<ArrayList<String>>();
-        ArrayList<String> splitUp = new ArrayList<>();
+        ArrayList<String> splitUp;
 
         String[] options = input.split("[;]");
 

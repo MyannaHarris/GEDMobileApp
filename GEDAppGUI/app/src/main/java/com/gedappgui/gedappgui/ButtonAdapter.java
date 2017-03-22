@@ -159,7 +159,7 @@ public class ButtonAdapter extends BaseAdapter {
 
 
     /**
-     * Used for making truth and false buttons in PictureGameView.java
+     * Used for making true and false buttons in PictureGameView.java
      * @param position the position of the view in the gridlayout
      * @param convertView the view going into the layout
      * @param parent the gridlayout

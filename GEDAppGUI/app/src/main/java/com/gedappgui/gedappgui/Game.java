@@ -134,7 +134,7 @@ public class Game extends AppCompatActivity {
 
             // Set the game as the view
             setContentView(chemistryGameView);
-        }else if (dbHelper.selectGameTemplate(lessonID).equals("madlib_game")){
+        }/*else if (dbHelper.selectGameTemplate(lessonID).equals("madlib_game")){
 
             // Create game object
             ArrayList<ArrayList<String>> texts = new ArrayList<ArrayList<String>>();
@@ -148,7 +148,7 @@ public class Game extends AppCompatActivity {
 
             // Set the game as the view
             setContentView(scroll);
-        } else if (dbHelper.selectGameTemplate(lessonID).equals("picture_game")){
+        }*/ else if (dbHelper.selectGameTemplate(lessonID).equals("picture_game")){
 
             // Get content for picture game from database
             String pass_string = dbHelper.selectPicGameInput(lessonID);

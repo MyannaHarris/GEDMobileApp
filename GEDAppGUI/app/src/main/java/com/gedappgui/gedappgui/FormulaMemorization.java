@@ -166,7 +166,7 @@ public class FormulaMemorization extends AppCompatActivity {
     }
 
 
-    /*
+    /**
      * hides bottom navigation bar
      * Called after onCreate on first creation
      * Called every time this activity gets the focus

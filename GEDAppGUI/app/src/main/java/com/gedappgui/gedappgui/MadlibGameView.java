@@ -101,20 +101,20 @@ public class MadlibGameView extends RelativeLayout{
         sentence = new TextView(context);
         sentence.setTextSize(convertPixelsToDp(height / 30, context));
 
-        //if (Build.VERSION.SDK_INT < 17) {
-        sentence.setId(R.id.madlibGameSentence);
-        //} else {
-          //  sentence.setId(View.generateViewId());
-        //}
+        if (Build.VERSION.SDK_INT < 17) {
+            sentence.setId(R.id.madlibGameSentence);
+        } else {
+            sentence.setId(View.generateViewId());
+        }
 
         submit = new Button(context);
         submit.setText("Submit");
 
-        if (Build.VERSION.SDK_INT < 17) {
-            submit.setId(R.id.madlibGameSentence);
-        } else {
-            submit.setId(View.generateViewId());
-        }
+        //if (Build.VERSION.SDK_INT < 17) {
+        submit.setId(R.id.madlibGameSubmit);
+        //} else {
+          //  submit.setId(View.generateViewId());
+        //}
 
         RelativeLayout.LayoutParams relativeLay = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -299,11 +299,7 @@ public class MadlibGameView extends RelativeLayout{
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    View view = findViewById(R.id.madlibGameSubmit);
                     createMadLib(v);
-                    view.setFocusableInTouchMode(true);
-                    view.requestFocus();
-                    return false;
                 }
                 return false;
             }
@@ -395,16 +391,14 @@ public class MadlibGameView extends RelativeLayout{
 
         relativeLay = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        relativeLay.setMargins(10, 10, 10, 10);
+        relativeLay.setMargins(50, 0, 10, 200);
         relativeLay.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         relativeLay.addRule(RelativeLayout.BELOW, radioGroup.getId());
 
         submit.setLayoutParams(relativeLay);
-        submit.setPadding(50,50,50,50);
 
         this.addView(submit);
     }
-
 
     /*
   * Called when selects an answer

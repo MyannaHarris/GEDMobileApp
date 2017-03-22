@@ -47,7 +47,7 @@ public class FractionToDecimalTool extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fraction_to_decimal_tool);
-        // Allow homeAsUpIndicator (back arrow) to desplay on action bar
+        // Allow homeAsUpIndicator (back arrow) to display on action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Allow user to control audio with volume buttons on phone
@@ -59,7 +59,7 @@ public class FractionToDecimalTool extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                    //evaluates answer and closes keyoboard
+                    //evaluates answer and closes keyboard
                     View view = findViewById(R.id.submitButton);
                     evaluateText(view);
                     InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -191,7 +191,7 @@ public class FractionToDecimalTool extends AppCompatActivity {
         return "Invalid input, Example inputs: 1/2, 13/7";
     }
 
-    /*
+    /**
      * hides bottom navigation bar
      * Called after onCreate on first creation
      * Called every time this activity gets the focus
