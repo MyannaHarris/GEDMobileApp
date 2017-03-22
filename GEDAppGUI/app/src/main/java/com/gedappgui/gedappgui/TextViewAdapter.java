@@ -22,6 +22,8 @@ package com.gedappgui.gedappgui;
 import android.content.Context;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
@@ -150,7 +152,8 @@ public class TextViewAdapter extends BaseAdapter {
             }
         }
 
-        textView.setText(texts[position]);
+        textView.setTag(texts[position]);
+        textView.setText(toHTML(texts[position]));
         return textView;
     }
 
@@ -165,6 +168,21 @@ public class TextViewAdapter extends BaseAdapter {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         float dp = px / (metrics.densityDpi / 160f);
         return dp;
+
+    }
+
+    /**
+     * Converts database strings to HTML to support superscripts
+     * @param input the string to be converted
+     * @return Spanned object to be passed into the setText method
+     */
+    public Spanned toHTML(String input) {
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            return Html.fromHtml(input,Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            return Html.fromHtml(input);
+        }
 
     }
 }

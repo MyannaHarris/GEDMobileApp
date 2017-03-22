@@ -135,6 +135,16 @@ public class BucketNumber {
     }
 
     /**
+     * Setter
+     * Sets the speed
+     * Helps with separating coins
+     * @param newSpeed New speed to set speed to
+     */
+    public void setSpeed(int newSpeed){
+        this.speed = newSpeed;
+    }
+
+    /**
      * Getter
      * Gets the rectangle to check for collisions
      * @return detectCollision - The rectangle around the number
@@ -150,6 +160,15 @@ public class BucketNumber {
      */
     public String getText() {
         return text;
+    }
+
+    /**
+     * Getter
+     * Gets the speed
+     * @return speed - The number's speed
+     */
+    public int getSpeed() {
+        return speed;
     }
 
     /**

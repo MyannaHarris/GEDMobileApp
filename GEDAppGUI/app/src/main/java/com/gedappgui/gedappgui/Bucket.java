@@ -101,7 +101,7 @@ public class Bucket {
         y = maxY;
 
         // Initializing rect object for detecting collisions
-        detectCollision =  new Rect(x, y, bitmap.getWidth(), bitmap.getHeight());
+        detectCollision =  new Rect(x, y, bitmap.getWidth(), 20);
     }
 
     /**
@@ -146,7 +146,7 @@ public class Bucket {
         detectCollision.left = x;
         detectCollision.top = y;
         detectCollision.right = x + bitmap.getWidth();
-        detectCollision.bottom = y + bitmap.getHeight();
+        detectCollision.bottom = y + 20;
     }
 
     /**

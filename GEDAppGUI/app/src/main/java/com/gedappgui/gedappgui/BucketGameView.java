@@ -29,6 +29,11 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MotionEventCompat;
+import android.text.Html;
+import android.text.Layout;
+import android.text.Spanned;
+import android.text.StaticLayout;
+import android.text.TextPaint;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -238,6 +243,25 @@ public class BucketGameView extends SurfaceView implements Runnable  {
             // Only update numbers if the game is not paused to show the question or answer
             if(showFinishedGameTimer == 40 && !showQuestionAtBeginning
                     && waitToStartNextGame == 0) {
+                /*for(int k=0; k<numberCount; k++){
+                    if (i != k &&
+                            Rect.intersects(numbers[i].getDetectCollision(),
+                                    numbers[k].getDetectCollision())) {
+                        if (i < k) {
+                            int iSpeed = numbers[i].getSpeed();
+                            int kSpeed = numbers[k].getSpeed();
+                            int changeY = (height) / (17 * 6);
+
+                            if (iSpeed > changeY * 0.5) {
+                                numbers[i].setSpeed((int)(iSpeed - (changeY * 0.1)));
+                            }
+
+                            if (kSpeed < changeY * 1.4) {
+                                numbers[i].setSpeed((int)(kSpeed + (changeY * 0.1)));
+                            }
+                        }
+                    }
+                }*/
                 numbers[i].update();
             }
 
@@ -370,12 +394,43 @@ public class BucketGameView extends SurfaceView implements Runnable  {
             canvas.drawBitmap(dragonBG, width / 2 - dragonBG.getWidth() / 2,
                     height / 2 - dragonBG.getHeight() / 2, alphaPaint);
 
+            // Special paint for static layouts which are needed for drawing spanned html
+            TextPaint textPaint = new TextPaint();
+            textPaint.setColor(ContextCompat.getColor(context, R.color.bucketGameText));
+            textPaint.setTextSize((float)height / 17);
+
+            Spanned newQuestion = toHTML(question);
+
             // Draw question to screen
-            canvas.drawText(
+            if (newQuestion.length() > 20) {
+                textPaint.setTextSize((float)height / 20);
+                paint.setTextSize((float)height / 20);
+            }
+
+            // Layout to draw spanned html
+            StaticLayout layout = new StaticLayout(newQuestion, textPaint, canvas.getWidth(),
+                    Layout.Alignment.ALIGN_CENTER, 1, 0, false);
+
+            // Save canvas position
+            canvas.save();
+
+            // Translate canvas to place static layout text
+            // layout.getLineWidth(0) => gets width of first line of html
+            canvas.translate((width / 2 - (int) layout.getWidth() / 2), questionHeight);
+
+            // Draw special html text
+            layout.draw(canvas);
+
+            // Put canvas back in place
+            canvas.restore();
+
+            /*canvas.drawText(
                     question,
-                    (width / 2 - (int)paint.measureText(question) / 2),
+                    (width / 2 - (int) paint.measureText(question) / 2),
                     questionHeight,
-                    paint);
+                    paint);*/
+
+            paint.setTextSize((float)height / 17);
 
             // Draw numbers only if in game and not during breaks between rounds
             if(!hideContentToShowAnswer && !showQuestionAtBeginning
@@ -546,5 +601,20 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                 break;
         }
         return true;
+    }
+
+    /**
+     * Converts database strings to HTML to support superscripts
+     * @param input the string to be converted
+     * @return Spanned object to be passed into the setText method
+     */
+    public Spanned toHTML(String input) {
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            return Html.fromHtml(input,Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            return Html.fromHtml(input);
+        }
+
     }
 }

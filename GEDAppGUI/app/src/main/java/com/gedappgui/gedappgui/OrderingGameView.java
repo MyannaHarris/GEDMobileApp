@@ -21,6 +21,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -153,7 +155,8 @@ public class OrderingGameView extends LinearLayout {
                                 // Touch is within this child
                                 // Set up dragging textviews text and start dragging
                                 lastTextView = child;
-                                dragTextView.setText((String) child.getText().toString());
+                                dragTextView.setText(child.getText());
+                                dragTextView.setTag(child.getTag());
                                 dragging = true;
                             }
                         }
@@ -183,6 +186,7 @@ public class OrderingGameView extends LinearLayout {
                                     // Swap texts in textviews that user is passing
                                     //      over with dragging textview
                                     lastTextView.setText(child.getText());
+                                    lastTextView.setTag(child.getTag());
                                     child.setText("");
                                     lastTextView = child;
                                 }
@@ -209,7 +213,9 @@ public class OrderingGameView extends LinearLayout {
                                     // Touch is within this child
                                     // Set new textview values to reflect change in order
                                     lastTextView.setText(child.getText());
+                                    lastTextView.setTag(child.getTag());
                                     child.setText(dragTextView.getText());
+                                    child.setTag(dragTextView.getTag());
 
                                     inTextView = true;
                                 }
@@ -218,13 +224,14 @@ public class OrderingGameView extends LinearLayout {
                             // Return number to last textview if dragged off of textViews completely
                             if (!inTextView) {
                                 lastTextView.setText(dragTextView.getText());
+                                lastTextView.setTag(dragTextView.getTag());
                             }
 
                             // Check if order is right
                             boolean questionDone = true;
                             for (int i = 1; i < getChildCount() - 2; i++) {
                                 TextView child = (TextView) linearLayout.getChildAt(i);
-                                if (!((String) child.getText().toString()).equals(answerTexts.get(i - 1))) {
+                                if (!((String) child.getTag().toString()).equals(answerTexts.get(i - 1))) {
                                     questionDone = false;
                                 }
                             }
@@ -285,7 +292,8 @@ public class OrderingGameView extends LinearLayout {
             // Set up items to order
             for (int i = 0; i < questionTexts.size(); i++) {
                 TextView newTextView = new TextView(context);
-                newTextView.setText(questionTexts.get(i));
+                newTextView.setTag(questionTexts.get(i));
+                newTextView.setText(toHTML(questionTexts.get(i)));
                 newTextView.setLayoutParams(linearParams);
                 newTextView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
                 newTextView.setHeight((height - (30 + 10 * answerTexts.size())) / (answerTexts.size() + 2));
@@ -331,6 +339,21 @@ public class OrderingGameView extends LinearLayout {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         float dp = px / (metrics.densityDpi / 160f);
         return dp;
+
+    }
+
+    /**
+     * Converts database strings to HTML to support superscripts
+     * @param input the string to be converted
+     * @return Spanned object to be passed into the setText method
+     */
+    public Spanned toHTML(String input) {
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            return Html.fromHtml(input,Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            return Html.fromHtml(input);
+        }
 
     }
 }

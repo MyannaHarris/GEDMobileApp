@@ -1129,7 +1129,7 @@ public class DatabaseHelper{
         String[] options = input.split("[;]");
 
         // Get five unique random questions
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 2; i++) {
             int randIdx = ( int )(Math.random() * (20-i));
             splitUp = new ArrayList<String>(Arrays.asList(options[randIdx].split("[#]")));
             randQAndAs.add(new ArrayList<String>(splitUp.subList(0,5)));
