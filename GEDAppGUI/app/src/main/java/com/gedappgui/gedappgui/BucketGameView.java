@@ -243,7 +243,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
             // Only update numbers if the game is not paused to show the question or answer
             if(showFinishedGameTimer == 40 && !showQuestionAtBeginning
                     && waitToStartNextGame == 0) {
-                /*for(int k=0; k<numberCount; k++){
+                for(int k=0; k<numberCount; k++){
                     if (i != k &&
                             Rect.intersects(numbers[i].getDetectCollision(),
                                     numbers[k].getDetectCollision())) {
@@ -253,15 +253,15 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                             int changeY = (height) / (17 * 6);
 
                             if (iSpeed > changeY * 0.5) {
-                                numbers[i].setSpeed((int)(iSpeed - (changeY * 0.1)));
+                                numbers[i].setSpeed((int)(iSpeed - (changeY * 0.2)));
                             }
 
                             if (kSpeed < changeY * 1.4) {
-                                numbers[i].setSpeed((int)(kSpeed + (changeY * 0.1)));
+                                numbers[k].setSpeed((int)(kSpeed + (changeY * 0.2)));
                             }
                         }
                     }
-                }*/
+                }
                 numbers[i].update();
             }
 
