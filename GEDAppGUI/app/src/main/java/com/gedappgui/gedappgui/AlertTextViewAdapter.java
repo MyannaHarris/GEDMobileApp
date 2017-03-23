@@ -100,11 +100,7 @@ public class AlertTextViewAdapter extends BaseAdapter {
             textView = new TextView(mContext);
             textView.setTextSize(convertPixelsToDp(height / 30, mContext));
 
-            if (position == selectedPosition) {
-                textView.setTextColor(ContextCompat.getColor(mContext, R.color.inBetweenPageHighlightColor));
-            } else {
-                textView.setTextColor(ContextCompat.getColor(mContext, R.color.colorBodyText));
-            }
+            textView.setTextColor(ContextCompat.getColor(mContext, R.color.colorBodyText));
 
             textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
         } else {
