@@ -91,10 +91,10 @@ public class LearnLessons extends AppCompatActivity {
         // Fill option adapter
         optionAdapter = new AlertTextViewAdapter(LearnLessons.this,
                 new String[]
-                        {"Summary - A brief intro\n",
-                                "Steps - Further explanation\n",
-                                "Examples - Solved problems\n",
-                                "Game - Practice game\n",
+                        {"Summary - A brief intro",
+                                "Steps - Further explanation",
+                                "Examples - Solved problems",
+                                "Game - Practice game",
                                 "Questions - Practice problems"}, height);
 
         // Put things in the gridlayout
