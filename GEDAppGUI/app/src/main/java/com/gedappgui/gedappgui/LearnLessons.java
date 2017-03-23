@@ -18,18 +18,15 @@
 
 package com.gedappgui.gedappgui;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayout;
 import android.util.DisplayMetrics;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,13 +38,22 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class LearnLessons extends AppCompatActivity {
+
+    // Gridlayout to put items in
     private GridLayout gridlayout;
+    // Database helper
     private DatabaseHelper dbHelper;
+    // Intent info
     private int conceptID;
+    private int lessonID;
 
     // Completed lesson dialog
     private AlertDialog.Builder lessonDialog;
-    private int lessonID;
+    // Adapter to fill dialog
+    private AlertTextViewAdapter optionAdapter;
+
+    // Intent to move on to next page
+    private Intent activityChangeIntent;
 
     /**
      * Starts the activity and shows corresponding view on screen
@@ -76,6 +82,20 @@ public class LearnLessons extends AppCompatActivity {
 
         // Instantiate an AlertDialog.Builder with its constructor
         lessonDialog = new AlertDialog.Builder(this, R.style.AlertDialogAppearance);
+
+        // Get dimensions of screen to make text size
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int height = dm.heightPixels;
+
+        // Fill option adapter
+        optionAdapter = new AlertTextViewAdapter(LearnLessons.this,
+                new String[]
+                        {"Summary - A brief intro\n",
+                                "Steps - Further explanation\n",
+                                "Examples - Solved problems\n",
+                                "Game - Practice game\n",
+                                "Questions - Practice problems"}, height);
 
         // Put things in the gridlayout
         setGridInfo(lessonNames);
@@ -248,7 +268,61 @@ public class LearnLessons extends AppCompatActivity {
 
                     lessonDialog.setIcon(R.drawable.appicon);
 
-                    lessonDialog.setItems(new CharSequence[]
+                    lessonDialog.setAdapter(optionAdapter, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    // The 'which' argument contains the index position
+                                    // of the selected item
+                                    switch (which) {
+                                        case 0:
+                                            activityChangeIntent = new Intent(LearnLessons.this,
+                                                    LessonSummary.class);
+                                            activityChangeIntent.putExtra("conceptID",conceptID);
+                                            activityChangeIntent.putExtra("lessonID",lessonID);
+                                            activityChangeIntent.putExtra("lessonTitle",lessonTitle);
+
+                                            LearnLessons.this.startActivity(activityChangeIntent);
+                                            break;
+                                        case 1:
+                                            activityChangeIntent = new Intent(LearnLessons.this,
+                                                    LessonSteps.class);
+                                            activityChangeIntent.putExtra("conceptID",conceptID);
+                                            activityChangeIntent.putExtra("lessonID",lessonID);
+
+                                            LearnLessons.this.startActivity(activityChangeIntent);
+                                            break;
+                                        case 2:
+                                            activityChangeIntent = new Intent(LearnLessons.this,
+                                                    LessonExample.class);
+                                            activityChangeIntent.putExtra("conceptID",conceptID);
+                                            activityChangeIntent.putExtra("lessonID",lessonID);
+
+                                            LearnLessons.this.startActivity(activityChangeIntent);
+                                            break;
+                                        case 3:
+                                            activityChangeIntent = new Intent(LearnLessons.this,
+                                                    GameIntro.class);
+                                            activityChangeIntent.putExtra("next_activity", 0);
+                                            activityChangeIntent.putExtra("conceptID",conceptID);
+                                            activityChangeIntent.putExtra("lessonID",lessonID);
+                                            activityChangeIntent.putExtra("gameName", "");
+
+                                            LearnLessons.this.startActivity(activityChangeIntent);
+                                            break;
+                                        case 4:
+                                            activityChangeIntent = new Intent(LearnLessons.this,
+                                                    Question.class);
+                                            activityChangeIntent.putExtra("conceptID",conceptID);
+                                            activityChangeIntent.putExtra("lessonID",lessonID);
+                                            activityChangeIntent.putExtra("redoComplete", 0);
+
+                                            LearnLessons.this.startActivity(activityChangeIntent);
+                                            break;
+                                    }
+                                }
+                            });
+
+                    /*lessonDialog.setItems(new CharSequence[]
                                     {"Summary - A brief intro",
                                             "Steps - Further explanation",
                                             "Examples - Solved problems",
@@ -307,7 +381,7 @@ public class LearnLessons extends AppCompatActivity {
                                             break;
                                     }
                                 }
-                            });
+                            });*/
 
                     // Add the buttons
                     lessonDialog.setNegativeButton("Cancel",
@@ -371,7 +445,61 @@ public class LearnLessons extends AppCompatActivity {
 
                     lessonDialog.setIcon(R.drawable.appicon);
 
-                    lessonDialog.setItems(new CharSequence[]
+                    lessonDialog.setAdapter(optionAdapter, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            // The 'which' argument contains the index position
+                            // of the selected item
+                            switch (which) {
+                                case 0:
+                                    activityChangeIntent = new Intent(LearnLessons.this,
+                                            LessonSummary.class);
+                                    activityChangeIntent.putExtra("conceptID",conceptID);
+                                    activityChangeIntent.putExtra("lessonID",lessonID);
+                                    activityChangeIntent.putExtra("lessonTitle",lessonTitle);
+
+                                    LearnLessons.this.startActivity(activityChangeIntent);
+                                    break;
+                                case 1:
+                                    activityChangeIntent = new Intent(LearnLessons.this,
+                                            LessonSteps.class);
+                                    activityChangeIntent.putExtra("conceptID",conceptID);
+                                    activityChangeIntent.putExtra("lessonID",lessonID);
+
+                                    LearnLessons.this.startActivity(activityChangeIntent);
+                                    break;
+                                case 2:
+                                    activityChangeIntent = new Intent(LearnLessons.this,
+                                            LessonExample.class);
+                                    activityChangeIntent.putExtra("conceptID",conceptID);
+                                    activityChangeIntent.putExtra("lessonID",lessonID);
+
+                                    LearnLessons.this.startActivity(activityChangeIntent);
+                                    break;
+                                case 3:
+                                    activityChangeIntent = new Intent(LearnLessons.this,
+                                            GameIntro.class);
+                                    activityChangeIntent.putExtra("next_activity", 0);
+                                    activityChangeIntent.putExtra("conceptID",conceptID);
+                                    activityChangeIntent.putExtra("lessonID",lessonID);
+                                    activityChangeIntent.putExtra("gameName", "");
+
+                                    LearnLessons.this.startActivity(activityChangeIntent);
+                                    break;
+                                case 4:
+                                    activityChangeIntent = new Intent(LearnLessons.this,
+                                            Question.class);
+                                    activityChangeIntent.putExtra("conceptID",conceptID);
+                                    activityChangeIntent.putExtra("lessonID",lessonID);
+                                    activityChangeIntent.putExtra("redoComplete", 0);
+
+                                    LearnLessons.this.startActivity(activityChangeIntent);
+                                    break;
+                            }
+                        }
+                    });
+
+                    /*lessonDialog.setItems(new CharSequence[]
                                     {"Summary - A brief intro",
                                             "Steps - Further explanation",
                                             "Examples - Solved problems",
@@ -390,7 +518,6 @@ public class LearnLessons extends AppCompatActivity {
                                             activityChangeIntent.putExtra("conceptID",conceptID);
                                             activityChangeIntent.putExtra("lessonID",lessonID);
                                             activityChangeIntent.putExtra("lessonTitle",lessonTitle);
-
                                             LearnLessons.this.startActivity(activityChangeIntent);
                                             break;
                                         case 1:
@@ -430,7 +557,7 @@ public class LearnLessons extends AppCompatActivity {
                                             break;
                                     }
                                 }
-                            });
+                            });*/
 
                     // Add the buttons
                     lessonDialog.setNegativeButton("Cancel",
