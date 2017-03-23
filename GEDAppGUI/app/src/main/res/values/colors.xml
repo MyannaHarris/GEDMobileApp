@@ -45,6 +45,7 @@
     <color name="questionIncorrect">#ff0000</color>
     <color name="chemistryGameBG">#ceaee6</color>
     <color name="chemistryGameText">#000000</color>
+    <color name="chemistryGameIncorrect">#ff0000</color>
     <color name="spriteAccessoryBG">#313131</color>
     <color name="fractodectext">#b03ffc</color>
     <color name="colorHint">#55ca7cff</color>

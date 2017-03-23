@@ -245,7 +245,7 @@ public class OrderingGameView extends LinearLayout {
                                         currQuestion += 1;
                                         setUp();
                                     }
-                                }, 500);
+                                }, 800);
                             }
 
                             // Delete moving textView from layout

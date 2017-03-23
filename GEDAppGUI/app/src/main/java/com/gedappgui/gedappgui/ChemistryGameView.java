@@ -82,6 +82,9 @@ public class ChemistryGameView extends RelativeLayout {
     // textviews that are done
     private ArrayList<Integer> doneTextViews;
 
+    // Saved answer texts
+    private ArrayList<String> savedAnswerTexts;
+
     /**
      * Constructor for game
      * @param contextp Context of the activity
@@ -132,6 +135,9 @@ public class ChemistryGameView extends RelativeLayout {
         answer3 = new TextView(context);
         answer4 = new TextView(context);
         cauldron = new TextView(context);
+
+        // Set up list of answers to be saved for resetting the question
+        savedAnswerTexts = new ArrayList<String>();
 
         // Set up text
         setUp();
@@ -372,29 +378,44 @@ public class ChemistryGameView extends RelativeLayout {
                                                 currQuestion += 1;
                                                 setUp();
                                             }
-                                        }, 600);
+                                        }, 800);
                                     }
                                 } else {
-                                    // Put potion back if answer is wrong
-                                    TextView child = (TextView) r.getChildAt(chosenChildIdx);
 
-                                    if (chosenChildIdx == 0) {
-                                        // Top left
-                                        child.setCompoundDrawablesWithIntrinsicBounds(
-                                                0, R.drawable.chem_potion1, 0, 0);
-                                    } else if (chosenChildIdx == 1) {
-                                        // Top right
-                                        child.setCompoundDrawablesWithIntrinsicBounds(
-                                                0, R.drawable.chem_potion2, 0, 0);
-                                    } else if (chosenChildIdx == 2) {
-                                        // Bottom left
-                                        child.setCompoundDrawablesWithIntrinsicBounds(
-                                                0, R.drawable.chem_potion3, 0, 0);
-                                    } else if (chosenChildIdx == 3) {
-                                        // Bottom right
-                                        child.setCompoundDrawablesWithIntrinsicBounds(
-                                                0, R.drawable.chem_potion4, 0, 0);
-                                    }
+                                    cauldron.setTextColor(ContextCompat.getColor(context, R.color.chemistryGameIncorrect));
+                                    cauldron.setText("Incorrect");
+
+                                    new Handler().postDelayed(new Runnable() {
+                                        public void run() {
+                                            cauldron.setTextColor(ContextCompat.getColor(context, R.color.chemistryGameText));
+
+                                            // Reset question
+                                            cauldron.setText(questionTexts.get(0));
+
+                                            // Reset answers
+                                            answerTexts.clear();
+                                            for (String text : savedAnswerTexts) {
+                                                answerTexts.add(text);
+                                            }
+                                            numAnswers = savedAnswerTexts.size();
+                                            doneTextViews.clear();
+
+                                            // Top left
+                                            answer1.setCompoundDrawablesWithIntrinsicBounds(
+                                                    0, R.drawable.chem_potion1, 0, 0);
+                                            // Top right
+                                            answer2.setCompoundDrawablesWithIntrinsicBounds(
+                                                    0, R.drawable.chem_potion2, 0, 0);
+                                            // Bottom left
+                                            answer3.setCompoundDrawablesWithIntrinsicBounds(
+                                                    0, R.drawable.chem_potion3, 0, 0);
+                                            // Bottom right
+                                            answer4.setCompoundDrawablesWithIntrinsicBounds(
+                                                    0, R.drawable.chem_potion4, 0, 0);
+
+                                            numCorrectAnswers = 0;
+                                        }
+                                    }, 800);
                                 }
                             } else {
                                 // Put potion back if not dropped on the cauldron
@@ -446,6 +467,10 @@ public class ChemistryGameView extends RelativeLayout {
             // Set up current question
             questionTexts = texts.get(currQuestion * 2);
             answerTexts = texts.get(currQuestion * 2 + 1);
+            savedAnswerTexts.clear();
+            for (String text : answerTexts) {
+                savedAnswerTexts.add(text);
+            }
 
             // Save number of answers
             numAnswers = answerTexts.size();
