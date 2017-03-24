@@ -32,6 +32,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MatchGameView extends LinearLayout{
 
@@ -45,16 +48,16 @@ public class MatchGameView extends LinearLayout{
 
     // Array to hold options for match cards
     private ArrayList<ArrayList<String>> texts;
+    private ArrayList<String> textsInf;
+    private ArrayList<String> currTextsInf;
 
-    // Array to hold correct matches
-    private ArrayList<Integer> answers;
+    // Map to hold correct matches
+    private Map<String, ArrayList<String>> answers;
 
     // Gridview to hold cards
     private GridView gridview;
 
     // Variables to hold current matches
-    private int choice1 = 0;
-    private int choice2 = 0;
     private TextView choice1TextView;
     private TextView choice2TextView;
     private TextView start;
@@ -80,12 +83,14 @@ public class MatchGameView extends LinearLayout{
     // Adapter for gridview
     private TextViewAdapter textViewAdapter;
 
+    // Randomly ordered cards
+    private ArrayList<String> randomizedCards;
+
     /**
      * Constructor for game
      * @param contextp Context of the activity
      * @param activity Reference to the current activity
      * @param textsp List of data for the game
-     * @param answersp List fo answers for the game
      * @param conceptIDp ID of the current concept
      * @param lessonIDp ID of the current lesson
      * @param nextActivityp Number indicating what the activity after the game should be
@@ -93,7 +98,7 @@ public class MatchGameView extends LinearLayout{
      * @param heightp Height of screen in pixels
      */
     public MatchGameView(Context contextp, Activity activity,
-                         ArrayList<ArrayList<String>> textsp, final ArrayList<Integer> answersp,
+                         ArrayList<ArrayList<String>> textsp,
                          int conceptIDp, int lessonIDp, int nextActivityp,
                          int widthp, int heightp) {
         super(contextp);
@@ -111,8 +116,67 @@ public class MatchGameView extends LinearLayout{
         nextActivity = nextActivityp;
 
         // Save the data for game globally
-        texts = textsp;
-        answers = answersp;
+        if (nextActivity == 1) {
+            textsInf = textsp.get(0);
+        } else {
+            texts = textsp;
+        }
+
+        answers = new HashMap<String, ArrayList<String>>();
+        if (nextActivity == 1) {
+            for (int i = 0; i < textsInf.size() / 2; i++) {
+                if (answers.containsKey(textsInf.get(i))) {
+                    ArrayList<String> oldTemp = new ArrayList<String>();
+                    oldTemp = answers.get(textsInf.get(i));
+                    oldTemp.add(textsInf.get(i + 20));
+                    answers.put(textsInf.get(i), oldTemp);
+                } else {
+                    ArrayList<String> temp = new ArrayList<String>();
+                    temp.add(textsInf.get(i + 20));
+                    answers.put(textsInf.get(i), temp);
+                }
+            }
+            for (int i = textsInf.size() / 2; i < textsInf.size(); i++) {
+                if (answers.containsKey(textsInf.get(i))) {
+                    ArrayList<String> oldTemp = new ArrayList<String>();
+                    oldTemp = answers.get(textsInf.get(i));
+                    oldTemp.add(textsInf.get(i - 20));
+                    answers.put(textsInf.get(i), oldTemp);
+                } else {
+                    ArrayList<String> temp = new ArrayList<String>();
+                    temp.add(textsInf.get(i - 20));
+                    answers.put(textsInf.get(i), temp);
+                }
+            }
+        } else {
+            for (int i = 0; i < texts.size(); i++) {
+                ArrayList<String> temp = texts.get(i);
+                for (int k = 0; k < temp.size() / 2; k++) {
+                    if (answers.containsKey(temp.get(k))) {
+                        ArrayList<String> oldTemp = new ArrayList<String>();
+                        oldTemp = answers.get(temp.get(k));
+                        oldTemp.add(temp.get(k + 3));
+                        answers.put(temp.get(k), oldTemp);
+                    } else {
+                        ArrayList<String> newTemp = new ArrayList<String>();
+                        newTemp.add(temp.get(k + 3));
+                        answers.put(temp.get(k), newTemp);
+                    }
+                }
+                for (int k = temp.size() / 2; k < temp.size(); k++) {
+                    if (answers.containsKey(temp.get(k))) {
+                        ArrayList<String> oldTemp = new ArrayList<String>();
+                        oldTemp = answers.get(temp.get(k));
+                        oldTemp.add(temp.get(k - 3));
+                        answers.put(temp.get(k), oldTemp);
+                    } else {
+                        ArrayList<String> newTemp = new ArrayList<String>();
+                        newTemp.add(temp.get(k - 3));
+                        answers.put(temp.get(k), newTemp);
+                    }
+                }
+            }
+        }
 
         // Screen size
         width = widthp;
@@ -124,11 +188,48 @@ public class MatchGameView extends LinearLayout{
         window.getDecorView().getWindowVisibleDisplayFrame(rectangle);
         statusBarHeight = rectangle.top;
 
+        // Set up randomized cards
+        randomizedCards = new ArrayList<String>();
+        currTextsInf = new ArrayList<String>();
+
+        if (nextActivity == 1) {
+            currTextsInf.clear();
+            ArrayList<String> randQ = new ArrayList<String>();
+            ArrayList<String> randA = new ArrayList<String>();
+            ArrayList<String> allQAndAs = new ArrayList<String>();
+
+            for (String text : textsInf) {
+                allQAndAs.add(text);
+            }
+
+            //choose 3 random questions of the 20 to give to the user in the game
+            for(int r = 0; r < 3; r++) {
+                //randomly generate 1s and zeroes
+                double rand = Math.abs(Math.round(Math.random() * 19-r));
+                randQ.add(allQAndAs.remove((int) rand));
+                randA.add(allQAndAs.remove((int)(rand + (19-r))));
+            }
+
+            randQ.addAll(randA);
+
+            for (String text : randQ) {
+                currTextsInf.add(text);
+                randomizedCards.add(text);
+            }
+
+        } else {
+            for (String text : texts.get(0)) {
+                randomizedCards.add(text);
+            }
+        }
+
+        Collections.shuffle(randomizedCards);
+
         // Fill gridview with texts
         // Take first group of texts (3 pairs)
         gridview = new GridView(context);
         textViewAdapter = new TextViewAdapter(context,
-                texts.get(0).toArray(new String[texts.get(0).size()]),
+                randomizedCards.toArray(new String[randomizedCards.size()]),
                 width, height, statusBarHeight);
         gridview.setAdapter(textViewAdapter);
 
@@ -175,7 +276,6 @@ public class MatchGameView extends LinearLayout{
                             choice1TextView = (TextView)vw;
                             if (choice1TextView.getText() != null &&
                                     !choice1TextView.getText().equals("")) {
-                                choice1 = position;
                                 newMatch = false;
 
                                 // Change background of card to reflect it is selected
@@ -207,7 +307,6 @@ public class MatchGameView extends LinearLayout{
                                     !choice2TextView.getText().equals("")) {
 
                                 secondChoiceDone = false;
-                                choice2 = position;
 
                                 // Change background of card to reflect it is selected
                                 // Different for different SDK versions
@@ -223,7 +322,10 @@ public class MatchGameView extends LinearLayout{
 
                                 new Handler().postDelayed(new Runnable() {
                                     public void run() {
-                                        if (answers.get(choice1) == choice2) {
+                                        String textChoice1 = choice1TextView.getTag().toString();
+
+                                        if (answers.get(textChoice1).contains(
+                                                choice2TextView.getTag().toString())) {
                                             // Check if answer is right
 
                                             // Change background of card to reflect it is correct
@@ -267,14 +369,15 @@ public class MatchGameView extends LinearLayout{
                                                     }
 
                                                     // Check if round is done
-                                                    if (numMatches >= texts.get(0).size() / 2) {
+                                                    if (numMatches >= 3) {
 
                                                         numRoundsDone++;
 
                                                         // Check if game is done
-                                                        if (numRoundsDone >= texts.size()) {
+                                                        if (nextActivity != 1 &&
+                                                                numRoundsDone >= texts.size()) {
 
-                                                            if (nextActivity == 1) {
+                                                            /*if (nextActivity == 1) {
                                                                 // Infinite play in Play area
 
                                                                 // Go to GameEnd page if done with game
@@ -286,25 +389,57 @@ public class MatchGameView extends LinearLayout{
                                                                 intent.putExtra("lessonID", lessonID);
                                                                 context.startActivity(intent);
 
-                                                            } else {
+                                                            }*/
+                                                            // Go to GameEnd page if done with game
 
-                                                                // Go to GameEnd page if done with game
-
-                                                                Context context = getContext();
-                                                                Intent intent = new Intent(context, GameEnd.class);
-                                                                intent.putExtra("next_activity", nextActivity);
-                                                                intent.putExtra("conceptID", conceptID);
-                                                                intent.putExtra("lessonID", lessonID);
-                                                                context.startActivity(intent);
-                                                            }
+                                                            Context context = getContext();
+                                                            Intent intent = new Intent(context, GameEnd.class);
+                                                            intent.putExtra("next_activity", nextActivity);
+                                                            intent.putExtra("conceptID", conceptID);
+                                                            intent.putExtra("lessonID", lessonID);
+                                                            context.startActivity(intent);
                                                         } else {
+
+                                                            // Set up randomized cards
+                                                            randomizedCards.clear();
+                                                            if (nextActivity == 1) {
+                                                                currTextsInf.clear();
+                                                                ArrayList<String> randQ = new ArrayList<String>();
+                                                                ArrayList<String> randA = new ArrayList<String>();
+                                                                ArrayList<String> allQAndAs = new ArrayList<String>();
+
+                                                                for (String text : textsInf) {
+                                                                    allQAndAs.add(text);
+                                                                }
+
+                                                                //choose 3 random questions of the 20 to give to the user in the game
+                                                                for(int r = 0; r < 3; r++) {
+                                                                    //randomly generate 1s and zeroes
+                                                                    double rand = Math.abs(Math.round(Math.random() * 19-r));
+                                                                    randQ.add(allQAndAs.remove((int) rand));
+                                                                    randA.add(allQAndAs.remove((int)(rand + (19-r))));
+                                                                }
+
+                                                                randQ.addAll(randA);
+
+                                                                for (String text : randQ) {
+                                                                    currTextsInf.add(text);
+                                                                    randomizedCards.add(text);
+                                                                }
+
+                                                            } else {
+                                                                for (String text : texts.get(0)) {
+                                                                    randomizedCards.add(text);
+                                                                }
+                                                            }
+                                                            Collections.shuffle(randomizedCards);
 
                                                             // Clear all the cards
                                                             textViewAdapter.clear();
                                                             // Add new cards for next round
                                                             textViewAdapter.setTexts(
-                                                                    texts.get(numRoundsDone).toArray(
-                                                                            new String[texts.get(numRoundsDone).size()])
+                                                                    randomizedCards.toArray(
+                                                                            new String[randomizedCards.size()])
                                                             );
                                                             textViewAdapter.notifyDataSetChanged();
 
@@ -411,7 +546,6 @@ public class MatchGameView extends LinearLayout{
                                         !choice2TextView.getText().equals("")) {
 
                                     secondChoiceDone = false;
-                                    choice2 = position;
 
                                     // Change background of card to reflect it is selected
                                     // Different for different SDK versions
@@ -427,7 +561,10 @@ public class MatchGameView extends LinearLayout{
 
                                     new Handler().postDelayed(new Runnable() {
                                         public void run() {
-                                            if (answers.get(choice1) == choice2) {
+                                            String textChoice1 = choice1TextView.getTag().toString();
+
+                                            if (answers.get(textChoice1).contains(
+                                                    choice2TextView.getTag().toString())) {
                                                 // Check if answer is right
 
                                                 // Change background of card to reflect it is correct
@@ -471,44 +608,77 @@ public class MatchGameView extends LinearLayout{
                                                         }
 
                                                         // Check if round is done
-                                                        if (numMatches >= texts.get(0).size() / 2) {
+                                                        if (numMatches >= 3) {
 
                                                             numRoundsDone++;
 
                                                             // Check if game is done
-                                                            if (numRoundsDone >= texts.size()) {
+                                                            if (nextActivity != 1 &&
+                                                                    numRoundsDone >= texts.size()) {
 
+                                                            /*if (nextActivity == 1) {
+                                                                // Infinite play in Play area
+
+                                                                // Go to GameEnd page if done with game
+
+                                                                Context context = getContext();
+                                                                Intent intent = new Intent(context, GameEnd.class);
+                                                                intent.putExtra("next_activity", nextActivity);
+                                                                intent.putExtra("conceptID", conceptID);
+                                                                intent.putExtra("lessonID", lessonID);
+                                                                context.startActivity(intent);
+
+                                                            }*/
+                                                                // Go to GameEnd page if done with game
+
+                                                                Context context = getContext();
+                                                                Intent intent = new Intent(context, GameEnd.class);
+                                                                intent.putExtra("next_activity", nextActivity);
+                                                                intent.putExtra("conceptID", conceptID);
+                                                                intent.putExtra("lessonID", lessonID);
+                                                                context.startActivity(intent);
+                                                            } else {
+
+                                                                // Set up randomized cards
+                                                                randomizedCards.clear();
                                                                 if (nextActivity == 1) {
-                                                                    // Infinite play in Play area
+                                                                    currTextsInf.clear();
+                                                                    ArrayList<String> randQ = new ArrayList<String>();
+                                                                    ArrayList<String> randA = new ArrayList<String>();
+                                                                    ArrayList<String> allQAndAs = new ArrayList<String>();
 
-                                                                    // Go to GameEnd page if done with game
+                                                                    for (String text : textsInf) {
+                                                                        allQAndAs.add(text);
+                                                                    }
 
-                                                                    Context context = getContext();
-                                                                    Intent intent = new Intent(context, GameEnd.class);
-                                                                    intent.putExtra("next_activity", nextActivity);
-                                                                    intent.putExtra("conceptID", conceptID);
-                                                                    intent.putExtra("lessonID", lessonID);
-                                                                    context.startActivity(intent);
+                                                                    //choose 3 random questions of the 20 to give to the user in the game
+                                                                    for(int r = 0; r < 3; r++) {
+                                                                        //randomly generate 1s and zeroes
+                                                                        double rand = Math.abs(Math.round(Math.random() * 19-r));
+                                                                        randQ.add(allQAndAs.remove((int) rand));
+                                                                        randA.add(allQAndAs.remove((int)(rand + (19-r))));
+                                                                    }
+
+                                                                    randQ.addAll(randA);
+
+                                                                    for (String text : randQ) {
+                                                                        currTextsInf.add(text);
+                                                                        randomizedCards.add(text);
+                                                                    }
 
                                                                 } else {
-
-                                                                    // Go to GameEnd page if done with game
-
-                                                                    Context context = getContext();
-                                                                    Intent intent = new Intent(context, GameEnd.class);
-                                                                    intent.putExtra("next_activity", nextActivity);
-                                                                    intent.putExtra("conceptID", conceptID);
-                                                                    intent.putExtra("lessonID", lessonID);
-                                                                    context.startActivity(intent);
+                                                                    for (String text : texts.get(0)) {
+                                                                        randomizedCards.add(text);
+                                                                    }
                                                                 }
-                                                            } else {
+                                                                Collections.shuffle(randomizedCards);
 
                                                                 // Clear all the cards
                                                                 textViewAdapter.clear();
                                                                 // Add new cards for next round
                                                                 textViewAdapter.setTexts(
-                                                                        texts.get(numRoundsDone).toArray(
-                                                                                new String[texts.get(numRoundsDone).size()])
+                                                                        randomizedCards.toArray(
+                                                                                new String[randomizedCards.size()])
                                                                 );
                                                                 textViewAdapter.notifyDataSetChanged();
 
