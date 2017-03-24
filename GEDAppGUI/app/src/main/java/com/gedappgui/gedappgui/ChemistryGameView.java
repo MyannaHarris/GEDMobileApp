@@ -374,9 +374,18 @@ public class ChemistryGameView extends RelativeLayout {
                                         // Pause
                                         new Handler().postDelayed(new Runnable() {
                                             public void run() {
-                                                // Start next question
-                                                currQuestion += 1;
-                                                setUp();
+
+                                                cauldron.setTextColor(ContextCompat.getColor(context, R.color.chemistryGameCorrect));
+                                                cauldron.setText("Correct");
+
+                                                new Handler().postDelayed(new Runnable() {
+                                                    public void run() {
+                                                        cauldron.setTextColor(ContextCompat.getColor(context, R.color.chemistryGameText));
+                                                        // Start next question
+                                                        currQuestion += 1;
+                                                        setUp();
+                                                    }
+                                                }, 800);
                                             }
                                         }, 800);
                                     }
