@@ -85,7 +85,7 @@ Last Edit: 10-29-16
             android:onClick="goToPlaceValues"/>
 
         <Button
-            android:text="Next Gen Zone Links"
+            android:text="Links Directory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/links"

@@ -23,10 +23,14 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -111,9 +115,12 @@ public class GeoAssist extends AppCompatActivity implements AdapterView.OnItemSe
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
+        // Stop spinner from bringing top bar down
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         //creates a spinner for selection of geometric shapes
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        spinner.setOnItemSelectedListener(this);
+
 
         //creates the list of possible geometric shapes available in the spinner
         List<String> categories = new ArrayList<String>();
@@ -127,14 +134,39 @@ public class GeoAssist extends AppCompatActivity implements AdapterView.OnItemSe
         categories.add("Pyramid");
         categories.add("Cylinder");
 
+        // Get screen size
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        final int width = dm.widthPixels;
+        final int height = dm.heightPixels;
+
         // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, R.layout.spinner_larger_text, categories){
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                if (v instanceof TextView)
+                    ((TextView) v).setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+                return v;
+            }
+            @Override
+            public View getDropDownView(int position, View convertView,
+                                        ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
+                if (v instanceof TextView)
+                    ((TextView) v).setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+                return v;
+            }
+        };
 
         // Drop down layout style - list view with radio button
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dataAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
 
         // attaching data adapter to spinner
         spinner.setAdapter(dataAdapter);
+        spinner.setOnItemSelectedListener(this);
+        spinner.setSelection(0);
 
         //gives an achievement if the user uses a tool for the first time
         Intent achievement = new Intent(this, AchievementPopUp.class);
@@ -153,8 +185,6 @@ public class GeoAssist extends AppCompatActivity implements AdapterView.OnItemSe
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         //sets up the texts views and image view
-        ((TextView) parent.getChildAt(0)).setTextColor(Color.BLUE);
-        ((TextView) parent.getChildAt(0)).setTextSize(20);
         TextView summary = (TextView)findViewById(R.id.summary);
         TextView example = (TextView)findViewById(R.id.shape_examples);
         ImageView img = (ImageView) findViewById(R.id.shapepicture);

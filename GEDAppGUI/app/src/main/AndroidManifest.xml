@@ -205,7 +205,10 @@
         <activity
             android:name=".TowerGameView"
             android:label="Complete the Picture!" />
-        <activity android:name=".NGZLinks"></activity>
+        <activity
+            android:name=".NGZLinks"
+            android:label="Links Directory"
+            ></activity>
     </application>
 
 </manifest>

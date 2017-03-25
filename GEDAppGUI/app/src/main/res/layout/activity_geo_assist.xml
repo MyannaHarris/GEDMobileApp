@@ -31,11 +31,12 @@
 
             <Spinner
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
                 android:id="@+id/spinner"
-                android:layout_weight="2.06"
-                android:textSize="30dp"
-                android:textColor="@color/geospinner"/>
+                android:foregroundTint="@color/colorHeader1"
+                android:backgroundTint="@color/colorMenuBackground"/>
 
             <TextView
                 android:text=""
