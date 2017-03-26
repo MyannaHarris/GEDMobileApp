@@ -73,7 +73,7 @@ public class Play extends AppCompatActivity {
 
         // Get current lesson from the database
         dbHelper = new DatabaseHelper(this);
-        int currLessonId = dbHelper.selectCurrentLessonID();
+        int currLessonId = dbHelper.lessonCount();
 
         // Only show information if the user has completed at least one lesson
         // The current lesson id is one higher than the number of lessons the user has completed

@@ -1450,4 +1450,18 @@ public class DatabaseHelper{
 
     }
 
+    /**
+     * query returning the amount of lessons completed + 1
+     * @return int, the number of lessons completed + 1
+     */
+    int lessonCount() {
+        open();
+        Cursor c = myDatabase.rawQuery("SELECT count(lesson_id) FROM user_lessons WHERE " +
+                "datetime_finished IS NOT NULL AND datetime_finished != ''",null);
+        c.moveToFirst();
+        int test = c.getInt(0);
+        close();
+        return test+1;
+    }
+
 }
