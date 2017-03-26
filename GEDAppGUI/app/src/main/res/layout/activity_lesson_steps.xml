@@ -38,8 +38,9 @@
             android:layout_marginTop="20dp"
             android:layout_below="@id/example_web_view"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_centerHorizontal="true"/>
+            android:layout_height="300dp"
+            android:layout_centerHorizontal="true"
+            android:scaleType="fitXY" />
 
         <TextView
             android:id="@+id/advice_text"
@@ -49,7 +50,8 @@
             android:layout_width="match_parent"
             android:layout_centerHorizontal="true"
             android:textSize="20dp"
-            android:text="" />
+            android:text=""
+            />
 
         <Button
             android:paddingTop="10dp"

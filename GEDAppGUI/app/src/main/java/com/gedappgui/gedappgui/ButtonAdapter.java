@@ -189,7 +189,7 @@ public class ButtonAdapter extends BaseAdapter {
                 public void onClick(View v){
                     if (answers[cur + 1].equals("t")){
                         //circular queue for statements
-                        cur = (cur + 2) % 20;
+                        cur = (cur + 2) % 24;
                         statement.setText(toHTML(answers[cur]));
                         resulter.setText("Correct!");
                         Runnable r = new Runnable(){
@@ -226,7 +226,7 @@ public class ButtonAdapter extends BaseAdapter {
                     }
                     else{
                         resulter.setText("Incorrect! Try again");
-                        cur = (cur + 2) % 20;
+                        cur = (cur + 2) % 24;
                         statement.setText(toHTML(answers[cur]));
                     }
                 }
@@ -239,7 +239,7 @@ public class ButtonAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v){
                     if (answers[cur + 1].equals("f")){
-                        cur = (cur + 2) % 20;
+                        cur = (cur + 2) % 24;
                         statement.setText(toHTML(answers[cur]));
                         resulter.setText("Correct!");
                         //changes picture
@@ -278,7 +278,7 @@ public class ButtonAdapter extends BaseAdapter {
                     else{
                         resulter.setText(toHTML("Incorrect! Try again"));
                         //circular queue
-                        cur = (cur + 2) % 20;
+                        cur = (cur + 2) % 24;
                         statement.setText(toHTML(answers[cur]));
 
                     }
