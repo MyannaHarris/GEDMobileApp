@@ -24,9 +24,12 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -86,6 +89,12 @@ public class MatchGameView extends LinearLayout{
     // Randomly ordered cards
     private ArrayList<String> randomizedCards;
 
+    // Button to end the endless game play
+    private Button endButton;
+
+    // Size of button to end
+    private int endButtonSize = 0;
+
     /**
      * Constructor for game
      * @param contextp Context of the activity
@@ -115,9 +124,44 @@ public class MatchGameView extends LinearLayout{
         lessonID = lessonIDp;
         nextActivity = nextActivityp;
 
+        // Screen size
+        width = widthp;
+        height = heightp;
+
+        // Get status bar height to deal with on phones that have the status bar showing
+        Rect rectangle = new Rect();
+        Window window = activity.getWindow();
+        window.getDecorView().getWindowVisibleDisplayFrame(rectangle);
+        statusBarHeight = rectangle.top;
+
+        // Set orientation to make a vertical list
+        this.setOrientation(LinearLayout.VERTICAL);
+
         // Save the data for game globally
         if (nextActivity == 1) {
             textsInf = textsp.get(0);
+
+            LinearLayout.LayoutParams linearLayoutButton = new LinearLayout.LayoutParams(
+                    LayoutParams.MATCH_PARENT, (height - statusBarHeight - 15) / 8 - 20);
+
+            linearLayoutButton.setMargins(0, 5, 0, 5);
+
+            endButton = new Button(context);
+            endButton.setLayoutParams(linearLayoutButton);
+            endButton.setTextSize(convertPixelsToDp(height / 20, context));
+            endButton.setTextColor(ContextCompat.getColor(context, R.color.matchGameText));
+            endButton.setText("End Game");
+            endButton.setGravity(Gravity.CENTER_HORIZONTAL);
+            endButton.setHeight((height - statusBarHeight - 15) / 8 - 20);
+
+            endButton.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    endGame();
+                }
+            });
+
+            endButtonSize = (height - statusBarHeight - 15) / 8 - 20 + 10;
         } else {
             texts = textsp;
         }
@@ -178,16 +222,6 @@ public class MatchGameView extends LinearLayout{
             }
         }
 
-        // Screen size
-        width = widthp;
-        height = heightp;
-
-        // Get status bar height to deal with on phones that have the status bar showing
-        Rect rectangle = new Rect();
-        Window window = activity.getWindow();
-        window.getDecorView().getWindowVisibleDisplayFrame(rectangle);
-        statusBarHeight = rectangle.top;
-
         // Set up randomized cards
         randomizedCards = new ArrayList<String>();
         currTextsInf = new ArrayList<String>();
@@ -230,7 +264,7 @@ public class MatchGameView extends LinearLayout{
         gridview = new GridView(context);
         textViewAdapter = new TextViewAdapter(context,
                 randomizedCards.toArray(new String[randomizedCards.size()]),
-                width, height, statusBarHeight);
+                width, height, statusBarHeight + endButtonSize);
         gridview.setAdapter(textViewAdapter);
 
         // Set other gridview formatting
@@ -377,27 +411,8 @@ public class MatchGameView extends LinearLayout{
                                                         if (nextActivity != 1 &&
                                                                 numRoundsDone >= texts.size()) {
 
-                                                            /*if (nextActivity == 1) {
-                                                                // Infinite play in Play area
-
-                                                                // Go to GameEnd page if done with game
-
-                                                                Context context = getContext();
-                                                                Intent intent = new Intent(context, GameEnd.class);
-                                                                intent.putExtra("next_activity", nextActivity);
-                                                                intent.putExtra("conceptID", conceptID);
-                                                                intent.putExtra("lessonID", lessonID);
-                                                                context.startActivity(intent);
-
-                                                            }*/
                                                             // Go to GameEnd page if done with game
-
-                                                            Context context = getContext();
-                                                            Intent intent = new Intent(context, GameEnd.class);
-                                                            intent.putExtra("next_activity", nextActivity);
-                                                            intent.putExtra("conceptID", conceptID);
-                                                            intent.putExtra("lessonID", lessonID);
-                                                            context.startActivity(intent);
+                                                            endGame();
                                                         } else {
 
                                                             // Set up randomized cards
@@ -616,27 +631,8 @@ public class MatchGameView extends LinearLayout{
                                                             if (nextActivity != 1 &&
                                                                     numRoundsDone >= texts.size()) {
 
-                                                            /*if (nextActivity == 1) {
-                                                                // Infinite play in Play area
-
                                                                 // Go to GameEnd page if done with game
-
-                                                                Context context = getContext();
-                                                                Intent intent = new Intent(context, GameEnd.class);
-                                                                intent.putExtra("next_activity", nextActivity);
-                                                                intent.putExtra("conceptID", conceptID);
-                                                                intent.putExtra("lessonID", lessonID);
-                                                                context.startActivity(intent);
-
-                                                            }*/
-                                                                // Go to GameEnd page if done with game
-
-                                                                Context context = getContext();
-                                                                Intent intent = new Intent(context, GameEnd.class);
-                                                                intent.putExtra("next_activity", nextActivity);
-                                                                intent.putExtra("conceptID", conceptID);
-                                                                intent.putExtra("lessonID", lessonID);
-                                                                context.startActivity(intent);
+                                                                endGame();
                                                             } else {
 
                                                                 // Set up randomized cards
@@ -772,8 +768,34 @@ public class MatchGameView extends LinearLayout{
         });
 
         // Add gridview to layout
+        if (nextActivity == 1) {
+            this.addView(endButton);
+        }
         this.addView(gridview);
     }
 
+    /**
+     * Move on to game end page
+     */
+    private void endGame() {
+        Intent intent = new Intent(context, GameEnd.class);
+        intent.putExtra("next_activity", nextActivity);
+        intent.putExtra("conceptID", conceptID);
+        intent.putExtra("lessonID", lessonID);
+        context.startActivity(intent);
+    }
 
+    /**
+     * Change pixel measurement into dp measurement
+     * @param px The pixels
+     * @param context The context of the activity
+     * @return dp - The measurement in dp
+     */
+    public static float convertPixelsToDp(float px,Context context){
+
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        float dp = px / (metrics.densityDpi / 160f);
+        return dp;
+
+    }
 }

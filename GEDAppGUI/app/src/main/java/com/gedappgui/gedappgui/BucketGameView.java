@@ -102,6 +102,12 @@ public class BucketGameView extends SurfaceView implements Runnable  {
     private RectF startButton;
     private String startText;
 
+    // End endless play button
+    private RectF endButton;
+    private String endButtonText = "End Game";
+    // End endless play button size
+    private int endButtonSize = 0;
+
     /**
      * Constructor for game
      * @param contextp Context of the activity
@@ -170,6 +176,16 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                 (int)((width / 2) + (paint.measureText(startText) / 2)
                     + questionHeight),
                 (int)((height / 2) + (questionHeight * 2)));
+
+        if (nextActivity == 1) {
+            endButton = new RectF(
+                    (int) ((width / 2) - (paint.measureText(endButtonText) / 2) - 10),
+                    5,
+                    (int) ((width / 2) + (paint.measureText(endButtonText) / 2) + 10),
+                    (int) (5 + questionHeight * 1.8));
+
+            endButtonSize = (int)(questionHeight * 1.5);
+        }
 
         // Initializing player object
         //      this time also passing screen size to player constructor
@@ -308,7 +324,11 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                 // Wait so user can see their answers
                 if (showFinishedGameTimer == 0) {
                     // Go to next question if there is another question left to go to
-                    if (currentQuestion + 3 <= gameQuestions.size() - 1) {
+                    if (currentQuestion + 3 <= gameQuestions.size() - 1 || nextActivity == 1) {
+
+                        if (nextActivity == 1 && currentQuestion + 3 > gameQuestions.size() - 1) {
+                            currentQuestion = -2;
+                        }
 
                         // Increment question by 2 since every 2 lists in the master list
                         //      are for a single question
@@ -361,12 +381,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                     } else {
 
                         // Go to GameEnd page if done with game
-                        Context context = getContext();
-                        Intent intent = new Intent(context, GameEnd.class);
-                        intent.putExtra("next_activity", nextActivity);
-                        intent.putExtra("conceptID", conceptID);
-                        intent.putExtra("lessonID", lessonID);
-                        context.startActivity(intent);
+                        endGame();
                     }
                 }
             }
@@ -394,6 +409,22 @@ public class BucketGameView extends SurfaceView implements Runnable  {
             canvas.drawBitmap(dragonBG, width / 2 - dragonBG.getWidth() / 2,
                     height / 2 - dragonBG.getHeight() / 2, alphaPaint);
 
+            if (nextActivity == 1) {
+                paint.setTextSize((float)height / 17);
+
+                Paint rectAlphaPaint = new Paint();
+                rectAlphaPaint.setStyle(Paint.Style.FILL);
+                rectAlphaPaint.setAlpha(80);
+                rectAlphaPaint.setColor(ContextCompat.getColor(context, R.color.bucketGameEndButton));
+
+                canvas.drawRoundRect(endButton, 30, 30, rectAlphaPaint);
+                canvas.drawText(
+                        endButtonText,
+                        endButton.centerX() - (paint.measureText(endButtonText) / 2),
+                        endButton.centerY() + (questionHeight / 4),
+                        paint);
+            }
+
             // Special paint for static layouts which are needed for drawing spanned html
             TextPaint textPaint = new TextPaint();
             textPaint.setColor(ContextCompat.getColor(context, R.color.bucketGameText));
@@ -416,19 +447,13 @@ public class BucketGameView extends SurfaceView implements Runnable  {
 
             // Translate canvas to place static layout text
             // layout.getLineWidth(0) => gets width of first line of html
-            canvas.translate((width / 2 - (int) layout.getWidth() / 2), questionHeight);
+            canvas.translate((width / 2 - (int) layout.getWidth() / 2), questionHeight / 2 + endButtonSize);
 
             // Draw special html text
             layout.draw(canvas);
 
             // Put canvas back in place
             canvas.restore();
-
-            /*canvas.drawText(
-                    question,
-                    (width / 2 - (int) paint.measureText(question) / 2),
-                    questionHeight,
-                    paint);*/
 
             paint.setTextSize((float)height / 17);
 
@@ -450,7 +475,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                         canvas.drawBitmap(
                                 coinImg,
                                 numbers[i].getX() - ((int) paint.measureText(numbers[i].getText()) / 6),
-                                numbers[i].getY() - ((float)height / 16),
+                                numbers[i].getY() - ((float)height / 16) + endButtonSize,
                                 paint);
                     } else {
                         // Draw single character answer
@@ -458,14 +483,14 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                                 coinImg,
                                 numbers[i].getX() - (int) (paint.measureText(
                                         numbers[i].getText()) * 0.7),
-                                numbers[i].getY() - ((float)height / 16),
+                                numbers[i].getY() - ((float)height / 16) + endButtonSize,
                                 paint);
                     }
                     // Draw the text
                     canvas.drawText(
                             numbers[i].getText(),
                             numbers[i].getX(),
-                            numbers[i].getY(),
+                            numbers[i].getY() + endButtonSize,
                             paint
                     );
                 }
@@ -590,6 +615,11 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                         waitToStartNextGame = 30;
                     }
                 }
+
+                if (nextActivity == 1 &&
+                        endButton.contains((int)motionEvent.getX(), (int)motionEvent.getY())) {
+                    endGame();
+                }
                 break;
             case MotionEvent.ACTION_DOWN:
                 // Move bucket
@@ -616,5 +646,16 @@ public class BucketGameView extends SurfaceView implements Runnable  {
             return Html.fromHtml(input);
         }
 
+    }
+
+    /**
+     * Move on to game end page
+     */
+    private void endGame() {
+        Intent intent = new Intent(context, GameEnd.class);
+        intent.putExtra("next_activity", nextActivity);
+        intent.putExtra("conceptID", conceptID);
+        intent.putExtra("lessonID", lessonID);
+        context.startActivity(intent);
     }
 }

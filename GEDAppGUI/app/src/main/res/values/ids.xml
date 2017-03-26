@@ -15,4 +15,6 @@
     <item name ="madlibGameNn" type="id"/>
     <item name ="madlibGameSentence" type="id"/>
     <item name ="madlibGameSubmit" type="id"/>
+
+    <item name ="chemistryGameEndButton" type="id"/>
 </resources>
