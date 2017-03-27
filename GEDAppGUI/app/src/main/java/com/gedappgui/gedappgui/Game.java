@@ -47,7 +47,7 @@ public class Game extends AppCompatActivity {
     private PictureGameView pictureGameView;
     private ChemistryGameView chemistryGameView;
     private OrderingGameView orderingGameView;
-    private MadlibGameView madlibGameView;
+    private MadLibGameView madlibGameView;
 
     // Database
     private DatabaseHelper dbHelper;
@@ -132,11 +132,45 @@ public class Game extends AppCompatActivity {
 
             // Set the game as the view
             setContentView(chemistryGameView);
-        }/*else if (dbHelper.selectGameTemplate(lessonID).equals("madlib_game")){
+        }else if (dbHelper.selectGameTemplate(lessonID).equals("madlib_game")){
 
             // Create game object
-            ArrayList<ArrayList<String>> texts = new ArrayList<ArrayList<String>>();
-            madlibGameView = new MadlibGameView(this, conceptID, lessonID,
+            ArrayList<ArrayList<String>> texts = new ArrayList<>();
+            ArrayList<String> newA = new ArrayList<>();
+            newA.add("vrb");
+            newA.add("nn");
+            texts.add(newA);
+
+            ArrayList<String> newB = new ArrayList<>();
+            newB.add("Adjective 1");
+            newB.add("Adjective");
+            texts.add(newB);
+
+            ArrayList<String> question = new ArrayList<>();
+            question.add("The #vrb# dog #nn# is fat #vrb#");
+            question.add("The #Adjective 1# dog is #Adjective 1# skinny #Adjective#");
+
+            ArrayList<ArrayList<String>> answerPs = new ArrayList<>();
+            ArrayList<String> newC = new ArrayList<>();
+            newC.add("1");
+            newC.add("2");
+            newC.add("3");
+            newC.add("4");
+            answerPs.add(newC);
+
+            ArrayList<String> newD = new ArrayList<>();
+            newD.add("5");
+            newD.add("6");
+            newD.add("7");
+            newD.add("8");
+            answerPs.add(newD);
+
+            ArrayList<String> answerAs = new ArrayList<>();
+            answerAs.add("1");
+            answerAs.add("7");
+
+            madlibGameView = new MadLibGameView(this, texts, question,
+                    answerPs, answerAs, conceptID, lessonID,
                     nextActivity, width, height);
             ScrollView scroll = new ScrollView(this);
             madlibGameView.setFocusableInTouchMode(true);
@@ -146,7 +180,7 @@ public class Game extends AppCompatActivity {
 
             // Set the game as the view
             setContentView(scroll);
-        }*/ else if (dbHelper.selectGameTemplate(lessonID).equals("picture_game")){
+        } else if (dbHelper.selectGameTemplate(lessonID).equals("picture_game")){
 
             // Get content for picture game from database
             String pass_string = dbHelper.selectPicGameInput(lessonID);

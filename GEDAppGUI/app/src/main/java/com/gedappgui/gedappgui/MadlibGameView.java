@@ -1,11 +1,9 @@
-package com.gedappgui.gedappgui;
-
 /*
- * ChemistryGameView.java
+ * MadLibGameView.java
  *
- * Chemistry game
+ * Madlib game view
  *
- * View runs the Chemistry game
+ * Provides the view for the Madlib game
  *
  * Worked on by:
  * Myanna Harris
@@ -13,36 +11,34 @@ package com.gedappgui.gedappgui;
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 2-19-17
+ * Last Edit: 3-26-17
+ *
  */
+
+package com.gedappgui.gedappgui;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.regex.*;
 
-
-public class MadlibGameView extends RelativeLayout{
-
+public class MadLibGameView extends RelativeLayout {
     private Context context;
     ScrollView scroll;
 
@@ -55,33 +51,42 @@ public class MadlibGameView extends RelativeLayout{
     private int nextActivity;
 
     // Game texts
-    private ArrayList<ArrayList<String>>texts;
-    private int currQuestion = 0;
+    //the words that the user will have to enter
+    private ArrayList<ArrayList<String>> wordFills;
+    //the question string that will get filled in
     private ArrayList<String> questionTexts;
-    private ArrayList<String> answerTexts;
+    //the 4 possible answers to each questions
+    private ArrayList<ArrayList<String>> answerTexts;
+    //the actual answers to each question
+    private ArrayList<String> answers;
 
-    private TextView adjective;
-    private TextView verb;
-    private TextView name;
-    private TextView noun;
+    //current user input word fills
+    private ArrayList<EditText> userFills;
+    //current title of user input word fills
+    private ArrayList<TextView> userInput;
+    //all user input word fills
+    private ArrayList<ArrayList<EditText>> allUserFills;
+    //all title of user input word fills
+    private ArrayList<ArrayList<TextView>> allUserInput;
 
-    private EditText adj;
-    private EditText vrb;
-    private EditText nm;
-    private EditText nn;
+    //the ith question the user is on
+    private int currQuestion;
 
-    private TextView sentence;
-    private Button submit;
-
-    private int width;
+    //window variables
     private int height;
+    private int width;
 
-    int selectedAnswer;
-//, ArrayList<ArrayList<String>> textsp
-    public MadlibGameView(Context contextp,
+    //the answers selected by the radio buttons
+    private int selectedAnswer;
+
+    //buttons for submitting words and question answers
+    private Button submit;
+    private Button questionSubmit;
+
+    public MadLibGameView(Context contextp, ArrayList<ArrayList<String>> words, ArrayList<String>
+            question, ArrayList<ArrayList<String>> answerPs, ArrayList<String> answerAs,
                           int conceptIDp, int lessonIDp, int nextActivityp,
                           int width1, int height1) {
-
         super(contextp);
 
         context = contextp;
@@ -96,244 +101,111 @@ public class MadlibGameView extends RelativeLayout{
         height = height1;
         width = width1;
 
-        // Get texts
-       // texts = textsp;
-        sentence = new TextView(context);
-        sentence.setTextSize(convertPixelsToDp(height / 30, context));
+        wordFills = words;
+        questionTexts = question;
+        answerTexts = answerPs;
+        answers = answerAs;
 
+        userInput = new ArrayList<>();
+        userFills = new ArrayList<>();
+
+        allUserInput = new ArrayList<>();
+        allUserFills = new ArrayList<>();
+
+        currQuestion = 0;
+
+
+        //sets the buttons up early
+        questionSubmit = new Button(context);
         if (Build.VERSION.SDK_INT < 17) {
-            sentence.setId(R.id.madlibGameSentence);
+            questionSubmit.setId(R.id.madlibGameQSubmit);
         } else {
-            sentence.setId(View.generateViewId());
+            questionSubmit.setId(View.generateViewId());
         }
 
         submit = new Button(context);
         submit.setText("Submit");
 
-        //if (Build.VERSION.SDK_INT < 17) {
-        submit.setId(R.id.madlibGameSubmit);
-        //} else {
-          //  submit.setId(View.generateViewId());
-        //}
-
-        RelativeLayout.LayoutParams relativeLay = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-        //controls getting the adjective
-        TextView adjective = new TextView(context);
-        adjective.setTextSize(convertPixelsToDp(height / 30, context));
-        adjective.setText("Enter an adjective:");
-
         if (Build.VERSION.SDK_INT < 17) {
-            adjective.setId(R.id.madlibGameAdjective);
+            submit.setId(R.id.madlibGameSubmit);
         } else {
-            adjective.setId(View.generateViewId());
+            submit.setId(View.generateViewId());
         }
 
-        relativeLay.setMargins(10, 10, 10, 10);
-        relativeLay.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-        relativeLay.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-
-        adjective.setLayoutParams(relativeLay);
-        adjective.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-        adjective.setPadding(50,100,10,10);
-
-        // Exits keyboard when user hits enter on it
-        adj = new EditText(context);
-        adj.setSingleLine(true);
-        adj.setHint("ex. funny");
-        adj.setHintTextColor(ContextCompat.getColor(context, R.color.colorHint));
-
-        /*adj.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-
-                }
-                return false;
+        //goes through all the word gathering data and  creates the right amount of text and
+        //edit text views for the problem
+        for(int i = 0; i<wordFills.size(); i++){
+            for(int j = 0; j<wordFills.get(i).size(); j++){
+                userInput.add(createTextView(wordFills.get(i).get(j), userFills, j));
+                userFills.add(createEditText(wordFills.get(i).get(j), userInput, j));
             }
-        });
-*/
-        if (Build.VERSION.SDK_INT < 17) {
-            adj.setId(R.id.madlibGameAdj);
-        } else {
-            adj.setId(View.generateViewId());
-        }
 
-        relativeLay = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        relativeLay.setMargins(50,10,10,10);
-        relativeLay.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-        relativeLay.addRule(RelativeLayout.BELOW, adjective.getId());
-
-        adj.setLayoutParams(relativeLay);
-
-        //controls getting the verb
-        TextView verb =  new TextView(context);
-        verb.setTextSize(convertPixelsToDp(height / 30, context));
-        verb.setText("Enter a verb:");
-
-        if (Build.VERSION.SDK_INT < 17) {
-            verb.setId(R.id.madlibGameVerb);
-        } else {
-            verb.setId(View.generateViewId());
-        }
-
-        relativeLay = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        relativeLay.setMargins(10, 10, 10, 10);
-        relativeLay.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-        relativeLay.addRule(RelativeLayout.BELOW, adj.getId());
-
-        verb.setLayoutParams(relativeLay);
-        verb.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-        verb.setPadding(50,100,10,10);
-
-
-        // Exits keyboard when user hits enter on it
-        vrb = new EditText(context);
-        vrb.setSingleLine(true);
-        vrb.setHint("ex. run");
-        vrb.setHintTextColor(ContextCompat.getColor(context, R.color.colorHint));
-        /*vrb.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-
+            userFills.get(wordFills.get(i).size()-1).setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    }
+                    return false;
                 }
-                return false;
-            }
-        });*/
+            });
 
-        if (Build.VERSION.SDK_INT < 17) {
-            vrb.setId(R.id.madlibGameVrb);
-        } else {
-            vrb.setId(View.generateViewId());
+            allUserInput.add(new ArrayList<>(userInput));
+            allUserFills.add(new ArrayList<>(userFills));
+            userInput.clear();
+            userFills.clear();
         }
 
-        relativeLay = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        relativeLay.setMargins(50,10,10,10);
-        relativeLay.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-        relativeLay.addRule(RelativeLayout.BELOW, verb.getId());
+        //adds the views for the user input
+        addViews(allUserFills.get(currQuestion), allUserInput.get(currQuestion));
 
-        vrb.setLayoutParams(relativeLay);
-
-        //controls getting the name
-        TextView name = new TextView(context);
-        name.setTextSize(convertPixelsToDp(height / 30, context));
-        name.setText("Enter a name:");
-
-        if (Build.VERSION.SDK_INT < 17) {
-            name.setId(R.id.madlibGameVrb);
-        } else {
-            name.setId(View.generateViewId());
-        }
-
-        relativeLay = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        relativeLay.setMargins(10, 10, 10, 10);
-        relativeLay.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-        relativeLay.addRule(RelativeLayout.BELOW, vrb.getId());
-
-        name.setLayoutParams(relativeLay);
-        name.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-        name.setPadding(50,100,10,10);
-
-        // Exits keyboard when user hits enter on it
-        nm = new EditText(context);;
-        nm.setSingleLine(true);
-        nm.setHint("ex. George");
-        nm.setHintTextColor(ContextCompat.getColor(context, R.color.colorHint));
-        /*nm.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        //sets onclick listener for the submit button to create a question and madlib when
+        //the user is done
+        submit.setOnClickListener(new View.OnClickListener(){
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-
-                }
-                return false;
-            }
-        });*/
-
-        if (Build.VERSION.SDK_INT < 17) {
-            nm.setId(R.id.madlibGameVrb);
-        } else {
-            nm.setId(View.generateViewId());
-        }
-
-        relativeLay = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        relativeLay.setMargins(50,10,10,10);
-        relativeLay.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-        relativeLay.addRule(RelativeLayout.BELOW, name.getId());
-
-        nm.setLayoutParams(relativeLay);
-
-        //controls getting the noun
-        TextView noun = new TextView(context);
-        noun.setTextSize(convertPixelsToDp(height / 30, context));
-        noun.setText("Enter a noun:");
-
-        if (Build.VERSION.SDK_INT < 17) {
-            noun.setId(R.id.madlibGameNn);
-        } else {
-            noun.setId(View.generateViewId());
-        }
-
-        relativeLay = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        relativeLay.setMargins(10, 10, 10, 10);
-        relativeLay.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-        relativeLay.addRule(RelativeLayout.BELOW, nm.getId());
-
-        noun.setLayoutParams(relativeLay);
-        noun.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-        noun.setPadding(50,100,10,10);
-
-        // Exits keyboard when user hits enter on it
-        nn = new EditText(context);
-        nn.setSingleLine(true);
-        nn.setHint("ex. chair");
-        nn.setHintTextColor(ContextCompat.getColor(context, R.color.colorHint));
-        nn.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    createMadLib(v);
-                }
-                return false;
-            }
-        });
-
-        if (Build.VERSION.SDK_INT < 17) {
-            nn.setId(R.id.madlibGameNn);
-        } else {
-            nn.setId(View.generateViewId());
-        }
-
-        relativeLay = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        relativeLay.setMargins(50,10,10,10);
-        relativeLay.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-        relativeLay.addRule(RelativeLayout.BELOW, noun.getId());
-
-        nn.setLayoutParams(relativeLay);
-
-        // Set background color of page
-        //this.setBackgroundColor(ContextCompat.getColor(context, R.color.chemistryGameBG));
-
-        this.addView(adjective);
-        this.addView(adj);
-        this.addView(verb);
-        this.addView(vrb);
-        this.addView(name);
-        this.addView(nm);
-        this.addView(noun);
-        this.addView(nn);
+            public void onClick(View v){
+                createMadLib(allUserFills.get(currQuestion),wordFills.get(currQuestion));}});
     }
 
-    public void createMadLib(View view){
-        sentence.setText("There was a " + nn.getText() + " named " + nm.getText() + " hey ho hey ho");
+    /**
+     * Creates the madlib sentence with the proper given words from the student
+     * @param input the edit text views from the user input
+     * @param titles the names of all the text views
+     * @return the madlib sentence with all the words replaced
+     */
+    public String createSentence(ArrayList<EditText> input, ArrayList<String> titles){
+        String sentence = questionTexts.get(currQuestion);
+
+        for(int i = 0; i<titles.size(); i++){
+            //reg ex for finding the exact word to replace in the sentence
+            String re = "#\\b" + titles.get(i) + "\\b#";
+            Pattern p = Pattern.compile(re);
+            Matcher m = p.matcher(sentence);
+            sentence = m.replaceAll(input.get(i).getText().toString());
+        }
+
+        return sentence;
+    }
+
+    /**
+     * creates the madlib sentence and then sets up the question page
+     * with a radio group and the question
+     * @param input the edit text views from the user input
+     * @param titles the names of all the text views
+     */
+    public void createMadLib(ArrayList<EditText> input, ArrayList<String> titles) {
+        this.removeAllViews();
+
+        //setting up the question page views
+        TextView question = new TextView(context);
+
+        String sentence = createSentence(input, titles);
+        question.setText(sentence);
+
+        if (Build.VERSION.SDK_INT < 17) {
+            question.setId(R.id.madlibGameSentence);
+        } else {
+            question.setId(View.generateViewId());
+        }
 
         RelativeLayout.LayoutParams relativeLay;
 
@@ -341,15 +213,12 @@ public class MadlibGameView extends RelativeLayout{
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         relativeLay.setMargins(10, 10, 10, 10);
         relativeLay.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-        relativeLay.addRule(RelativeLayout.BELOW, nn.getId());
+        relativeLay.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        question.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+        question.setPadding(50, 100, 10, 10);
+        question.setLayoutParams(relativeLay);
 
-        sentence.setLayoutParams(relativeLay);
-        sentence.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-        sentence.setPadding(50,100,10,10);
-        this.addView(sentence);
-
-        int correctAnswerIdx;
-        String correctAnswerStr;
+        this.addView(question);
 
         //set radio buttons
         RadioGroup radioGroup = new RadioGroup(context);
@@ -361,82 +230,219 @@ public class MadlibGameView extends RelativeLayout{
         }
 
         for (int i = 0; i < radioGroup.getChildCount(); i++) {
-            String textAnswer = "answer" + i;
+            String textAnswer = answerTexts.get(currQuestion).get(i);
             ((RadioButton) radioGroup.getChildAt(i)).setText(textAnswer);
             ((RadioButton) radioGroup.getChildAt(i)).setTextSize(20);
-            if (textAnswer.equals("answer1")){
-                correctAnswerIdx = i;
-            }
+            ((RadioButton) radioGroup.getChildAt(i)).setId(i+1);
+            ((RadioButton) radioGroup.getChildAt(i)).setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    onRadioButtonClicked(v);}});
         }
+        radioGroup.setId(R.id.madlibGameRButtons);
 
-        if (Build.VERSION.SDK_INT < 17) {
-            radioGroup.setId(R.id.madlibGameNn);
-        } else {
-            radioGroup.setId(View.generateViewId());
-        }
-
-        // Save what the new correct answer should be
-        correctAnswerStr = "answer1";
 
         relativeLay = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        relativeLay.setMargins(10, 10, 10, 10);
-        relativeLay.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-        relativeLay.addRule(RelativeLayout.BELOW, sentence.getId());
+        relativeLay.setMargins(10, 20, 10, 20);
+        relativeLay.addRule(RelativeLayout.BELOW, question.getId());
+        radioGroup.setPadding(50,10,10,50);
 
         radioGroup.setLayoutParams(relativeLay);
-        radioGroup.setPadding(50,10,10,50);
 
         this.addView(radioGroup);
 
+        //set up the submit button
+        questionSubmit.setText("Submit");
+
         relativeLay = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        relativeLay.setMargins(50, 0, 10, 200);
+        relativeLay.setMargins(50,10,10,10);
         relativeLay.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         relativeLay.addRule(RelativeLayout.BELOW, radioGroup.getId());
 
-        submit.setLayoutParams(relativeLay);
+        questionSubmit.setLayoutParams(relativeLay);
 
-        this.addView(submit);
+        this.addView(questionSubmit);
+
+        //adds listener so when clicked it will check the answer
+        questionSubmit.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                evalAnswer();}});
     }
 
-    /*
-  * Called when selects an answer
-  * Saves what answer was selected
-  */
-    public void onRadioButtonClicked(View view) {
-        // Is the button now checked?
-        boolean checked = ((RadioButton) view).isChecked();
+    /**
+     * evaluates the answer of the question, lets the retry if they get it wrong
+     * or has them continue on to a new madlib (or finish the game) if answered
+     * correctly
+     */
+    public void evalAnswer(){
+        // Make sure an answer is selected and submit button says Submit
+        if (selectedAnswer > 0 && questionSubmit.getText().equals("Submit")) {
+            // If answer has been selected, submit and check it
 
-        // Check which radio button was clicked
-        switch(view.getId()) {
-            case R.id.question_answer1:
-                if (checked)
-                    selectedAnswer = 1;
-                break;
-            case R.id.question_answer2:
-                if (checked)
-                    selectedAnswer = 2;
-                break;
-            case R.id.question_answer3:
-                if (checked)
-                    selectedAnswer = 3;
-                break;
-            case R.id.question_answer4:
-                if (checked)
-                    selectedAnswer = 4;
-                break;
-            default:
-                break;
+            // Disable radio buttons
+            RadioGroup radioGroup = (RadioGroup) findViewById(R.id.madlibGameRButtons);
+            for (int i = 0; i < radioGroup.getChildCount(); i++) {
+                ((RadioButton) radioGroup.getChildAt(i)).setEnabled(false);
+            }
+
+            // Get selected answer for comparison
+            String selectedString =
+                    answerTexts.get(currQuestion).get(selectedAnswer-1);
+            System.out.println(selectedString);
+            System.out.println(answers.get(currQuestion));
+
+            // Check if answer is correct
+            if (selectedString.equals(answers.get(currQuestion))) {
+                ((RadioButton) radioGroup.getChildAt(selectedAnswer-1)).setTextColor(
+                        ContextCompat.getColor(context, R.color.questionCorrect)
+                );
+                questionSubmit.setText("Continue");
+                currQuestion++;
+
+                if(currQuestion < answers.size()) {
+                    // Get new question
+                    questionSubmit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            addViews(allUserFills.get(currQuestion),
+                                    allUserInput.get(currQuestion));
+                        }
+                    });
+                }
+                else{
+                    //end the game
+                    questionSubmit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            endGame();
+                        }
+                    });
+                }
+            } else {
+                ((RadioButton) radioGroup.getChildAt(selectedAnswer-1)).setTextColor(
+                        ContextCompat.getColor(context, R.color.questionIncorrect)
+                );
+                questionSubmit.setText("Try Again!");
+            }
+
+            // Clear out selected answer
+            selectedAnswer = 0;
+        }
+        else if(questionSubmit.getText().equals("Try Again!")) {
+            // enable radio buttons
+
+            RadioGroup radioGroup = (RadioGroup) findViewById(R.id.madlibGameRButtons);
+            for (int i = 0; i < radioGroup.getChildCount(); i++) {
+                ((RadioButton) radioGroup.getChildAt(i)).setEnabled(true);
+            }
+            questionSubmit.setText("Submit");
         }
     }
 
-    public void newQ(){
-        invalidate();
+    /**
+     * adds the submit button, edit text and text views to the screen for madlib input
+     * @param edits the edittext views for where users will actually input text
+     * @param views the text views for where users see a title of what to input
+     */
+    public void addViews(ArrayList<EditText> edits, ArrayList<TextView> views) {
+        if(currQuestion < answers.size()) {
+            this.removeAllViews();
+            for (int i = 0; i < edits.size(); i++) {
+                this.addView(views.get(i));
+                this.addView(edits.get(i));
+            }
+
+            RelativeLayout.LayoutParams relativeLay = new RelativeLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            relativeLay.setMargins(50, 10, 10, 10);
+            relativeLay.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+            relativeLay.addRule(RelativeLayout.BELOW, allUserFills.get(currQuestion).get(allUserFills.get(currQuestion).size() - 1).getId());
+
+            submit.setLayoutParams(relativeLay);
+
+            this.addView(submit);
+        } else {
+            endGame();
+        }
+    }
+
+    /**
+     * creates a text view for a given possible user input pulled from the database
+     * @param word the type of word that the user is going to give
+     * @param tEdits the arraylist of edittext  views
+     * @param num the ith text view that has been created
+     * @return the textview created for the given word
+     */
+    public TextView createTextView(String word, ArrayList<EditText> tEdits, int num){
+        RelativeLayout.LayoutParams relativeLay = new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        //controls get
+        TextView newWord = new TextView(context);
+        newWord.setTextSize(convertPixelsToDp(height / 30, context));
+        newWord.setText("Enter an " + word + ":");
+
+        if (Build.VERSION.SDK_INT < 17) {
+            newWord.setId(num);
+        } else {
+            newWord.setId(View.generateViewId());
+        }
+
+        relativeLay.setMargins(10, 10, 10, 10);
+        relativeLay.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+
+        if(num != 0){
+            relativeLay.addRule(RelativeLayout.BELOW, tEdits.get(num-1).getId());
+        }
+        else{
+            relativeLay.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        }
+
+        newWord.setLayoutParams(relativeLay);
+
+        newWord.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+        newWord.setPadding(50,100,10,10);
+
+        return newWord;
+    }
+
+    /**
+     * creates a edittext view for a given possible user input pulled from the database
+    * @param text the type of word that the user is going to give
+    * @param tViews the arraylist of text views (titles of the edittext views
+    * @param num the ith edittext view that has been created
+    * @return the edittext view created for the given word
+    */
+    public EditText createEditText(String text, ArrayList<TextView> tViews, int num){
+        RelativeLayout.LayoutParams relativeLay = new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        // Exits keyboard when user hits enter on it
+        EditText userWord = new EditText(context);
+        userWord.setSingleLine(true);
+        userWord.setHint(text);
+        userWord.setHintTextColor(ContextCompat.getColor(context, R.color.colorHint));
+
+        if (Build.VERSION.SDK_INT < 17) {
+            userWord.setId(num+50);
+        } else {
+            userWord.setId(View.generateViewId());
+        }
+
+        relativeLay.setMargins(50,10,10,10);
+        relativeLay.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        relativeLay.addRule(RelativeLayout.BELOW, tViews.get(num).getId());
+
+        userWord.setLayoutParams(relativeLay);
+
+        return userWord;
     }
 
 
-    /*
+    /**
      * Move on to game end page
      */
     private void endGame() {
@@ -447,12 +453,48 @@ public class MadlibGameView extends RelativeLayout{
         context.startActivity(intent);
     }
 
-    /*
+    /**
      * Change pixel measurement into dp measurement
+     * @param px The pixels
+     * @param context The context of the activity
+     * @return dp - The measurement in dp
      */
     public static float convertPixelsToDp(float px, Context context){
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         float dp = px / (metrics.densityDpi / 160f);
         return dp;
     }
+
+    /**
+    * Called when selects an answer
+    * Saves what answer was selected
+    */
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case 1:
+                if (checked)
+                    selectedAnswer = 1;
+                break;
+            case 2:
+                if (checked)
+                    selectedAnswer = 2;
+                break;
+            case 3:
+                if (checked)
+                    selectedAnswer = 3;
+                break;
+            case 4:
+                if (checked)
+                    selectedAnswer = 4;
+                break;
+            default:
+                break;
+        }
+    }
+
+
 }
