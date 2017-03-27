@@ -83,6 +83,19 @@ public class MadLibGameView extends RelativeLayout {
     private Button submit;
     private Button questionSubmit;
 
+    /**
+     *
+     * @param contextp context of the activity
+     * @param words the fill in words for the madlib
+     * @param question the questions for the game
+     * @param answerPs the answer possibilities
+     * @param answerAs the answer for each questions
+     * @param conceptIDp ID of the current concept
+     * @param lessonIDp ID of the current lesson
+     * @param nextActivityp Number indicating what the activity after the game should be
+     * @param width1 Width of the screen in pixels
+     * @param height1 Height of screen in pixels
+     */
     public MadLibGameView(Context contextp, ArrayList<ArrayList<String>> words, ArrayList<String>
             question, ArrayList<ArrayList<String>> answerPs, ArrayList<String> answerAs,
                           int conceptIDp, int lessonIDp, int nextActivityp,
