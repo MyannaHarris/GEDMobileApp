@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -265,7 +266,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         for (int i = 0; i < allAccessories.size(); i++) {
             ArrayList<Integer> info = accessoryMap.get(allAccessories.get(i));
             int img = info.get(0);
-            int icon = info.get(1);
+            final int icon = info.get(1);
             int layer = info.get(2);
 
             // Create new accessory imageview
@@ -288,9 +289,20 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                 public boolean onTouch(View v, MotionEvent event) {
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
-                            dragIcon = (String) v.getTag();
+                            /*dragIcon = (String) v.getTag();
 
-                            dragBool = true;
+                            int x = (int)event.getX();
+                            int y = (int)event.getY();
+                            System.out.println(x);
+                            System.out.println(y);
+                            int pixel = BitmapFactory.decodeResource(getResources(), icon)
+                                    .getPixel(x,y);
+                            System.out.println(Color.alpha(pixel));
+
+                            //then do what you want with the pixel data, e.g
+                            if (Color.alpha(pixel) == 0) {
+                                dragBool = true;
+                            } */
                             break;
                         case MotionEvent.ACTION_UP:
                             ImageView imageView = (ImageView) v;
@@ -716,9 +728,26 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                 public boolean onTouch(View v, MotionEvent event) {
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
-                            dragIcon = (String) v.getTag();
+                            ImageView imgView = (ImageView) v;
+                            String name = imgView.getTag().toString();
+                            ArrayList<Integer> info = accessoryMap.get(name);
+                            int icon = info.get(1);
+                            int imageWidth = ((ImageView) v).getWidth();
+                            int imageHeight = ((ImageView) v).getHeight();
 
-                            dragBool = true;
+                            int x = (int)event.getX();
+                            int y = (int)event.getY();
+                            x = (int) (((float)x/imageWidth)*100);
+                            y = (int) (((float)y/imageHeight)*100);
+                            System.out.println(x);
+                            System.out.println(y);
+                            int pixel = BitmapFactory.decodeResource(getResources(), icon)
+                                    .getPixel(x,y);
+
+                            if (Color.alpha(pixel) != 0) {
+                                dragIcon = (String) v.getTag();
+                                dragBool = true;
+                            }
                             break;
                         case MotionEvent.ACTION_UP:
                             ImageView imageView = (ImageView) v;
@@ -767,9 +796,26 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                 public boolean onTouch(View v, MotionEvent event) {
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
-                            dragIcon = (String) v.getTag();
+                            ImageView imgView = (ImageView) v;
+                            String name = imgView.getTag().toString();
+                            ArrayList<Integer> info = accessoryMap.get(name);
+                            int icon = info.get(1);
+                            int imageWidth = ((ImageView) v).getWidth();
+                            int imageHeight = ((ImageView) v).getHeight();
 
-                            dragBool = true;
+                            int x = (int)event.getX();
+                            int y = (int)event.getY();
+                            x = (int) (((float)x/imageWidth)*100);
+                            y = (int) (((float)y/imageHeight)*100);
+                            System.out.println(x);
+                            System.out.println(y);
+                            int pixel = BitmapFactory.decodeResource(getResources(), icon)
+                                    .getPixel(x,y);
+
+                            if (Color.alpha(pixel) != 0) {
+                                dragIcon = (String) v.getTag();
+                                dragBool = true;
+                            }
                             break;
                         case MotionEvent.ACTION_UP:
                             ImageView imageView = (ImageView) v;
@@ -818,9 +864,26 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                 public boolean onTouch(View v, MotionEvent event) {
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
-                            dragIcon = (String) v.getTag();
+                            ImageView imgView = (ImageView) v;
+                            String name = imgView.getTag().toString();
+                            ArrayList<Integer> info = accessoryMap.get(name);
+                            int icon = info.get(1);
+                            int imageWidth = ((ImageView) v).getWidth();
+                            int imageHeight = ((ImageView) v).getHeight();
 
-                            dragBool = true;
+                            int x = (int)event.getX();
+                            int y = (int)event.getY();
+                            x = (int) (((float)x/imageWidth)*100);
+                            y = (int) (((float)y/imageHeight)*100);
+                            System.out.println(x);
+                            System.out.println(y);
+                            int pixel = BitmapFactory.decodeResource(getResources(), icon)
+                                    .getPixel(x,y);
+
+                            if (Color.alpha(pixel) != 0) {
+                                dragIcon = (String) v.getTag();
+                                dragBool = true;
+                            }
                             break;
                         case MotionEvent.ACTION_UP:
                             ImageView imageView = (ImageView) v;
@@ -869,9 +932,26 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                 public boolean onTouch(View v, MotionEvent event) {
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
-                            dragIcon = (String) v.getTag();
+                            ImageView imgView = (ImageView) v;
+                            String name = imgView.getTag().toString();
+                            ArrayList<Integer> info = accessoryMap.get(name);
+                            int icon = info.get(1);
+                            int imageWidth = ((ImageView) v).getWidth();
+                            int imageHeight = ((ImageView) v).getHeight();
 
-                            dragBool = true;
+                            int x = (int)event.getX();
+                            int y = (int)event.getY();
+                            x = (int) (((float)x/imageWidth)*100);
+                            y = (int) (((float)y/imageHeight)*100);
+                            System.out.println(x);
+                            System.out.println(y);
+                            int pixel = BitmapFactory.decodeResource(getResources(), icon)
+                                    .getPixel(x,y);
+
+                            if (Color.alpha(pixel) != 0) {
+                                dragIcon = (String) v.getTag();
+                                dragBool = true;
+                            }
                             break;
                         case MotionEvent.ACTION_UP:
                             ImageView imageView = (ImageView) v;
@@ -920,9 +1000,28 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                 public boolean onTouch(View v, MotionEvent event) {
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
-                            dragIcon = (String) v.getTag();
 
-                            dragBool = true;
+                            ImageView imgView = (ImageView) v;
+                            String name = imgView.getTag().toString();
+                            ArrayList<Integer> info = accessoryMap.get(name);
+                            int icon = info.get(1);
+                            int imageWidth = ((ImageView) v).getWidth();
+                            int imageHeight = ((ImageView) v).getHeight();
+
+                            int x = (int)event.getX();
+                            int y = (int)event.getY();
+                            x = (int) (((float)x/imageWidth)*100);
+                            y = (int) (((float)y/imageHeight)*100);
+                            System.out.println(x);
+                            System.out.println(y);
+                            int pixel = BitmapFactory.decodeResource(getResources(), icon)
+                                    .getPixel(x,y);
+
+                            if (Color.alpha(pixel) != 0) {
+                                dragIcon = (String) v.getTag();
+                                dragBool = true;
+                            }
+
                             break;
                         case MotionEvent.ACTION_UP:
                             ImageView imageView = (ImageView) v;

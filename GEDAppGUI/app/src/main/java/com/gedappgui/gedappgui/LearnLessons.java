@@ -92,7 +92,7 @@ public class LearnLessons extends AppCompatActivity {
         optionAdapter = new AlertTextViewAdapter(LearnLessons.this,
                 new String[]
                         {"Summary - A brief intro",
-                                "Steps - Further explanation",
+                                "Tips - Further explanation",
                                 "Examples - Solved problems",
                                 "Game - Practice game",
                                 "Questions - Practice problems"}, height);
