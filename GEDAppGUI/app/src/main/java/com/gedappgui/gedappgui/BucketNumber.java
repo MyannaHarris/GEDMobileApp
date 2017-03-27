@@ -51,6 +51,9 @@ public class BucketNumber {
     // Height of question text
     private int questionHeight;
 
+    // End endless play button size
+    private int endButtonSize = 0;
+
     /**
      * Constructor for number object that student catches in bucket
      * @param widthp Width of the screen in pixels
@@ -58,12 +61,15 @@ public class BucketNumber {
      * @param textString Number text of the number
      * @param questionHeightp Measured height of text from Paint object
      */
-    public BucketNumber(int widthp, int heightp, String textString, int questionHeightp) {
+    public BucketNumber(int widthp, int heightp, String textString, int questionHeightp,
+                        int endButtonSizep) {
 
         // Basic variables
         // Screen size
         width = widthp;
         height = heightp;
+
+        endButtonSize = endButtonSizep;
 
         // Height of question text
         questionHeight = questionHeightp;
@@ -93,12 +99,13 @@ public class BucketNumber {
 
         // Generating a random x coordinate to add enemy at
         x = generator.nextInt(maxX - ((int)((float)height / 12 / 2) + 1));
-        y = minY;
+        y = minY + endButtonSize;
 
         // Initializing rect object for detecting collisions
-        detectCollision =  new Rect(y, x - (int) ((float)height / 50),
-                y + (int) ((float)height / 12),
-                x + (int) ((float)height / 12));
+        detectCollision =  new Rect(y - (int) ((float)height / 20),
+                x - (int) ((float)height / 60),
+                y + (int) ((float)height / 60),
+                x + (int) ((float)height / 18));
     }
 
     /**
@@ -113,16 +120,16 @@ public class BucketNumber {
             // Adding the enemy again to the top edge
             Random generator = new Random();
             speed = (int) (changeY * (generator.nextInt(10) / 10.0 + 0.5));
-            y = minY;
+            y = minY + endButtonSize;
             x = generator.nextInt(maxX - ((int)((float)height / 12 / 2) + 1));
         }
 
         // Adding the top, left, bottom and right to the rect object
         // For when the it moves
-        detectCollision.left = x - (int) ((float)height / 50);
-        detectCollision.top = y;
-        detectCollision.right = x + (int) ((float)height / 12);
-        detectCollision.bottom = y + (int) ((float)height / 12);
+        detectCollision.left = x - (int) ((float)height / 60);
+        detectCollision.top = y - (int) ((float)height / 20);
+        detectCollision.right = x + (int) ((float)height / 18);
+        detectCollision.bottom = y + (int) ((float)height / 60);
     }
 
     /**

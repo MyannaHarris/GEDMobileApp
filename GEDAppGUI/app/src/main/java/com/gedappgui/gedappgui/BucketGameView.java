@@ -195,11 +195,12 @@ public class BucketGameView extends SurfaceView implements Runnable  {
         numbers = new BucketNumber[numberCount];
         for(int i=0; i<numberCount; i++){
             numbers[i] = new BucketNumber(width, height, texts.get(i),
-                    questionHeight);
+                    questionHeight, endButtonSize);
         }
 
         // Save start time to limit fps
         startTime = System.currentTimeMillis();
+
     }
 
     /**
@@ -373,7 +374,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                         numbers = new BucketNumber[numberCount];
                         for (int x = 0; x < numberCount; x++) {
                             numbers[x] = new BucketNumber(width, height,
-                                    texts.get(x), questionHeight);
+                                    texts.get(x), questionHeight, endButtonSize);
                         }
 
                         // Save start time to limit fps
@@ -475,7 +476,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                         canvas.drawBitmap(
                                 coinImg,
                                 numbers[i].getX() - ((int) paint.measureText(numbers[i].getText()) / 6),
-                                numbers[i].getY() - ((float)height / 16) + endButtonSize,
+                                numbers[i].getY() - ((float)height / 16),
                                 paint);
                     } else {
                         // Draw single character answer
@@ -483,14 +484,14 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                                 coinImg,
                                 numbers[i].getX() - (int) (paint.measureText(
                                         numbers[i].getText()) * 0.7),
-                                numbers[i].getY() - ((float)height / 16) + endButtonSize,
+                                numbers[i].getY() - ((float)height / 16),
                                 paint);
                     }
                     // Draw the text
                     canvas.drawText(
                             numbers[i].getText(),
                             numbers[i].getX(),
-                            numbers[i].getY() + endButtonSize,
+                            numbers[i].getY(),
                             paint
                     );
                 }
