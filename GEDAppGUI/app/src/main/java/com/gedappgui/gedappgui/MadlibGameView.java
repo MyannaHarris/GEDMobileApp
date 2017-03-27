@@ -38,7 +38,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.regex.*;
 
-public class MadLibGameView extends RelativeLayout {
+public class MadlibGameView extends RelativeLayout {
     private Context context;
     ScrollView scroll;
 
@@ -96,7 +96,7 @@ public class MadLibGameView extends RelativeLayout {
      * @param width1 Width of the screen in pixels
      * @param height1 Height of screen in pixels
      */
-    public MadLibGameView(Context contextp, ArrayList<ArrayList<String>> words, ArrayList<String>
+    public MadlibGameView(Context contextp, ArrayList<ArrayList<String>> words, ArrayList<String>
             question, ArrayList<ArrayList<String>> answerPs, ArrayList<String> answerAs,
                           int conceptIDp, int lessonIDp, int nextActivityp,
                           int width1, int height1) {

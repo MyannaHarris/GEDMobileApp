@@ -48,7 +48,7 @@ public class Game extends AppCompatActivity {
     private PictureGameView pictureGameView;
     private ChemistryGameView chemistryGameView;
     private OrderingGameView orderingGameView;
-    private MadLibGameView madlibGameView;
+    private MadlibGameView madlibGameView;
 
     // Database
     private DatabaseHelper dbHelper;
@@ -182,7 +182,7 @@ public class Game extends AppCompatActivity {
             answerAs.add("1");
             answerAs.add("7");
 
-            madlibGameView = new MadLibGameView(this, texts, question,
+            madlibGameView = new MadlibGameView(this, texts, question,
                     answerPs, answerAs, conceptID, lessonID,
                     nextActivity, width, height);
             ScrollView scroll = new ScrollView(this);
