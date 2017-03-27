@@ -9,4 +9,6 @@
     <item name ="madlibGameSubmit" type="id"/>
     <item name ="madlibGameQSubmit" type="id"/>
     <item name ="madlibGameRButtons" type="id"/>
+
+    <item name ="chemistryGameEndButton" type="id"/>
 </resources>

@@ -96,8 +96,9 @@ public class BucketNumber {
         y = minY;
 
         // Initializing rect object for detecting collisions
-        detectCollision =  new Rect(x - (int)((questionHeight * 1.8) / 2),
-                y, (int)((questionHeight * 1.8) / 2), 10);
+        detectCollision =  new Rect(y, x - (int) ((float)height / 50),
+                y + (int) ((float)height / 12),
+                x + (int) ((float)height / 12));
     }
 
     /**
@@ -118,10 +119,10 @@ public class BucketNumber {
 
         // Adding the top, left, bottom and right to the rect object
         // For when the it moves
-        detectCollision.left = x - (int)((questionHeight * 1.8) / 2);
+        detectCollision.left = x - (int) ((float)height / 50);
         detectCollision.top = y;
-        detectCollision.right = x + (int)((questionHeight * 1.8) / 2);
-        detectCollision.bottom = y + 20;
+        detectCollision.right = x + (int) ((float)height / 12);
+        detectCollision.bottom = y + (int) ((float)height / 12);
     }
 
     /**

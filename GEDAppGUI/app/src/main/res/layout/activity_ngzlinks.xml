@@ -16,6 +16,16 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:text="Click on a link below!"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView"
+            android:gravity="center"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorHeader1"/>
+
+        <TextView
             android:text="@string/Home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

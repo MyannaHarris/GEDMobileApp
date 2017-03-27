@@ -19,6 +19,7 @@ package com.gedappgui.gedappgui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
@@ -27,7 +28,9 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -73,8 +76,14 @@ public class OrderingGameView extends LinearLayout {
     // Bool to check if something is moving
     private boolean dragging = false;
 
+    // Button to end the endless game play
+    private Button endButton;
+
+    // Size of button to end
+    private int endButtonSize = 0;
+
     public OrderingGameView(Context contextp, ArrayList<ArrayList<String>> textsp,
-                            int conceptIDp, int lessonIDp, int nextActivityp,
+                            int conceptIDp, int lessonIDp, final int nextActivityp,
                             int width, int heightp) {
         super(contextp);
 
@@ -100,6 +109,32 @@ public class OrderingGameView extends LinearLayout {
 
         // Set orientation to make a vertical list
         this.setOrientation(LinearLayout.VERTICAL);
+
+        // Button to end the endless game play
+        if (nextActivity == 1) {
+
+            LinearLayout.LayoutParams linearLayoutButton = new LinearLayout.LayoutParams(
+                    LayoutParams.MATCH_PARENT,
+                    (height - (30 + 10 * 5)) / 8);
+
+            linearLayoutButton.setMargins(0, 5, 0, 5);
+
+            endButton = new Button(context);
+            endButton.setLayoutParams(linearLayoutButton);
+            endButton.setTextSize(convertPixelsToDp(height / 17, context));
+            endButton.setTextColor(ContextCompat.getColor(context, R.color.orderingGameText));
+            endButton.setText("End Game");
+            endButton.setHeight((height - (30 + 10 * 5)) / 8);
+
+            endButton.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    endGame();
+                }
+            });
+
+            endButtonSize = (height - (30 + 10 * 5)) / 8 + 10;
+        }
 
         // Create textViews
         topLabel = new TextView(context);
@@ -130,7 +165,7 @@ public class OrderingGameView extends LinearLayout {
 
         // Special drag textview parameters
         LinearLayout.LayoutParams dragParams = new LinearLayout.LayoutParams(
-                LayoutParams.WRAP_CONTENT, (height - (30 + 10 * answerTexts.size())) / (answerTexts.size() + 2));
+                LayoutParams.WRAP_CONTENT, (height - endButtonSize - (30 + 10 * answerTexts.size())) / (answerTexts.size() + 2));
         dragTextView.setLayoutParams(dragParams);
         dragTextView.setTextColor(ContextCompat.getColor(context, R.color.orderingGameText));
         dragTextView.setTextSize(convertPixelsToDp(height / 17, context));
@@ -144,10 +179,17 @@ public class OrderingGameView extends LinearLayout {
                 int y = (int)event.getY();
                 LinearLayout linearLayout = (LinearLayout) v;
 
+                // For changing loops when the end game button exists
+                int start = 1;
+
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         // Save selected textView if a textview is selected to drag
-                        for (int i=1; i<getChildCount() - 1; i++){
+                        start = 1;
+                        if (nextActivity == 1) {
+                            start = 2;
+                        }
+                        for (int i=start; i<getChildCount() - 1; i++){
                             TextView child = (TextView) linearLayout.getChildAt(i);
                             if(x > child.getLeft() && x < child.getRight() &&
                                     y > child.getTop() && y < child.getBottom()){
@@ -177,7 +219,11 @@ public class OrderingGameView extends LinearLayout {
                             dragTextView.setY(event.getRawY() - dragTextView.getHeight() / 2);
 
                             // Make it continuously show changes in order
-                            for (int i = 1; i < getChildCount() - 2; i++) {
+                            start = 1;
+                            if (nextActivity == 1) {
+                                start = 2;
+                            }
+                            for (int i = start; i < getChildCount() - 2; i++) {
                                 TextView child = (TextView) linearLayout.getChildAt(i);
                                 if (x > child.getLeft() && x < child.getRight() &&
                                         y > child.getTop() && y < child.getBottom()) {
@@ -205,7 +251,13 @@ public class OrderingGameView extends LinearLayout {
                                         y > child.getTop() && y < child.getBottom()) {
 
                                     if (i == 0) {
-                                        child = (TextView) linearLayout.getChildAt(1);
+                                        if (nextActivity == 1) {
+                                            child = (TextView) linearLayout.getChildAt(2);
+                                        } else {
+                                            child = (TextView) linearLayout.getChildAt(1);
+                                        }
+                                    } else if (nextActivity == 1 && i == 1) {
+                                        child = (TextView) linearLayout.getChildAt(2);
                                     } else if (i > getChildCount() - 3) {
                                         child = (TextView) linearLayout.getChildAt(getChildCount() - 3);
                                     }
@@ -229,9 +281,13 @@ public class OrderingGameView extends LinearLayout {
 
                             // Check if order is right
                             boolean questionDone = true;
-                            for (int i = 1; i < getChildCount() - 2; i++) {
+                            start = 1;
+                            if (nextActivity == 1) {
+                                start = 2;
+                            }
+                            for (int i = start; i < getChildCount() - 2; i++) {
                                 TextView child = (TextView) linearLayout.getChildAt(i);
-                                if (!((String) child.getTag().toString()).equals(answerTexts.get(i - 1))) {
+                                if (!((String) child.getTag().toString()).equals(answerTexts.get(i - start))) {
                                     questionDone = false;
                                 }
                             }
@@ -265,7 +321,12 @@ public class OrderingGameView extends LinearLayout {
      * Set up question and answer text
      */
     private void setUp() {
-        if (currQuestion * 2 < texts.size()) {
+        if (currQuestion * 2 < texts.size() || nextActivity == 1) {
+
+            if (nextActivity == 1 && currQuestion * 2 >= texts.size()) {
+                currQuestion = 0;
+            }
+
             // If there are more questions left
 
             // Set up item texts
@@ -273,8 +334,8 @@ public class OrderingGameView extends LinearLayout {
             answerTexts = texts.get(currQuestion * 2 + 1);
 
             // Set up label heights
-            topLabel.setHeight((height - (30 + 10 * answerTexts.size())) / (answerTexts.size() + 2));
-            bottomLabel.setHeight((height - (30 + 10 * answerTexts.size())) / (answerTexts.size() + 2));
+            topLabel.setHeight((height - endButtonSize - (30 + 10 * answerTexts.size())) / (answerTexts.size() + 2));
+            bottomLabel.setHeight((height - endButtonSize - (30 + 10 * answerTexts.size())) / (answerTexts.size() + 2));
 
             // Set up current labels
             topLabel.setText("Greatest");
@@ -296,7 +357,7 @@ public class OrderingGameView extends LinearLayout {
                 newTextView.setText(toHTML(questionTexts.get(i)));
                 newTextView.setLayoutParams(linearParams);
                 newTextView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-                newTextView.setHeight((height - (30 + 10 * answerTexts.size())) / (answerTexts.size() + 2));
+                newTextView.setHeight((height - endButtonSize - (30 + 10 * answerTexts.size())) / (answerTexts.size() + 2));
                 newTextView.setTextColor(ContextCompat.getColor(context, R.color.orderingGameText));
                 newTextView.setTextSize(convertPixelsToDp(height / 17, context));
                 newTextView.setBackgroundColor(ContextCompat.getColor(context, R.color.orderingGameMiddleColor));
@@ -305,6 +366,9 @@ public class OrderingGameView extends LinearLayout {
             }
 
             // Add views to layout
+            if (nextActivity == 1) {
+                this.addView(endButton);
+            }
             this.addView(topLabel);
             for (int i = 0; i < items.size(); i++) {
                 this.addView(items.get(i));

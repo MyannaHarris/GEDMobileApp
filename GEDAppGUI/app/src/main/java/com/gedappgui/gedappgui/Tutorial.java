@@ -100,10 +100,6 @@ public class Tutorial extends AppCompatActivity {
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-
-        // Disable back button at beginning
-        checkButtons();
-
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
@@ -118,27 +114,29 @@ public class Tutorial extends AppCompatActivity {
         forwardbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
         Button exitbtn = (Button)findViewById(R.id.tutorial_exit);
         exitbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+
+        ViewGroup.LayoutParams paramsexit = exitbtn.getLayoutParams();
+        ViewGroup.LayoutParams paramsforward = forwardbtn.getLayoutParams();
+        ViewGroup.LayoutParams paramsback = backbtn.getLayoutParams();
+
+        paramsexit.height = (height/8);
+        paramsexit.width = (width/4);
+        paramsforward.height = (height/8);
+        paramsforward.width = (width/4);
+        paramsback.height = (height/8);
+        paramsback.width = (width/4);
+//
+        exitbtn.setLayoutParams(paramsexit);
+        forwardbtn.setLayoutParams(paramsforward);
+        backbtn.setLayoutParams(paramsback);
+
+        TextView prompt = (TextView)findViewById(R.id.prompt);
+        prompt.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
+
         /////// * Kristina: I was not sure if I should delete the following commented out code,
         ///////             so I need Jimmy to look at it and decide
-//        TextView prompt = (TextView)findViewById(R.id.prompt);
-//        prompt.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/25));
-
-//        int btncolor =  exitbtn.getSolidColor();
-//        backbtn.setBackgroundColor(btncolor);
-
-        //set heights for buttons
-//        ViewGroup.LayoutParams params = exitbtn.getLayoutParams();
-//        params.height = (height/8);
-//
-//        exitbtn.setLayoutParams(params);
-//        forwardbtn.setLayoutParams(params);
-//        backbtn.setLayoutParams(params);
 
     }
-
-    /*
-     * Exits the tutorial
-     */
 
     /**
      * Exits the tutorial when the user chooses to do so
@@ -153,12 +151,13 @@ public class Tutorial extends AppCompatActivity {
      * @param view current view
      */
     public void goBack(View view){
-        TextView prompt = (TextView)findViewById(R.id.prompt);
-        ImageView promptImg = (ImageView) findViewById(R.id.prompt_pic);
-        current--;
-        checkButtons();
-        prompt.setText(prompts[current]);
-        promptImg.setImageResource(tutorial_pics[current]);
+        if (current > 0) {
+            TextView prompt = (TextView) findViewById(R.id.prompt);
+            ImageView promptImg = (ImageView) findViewById(R.id.prompt_pic);
+            current--;
+            prompt.setText(prompts[current]);
+            promptImg.setImageResource(tutorial_pics[current]);
+        }
     }
 
     /**
@@ -171,26 +170,12 @@ public class Tutorial extends AppCompatActivity {
         current++;
         // If it's the end, leave the tutorial
         if (current > 17) {
-            System.out.println(current);
             finish();
         }
-        checkButtons();
         prompt.setText(prompts[current]);
         promptImg.setImageResource(tutorial_pics[current]);
     }
 
-    /**
-     * Disables back button if at beginning, disables forward button if at end
-     */
-    public void checkButtons(){
-        Button backbtn = (Button)findViewById(R.id.tutorial_back);
-
-        if (current < 1)
-            backbtn.setEnabled(false);
-        else
-            backbtn.setEnabled(true);
-
-    }
 
     /**
      * Hides bottom navigation bar

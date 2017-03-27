@@ -1004,9 +1004,50 @@ public class DatabaseHelper{
             }
         }
 
-
-        System.out.println(randQAndAs);
         return randQAndAs;
+    }
+
+    /**
+     * returns the input for an endless game from a CSL
+     * @param lesson_id the id of the lesson
+     * @return the input for the game (questions and answers)
+     */
+    public ArrayList<ArrayList<String>> selectInfiniteBucketGameInput(int lesson_id){
+        open();
+
+        Cursor c = myDatabase.rawQuery("SELECT game_input FROM lessons WHERE lesson_id = " +
+                lesson_id, null);
+        c.moveToFirst();
+        String input = c.getString(0);
+
+        c.close();
+        close();
+
+        ArrayList<ArrayList<String>> allQAndAs = new ArrayList<ArrayList<String>>();
+        ArrayList<String> possibleAnswers = new ArrayList<>();
+        ArrayList<String> questionsAndAnswers = new ArrayList<>();
+
+        String[] questions = input.split("[,]");
+
+        //gets the 5 possible solutions to store
+        //then gets the 1 question, and the 1 answer
+        for(int k = 0; k<questions.length; k+=7) {
+            possibleAnswers.clear();
+            questionsAndAnswers.clear();
+
+            for(int i = k; i<k+5; i++) {
+                possibleAnswers.add(questions[i]);
+            }
+            for(int j = k+5; j<k+7;  j++) {
+                questionsAndAnswers.add(questions[j]);
+            }
+            //deep copies the array lists of possible answers and qeustions and answer
+            allQAndAs.add(new ArrayList<String>(possibleAnswers));
+            allQAndAs.add(new ArrayList<String>(questionsAndAnswers));
+
+        }
+
+        return allQAndAs;
     }
 
     /**
@@ -1040,7 +1081,6 @@ public class DatabaseHelper{
 
         for(int i = 0; i<questions.length;i++){
             allQAndAs.add(questions[i]);
-            System.out.println(questions[i]);
         }
 
         //choose 3 random questions of the 20 to give to the user in the game
@@ -1051,8 +1091,6 @@ public class DatabaseHelper{
             randA.add(allQAndAs.remove((int)(rand + (19-r))));
         }
 
-        System.out.println(randQ);
-        System.out.println(randA);
         randQ.addAll(randA);
         finalTexts.add(randQ);
 
@@ -1066,13 +1104,45 @@ public class DatabaseHelper{
             randA.add(allQAndAs.remove((int)(rand + (19-r))));
         }
 
-        System.out.println(randQ);
-        System.out.println(randA);
         randQ.addAll(randA);
         finalTexts.add(randQ);
 
+        return finalTexts;
+    }
 
-        System.out.println(randQ);
+    /**
+     * returns the input for an endless game from a CSL
+     * @param lesson_id the id of the lesson
+     * @return the input for the game (questions and answers)
+     */
+    public ArrayList<ArrayList<String>> selectInfiniteMatchGameInput(int lesson_id){
+        open();
+
+        Cursor c = myDatabase.rawQuery("SELECT game_input FROM lessons WHERE lesson_id = " +
+                lesson_id, null);
+        c.moveToFirst();
+        String input = c.getString(0);
+
+        c.close();
+        close();
+
+        ArrayList<ArrayList<String>> finalTexts = new ArrayList<ArrayList<String>>();
+        ArrayList<String> allQAndAs = new ArrayList<String>();
+
+        String[] questions;
+        if(lesson_id == 23){
+            questions = input.split("[#]");
+        }
+        else{
+            questions = input.split("[,]");
+        }
+
+        for(int i = 0; i<questions.length;i++){
+            allQAndAs.add(questions[i]);
+        }
+
+        finalTexts.add(allQAndAs);
+
         return finalTexts;
     }
 
@@ -1108,6 +1178,36 @@ public class DatabaseHelper{
     }
 
     /**
+     * returns the input for an endless game from a CSL
+     * @param lesson_id the id of the lesson
+     * @return the input for the game (questions and answers)
+     */
+    public ArrayList<ArrayList<String>> selectInfiniteChemistryGameInput(int lesson_id){
+        open();
+
+        Cursor c = myDatabase.rawQuery("SELECT game_input FROM lessons WHERE lesson_id = " +
+                lesson_id, null);
+        c.moveToFirst();
+        String input = c.getString(0);
+
+        c.close();
+        close();
+
+        ArrayList<ArrayList<String>> QAndAs = new ArrayList<ArrayList<String>>();
+        ArrayList<String> splitUp;
+
+        String[] options = input.split("[;]");
+
+        // Get five unique random questions
+        for (int i = 0; i < 20; i++) {
+            splitUp = new ArrayList<String>(Arrays.asList(options[i].split("[&]")));
+            QAndAs.add(new ArrayList<String>(splitUp.subList(0,5)));
+            QAndAs.add(new ArrayList<String>(splitUp.subList(5,7)));
+        }
+        return QAndAs;
+    }
+
+    /**
      * returns the input for a game
      * @param lesson_id the id of the lesson
      * @return the input for the game (questions and answers)
@@ -1136,6 +1236,36 @@ public class DatabaseHelper{
             randQAndAs.add(new ArrayList<String>(splitUp.subList(5,10)));
         }
         return randQAndAs;
+    }
+
+    /**
+     * returns the input for an endless game
+     * @param lesson_id the id of the lesson
+     * @return the input for the game (questions and answers)
+     */
+    public ArrayList<ArrayList<String>> selectInfiniteOrderGameInput(int lesson_id){
+        open();
+
+        Cursor c = myDatabase.rawQuery("SELECT game_input FROM lessons WHERE lesson_id = " +
+                lesson_id, null);
+        c.moveToFirst();
+        String input = c.getString(0);
+
+        c.close();
+        close();
+
+        ArrayList<ArrayList<String>> QAndAs = new ArrayList<ArrayList<String>>();
+        ArrayList<String> splitUp;
+
+        String[] options = input.split("[;]");
+
+        // Get five unique random questions
+        for (int i = 0; i < 20; i++) {
+            splitUp = new ArrayList<String>(Arrays.asList(options[i].split("[#]")));
+            QAndAs.add(new ArrayList<String>(splitUp.subList(0,5)));
+            QAndAs.add(new ArrayList<String>(splitUp.subList(5,10)));
+        }
+        return QAndAs;
     }
 
     /**
@@ -1283,10 +1413,9 @@ public class DatabaseHelper{
         c.moveToFirst();
         int test = c.getInt(0);
         if (test > 0) {
-            System.out.println("The lesson is completed");
             isComplete = true;
         }
-        System.out.println("The lesson is NOT completed");
+
         close();
         return isComplete;
     }

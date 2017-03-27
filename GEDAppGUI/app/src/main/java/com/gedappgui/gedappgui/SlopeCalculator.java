@@ -16,19 +16,25 @@
         */
 package com.gedappgui.gedappgui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -71,6 +77,31 @@ public class SlopeCalculator extends AppCompatActivity {
                 return false;
             }
         });
+
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int width = dm.widthPixels;
+
+        EditText y1input = (EditText)findViewById(R.id.y1_input);
+        EditText x1input = (EditText)findViewById(R.id.x1_input);
+        EditText x2input = (EditText)findViewById(R.id.x2_input);
+
+        ViewGroup.LayoutParams paramsy2 = y2input.getLayoutParams();
+        ViewGroup.LayoutParams paramsy1 = y1input.getLayoutParams();
+        ViewGroup.LayoutParams paramsx2 = x2input.getLayoutParams();
+        ViewGroup.LayoutParams paramsx1 = x1input.getLayoutParams();
+
+        paramsy2.width = (int) (width/2.2);
+        paramsy1.width = (int) (width/2.2);
+        paramsx1.width = (int) (width/2.2);
+        paramsx2.width = (int) (width/2.2);
+
+
+        x1input.setLayoutParams(paramsx1);
+        x2input.setLayoutParams(paramsx2);
+        y1input.setLayoutParams(paramsy1);
+        y2input.setLayoutParams(paramsy2);
+
     }
 
     /*
@@ -225,5 +256,33 @@ public class SlopeCalculator extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    /**
+     * Event handler for closing keyboard when users touches outside an edittext
+     * @param event the touch event sent by the device
+     * @return true if outside the edittext, false otherwise
+     */
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+
+        View v = getCurrentFocus();
+        boolean ret = super.dispatchTouchEvent(event);
+
+        if (v instanceof EditText) {
+            View w = getCurrentFocus();
+            int scrcoords[] = new int[2];
+            w.getLocationOnScreen(scrcoords);
+            float x = event.getRawX() + w.getLeft() - scrcoords[0];
+            float y = event.getRawY() + w.getTop() - scrcoords[1];
+
+            Log.d("Activity", "Touch event "+event.getRawX()+","+event.getRawY()+" "+x+","+y+" rect "+w.getLeft()+","+w.getTop()+","+w.getRight()+","+w.getBottom()+" coords "+scrcoords[0]+","+scrcoords[1]);
+            if (event.getAction() == MotionEvent.ACTION_UP && (x < w.getLeft() || x >= w.getRight() || y < w.getTop() || y > w.getBottom()) ) {
+
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
+            }
+        }
+        return ret;
     }
 }

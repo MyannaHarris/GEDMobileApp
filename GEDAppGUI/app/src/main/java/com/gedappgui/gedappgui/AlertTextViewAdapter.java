@@ -103,6 +103,8 @@ public class AlertTextViewAdapter extends BaseAdapter {
             textView.setTextColor(ContextCompat.getColor(mContext, R.color.colorBodyText));
 
             textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
+
+            textView.setPadding(10, 8, 10, 8);
         } else {
             textView = (TextView) convertView;
             textView.setTextColor(ContextCompat.getColor(mContext, R.color.colorBodyText));

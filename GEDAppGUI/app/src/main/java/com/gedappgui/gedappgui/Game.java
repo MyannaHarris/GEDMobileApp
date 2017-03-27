@@ -30,6 +30,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ScrollView;
+
 import java.util.ArrayList;
 
 public class Game extends AppCompatActivity {
@@ -89,8 +90,15 @@ public class Game extends AppCompatActivity {
         //checks for which template to use, aka which kind of game
         if (dbHelper.selectGameTemplate(lessonID).equals("bucket_game")) {
 
-            // Get content for bucket game from database
-            ArrayList<ArrayList<String>> gameQuestions = dbHelper.selectBucketGameInput(lessonID);
+            ArrayList<ArrayList<String>> gameQuestions;
+
+            if (nextActivity == 1) {
+                // Get content for bucket game from database
+                gameQuestions = dbHelper.selectInfiniteBucketGameInput(lessonID);
+            } else {
+                // Get content for bucket game from database
+                gameQuestions = dbHelper.selectBucketGameInput(lessonID);
+            }
 
             // Create game object
             bucketGameView = new BucketGameView(this, width, height, gameQuestions,
@@ -100,31 +108,36 @@ public class Game extends AppCompatActivity {
             setContentView(bucketGameView);
         } else if (dbHelper.selectGameTemplate(lessonID).equals("match_game")) {
 
-            // Get content for matching game from database
-            ArrayList<ArrayList<String>> texts = dbHelper.selectMatchGameInput(lessonID);
+            ArrayList<ArrayList<String>> texts;
 
-            // Create list with answer ids
-            ArrayList<Integer> answers = new ArrayList<Integer>();
-            for(int i = 3; i <6; i++){
-                answers.add(i);
-            }
-            for(int j = 0; j<3; j++){
-                answers.add(j);
+            if (nextActivity == 1) {
+                // Get content for bucket game from database
+                texts = dbHelper.selectInfiniteMatchGameInput(lessonID);
+            } else {
+                // Get content for bucket game from database
+                texts = dbHelper.selectMatchGameInput(lessonID);
             }
 
             // Get reference to current activity
             Activity activity = (Activity)this;
 
             // Create game object
-            matchGameView = new MatchGameView(this, activity, texts, answers, conceptID,
+            matchGameView = new MatchGameView(this, activity, texts, conceptID,
                     lessonID, nextActivity, width, height);
 
             // Set the game as the view
             setContentView(matchGameView);
         } else if (dbHelper.selectGameTemplate(lessonID).equals("chemistry_game")) {
 
-            // Get content for chemistry game from database
-            ArrayList<ArrayList<String>> texts = dbHelper.selectChemistryGameInput(lessonID);
+            ArrayList<ArrayList<String>> texts;
+
+            if (nextActivity == 1) {
+                // Get content for bucket game from database
+                texts = dbHelper.selectInfiniteChemistryGameInput(lessonID);
+            } else {
+                // Get content for bucket game from database
+                texts = dbHelper.selectChemistryGameInput(lessonID);
+            }
 
             // Create game object
             chemistryGameView = new ChemistryGameView(this, texts, conceptID,
@@ -192,8 +205,15 @@ public class Game extends AppCompatActivity {
             setContentView(pictureGameView);
         } else if (dbHelper.selectGameTemplate(lessonID).equals("order_game")) {
 
-            // Get content for ordering game from database
-            ArrayList<ArrayList<String>> texts = dbHelper.selectOrderGameInput(lessonID);
+            ArrayList<ArrayList<String>> texts;
+
+            if (nextActivity == 1) {
+                // Get content for bucket game from database
+                texts = dbHelper.selectInfiniteOrderGameInput(lessonID);
+            } else {
+                // Get content for bucket game from database
+                texts = dbHelper.selectOrderGameInput(lessonID);
+            }
 
             // Create game object
             orderingGameView = new OrderingGameView(this, texts, conceptID,
