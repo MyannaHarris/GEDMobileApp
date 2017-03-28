@@ -23,10 +23,13 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class GameIntro extends AppCompatActivity {
@@ -76,6 +79,7 @@ public class GameIntro extends AppCompatActivity {
         TextView instructions = (TextView) findViewById(R.id.instructions);
         TextView introduction = (TextView) findViewById(R.id.welcome_message);
         TextView welcomeMessage = (TextView) findViewById(R.id.welcome);
+        TextView instructionLabel = (TextView) findViewById(R.id.instruction_label);
 
         //gets the game instructions strings from the db
         String intro = dbHelper.selectIntroduction(lessonID);
@@ -95,7 +99,22 @@ public class GameIntro extends AppCompatActivity {
         instructions.setText(instruct);
         welcomeMessage.setText(welcome);
         introduction.setText(intro);
+
+        // Get dimensions of screen to make text size
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int height = dm.heightPixels;
+
+        // Set dynamic size of text for instructions and button
+        instructions.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+        welcomeMessage.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/20));
+        introduction.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+        instructionLabel.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+
+        Button startButton = (Button) findViewById(R.id.play_button);
+        startButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
     }
+
 
     /**
      * Hides bottom navigation bar

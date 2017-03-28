@@ -25,10 +25,13 @@ import android.os.Build;
 import android.support.v4.content.IntentCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -55,8 +58,20 @@ public class Login extends AppCompatActivity {
         // Don't shoe the action bar with the ice cream menu
         getSupportActionBar().hide();
 
-        // Exits keyboard when user hits enter on it
+        // Get dimensions of screen to make text size
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int height = dm.heightPixels;
+
+        // Gets the edit text for the username
         EditText editText = (EditText) findViewById(R.id.username_editText);
+
+        // Set dynamic size of text for instructions and button
+        editText.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
+        Button loginButton = (Button) findViewById(R.id.login_button);
+        loginButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+
+        // Exits keyboard when user hits enter on it
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {

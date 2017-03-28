@@ -22,10 +22,14 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 public class GameEnd extends AppCompatActivity {
     //globals for current concept id, lesson id and redo id
@@ -58,6 +62,20 @@ public class GameEnd extends AppCompatActivity {
 
         // Get next_activity value from intent to decide next activity after game
         nextActivity = mIntent.getIntExtra("next_activity", 1);
+
+        // Get dimensions of screen to make text size
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int height = dm.heightPixels;
+
+        // Set dynamic size of text for instructions and button
+        TextView congrats = (TextView) findViewById(R.id.congratulations);
+        TextView accomplished = (TextView) findViewById(R.id.accomplished);
+        congrats.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/20));
+        accomplished.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+
+        Button startButton = (Button) findViewById(R.id.move_on);
+        startButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
     }
 
     /**
