@@ -27,6 +27,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.os.Vibrator;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MotionEventCompat;
 import android.text.Html;
@@ -39,6 +40,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.util.ArrayList;
+
+import static android.content.Context.VIBRATOR_SERVICE;
 
 public class BucketGameView extends SurfaceView implements Runnable  {
 
@@ -91,6 +94,9 @@ public class BucketGameView extends SurfaceView implements Runnable  {
     private ArrayList<ArrayList<String>> gameQuestions;
     private int currentQuestion = 0;
 
+    // For Haptic Feedback
+    private Vibrator myVib;
+
     // Screen info
     private Context context;
 
@@ -125,6 +131,9 @@ public class BucketGameView extends SurfaceView implements Runnable  {
 
         // Save context
         context = contextp;
+
+        // Set up vibrator service
+        myVib = (Vibrator) context.getSystemService(VIBRATOR_SERVICE);
 
         // gameQuestions has all the info for the game
         // 0 - texts
@@ -284,6 +293,9 @@ public class BucketGameView extends SurfaceView implements Runnable  {
 
             // If collision occurs with player
             if (Rect.intersects(bucket.getDetectCollision(), numbers[i].getDetectCollision())) {
+                // vibrate when collision
+                myVib.vibrate(100);
+
                 // Moving enemy outside the left edge
                 numbers[i].setX(-200);
 

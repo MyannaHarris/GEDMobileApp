@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -38,6 +39,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import static android.content.Context.VIBRATOR_SERVICE;
 
 public class MatchGameView extends LinearLayout{
 
@@ -95,6 +98,9 @@ public class MatchGameView extends LinearLayout{
     // Size of button to end
     private int endButtonSize = 0;
 
+    // For Haptic Feedback
+    private Vibrator myVib;
+
     /**
      * Constructor for game
      * @param contextp Context of the activity
@@ -118,6 +124,9 @@ public class MatchGameView extends LinearLayout{
         choice1TextView = new TextView(context);
         choice2TextView = new TextView(context);
         start = new TextView(context);
+
+        // Set up vibrator service
+        myVib = (Vibrator) context.getSystemService(VIBRATOR_SERVICE);
 
         // IDs for starting next intent after game
         conceptID = conceptIDp;
@@ -481,6 +490,7 @@ public class MatchGameView extends LinearLayout{
                                                 }
                                             }, 300);
                                         } else {
+                                            myVib.vibrate(100); // vibrate
                                             // Return BGs to normal if answer is wrong
 
                                             // Change background of card to reflect it is incorrect
@@ -701,6 +711,7 @@ public class MatchGameView extends LinearLayout{
                                                     }
                                                 }, 300);
                                             } else {
+                                                myVib.vibrate(100); // vibrate
                                                 // Return BGs to normal if answer is wrong
 
                                                 // Change background of card to reflect it is
