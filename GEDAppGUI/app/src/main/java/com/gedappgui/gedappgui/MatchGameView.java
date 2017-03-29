@@ -452,7 +452,7 @@ public class MatchGameView extends LinearLayout{
                                                                 }
 
                                                             } else {
-                                                                for (String text : texts.get(1)) {
+                                                                for (String text : texts.get(numRoundsDone)) {
                                                                     randomizedCards.add(text);
                                                                 }
                                                             }
@@ -673,7 +673,7 @@ public class MatchGameView extends LinearLayout{
                                                                     }
 
                                                                 } else {
-                                                                    for (String text : texts.get(1)) {
+                                                                    for (String text : texts.get(numRoundsDone)) {
                                                                         randomizedCards.add(text);
                                                                     }
                                                                 }
