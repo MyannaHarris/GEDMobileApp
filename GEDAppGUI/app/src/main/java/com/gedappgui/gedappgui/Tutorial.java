@@ -125,7 +125,7 @@ public class Tutorial extends AppCompatActivity {
         paramsforward.width = (width/4);
         paramsback.height = (height/8);
         paramsback.width = (width/4);
-//
+
         exitbtn.setLayoutParams(paramsexit);
         forwardbtn.setLayoutParams(paramsforward);
         backbtn.setLayoutParams(paramsback);
@@ -133,8 +133,8 @@ public class Tutorial extends AppCompatActivity {
         TextView prompt = (TextView)findViewById(R.id.prompt);
         prompt.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
 
-        /////// * Kristina: I was not sure if I should delete the following commented out code,
-        ///////             so I need Jimmy to look at it and decide
+        Button backer = (Button)findViewById(R.id.tutorial_back);
+        backer.setVisibility(View.GONE);
 
     }
 
@@ -151,12 +151,19 @@ public class Tutorial extends AppCompatActivity {
      * @param view current view
      */
     public void goBack(View view){
+        Button backer = (Button)findViewById(R.id.tutorial_back);
         if (current > 0) {
             TextView prompt = (TextView) findViewById(R.id.prompt);
             ImageView promptImg = (ImageView) findViewById(R.id.prompt_pic);
             current--;
             prompt.setText(prompts[current]);
             promptImg.setImageResource(tutorial_pics[current]);
+        }
+        if (current == 0){
+            backer.setVisibility(View.GONE);
+        }
+        else{
+            backer.setVisibility(View.VISIBLE);
         }
     }
 
@@ -174,6 +181,14 @@ public class Tutorial extends AppCompatActivity {
         }
         prompt.setText(prompts[current]);
         promptImg.setImageResource(tutorial_pics[current]);
+
+        Button backer = (Button)findViewById(R.id.tutorial_back);
+        if (current == 0){
+            backer.setVisibility(View.GONE);
+        }
+        else{
+            backer.setVisibility(View.VISIBLE);
+        }
     }
 
 

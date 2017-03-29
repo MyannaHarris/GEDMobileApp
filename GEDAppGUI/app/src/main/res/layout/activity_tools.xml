@@ -25,83 +25,87 @@ Last Edit: 10-29-16
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.gedappgui.gedappgui.Tools">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/fracdectool"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Fractions to Decimals"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:onClick="goTofracdectool"/>
+            android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/slopeCalculator"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Slope Calculator"
-            android:onClick="goToSlopeCalculator"
-            android:layout_below="@+id/fracdectool"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            <Button
+                android:id="@+id/fracdectool"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fractions to Decimals"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:onClick="goTofracdectool"/>
 
-        <Button
-            android:id="@+id/FormMem"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Formula Memorization"
-            android:layout_below="@id/slopeCalculator"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:onClick="goToFormulas" />
+            <Button
+                android:id="@+id/slopeCalculator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Slope Calculator"
+                android:onClick="goToSlopeCalculator"
+                android:layout_below="@+id/fracdectool"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
-        <Button
-            android:text="Geometry assist"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/geoassist"
-            android:layout_below="@+id/FormMem"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:onClick="goToGeoAssist"/>
+            <Button
+                android:id="@+id/FormMem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Formula Memorization"
+                android:layout_below="@id/slopeCalculator"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:onClick="goToFormulas" />
 
-        <Button
-            android:text="Place values"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/geoassist"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:id="@+id/placevalues"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:onClick="goToPlaceValues"/>
+            <Button
+                android:text="Geometry assist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/geoassist"
+                android:layout_below="@+id/FormMem"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:onClick="goToGeoAssist"/>
 
-        <Button
-            android:text="Links Directory"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/links"
-            android:onClick="goToLinks"/>
+            <Button
+                android:text="Place values"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/geoassist"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/placevalues"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:onClick="goToPlaceValues"/>
 
-        <Button
-            android:text="Tutorial"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/tutorial_button"
-            android:layout_below="@+id/placevalues"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:onClick="goToTutorial"/>
+            <Button
+                android:text="Links Directory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/links"
+                android:onClick="goToLinks"/>
 
-    </LinearLayout>
+            <Button
+                android:text="Tutorial"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tutorial_button"
+                android:layout_below="@+id/placevalues"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:onClick="goToTutorial"/>
+        </LinearLayout>
+    </ScrollView>
 
 
 </RelativeLayout>
