@@ -171,6 +171,18 @@ public class Play extends AppCompatActivity {
     }
 
     /**
+     * Listens for the back button on the bottom navigation bar
+     * Stops app from allowing the back button to do anything
+     */
+    @Override
+    public void onBackPressed() {
+        // Go to Home Screen
+        Intent intentHomePlay = new Intent(this, MainActivity.class);
+        intentHomePlay.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intentHomePlay);
+    }
+
+    /**
      * Sets what menu will be in the action bar
      * @param menu The options menu in which we place the items.
      * @return true

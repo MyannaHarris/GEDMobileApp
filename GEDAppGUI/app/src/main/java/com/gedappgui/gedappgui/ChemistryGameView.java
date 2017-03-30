@@ -25,6 +25,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -76,6 +78,9 @@ public class ChemistryGameView extends RelativeLayout {
 
     // Chosen child's text
     private String chosenChildStr;
+
+    // Currently filled in question text
+    private String currQuestionText;
 
     // Screen size for calulating sizes
     private int height;
@@ -382,7 +387,7 @@ public class ChemistryGameView extends RelativeLayout {
                                         }
 
                                         // Save the chosen answer's text
-                                        chosenChildStr = child.getText().toString();
+                                        chosenChildStr = child.getTag().toString();
                                         // Begin dragging
                                         draggingAnswer = true;
                                     }
@@ -422,14 +427,16 @@ public class ChemistryGameView extends RelativeLayout {
                                     doneTextViews.add(chosenChildIdx);
 
                                     // Writes caught answer to question at the top
-                                    String newText = (String) cauldron.getText();
-                                    if (newText.contains("_")) {
-                                        newText = newText.replaceFirst("[_]", chosenChildStr);
-                                        if (newText.length() > 20) {
+                                    if (currQuestionText.contains("_")) {
+                                        currQuestionText = currQuestionText.replaceFirst("[_]", chosenChildStr);
+                                        if (currQuestionText.length() > 25) {
                                             cauldron.setTextSize(
-                                                    convertPixelsToDp(height / 20, context));
+                                                    convertPixelsToDp(height / 25, context));
+                                        } else if (currQuestionText.length() > 17) {
+                                                cauldron.setTextSize(
+                                                        convertPixelsToDp(height / 20, context));
                                         }
-                                        cauldron.setText(newText);
+                                        cauldron.setText(toHTML(currQuestionText));
                                     }
 
                                     numCorrectAnswers += 1;
@@ -472,7 +479,8 @@ public class ChemistryGameView extends RelativeLayout {
                                             cauldron.setTextColor(ContextCompat.getColor(context, R.color.chemistryGameText));
 
                                             // Reset question
-                                            cauldron.setText(questionTexts.get(0));
+                                            cauldron.setText(toHTML(questionTexts.get(0)));
+                                            currQuestionText = questionTexts.get(0);
 
                                             // Reset answers
                                             answerTexts.clear();
@@ -581,22 +589,57 @@ public class ChemistryGameView extends RelativeLayout {
             doneTextViews.clear();
 
             // Set question text
-            cauldron.setText(questionTexts.get(0));
+            cauldron.setText(toHTML(questionTexts.get(0)));
+            currQuestionText = questionTexts.get(0);
             // Set text size based on how long the question is
-            if (questionTexts.get(0).length() < 20) {
-                cauldron.setTextSize(convertPixelsToDp(height / 17, context));
-            } else {
+            if (questionTexts.get(0).length() > 25) {
+                cauldron.setTextSize(convertPixelsToDp(height / 25, context));
+            } else if (questionTexts.get(0).length() > 17) {
                 cauldron.setTextSize(convertPixelsToDp(height / 20, context));
+            } else {
+                cauldron.setTextSize(convertPixelsToDp(height / 17, context));
             }
 
             // Set answer texts and potion images
-            answer1.setText(questionTexts.get(1));
+            answer1.setText(toHTML(questionTexts.get(1)));
+            answer1.setTag(questionTexts.get(1));
+            if (questionTexts.get(1).length() > 25) {
+                answer1.setTextSize(convertPixelsToDp(height / 25, context));
+            } else if (questionTexts.get(1).length() > 17) {
+                answer1.setTextSize(convertPixelsToDp(height / 20, context));
+            } else {
+                answer1.setTextSize(convertPixelsToDp(height / 17, context));
+            }
             answer1.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.chem_potion1, 0, 0);
-            answer2.setText(questionTexts.get(2));
+            answer2.setText(toHTML(questionTexts.get(2)));
+            answer2.setTag(questionTexts.get(2));
+            if (questionTexts.get(2).length() > 25) {
+                answer2.setTextSize(convertPixelsToDp(height / 25, context));
+            } else if (questionTexts.get(2).length() > 17) {
+                answer2.setTextSize(convertPixelsToDp(height / 20, context));
+            } else {
+                answer2.setTextSize(convertPixelsToDp(height / 17, context));
+            }
             answer2.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.chem_potion2, 0, 0);
-            answer3.setText(questionTexts.get(3));
+            answer3.setText(toHTML(questionTexts.get(3)));
+            answer3.setTag(questionTexts.get(3));
+            if (questionTexts.get(3).length() > 25) {
+                answer3.setTextSize(convertPixelsToDp(height / 25, context));
+            } else if (questionTexts.get(3).length() > 17) {
+                answer3.setTextSize(convertPixelsToDp(height / 20, context));
+            } else {
+                answer3.setTextSize(convertPixelsToDp(height / 17, context));
+            }
             answer3.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.chem_potion3, 0, 0);
-            answer4.setText(questionTexts.get(4));
+            answer4.setText(toHTML(questionTexts.get(4)));
+            answer4.setTag(questionTexts.get(4));
+            if (questionTexts.get(4).length() > 25) {
+                answer4.setTextSize(convertPixelsToDp(height / 25, context));
+            } else if (questionTexts.get(4).length() > 17) {
+                answer4.setTextSize(convertPixelsToDp(height / 20, context));
+            } else {
+                answer4.setTextSize(convertPixelsToDp(height / 17, context));
+            }
             answer4.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.chem_potion4, 0, 0);
         } else {
             // End the game if all questions have been answered correctly
@@ -626,6 +669,21 @@ public class ChemistryGameView extends RelativeLayout {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         float dp = px / (metrics.densityDpi / 160f);
         return dp;
+
+    }
+
+    /**
+     * Converts database strings to HTML to support superscripts
+     * @param input the string to be converted
+     * @return Spanned object to be passed into the setText method
+     */
+    public Spanned toHTML(String input) {
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            return Html.fromHtml(input,Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            return Html.fromHtml(input);
+        }
 
     }
 }

@@ -114,6 +114,9 @@ public class BucketGameView extends SurfaceView implements Runnable  {
     // End endless play button size
     private int endButtonSize = 0;
 
+    // Count for taps (after 2 taps, arrows disappear)
+    private int taps = 0;
+
     /**
      * Constructor for game
      * @param contextp Context of the activity
@@ -157,6 +160,9 @@ public class BucketGameView extends SurfaceView implements Runnable  {
 
         // Save the question
         question = answersStr.get(0);
+        if (lessonID == 3) {
+            question = question.replaceAll("[_]", "?");
+        }
         answersStr.remove(0);
 
         // Save the answers list
@@ -278,7 +284,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                             int kSpeed = numbers[k].getSpeed();
                             int changeY = (height) / (17 * 6);
 
-                            if (iSpeed > changeY * 0.5) {
+                            if (iSpeed > changeY * 0.6) {
                                 numbers[i].setSpeed((int)(iSpeed - (changeY * 0.2)));
                             }
 
@@ -308,15 +314,23 @@ public class BucketGameView extends SurfaceView implements Runnable  {
 
                     // Writes caught answer to question at the top
                     if(question.contains("_")) {
-                        question = question.replaceFirst("[_]", numbers[i].getText());
+                        if (numbers[i].getText().contains("-")) {
+                            question = question.replaceFirst("[_]", "(" + numbers[i].getText() + ")");
+                        } else {
+                            question = question.replaceFirst("[_]", numbers[i].getText());
+                        }
                         correctAnswer = true;
-                    }
-                    else if(lessonID == 8){
+                    } else if (lessonID == 3) {
+                        if (numbers[i].getText().contains("-")) {
+                            question = question.replaceFirst("[?]", "(" + numbers[i].getText() + ")");
+                        } else {
+                            question = question.replaceFirst("[?]", numbers[i].getText());
+                        }
+                    } else if(lessonID == 8){
                         // This lesson does not have items to replace
                         //      as it is summing things in the question
                         correctAnswer = true;
-                    }
-                    else{
+                    } else{
                         question = question.replaceAll("[x]", "("+numbers[i].getText()+")");
                         correctAnswer = true;
                     }
@@ -358,6 +372,9 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                         // Get next question information
                         numberCount = texts.size(); // Number of falling numbers
                         question = answersStr.get(0); // Question to put at top
+                        if (lessonID == 3) {
+                            question = question.replaceAll("[_]", "?");
+                        }
                         answersStr.remove(0); // Remove question from list
                         answers = answersStr; // Save all of the answers in a global list
                         numAnswers = answers.size(); // Number of answers for the question
@@ -545,6 +562,22 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                 }
             }
 
+            // Draw arrows to show how to move bucket before game starts
+            if (taps < 2) {
+                Paint arrowPaint = new Paint();
+                arrowPaint.setTextSize((float)height / 10);
+
+                canvas.drawText("<",
+                        bucket.getX() - width / 8 - (int) arrowPaint.measureText("<"),
+                        bucket.getY() + bucket.getBitmap().getWidth() / 2,
+                        arrowPaint);
+
+                canvas.drawText(">",
+                        bucket.getX() + width / 8 + bucket.getBitmap().getWidth(),
+                        bucket.getY() + bucket.getBitmap().getWidth() / 2,
+                        arrowPaint);
+            }
+
             // Drawing the player (bucket)
             canvas.drawBitmap(
                     bucket.getBitmap(),
@@ -635,6 +668,11 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                 }
                 break;
             case MotionEvent.ACTION_DOWN:
+                // Count taps for showing arrows
+                if (taps < 2) {
+                    taps++;
+                }
+
                 // Move bucket
                 bucket.startMoveBucket((int)motionEvent.getX());
                 break;
