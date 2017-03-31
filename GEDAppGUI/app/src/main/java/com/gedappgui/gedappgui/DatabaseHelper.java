@@ -1232,8 +1232,8 @@ public class DatabaseHelper{
         for (int i = 0; i < 2; i++) {
             int randIdx = ( int )(Math.random() * (20-i));
             splitUp = new ArrayList<String>(Arrays.asList(options[randIdx].split("[#]")));
-            randQAndAs.add(new ArrayList<String>(splitUp.subList(0,5)));
-            randQAndAs.add(new ArrayList<String>(splitUp.subList(5,10)));
+            randQAndAs.add(new ArrayList<String>(splitUp.subList(0,4)));
+            randQAndAs.add(new ArrayList<String>(splitUp.subList(4,8)));
         }
         return randQAndAs;
     }
@@ -1262,8 +1262,8 @@ public class DatabaseHelper{
         // Get five unique random questions
         for (int i = 0; i < 20; i++) {
             splitUp = new ArrayList<String>(Arrays.asList(options[i].split("[#]")));
-            QAndAs.add(new ArrayList<String>(splitUp.subList(0,5)));
-            QAndAs.add(new ArrayList<String>(splitUp.subList(5,10)));
+            QAndAs.add(new ArrayList<String>(splitUp.subList(0,4)));
+            QAndAs.add(new ArrayList<String>(splitUp.subList(4,8)));
         }
         return QAndAs;
     }
