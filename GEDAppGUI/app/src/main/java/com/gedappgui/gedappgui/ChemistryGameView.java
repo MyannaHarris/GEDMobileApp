@@ -416,7 +416,6 @@ public class ChemistryGameView extends RelativeLayout {
 
                                 // Check if the answer is correct
                                 if (answerTexts.contains(chosenChildStr)) {
-                                    movePotion = false;
 
                                     // Remove answer string if correct so it wont be
                                     //      recognized as an answer again
@@ -446,15 +445,12 @@ public class ChemistryGameView extends RelativeLayout {
                                         // Pause
                                         new Handler().postDelayed(new Runnable() {
                                             public void run() {
-                                                movePotion = false;
 
                                                 cauldron.setTextColor(ContextCompat.getColor(context, R.color.chemistryGameCorrect));
                                                 cauldron.setText("Correct");
-                                                movePotion = false;
 
                                                 new Handler().postDelayed(new Runnable() {
                                                     public void run() {
-                                                        movePotion = false;
                                                         cauldron.setTextColor(ContextCompat.getColor(context, R.color.chemistryGameText));
                                                         // Start next question
                                                         currQuestion += 1;
@@ -465,8 +461,6 @@ public class ChemistryGameView extends RelativeLayout {
                                             }
                                         }, 800);
                                     }
-
-                                    movePotion = true;
                                 } else {
 
                                     cauldron.setTextColor(ContextCompat.getColor(context, R.color.chemistryGameIncorrect));
