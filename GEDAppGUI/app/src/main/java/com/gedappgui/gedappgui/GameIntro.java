@@ -101,8 +101,8 @@ public class GameIntro extends AppCompatActivity {
         //creates the imageviews for the game instructions
         ImageView instructionImage1 = new ImageView(this);
         ImageView instructionImage2 = new ImageView(this);
-        instructionImage1.setId(R.id.instruct1);
-        instructionImage2.setId(R.id.instruct2);
+        //instructionImage1.setId(R.id.instruct1);
+        //instructionImage2.setId(R.id.instruct2);
 
         //gets the game instructions strings from the db
         String intro = dbHelper.selectIntroduction(lessonID);

@@ -82,6 +82,9 @@ public class OrderingGameView extends LinearLayout {
     // Size of button to end
     private int endButtonSize = 0;
 
+    // List of textviews that are locked in
+    private ArrayList<Integer> lockedTextViews;
+
     public OrderingGameView(Context contextp, ArrayList<ArrayList<String>> textsp,
                             int conceptIDp, int lessonIDp, final int nextActivityp,
                             int width, int heightp) {
@@ -103,6 +106,9 @@ public class OrderingGameView extends LinearLayout {
         // Set up text views so no null exception happens
         lastTextView = new TextView(context);
         dragTextView = new TextView(context);
+
+        // Set up list of textviews that are locked in
+        lockedTextViews = new ArrayList<Integer>();
 
         // Set background color of page
         this.setBackgroundColor(ContextCompat.getColor(context, R.color.orderingGameBG));
@@ -192,7 +198,8 @@ public class OrderingGameView extends LinearLayout {
                         for (int i=start; i<getChildCount() - 1; i++){
                             TextView child = (TextView) linearLayout.getChildAt(i);
                             if(x > child.getLeft() && x < child.getRight() &&
-                                    y > child.getTop() && y < child.getBottom()){
+                                    y > child.getTop() && y < child.getBottom() &&
+                                    !lockedTextViews.contains(i)){
 
                                 // Touch is within this child
                                 // Set up dragging textviews text and start dragging
@@ -226,7 +233,8 @@ public class OrderingGameView extends LinearLayout {
                             for (int i = start; i < getChildCount() - 2; i++) {
                                 TextView child = (TextView) linearLayout.getChildAt(i);
                                 if (x > child.getLeft() && x < child.getRight() &&
-                                        y > child.getTop() && y < child.getBottom()) {
+                                        y > child.getTop() && y < child.getBottom() &&
+                                        !lockedTextViews.contains(i)) {
 
                                     // Touch is within this child
                                     // Swap texts in textviews that user is passing
@@ -250,24 +258,43 @@ public class OrderingGameView extends LinearLayout {
                                 if (x > child.getLeft() && x < child.getRight() &&
                                         y > child.getTop() && y < child.getBottom()) {
 
-                                    if (i == 0) {
-                                        if (nextActivity == 1) {
-                                            child = (TextView) linearLayout.getChildAt(2);
-                                        } else {
-                                            child = (TextView) linearLayout.getChildAt(1);
-                                        }
-                                    } else if (nextActivity == 1 && i == 1) {
-                                        child = (TextView) linearLayout.getChildAt(2);
-                                    } else if (i > getChildCount() - 3) {
-                                        child = (TextView) linearLayout.getChildAt(getChildCount() - 3);
-                                    }
+                                    if (!lockedTextViews.contains(i)) {
 
-                                    // Touch is within this child
-                                    // Set new textview values to reflect change in order
-                                    lastTextView.setText(child.getText());
-                                    lastTextView.setTag(child.getTag());
-                                    child.setText(dragTextView.getText());
-                                    child.setTag(dragTextView.getTag());
+                                        int chosenI = 0;
+
+                                        if (i == 0) {
+                                            if (nextActivity == 1) {
+                                                child = (TextView) linearLayout.getChildAt(2);
+                                                chosenI = 2;
+                                            } else {
+                                                child = (TextView) linearLayout.getChildAt(1);
+                                                chosenI = 1;
+                                            }
+                                        } else if (nextActivity == 1 && i == 1) {
+                                            child = (TextView) linearLayout.getChildAt(2);
+                                            chosenI = 2;
+                                        } else if (i > getChildCount() - 3) {
+                                            child = (TextView) linearLayout.getChildAt(getChildCount() - 3);
+                                            chosenI = getChildCount() - 3;
+                                        }
+
+                                        if (lockedTextViews.contains(chosenI)) {
+                                            lastTextView.setText(dragTextView.getText());
+                                            lastTextView.setTag(dragTextView.getTag());
+                                        } else {
+
+                                            // Touch is within this child
+                                            // Set new textview values to reflect change in order
+                                            lastTextView.setText(child.getText());
+                                            lastTextView.setTag(child.getTag());
+                                            child.setText(dragTextView.getText());
+                                            child.setTag(dragTextView.getTag());
+                                        }
+
+                                    } else {
+                                        lastTextView.setText(dragTextView.getText());
+                                        lastTextView.setTag(dragTextView.getTag());
+                                    }
 
                                     inTextView = true;
                                 }
@@ -289,6 +316,10 @@ public class OrderingGameView extends LinearLayout {
                                 TextView child = (TextView) linearLayout.getChildAt(i);
                                 if (!((String) child.getTag().toString()).equals(answerTexts.get(i - start))) {
                                     questionDone = false;
+                                } else {
+                                    lockedTextViews.add(i);
+                                    child.setTextColor(ContextCompat.getColor(context,
+                                            R.color.orderingGameLockedColor));
                                 }
                             }
 
@@ -326,6 +357,9 @@ public class OrderingGameView extends LinearLayout {
             if (nextActivity == 1 && currQuestion * 2 >= texts.size()) {
                 currQuestion = 0;
             }
+
+            // Clear locked textviews for next round
+            lockedTextViews.clear();
 
             // If there are more questions left
 
