@@ -12,7 +12,7 @@
  * Jimmy Sherman
  * Kristina Spring
  *
- * Last Edit: 3-20-17
+ * Last Edit: 3-31-17
  *
  */
 
@@ -398,6 +398,58 @@ public class DatabaseHelper{
         close();
 
         return lessonName;
+    }
+
+    /**
+     * Return true or false depending on whether the game intro for a specific
+     * lesson has images in the database
+     * @param lesson_id the id of the lesson who's name you want to select
+     * @return true or false whether the gameintro has pictures or not
+     */
+    public boolean gameIntroHasImages(int lesson_id){
+        open();
+
+        ArrayList<String> images = new ArrayList<>();
+        Cursor c = myDatabase.rawQuery("SELECT lesson_name FROM lessons WHERE lesson_id = " + lesson_id, null);
+
+        c.moveToFirst();
+
+        close();
+
+        if(c==null){
+            c.close();
+            return false;
+        }
+
+        c.close();
+        return true;
+    }
+    /**
+     * Query that selects the pictures of the given lessons game intro page
+     * @param lesson_id the id of the lesson who's name you want to select
+     * @return an arraylist of the names of game intro images
+     */
+    public ArrayList<String> selectGameIntroPics(int lesson_id){
+        open();
+
+        ArrayList<String> images = new ArrayList<>();
+        Cursor c = myDatabase.rawQuery("SELECT game_intro_image FROM lessons WHERE lesson_id = " + lesson_id, null);
+
+        c.moveToFirst();
+        String input = c.getString(0);
+        String[] imagesA = input.split("[,]");
+        System.out.println(input);
+
+
+        for(int i = 0; i<imagesA.length; i++){
+            System.out.println(imagesA[i]);
+            images.add(imagesA[i]);
+        }
+
+        c.close();
+        close();
+
+        return images;
     }
 
     /**

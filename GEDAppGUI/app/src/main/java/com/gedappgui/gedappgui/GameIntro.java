@@ -12,25 +12,37 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 2-6-17
+ * Last Edit: 3-31-17
  *
  */
 
 package com.gedappgui.gedappgui;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayout;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 
 public class GameIntro extends AppCompatActivity {
     //globals for current concept id, lesson id and redo id
@@ -38,6 +50,8 @@ public class GameIntro extends AppCompatActivity {
     private int lessonID;
     private int redo;
 
+    RelativeLayout layout;
+    GridLayout grid;
     // int to hold whether to go to questions or play next
     // 0 = questions, 1 = play
     private int nextActivity;
@@ -75,17 +89,27 @@ public class GameIntro extends AppCompatActivity {
         // Database to get game instructions
         dbHelper = new DatabaseHelper(this);
 
+        layout = (RelativeLayout) findViewById(R.id.gameIntro);
+        grid = (GridLayout) findViewById(R.id.gameIntro_gridView);
+
         //gets the game instructions views
         TextView instructions = (TextView) findViewById(R.id.instructions);
         TextView introduction = (TextView) findViewById(R.id.welcome_message);
         TextView welcomeMessage = (TextView) findViewById(R.id.welcome);
         TextView instructionLabel = (TextView) findViewById(R.id.instruction_label);
 
+        //creates the imageviews for the game instructions
+        ImageView instructionImage1 = new ImageView(this);
+        ImageView instructionImage2 = new ImageView(this);
+        instructionImage1.setId(R.id.instruct1);
+        instructionImage2.setId(R.id.instruct2);
+
         //gets the game instructions strings from the db
         String intro = dbHelper.selectIntroduction(lessonID);
         String instruct = dbHelper.selectInstructions(lessonID);
         String name = dbHelper.selectLessonTitle(lessonID);
         String welcome = "";
+
 
         //check for first lesson, special case
         if(lessonID == 1){
@@ -104,6 +128,7 @@ public class GameIntro extends AppCompatActivity {
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int height = dm.heightPixels;
+        int width = dm.widthPixels;
 
         // Set dynamic size of text for instructions and button
         instructions.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
@@ -111,10 +136,77 @@ public class GameIntro extends AppCompatActivity {
         introduction.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
         instructionLabel.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
 
+        //checks to see if there are images for the game instructions
+        if(dbHelper.gameIntroHasImages(lessonID)) {
+            //if there are instruction images, add the first one into the grid
+            ArrayList<String> pics = dbHelper.selectGameIntroPics(lessonID);
+            float newWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, (float)(width/2.25), getResources().getDisplayMetrics());
+            float newHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, (float)(height/2.25), getResources().getDisplayMetrics());
+            int viewGravity = Gravity.FILL_HORIZONTAL | Gravity.CENTER_VERTICAL;
+
+            Bitmap image1 = getFromAssets(pics.get(0));
+            instructionImage1.setImageBitmap(image1);
+
+            GridLayout.Spec col1 = GridLayout.spec(0, 1);
+            GridLayout.LayoutParams gridLayoutParam1 = new GridLayout.LayoutParams(GridLayout.spec(0, 1), col1);
+            gridLayoutParam1.setMargins(20, 0, 20, 0);
+
+            gridLayoutParam1.setGravity(viewGravity);
+            grid.addView(instructionImage1, gridLayoutParam1);
+
+            //if there are to images, add the second to the grid
+            if(pics.size() == 2) {
+                Bitmap image2 = getFromAssets(pics.get(1));
+                instructionImage2.setImageBitmap(image2);
+
+                GridLayout.Spec col2 = GridLayout.spec(1, 1);
+                GridLayout.LayoutParams gridLayoutParam2 = new GridLayout.LayoutParams(GridLayout.spec(0, 1), col2);
+                gridLayoutParam2.setMargins(20, 0, 20, 0);
+
+                gridLayoutParam2.setGravity(viewGravity);
+                grid.addView(instructionImage2, gridLayoutParam2);
+
+                //set the max width and height for the images
+                instructionImage2.setMaxWidth((int)newWidth);
+                instructionImage2.setMaxHeight((int)newHeight);
+                instructionImage2.setAdjustViewBounds(true);
+                instructionImage2.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            }
+
+            //set the max width and height for the images
+            instructionImage1.setMaxWidth((int)newWidth);
+            instructionImage1.setMaxHeight((int)newHeight);
+            instructionImage1.setAdjustViewBounds(true);
+            instructionImage1.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        }
+
         Button startButton = (Button) findViewById(R.id.play_button);
         startButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
     }
 
+    /**
+     * Returns a bitmap of the image with the given name found in the assets folder
+     * @param imgName the name of the image you want
+     * @return the bitmap from assets
+     *
+     * modified Myanna's code from LessonSteps
+     */
+    private Bitmap getFromAssets(String imgName)
+    {
+        AssetManager assetManager = getAssets();
+        InputStream in = null;
+
+        //tries to find the given filename in assets
+        try {
+            in = assetManager.open("game_instruction_pics/" + imgName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //creates a bitmap from the file got from assets
+        Bitmap bitmap = BitmapFactory.decodeStream(in);
+        return bitmap;
+    }
 
     /**
      * Hides bottom navigation bar
