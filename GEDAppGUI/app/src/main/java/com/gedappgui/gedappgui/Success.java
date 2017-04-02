@@ -20,12 +20,17 @@
 
 package com.gedappgui.gedappgui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.media.AudioAttributes;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayout;
@@ -75,6 +80,38 @@ public class Success extends AppCompatActivity {
         redo = mIntent.getIntExtra("redoComplete", 0);
         int totalCorrect = mIntent.getIntExtra("totalCorrect", 0);
         int totalQuestions = mIntent.getIntExtra("totalQuestions", 0);
+
+        /*// Set up and play victorious sound
+        final SoundPool mSoundPool;
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            AudioAttributes aa = new AudioAttributes.Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .build();
+            mSoundPool = new SoundPool.Builder()
+                    .setAudioAttributes(aa)
+                    .build();
+        } else {
+            mSoundPool = new SoundPool(1,AudioManager.STREAM_MUSIC, 0);
+        }
+        AudioManager mAudioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+        int explodeId = mSoundPool.load(this, R.raw.short_success, 1);
+
+        final float streamVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
+                / mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        mSoundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener()
+        {
+            @Override
+            public void onLoadComplete(SoundPool mSoundPool, int songId,
+                                       int status) {
+                mSoundPool.play(songId, streamVolume, streamVolume, 1, 0, 0.99f);
+            }
+        });*/
+
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.long_success);
+        mediaPlayer.start();
+
+
 
         // Get screen dimensions
         DisplayMetrics dm = new DisplayMetrics();

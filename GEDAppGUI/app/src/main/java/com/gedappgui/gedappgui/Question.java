@@ -23,6 +23,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -75,6 +76,9 @@ public class Question extends AppCompatActivity {
     ArrayList<Path> pathList;
     private Path path;
 
+    // for playing sound
+    MediaPlayer mediaPlayer;
+
     /**
      * Starts the activity and shows corresponding view on screen
      * @param savedInstanceState If the activity is being re-initialized after previously being
@@ -85,6 +89,9 @@ public class Question extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
+
+        // set up sound
+        mediaPlayer = MediaPlayer.create(this, R.raw.short_success);
 
         Intent mIntent = getIntent();
         conceptID = mIntent.getIntExtra("conceptID", 0);
@@ -330,6 +337,8 @@ public class Question extends AppCompatActivity {
 
             // Check if answer is correct
             if (selectedString.equals(correctAnswerStr)) {
+
+                mediaPlayer.start();
                 correctAnswers += 1;
                 totalCorrect += 1;
                 ((RadioButton) radioGroup.getChildAt(selectedAnswer-1)).setTextColor(
