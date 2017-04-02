@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_ngzlinks"
     android:layout_width="match_parent"
@@ -16,7 +16,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:text="Click on a link below!"
+            android:text="Next Gen Zone Links"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView"
@@ -26,13 +26,22 @@
             android:textColor="@color/colorHeader1"/>
 
         <TextView
+            android:text="@string/ngzlinks_explanation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/explanation_link"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:padding="10dp" />
+
+        <TextView
             android:text="@string/Home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/home_link"
             android:gravity="center"
             android:textSize="20sp"
-            android:padding="20dp" />
+            android:padding="10dp" />
 
         <TextView
             android:text="@string/Passport"
@@ -41,7 +50,7 @@
             android:id="@+id/passport"
             android:gravity="center"
             android:textSize="20sp"
-            android:padding="20dp" />
+            android:padding="10dp" />
 
         <TextView
             android:text="@string/Information"
@@ -50,7 +59,7 @@
             android:id="@+id/information"
             android:gravity="center"
             android:textSize="20sp"
-            android:padding="20dp" />
+            android:padding="10dp" />
 
         <TextView
             android:text="@string/Who"
@@ -58,7 +67,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/who"
             android:textSize="20sp"
-            android:padding="20dp"
+            android:padding="10dp"
             android:gravity="center"/>
 
         <TextView
@@ -67,7 +76,16 @@
             android:layout_height="wrap_content"
             android:id="@+id/Job"
             android:textSize="20sp"
-            android:padding="20dp"
+            android:padding="10dp"
+            android:gravity="center"/>
+
+        <TextView
+            android:text="@string/Resources"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/Resources"
+            android:textSize="20sp"
+            android:padding="10dp"
             android:gravity="center"/>
     </LinearLayout>
-</RelativeLayout>
+</ScrollView>
