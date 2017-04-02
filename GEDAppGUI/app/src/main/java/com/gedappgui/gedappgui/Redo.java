@@ -32,6 +32,7 @@ public class Redo extends AppCompatActivity {
 
     private int lessonID;
     private int conceptID;
+    private int totalRetries;
 
     /**
      * Starts the activity and shows corresponding view on screen
@@ -51,6 +52,19 @@ public class Redo extends AppCompatActivity {
         Intent mIntent = getIntent();
         conceptID = mIntent.getIntExtra("conceptID", 0);
         lessonID = mIntent.getIntExtra("lessonID", 0);
+        totalRetries = mIntent.getIntExtra("totalRetries", 0) + 1;
+
+        // if on Redo for the third time, send them back to lesson summary
+        if (totalRetries > 2) {
+            DatabaseHelper dbHelper = new DatabaseHelper(this);
+            final String lessonTitle = dbHelper.selectLessonTitle(lessonID);
+            Intent intent = new Intent(this, LessonSummary.class);
+            intent.putExtra("conceptID",conceptID);
+            intent.putExtra("lessonID",lessonID);
+            intent.putExtra("lessonTitle", lessonTitle);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
     }
 
     /*
@@ -152,6 +166,7 @@ public class Redo extends AppCompatActivity {
         Intent intent = new Intent(this, RedoExample.class);
         intent.putExtra("lessonID", lessonID);
         intent.putExtra("conceptID", conceptID);
+        intent.putExtra("totalRetries",totalRetries);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }

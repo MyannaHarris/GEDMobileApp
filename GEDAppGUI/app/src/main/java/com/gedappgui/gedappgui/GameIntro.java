@@ -49,6 +49,7 @@ public class GameIntro extends AppCompatActivity {
     private int conceptID;
     private int lessonID;
     private int redo;
+    private int totalRetries;
 
     RelativeLayout layout;
     GridLayout grid;
@@ -75,6 +76,7 @@ public class GameIntro extends AppCompatActivity {
         Intent mIntent = getIntent();
         conceptID = mIntent.getIntExtra("conceptID", 0);
         lessonID = mIntent.getIntExtra("lessonID", 0);
+        totalRetries = mIntent.getIntExtra("totalRetries", 0);
         redo = mIntent.getIntExtra("redoComplete", 0);
 
         // Allow homeAsUpIndicator (back arrow) to display on action bar
@@ -259,6 +261,7 @@ public class GameIntro extends AppCompatActivity {
         intent.putExtra("conceptID",conceptID);
         intent.putExtra("lessonID",lessonID);
         intent.putExtra("redoComplete", redo);
+        intent.putExtra("totalRetries",totalRetries);
         startActivity(intent);
     }
 

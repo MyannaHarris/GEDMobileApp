@@ -36,6 +36,7 @@ public class GameEnd extends AppCompatActivity {
     private int conceptID;
     private int lessonID;
     private int redo;
+    private int totalRetries;
 
     // int to hold whether to go to questions or play next
     // 0 = questions, 1 = play
@@ -56,6 +57,7 @@ public class GameEnd extends AppCompatActivity {
         conceptID = mIntent.getIntExtra("conceptID", 0);
         lessonID = mIntent.getIntExtra("lessonID", 0);
         redo = mIntent.getIntExtra("redoComplete", 0);
+        totalRetries = mIntent.getIntExtra("totalRetries", 0);
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -187,6 +189,7 @@ public class GameEnd extends AppCompatActivity {
             intent.putExtra("conceptID",conceptID);
             intent.putExtra("lessonID",lessonID);
             intent.putExtra("redoComplete", redo);
+            intent.putExtra("totalRetries",totalRetries);
             startActivity(intent);
         }
     }

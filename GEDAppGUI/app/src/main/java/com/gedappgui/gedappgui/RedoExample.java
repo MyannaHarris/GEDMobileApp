@@ -35,6 +35,7 @@ public class RedoExample extends AppCompatActivity {
 
     private int lessonID;
     private int conceptID;
+    private int totalRetries;
 
     /**
      * Starts the activity and shows corresponding view on screen
@@ -54,6 +55,7 @@ public class RedoExample extends AppCompatActivity {
         Intent mIntent = getIntent();
         conceptID = mIntent.getIntExtra("conceptID", 0);
         lessonID = mIntent.getIntExtra("lessonID", 0);
+        totalRetries = mIntent.getIntExtra("totalRetries", 0);
         DatabaseHelper db = new DatabaseHelper(this);
         setRedos(db, lessonID);
     }
@@ -178,6 +180,7 @@ public class RedoExample extends AppCompatActivity {
         intent.putExtra("next_activity", 0);
         intent.putExtra("gameName", "");
         intent.putExtra("redoComplete", 1);
+        intent.putExtra("totalRetries",totalRetries);
         startActivity(intent);
     }
 
@@ -191,6 +194,7 @@ public class RedoExample extends AppCompatActivity {
         intent.putExtra("conceptID",conceptID);
         intent.putExtra("lessonID",lessonID);
         intent.putExtra("redoComplete", 1);
+        intent.putExtra("totalRetries",totalRetries);
         startActivity(intent);
     }
 }

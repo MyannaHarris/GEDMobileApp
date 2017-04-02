@@ -57,6 +57,7 @@ public class Question extends AppCompatActivity {
     private int totalCorrect = 0;
     private String correctAnswerStr = "";
     private int correctAnswerIdx = 0;
+    private int totalRetries = 0;
 
     private int lessonID = 1;
     private int conceptID;
@@ -96,6 +97,7 @@ public class Question extends AppCompatActivity {
         Intent mIntent = getIntent();
         conceptID = mIntent.getIntExtra("conceptID", 0);
         lessonID = mIntent.getIntExtra("lessonID", 0);
+        totalRetries = mIntent.getIntExtra("totalRetries", 0);
         redo = mIntent.getIntExtra("redoComplete", 0);
 
         // Create buttons of dynamic size
@@ -372,6 +374,7 @@ public class Question extends AppCompatActivity {
                     Intent intent = new Intent(this, Redo.class);
                     intent.putExtra("conceptID",conceptID);
                     intent.putExtra("lessonID",lessonID);
+                    intent.putExtra("totalRetries",totalRetries);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }
@@ -399,6 +402,17 @@ public class Question extends AppCompatActivity {
                     incorrectAnswers = 0;
                     correctAnswers = 0;
                 }
+            }
+
+            // If user has answered twenty questions and still hasn't passed the lesson, send them
+            //      to Redo page
+            if (numQuestion > 19) {
+                Intent intent = new Intent(this, Redo.class);
+                intent.putExtra("conceptID",conceptID);
+                intent.putExtra("lessonID",lessonID);
+                intent.putExtra("totalRetries",totalRetries);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
 
             // Get new question

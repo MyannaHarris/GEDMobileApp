@@ -81,33 +81,6 @@ public class Success extends AppCompatActivity {
         int totalCorrect = mIntent.getIntExtra("totalCorrect", 0);
         int totalQuestions = mIntent.getIntExtra("totalQuestions", 0);
 
-        /*// Set up and play victorious sound
-        final SoundPool mSoundPool;
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            AudioAttributes aa = new AudioAttributes.Builder()
-                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                    .setUsage(AudioAttributes.USAGE_MEDIA)
-                    .build();
-            mSoundPool = new SoundPool.Builder()
-                    .setAudioAttributes(aa)
-                    .build();
-        } else {
-            mSoundPool = new SoundPool(1,AudioManager.STREAM_MUSIC, 0);
-        }
-        AudioManager mAudioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-        int explodeId = mSoundPool.load(this, R.raw.short_success, 1);
-
-        final float streamVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
-                / mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        mSoundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener()
-        {
-            @Override
-            public void onLoadComplete(SoundPool mSoundPool, int songId,
-                                       int status) {
-                mSoundPool.play(songId, streamVolume, streamVolume, 1, 0, 0.99f);
-            }
-        });*/
-
         MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.long_success);
         mediaPlayer.start();
 
