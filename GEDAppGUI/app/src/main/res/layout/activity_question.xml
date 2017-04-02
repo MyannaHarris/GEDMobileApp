@@ -1,91 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_question"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/activity_question"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.gedappgui.gedappgui.Question">
+
+    <TextView
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context="com.gedappgui.gedappgui.Question">
+        android:id="@+id/question_textView"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"/>
 
-        <TextView
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/question_answer_group"
+        android:layout_below="@id/question_textView"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
+        <RadioButton android:id="@+id/question_answer1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:id="@+id/question_textView"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"/>
-
-        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="fill_parent"
+            android:padding="7dp"
+            android:text="temp1"
+            android:checked="false"
+            android:textColor="@color/colorBodyText"
+            android:onClick="onRadioButtonClicked"/>
+        <RadioButton android:id="@+id/question_answer2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/question_answer_group"
-            android:layout_below="@id/question_textView"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp">
-            <RadioButton android:id="@+id/question_answer1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="temp1"
-                android:checked="false"
-                android:textColor="@color/colorBodyText"
-                android:onClick="onRadioButtonClicked"/>
-            <RadioButton android:id="@+id/question_answer2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="temp2"
-                android:checked="false"
-                android:textColor="@color/colorBodyText"
-                android:onClick="onRadioButtonClicked"/>
-            <RadioButton android:id="@+id/question_answer3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="temp3"
-                android:checked="false"
-                android:textColor="@color/colorBodyText"
-                android:onClick="onRadioButtonClicked"/>
-            <RadioButton android:id="@+id/question_answer4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="temp4"
-                android:checked="false"
-                android:textColor="@color/colorBodyText"
-                android:onClick="onRadioButtonClicked"/>
-        </RadioGroup>
-
-        <Button
-            android:layout_width="match_parent"
+            android:padding="7dp"
+            android:text="temp2"
+            android:checked="false"
+            android:textColor="@color/colorBodyText"
+            android:onClick="onRadioButtonClicked"/>
+        <RadioButton android:id="@+id/question_answer3"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Submit"
-            android:id="@+id/submit_answer_button"
-            android:layout_below="@id/question_answer_group"
-            android:onClick="evaluateAnswer"/>
-
-      <!--  <Button
-            android:layout_width="match_parent"
+            android:padding="7dp"
+            android:text="temp3"
+            android:checked="false"
+            android:textColor="@color/colorBodyText"
+            android:onClick="onRadioButtonClicked"/>
+        <RadioButton android:id="@+id/question_answer4"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Move on successfully"
-            android:id="@+id/success_button"
-            android:onClick="goToSuccess"
-            android:layout_below="@id/submit_answer_button"/>
+            android:padding="7dp"
+            android:text="temp4"
+            android:checked="false"
+            android:textColor="@color/colorBodyText"
+            android:onClick="onRadioButtonClicked"/>
+    </RadioGroup>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Retry"
-            android:id="@+id/retry_button"
-            android:onClick="goToRedo"
-            android:layout_below="@id/success_button"/>-->
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:id="@+id/submit_answer_button"
+        android:layout_below="@id/question_answer_group"
+        android:onClick="evaluateAnswer"/>
 
-    </RelativeLayout>
-</ScrollView>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Clear Writing"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/clearCanvas_button"
+        android:layout_below="@id/submit_answer_button"
+        android:onClick="clearCanvas"/>
+
+    <SurfaceView
+        android:layout_below="@id/clearCanvas_button"
+        android:id="@+id/drawing_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+  <!--  <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Move on successfully"
+        android:id="@+id/success_button"
+        android:onClick="goToSuccess"
+        android:layout_below="@id/submit_answer_button"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Retry"
+        android:id="@+id/retry_button"
+        android:onClick="goToRedo"
+        android:layout_below="@id/success_button"/>-->
+
+</RelativeLayout>

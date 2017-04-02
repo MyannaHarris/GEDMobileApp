@@ -57,4 +57,6 @@
     <color name="orderingGameBottomColor">#ca251f</color>
     <color name="orderingGameMiddleColor">#c95d1e</color>
     <color name="orderingGameLockedColor">#1e85c9</color>
+    <color name="canvasBackground">#ffffff</color>
+    <color name="canvasForeground">#000000</color>
 </resources>

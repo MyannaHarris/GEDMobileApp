@@ -17,7 +17,11 @@
 
 package com.gedappgui.gedappgui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Path;
 import android.media.AudioManager;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
@@ -27,11 +31,15 @@ import android.text.Html;
 import android.text.Spanned;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.MotionEvent;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -55,6 +63,18 @@ public class Question extends AppCompatActivity {
     private ArrayList<String> questionText;
     private ArrayList<ArrayList<ArrayList<String>>> allQuestions;
 
+    // These objects will be used for drawing
+    private Paint paint;
+    private Canvas canvas;
+    private SurfaceHolder surfaceHolder;
+
+    // Save context for surface holder
+    private Context context;
+
+    // Save coordinates for drawing
+    ArrayList<Path> pathList;
+    private Path path;
+
     /**
      * Starts the activity and shows corresponding view on screen
      * @param savedInstanceState If the activity is being re-initialized after previously being
@@ -65,6 +85,7 @@ public class Question extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
+
         Intent mIntent = getIntent();
         conceptID = mIntent.getIntExtra("conceptID", 0);
         lessonID = mIntent.getIntExtra("lessonID", 0);
@@ -77,11 +98,34 @@ public class Question extends AppCompatActivity {
 
         Button submitbtn = (Button)findViewById(R.id.submit_answer_button);
         submitbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
-        // Set heights for button
-        ViewGroup.LayoutParams params = submitbtn.getLayoutParams();
-        params.height = (height/10);
 
-        submitbtn.setLayoutParams(params);
+        // Set heights for button
+        //ViewGroup.LayoutParams params = submitbtn.getLayoutParams();
+        //params.height = (height/17);
+
+        //submitbtn.setLayoutParams(params);
+
+        // Set dynamic size for clear button
+        Button clearButton = (Button)findViewById(R.id.clearCanvas_button);
+        clearButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+
+        // Set heights for button
+        //params = clearButton.getLayoutParams();
+        //params.height = (height/17);
+
+        //clearButton.setLayoutParams(params);
+
+        // Set text size for page
+        /*TextView textView = (TextView)findViewById(R.id.question_textView);
+        textView.setTextSize(height/20);
+        RadioButton radioButton = (RadioButton)findViewById(R.id.question_answer1);
+        radioButton.setTextSize(height/20);
+        radioButton = (RadioButton)findViewById(R.id.question_answer2);
+        radioButton.setTextSize(height/20);
+        radioButton = (RadioButton)findViewById(R.id.question_answer3);
+        radioButton.setTextSize(height/20);
+        radioButton = (RadioButton)findViewById(R.id.question_answer4);
+        radioButton.setTextSize(height/20);*/
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -90,6 +134,8 @@ public class Question extends AppCompatActivity {
         dbHelper = new DatabaseHelper(this);
         allQuestions = dbHelper.getAllQuestions(lessonID);
 
+        // Save context for surface holder
+        context = this;
 
         // Put new question text up
         String question = "";
@@ -124,6 +170,90 @@ public class Question extends AppCompatActivity {
         // Save what the new correct answer should be
         correctAnswerStr = questionText.get(6);
         allQuestions.get(currentLevel-1).remove(0);
+
+        // Set up surface view
+        SurfaceView drawingView = (SurfaceView) findViewById(R.id.drawing_view);
+
+        // Save holder for drawing to canvas
+        surfaceHolder = drawingView.getHolder();
+
+        // Coordinates that user has drawn in
+        pathList = new ArrayList<Path>();
+
+        // Set up paint
+        paint = new Paint();
+        paint.setColor(ContextCompat.getColor(context, R.color.canvasForeground));
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(4);
+        paint.setTextSize(height/17);
+
+        // Set up canvas in surfaceview
+        drawingView.getHolder().addCallback(new SurfaceHolder.Callback() {
+
+            @Override
+            public void surfaceCreated(SurfaceHolder holder) {
+                // Do some drawing when surface is ready
+                canvas = holder.lockCanvas();
+                canvas.drawColor(ContextCompat.getColor(context, R.color.canvasBackground));
+                paint.setStyle(Paint.Style.FILL);
+                canvas.drawText("Draw here", canvas.getWidth() / 2 - paint.measureText("Draw here") / 2,
+                        canvas.getHeight() / 2, paint);
+                paint.setStyle(Paint.Style.STROKE);
+                holder.unlockCanvasAndPost(canvas);
+            }
+
+            @Override
+            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+
+            }
+
+            @Override
+            public void surfaceDestroyed(SurfaceHolder holder) {
+            }
+        });
+
+        // Set up touch listener to capture drawing
+        drawingView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (surfaceHolder.getSurface().isValid()) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            canvas = surfaceHolder.lockCanvas();
+                            canvas.drawColor(ContextCompat.getColor(context, R.color.canvasBackground));
+                            path = new Path();
+                            path.moveTo(event.getX(), event.getY());
+                            canvas.drawPath(path, paint);
+                            for (Path p : pathList) {
+                                canvas.drawPath(p, paint);
+                            }
+                            surfaceHolder.unlockCanvasAndPost(canvas);
+                            break;
+                        case MotionEvent.ACTION_MOVE:
+                            canvas = surfaceHolder.lockCanvas();
+                            canvas.drawColor(ContextCompat.getColor(context, R.color.canvasBackground));
+                            path.lineTo(event.getX(), event.getY());
+                            canvas.drawPath(path, paint);
+                            for (Path p : pathList) {
+                                canvas.drawPath(p, paint);
+                            }
+                            surfaceHolder.unlockCanvasAndPost(canvas);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            canvas = surfaceHolder.lockCanvas();
+                            canvas.drawColor(ContextCompat.getColor(context, R.color.canvasBackground));
+                            path.lineTo(event.getX(), event.getY());
+                            pathList.add(path);
+                            for (Path p : pathList) {
+                                canvas.drawPath(p, paint);
+                            }
+                            surfaceHolder.unlockCanvasAndPost(canvas);
+                            break;
+                    }
+                }
+                return true;
+            }
+        });
     }
 
     /**
@@ -350,6 +480,23 @@ public class Question extends AppCompatActivity {
                     break;
             default:
                 break;
+        }
+    }
+
+    /**
+     * Clears canvas when clicked
+     * Called when the user clicks the clear button
+     * @param view current view
+     */
+    public void clearCanvas(View view) {
+        // Delete all paths
+        pathList.clear();
+
+        // Draw blank canvas
+        if (surfaceHolder.getSurface().isValid()) {
+            canvas = surfaceHolder.lockCanvas();
+            canvas.drawColor(ContextCompat.getColor(context, R.color.canvasBackground));
+            surfaceHolder.unlockCanvasAndPost(canvas);
         }
     }
 }
