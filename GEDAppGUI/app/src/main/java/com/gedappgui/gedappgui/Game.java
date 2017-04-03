@@ -91,7 +91,6 @@ public class Game extends AppCompatActivity {
 
         //checks for which template to use, aka which kind of game
         if (dbHelper.selectGameTemplate(lessonID).equals("bucket_game")) {
-
             ArrayList<ArrayList<String>> gameQuestions;
 
             if (nextActivity == 1) {
@@ -108,6 +107,7 @@ public class Game extends AppCompatActivity {
 
             // Set the game as the view
             setContentView(bucketGameView);
+
         } else if (dbHelper.selectGameTemplate(lessonID).equals("match_game")) {
 
             ArrayList<ArrayList<String>> texts;
@@ -149,7 +149,7 @@ public class Game extends AppCompatActivity {
             setContentView(chemistryGameView);
         }else if (dbHelper.selectGameTemplate(lessonID).equals("madlib_game")){
 
-            // Create game object
+            /* Create game object
             ArrayList<ArrayList<String>> texts = new ArrayList<>();
             ArrayList<String> newA = new ArrayList<>();
             newA.add("vrb");
@@ -182,10 +182,23 @@ public class Game extends AppCompatActivity {
 
             ArrayList<String> answerAs = new ArrayList<>();
             answerAs.add("1");
-            answerAs.add("7");
+            answerAs.add("7");*/
 
-            madlibGameView = new MadlibGameView(this, texts, question,
-                    answerPs, answerAs, conceptID, lessonID,
+            // Get reference to current activity
+            Activity activity = (Activity)this;
+            ArrayList<ArrayList<ArrayList<String>>> input = new ArrayList<>();
+
+            if(nextActivity == 1){
+                input = dbHelper.selectInfiniteMadlibInput(lessonID);
+            }
+            else{
+                input = dbHelper.selectInfiniteMadlibInput(lessonID);
+                //temporary until more content
+                //input = dbHelper.selectMadlibInput(lessonID);
+            }
+
+            madlibGameView = new MadlibGameView(this, activity, (input.get(0)),  input.get(1),
+                    input.get(2),  input.get(3), conceptID, lessonID,
                     nextActivity, width, height);
             ScrollView scroll = new ScrollView(this);
             madlibGameView.setFocusableInTouchMode(true);

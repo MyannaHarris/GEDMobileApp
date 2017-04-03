@@ -1107,6 +1107,124 @@ public class DatabaseHelper{
      * @param lesson_id the id of the lesson
      * @return the input for the game (questions and answers)
      */
+    public ArrayList<ArrayList<ArrayList<String>>> selectInfiniteMadlibInput(int lesson_id){
+        open();
+
+        Cursor c = myDatabase.rawQuery("SELECT game_input FROM lessons WHERE lesson_id = " +
+                lesson_id, null);
+        c.moveToFirst();
+        String input = c.getString(0);
+
+        c.close();
+        close();
+
+        ArrayList<String> placeholder = new ArrayList<>();
+
+        ArrayList<ArrayList<String>> finalTexts = new ArrayList<ArrayList<String>>();
+        ArrayList<ArrayList<String>> question = new ArrayList<>();
+        ArrayList<ArrayList<String>> answerps = new ArrayList<>();
+        ArrayList<ArrayList<String>> answers = new ArrayList<>();
+
+        ArrayList<ArrayList<ArrayList<String>>> randQAndAs = new ArrayList<>();
+
+        String[] questions;
+        questions = input.split("[&]");
+
+        for(int i = 0; i<questions.length;i++){
+            if(i%4 == 0) {
+                finalTexts.add(new ArrayList<>(Arrays.asList(questions[i].split("[/]"))));
+
+                placeholder.clear();
+                placeholder.add(questions[i + 1]);
+                question.add(new ArrayList<>(placeholder));
+
+                answerps.add(new ArrayList<>(Arrays.asList(questions[i + 2].split("[/]"))));
+
+                placeholder.clear();
+                placeholder.add(questions[i + 3]);
+                answers.add(new ArrayList<>(placeholder));
+            }
+        }
+
+        randQAndAs.add(finalTexts);
+        randQAndAs.add(question);
+        randQAndAs.add(answerps);
+        randQAndAs.add(answers);
+
+        return randQAndAs;
+    }
+
+    /**
+     * returns the input for a game from a CSL
+     * @param lesson_id the id of the lesson
+     * @return the input for the game (questions and answers)
+     */
+    public ArrayList<ArrayList<ArrayList<String>>> selectMadlibInput(int lesson_id){
+        open();
+
+        Cursor c = myDatabase.rawQuery("SELECT game_input FROM lessons WHERE lesson_id = " +
+                lesson_id, null);
+        c.moveToFirst();
+        String input = c.getString(0);
+
+        c.close();
+        close();
+
+        ArrayList<String> placeholder = new ArrayList<>();
+
+        ArrayList<ArrayList<String>> finalTexts = new ArrayList<ArrayList<String>>();
+        ArrayList<ArrayList<String>> question = new ArrayList<>();
+        ArrayList<ArrayList<String>> answerps = new ArrayList<>();
+        ArrayList<ArrayList<String>> answers = new ArrayList<>();
+
+        ArrayList<ArrayList<String>> randFinal = new ArrayList<>();
+        ArrayList<ArrayList<String>> randQuestion = new ArrayList<>();
+        ArrayList<ArrayList<String>> randAnswerps = new ArrayList<>();
+        ArrayList<ArrayList<String>> randAnswers = new ArrayList<>();
+
+        ArrayList<ArrayList<ArrayList<String>>> randQAndAs = new ArrayList<>();
+
+        String[] questions;
+        questions = input.split("[&]");
+
+
+        for(int i = 0; i<questions.length;i++){
+            if(i%4 == 0) {
+                finalTexts.add(new ArrayList<>(Arrays.asList(questions[i].split("[/]"))));
+
+                placeholder.clear();
+                placeholder.add(questions[i + 1]);
+                question.add(new ArrayList<>(placeholder));
+
+                answerps.add(new ArrayList<>(Arrays.asList(questions[i + 2].split("[/]"))));
+
+                placeholder.clear();
+                placeholder.add(questions[i + 3]);
+                answers.add(new ArrayList<>(placeholder));
+            }
+        }
+
+        for(int i = 3; i<6; i++){
+            double rand = Math.abs(Math.round(Math.random() * 11-i));
+            randFinal.add(finalTexts.remove((int) rand));
+            randQuestion.add(question.remove((int) rand));
+            randAnswerps.add(answerps.remove((int) rand));
+            randAnswers.add(answers.remove((int) rand));
+        }
+
+        randQAndAs.add(randFinal);
+        randQAndAs.add(randQuestion);
+        randQAndAs.add(randAnswerps);
+        randQAndAs.add(randAnswers);
+
+        return randQAndAs;
+    }
+
+    /**
+     * returns the input for a game from a CSL
+     * @param lesson_id the id of the lesson
+     * @return the input for the game (questions and answers)
+     */
     public ArrayList<ArrayList<String>> selectMatchGameInput(int lesson_id){
         open();
 

@@ -17,8 +17,10 @@
 
 package com.gedappgui.gedappgui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
@@ -26,9 +28,11 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -54,11 +58,11 @@ public class MadlibGameView extends RelativeLayout {
     //the words that the user will have to enter
     private ArrayList<ArrayList<String>> wordFills;
     //the question string that will get filled in
-    private ArrayList<String> questionTexts;
+    private ArrayList<ArrayList<String>> questionTexts;
     //the 4 possible answers to each questions
     private ArrayList<ArrayList<String>> answerTexts;
     //the actual answers to each question
-    private ArrayList<String> answers;
+    private ArrayList<ArrayList<String>> answers;
 
     //current user input word fills
     private ArrayList<EditText> userFills;
@@ -75,6 +79,7 @@ public class MadlibGameView extends RelativeLayout {
     //window variables
     private int height;
     private int width;
+    private int statusBarHeight;
 
     //the answers selected by the radio buttons
     private int selectedAnswer;
@@ -82,6 +87,10 @@ public class MadlibGameView extends RelativeLayout {
     //buttons for submitting words and question answers
     private Button submit;
     private Button questionSubmit;
+    // Button to end the endless game play
+    private Button endButton;
+    // Size of button to end
+    private int endButtonSize = 0;
 
     /**
      *
@@ -96,10 +105,10 @@ public class MadlibGameView extends RelativeLayout {
      * @param width1 Width of the screen in pixels
      * @param height1 Height of screen in pixels
      */
-    public MadlibGameView(Context contextp, ArrayList<ArrayList<String>> words, ArrayList<String>
-            question, ArrayList<ArrayList<String>> answerPs, ArrayList<String> answerAs,
-                          int conceptIDp, int lessonIDp, int nextActivityp,
-                          int width1, int height1) {
+    public MadlibGameView(Context contextp, Activity activity, ArrayList<ArrayList<String>> words,
+                          ArrayList<ArrayList<String>> question, ArrayList<ArrayList<String>>
+                                  answerPs, ArrayList<ArrayList<String>> answerAs, int conceptIDp,
+                          int lessonIDp, int nextActivityp, int width1, int height1) {
         super(contextp);
 
         context = contextp;
@@ -127,6 +136,35 @@ public class MadlibGameView extends RelativeLayout {
 
         currQuestion = 0;
 
+        // Get status bar height to deal with on phones that have the status bar showing
+        Rect rectangle = new Rect();
+        Window window = activity.getWindow();
+        window.getDecorView().getWindowVisibleDisplayFrame(rectangle);
+        statusBarHeight = rectangle.top;
+
+        if(nextActivityp == 1){
+            LinearLayout.LayoutParams linearLayoutButton = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, (height - statusBarHeight - 15) / 8 - 20);
+
+            linearLayoutButton.setMargins(0, 5, 0, 5);
+
+            endButton = new Button(context);
+            endButton.setLayoutParams(linearLayoutButton);
+            endButton.setTextSize(convertPixelsToDp(height / 20, context));
+            endButton.setTextColor(ContextCompat.getColor(context, R.color.matchGameText));
+            endButton.setText("End Game");
+            endButton.setGravity(Gravity.CENTER_HORIZONTAL);
+            endButton.setHeight((height - statusBarHeight - 15) / 8 - 20);
+
+            endButton.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    endGame();
+                }
+            });
+
+            endButtonSize = (height - statusBarHeight - 15) / 8 - 20 + 10;
+        }
 
         //sets the buttons up early
         questionSubmit = new Button(context);
@@ -186,7 +224,7 @@ public class MadlibGameView extends RelativeLayout {
      * @return the madlib sentence with all the words replaced
      */
     public String createSentence(ArrayList<EditText> input, ArrayList<String> titles){
-        String sentence = questionTexts.get(currQuestion);
+        String sentence = questionTexts.get(currQuestion).get(0);
 
         for(int i = 0; i<titles.size(); i++){
             //reg ex for finding the exact word to replace in the sentence
@@ -220,6 +258,7 @@ public class MadlibGameView extends RelativeLayout {
             question.setId(View.generateViewId());
         }
 
+
         RelativeLayout.LayoutParams relativeLay;
 
         relativeLay = new RelativeLayout.LayoutParams(
@@ -229,6 +268,13 @@ public class MadlibGameView extends RelativeLayout {
         relativeLay.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         question.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
         question.setPadding(50, 100, 10, 10);
+        question.setLayoutParams(relativeLay);
+
+        if (nextActivity == 1) {
+            this.addView(endButton);
+            relativeLay.addRule(RelativeLayout.BELOW,endButton.getId());
+        }
+
         question.setLayoutParams(relativeLay);
 
         this.addView(question);
@@ -305,10 +351,10 @@ public class MadlibGameView extends RelativeLayout {
             String selectedString =
                     answerTexts.get(currQuestion).get(selectedAnswer-1);
             System.out.println(selectedString);
-            System.out.println(answers.get(currQuestion));
+            System.out.println(answers.get(currQuestion).get(0));
 
             // Check if answer is correct
-            if (selectedString.equals(answers.get(currQuestion))) {
+            if (selectedString.equals(answers.get(currQuestion).get(0))) {
                 ((RadioButton) radioGroup.getChildAt(selectedAnswer-1)).setTextColor(
                         ContextCompat.getColor(context, R.color.questionCorrect)
                 );
@@ -363,6 +409,11 @@ public class MadlibGameView extends RelativeLayout {
     public void addViews(ArrayList<EditText> edits, ArrayList<TextView> views) {
         if(currQuestion < answers.size()) {
             this.removeAllViews();
+
+            if (nextActivity == 1) {
+                this.addView(endButton);
+            }
+
             for (int i = 0; i < edits.size(); i++) {
                 this.addView(views.get(i));
                 this.addView(edits.get(i));
@@ -410,8 +461,11 @@ public class MadlibGameView extends RelativeLayout {
         if(num != 0){
             relativeLay.addRule(RelativeLayout.BELOW, tEdits.get(num-1).getId());
         }
-        else{
+        else if(nextActivity != 1){
             relativeLay.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        }
+        else{
+            relativeLay.addRule(RelativeLayout.BELOW,endButton.getId());
         }
 
         newWord.setLayoutParams(relativeLay);
