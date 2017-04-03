@@ -19,10 +19,10 @@
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#ca7cff</color>
     <color name="colorBackgroundDark">#212121</color>
-    <color name="colorButton">#160023</color>
+    <color name="colorButton">#bdbdbd</color>
     <color name="colorHeader1">#ca7cff</color>
     <color name="colorBodyText">#cccccc</color>
-    <color name="colorButtonText">#cccccc</color>
+    <color name="colorButtonText">#160023</color>q
     <color name="colorMenuText">#cccccc</color>
     <color name="colorMenuBackground">#111111</color>
     <color name="colorWhite">#ffffff</color>
@@ -52,11 +52,11 @@
     <color name="fractodectext">#b03ffc</color>
     <color name="colorHint">#55ca7cff</color>
     <color name="orderingGameBG">#ceaee6</color>
-    <color name="orderingGameText">#000000</color>
+    <color name="orderingGameText">#263238</color>
     <color name="orderingGameTopColor">#ead02a</color>
     <color name="orderingGameBottomColor">#ca251f</color>
     <color name="orderingGameMiddleColor">#c95d1e</color>
-    <color name="orderingGameLockedColor">#1e85c9</color>
+    <color name="orderingGameLockedColor">#000000</color>
     <color name="canvasBackground">#ffffff</color>
     <color name="canvasForeground">#000000</color>
 </resources>
