@@ -30,8 +30,11 @@ import android.view.View;
 
 public class Redo extends AppCompatActivity {
 
+    //current lesson
     private int lessonID;
+    //current concept
     private int conceptID;
+    //number of times the user has attempted the questions section
     private int totalRetries;
 
     /**

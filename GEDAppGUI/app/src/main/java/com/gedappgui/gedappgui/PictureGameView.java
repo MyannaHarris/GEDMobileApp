@@ -17,6 +17,7 @@ package com.gedappgui.gedappgui;
  *
  */
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
@@ -24,6 +25,7 @@ import android.text.Html;
 import android.text.Spanned;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
@@ -43,6 +45,7 @@ public class PictureGameView extends LinearLayout {
     private GridView buttons;
     private Context context;
     private ImageView changer;
+    private Button end;
     private int conceptid;
     private int lessonid;
     private int nextActivity;
@@ -124,7 +127,7 @@ public class PictureGameView extends LinearLayout {
         linearLayout.setMargins(10, 10, 10, 10);
 
         //split the database content into an array of string to make it easier to work with
-        String[] init = splits.split(",");
+        String[] init = splits.split(";");
 
 
         statement.setText(toHTML(init[0]));
@@ -169,12 +172,33 @@ public class PictureGameView extends LinearLayout {
         result.setTextColor(Color.WHITE);
         result.setGravity(Gravity.CENTER);
 
+        end = new Button(context);
+        end.setLayoutParams(linearLayout);
+        end.setText("End Game");
+        end.setTextSize(20);
+        end.setTextColor(Color.WHITE);
+        end.setGravity(Gravity.CENTER);
+
+        end.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                //starts GameEnd activity
+                Intent intent = new Intent(context, GameEnd.class);
+                intent.putExtra("next_activity", nextActivity);
+                intent.putExtra("conceptID", conceptid);
+                intent.putExtra("lessonID", lessonid);
+                context.startActivity(intent);
+            }
+        });
+
         buttons.setLayoutParams(linearLayout);
         //call button adapter to put buttons in gridview and create listeners for the buttons
         buttons.setAdapter(new ButtonAdapter(context, texts, changer, splits, statement, pass_pics,result,
         lessonid,conceptid,nextActivity));
         //add gridview to layout
         this.addView(buttons);
+        if (nextActivity != 0)
+            this.addView(end);
         //add result string to layout
         this.addView(result);
         //add imageview to layout

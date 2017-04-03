@@ -64,7 +64,7 @@ public class ButtonAdapter extends BaseAdapter {
      * @param result the Textview that tells the user if they are right or wrong
      * @param lessonID the current lesson index
      * @param conceptID the current concept index
-     * @param nextAct the GameEnd activity to be launched when the game is completed
+     * @param nextAct the GameEnd activity to be launched when the game is completed. 1 if from arcade 0 if from lessons
      */
     public ButtonAdapter(Context c, String[] buttonNamesp, ImageView change, String splitter,
                          TextView state, int[] pics, TextView result, int lessonID,
@@ -73,7 +73,7 @@ public class ButtonAdapter extends BaseAdapter {
         mContext = c;
         buttonNames = buttonNamesp;
         changer = change;
-        answers = splitter.split(",");
+        answers = splitter.split(";");
         statement = state;
         pictures = pics;
         resulter = result;
@@ -203,24 +203,41 @@ public class ButtonAdapter extends BaseAdapter {
                         h.postDelayed(r,750);
                         pictureindex++;
                         //once 5 statements are answered correctly
-                        if (pictureindex > 4){
+                        if (pictureindex > 4) {
                             button.setEnabled(false);
                             statement.setText("Congratulations!");
-                            Runnable r2 = new Runnable() {
-                                @Override
-                                public void run() {
-                                    //starts GameEnd activity
-                                    Context context = mContext;
-                                    Intent intent = new Intent(context, GameEnd.class);
-                                    intent.putExtra("next_activity", nextActivity);
-                                    intent.putExtra("conceptID", concept);
-                                    intent.putExtra("lessonID", lesson);
-                                    context.startActivity(intent);
-                                }
-                            };
-                            Handler h2 = new Handler();
-                            //Delay transition to game end by 2.75 secs
-                            h2.postDelayed(r2,2750);
+
+                            if (nextActivity != 1) {
+                                Runnable r2 = new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        //starts GameEnd activity
+                                        Context context = mContext;
+                                        Intent intent = new Intent(context, GameEnd.class);
+                                        intent.putExtra("next_activity", nextActivity);
+                                        intent.putExtra("conceptID", concept);
+                                        intent.putExtra("lessonID", lesson);
+                                        context.startActivity(intent);
+                                    }
+                                };
+                                Handler h2 = new Handler();
+                                //Delay transition to game end by 2.75 secs
+                                h2.postDelayed(r2, 2750);
+                            } else {
+                                button.setEnabled(true);
+                                pictureindex = 0;
+                                cur = 0;
+                                statement.setText(toHTML(answers[cur]));
+                                Runnable r2 = new Runnable(){
+                                    @Override
+                                    public void run(){
+                                        ImageViewAnimatedChange(mContext,changer,pictures[pictureindex]);
+                                    }
+                                };
+                                Handler h2 = new Handler();
+                                //Delay picture change by .75 secs
+                                h.postDelayed(r,750);
+                            }
                         }
 
                     }
@@ -257,21 +274,37 @@ public class ButtonAdapter extends BaseAdapter {
                         if (pictureindex > 4){
                             statement.setText("Congratulations!");
                             button.setEnabled(false);
-                            Runnable r2 = new Runnable() {
-                                @Override
-                                public void run() {
-                                    //starts GameEnd activity
-                                    Context context = mContext;
-                                    Intent intent = new Intent(context, GameEnd.class);
-                                    intent.putExtra("next_activity", nextActivity);
-                                    intent.putExtra("conceptID", concept);
-                                    intent.putExtra("lessonID", lesson);
-                                    context.startActivity(intent);
-                                }
-                            };
-                            Handler h2 = new Handler();
-                            //Delay transition to game end by 2.75 secs
-                            h2.postDelayed(r2,2750);
+                            if (nextActivity != 1) {
+                                Runnable r2 = new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        //starts GameEnd activity
+                                        Context context = mContext;
+                                        Intent intent = new Intent(context, GameEnd.class);
+                                        intent.putExtra("next_activity", nextActivity);
+                                        intent.putExtra("conceptID", concept);
+                                        intent.putExtra("lessonID", lesson);
+                                        context.startActivity(intent);
+                                    }
+                                };
+                                Handler h2 = new Handler();
+                                //Delay transition to game end by 2.75 secs
+                                h2.postDelayed(r2, 2750);
+                            } else {
+                                button.setEnabled(true);
+                                pictureindex = 0;
+                                cur = 0;
+                                statement.setText(toHTML(answers[cur]));
+                                Runnable r2 = new Runnable(){
+                                    @Override
+                                    public void run(){
+                                        ImageViewAnimatedChange(mContext,changer,pictures[pictureindex]);
+                                    }
+                                };
+                                Handler h2 = new Handler();
+                                //Delay picture change by .75 secs
+                                h.postDelayed(r,750);
+                            }
                         }
 
                     }

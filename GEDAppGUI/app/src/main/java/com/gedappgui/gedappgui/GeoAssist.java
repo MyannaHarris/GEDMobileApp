@@ -23,6 +23,8 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -44,45 +46,45 @@ public class GeoAssist extends AppCompatActivity implements AdapterView.OnItemSe
 
     //creates the global array of summaries describing select geometric shapes
     private String[] summaries = {
-            "\n\nA circle is a closed set of points that are the same distance from a certain point. " +
+            "<br /><br />A circle is a closed set of points that are the same distance from a certain point. " +
                     "The area is the space inside of a circle. The diameter is a line segment with endpoints" +
                     " on the edges of the circle where the line passes through the center. The radius is a line segment" +
                     " that connects the center of the circle to any point on the circle. The constant value pi" +
                     " is often used to perform calculations with circles. In the test you will use the value 3.14.",
-            "\n\nA triangle is a closed three-sided figure. A triangle can be classified depending on its " +
-                    "sides and angles: \n\nEquilateral Triangle - All sides are equal in length and all angles " +
-                    "are 60 degrees \n\nIsoceles Triangle - Two sides are equal in length causing the angles opposite " +
-                    "these sides to be equal \n\nScalene Triangle - No sides are equal and no angles are equal \n\n" +
-                    "Right Triangle - One angle measures 90 degrees \n\nAcute Triangle - All angles measure less than 90 degrees" +
-                    "\n\nObtuse Triangle - One angle is greater than 90 degrees",
-            "\n\nA rectangle is four-sided figure with four right angles. The opposite sides are equal in length",
-            "\n\nA square is a special type of rectangle with four equal sides and four angles at 90 degrees.",
-            "\n\nA parallelogram is a four-sided figure whose sides are parallel and the same length. Its opposite " +
+            "<br /><br />A triangle is a closed three-sided figure. A triangle can be classified depending on its " +
+                    "sides and angles: <br /><br />Equilateral Triangle - All sides are equal in length and all angles " +
+                    "are 60 degrees <br /><br />Isoceles Triangle - Two sides are equal in length causing the angles opposite " +
+                    "these sides to be equal <br /><br />Scalene Triangle - No sides are equal and no angles are equal <br /><br />" +
+                    "Right Triangle - One angle measures 90 degrees <br /><br />Acute Triangle - All angles measure less than 90 degrees" +
+                    "<br /><br />Obtuse Triangle - One angle is greater than 90 degrees",
+            "<br /><br />A rectangle is four-sided figure with four right angles. The opposite sides are equal in length",
+            "<br /><br />A square is a special type of rectangle with four equal sides and four angles at 90 degrees.",
+            "<br /><br />A parallelogram is a four-sided figure whose sides are parallel and the same length. Its opposite " +
                     "angles are equal.",
-            "\n\nA trapezoid is a four-sided figure with one pair of parallel sides",
-            "\n\nA cone is a 3D figure with a circular base and a pointed top",
-            "\n\nA pyramid is a 3D figure with a Square base and a pointed top",
-            "\n\nA cylinder is a 3D figure with a circular base and a circular top"
+            "<br /><br />A trapezoid is a four-sided figure with one pair of parallel sides",
+            "<br /><br />A cone is a 3D figure with a circular base and a pointed top",
+            "<br /><br />A pyramid is a 3D figure with a Square base and a pointed top",
+            "<br /><br />A cylinder is a 3D figure with a circular base and a circular top"
 
     };
 
     //creates the global array of example describing how to calculate certain measurements of
     // select geometric shapes
     private String[] examples ={
-            "\nCircumference = pi * diameter \n\nArea = pi * radius^2 \n\ninterior angle sum = 360 degrees\n\n",
-            "\nPerimeter = side1 + side2 +side3 \n\nArea = 1/2 * base * height \n\nPythagorean Relationship - " +
-                    "\na^2 + b^2 = c^2; a and b are both legs and c is the hypotenuse of a right triangle \n\n" +
-                    "interior angle sum = 360 degrees\n\n",
-            "\nPerimeter = 2 * length + 2 * width \n\nArea = length * width\n\ninterior angle sum = 360 degrees\n\n",
-            "\nPerimeter = side * 4 \n\nArea = side * side\n\ninterior angle sum = 360 degrees\n\n",
-            "\nPerimeter = 2 * length + 2 * width \n\nArea = base * height \n\ninterior angle sum = 360 degrees\n\n",
-            "\nPerimeter = side1 + side2 + side3 + side4\n\nArea = 1/2 * height(base1 + base2)\n" +
-                    "\n" +
-                    "interior angle sum = 360 degrees\n" +
-                    "\n",
-            "\nVolume = 1/3 * pi * radius^2 * Height\n\nSurface Area = pi * r * Slant Height + pi * radius^2",
-            "\nVolume = 1/3 * (base side)^2 * Height\n\nSurface Area = 2 * base * side + base^2",
-            "\nVolume = pi * r^2 * Height\n\nSurface Area = 2 * pi * r^2 + height * (2 * pi * radius)"
+            "<br />Circumference = pi * diameter <br /><br />Area = pi * radius^2 <br /><br />interior angle sum = 360 degrees<br /><br />",
+            "<br />Perimeter = side1 + side2 +side3 <br /><br />Area = 1/2 * base * height <br /><br />Pythagorean Relationship - " +
+                    "<br />a^2 + b^2 = c^2; a and b are both legs and c is the hypotenuse of a right triangle <br /><br />" +
+                    "interior angle sum = 360 degrees<br /><br />",
+            "<br />Perimeter = 2 * length + 2 * width <br /><br />Area = length * width<br /><br />interior angle sum = 360 degrees<br /><br />",
+            "<br />Perimeter = side * 4 <br /><br />Area = side * side<br /><br />interior angle sum = 360 degrees<br /><br />",
+            "<br />Perimeter = 2 * length + 2 * width <br /><br />Area = base * height <br /><br />interior angle sum = 360 degrees<br /><br />",
+            "<br />Perimeter = side1 + side2 + side3 + side4<br /><br />Area = 1/2 * height(base1 + base2)<br />" +
+                    "<br />" +
+                    "interior angle sum = 360 degrees<br />" +
+                    "<br />",
+            "<br />Volume = 1/3 * pi * radius^2 * Height<br /><br />Surface Area = pi * r * Slant Height + pi * radius^2",
+            "<br />Volume = 1/3 * (base side)^2 * Height<br /><br />Surface Area = 2 * base * side + base^2",
+            "<br />Volume = pi * r^2 * Height<br /><br />Surface Area = 2 * pi * r^2 + height * (2 * pi * radius)"
     };
 
     //creates the global array of picture of select geometric shapes
@@ -191,8 +193,8 @@ public class GeoAssist extends AppCompatActivity implements AdapterView.OnItemSe
 
         //sets the image, example and summary to the texts that correlate with the shape at the
         // given position
-        summary.setText(summaries[position]);
-        example.setText(examples[position]);
+        summary.setText(toHTML(summaries[position]));
+        example.setText(toHTML(examples[position]));
         img.setImageResource(pics[position]);
 
     }
@@ -290,5 +292,18 @@ public class GeoAssist extends AppCompatActivity implements AdapterView.OnItemSe
         return true;
     }
 
+    /**
+     * Converts database strings to HTML to support superscripts
+     * @param input the string to be converted
+     * @return Spanned object to be passed into the setText method
+     */
+    public Spanned toHTML(String input) {
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            return Html.fromHtml(input, Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            return Html.fromHtml(input);
+        }
+    }
 
 }

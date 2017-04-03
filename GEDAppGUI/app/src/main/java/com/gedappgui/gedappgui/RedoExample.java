@@ -23,6 +23,8 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,8 +35,11 @@ import java.util.ArrayList;
 
 public class RedoExample extends AppCompatActivity {
 
+    //current lesson number
     private int lessonID;
+    //current conceot number
     private int conceptID;
+    //total number of times the user has attempted the question section
     private int totalRetries;
 
     /**
@@ -58,6 +63,20 @@ public class RedoExample extends AppCompatActivity {
         totalRetries = mIntent.getIntExtra("totalRetries", 0);
         DatabaseHelper db = new DatabaseHelper(this);
         setRedos(db, lessonID);
+
+        //get screen dimensions
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+
+        TextView redo1 = (TextView)findViewById(R.id.redo1_text);
+        TextView redo2 = (TextView)findViewById(R.id.redo2_text);
+        TextView redo3 = (TextView)findViewById(R.id.redo3_text);
+
+        redo1.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        redo2.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        redo3.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
     }
 
     /**

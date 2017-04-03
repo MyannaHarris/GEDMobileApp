@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,6 +36,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -81,6 +83,7 @@ public class SlopeCalculator extends AppCompatActivity {
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
+        int height = dm.heightPixels;
 
         EditText y1input = (EditText)findViewById(R.id.y1_input);
         EditText x1input = (EditText)findViewById(R.id.x1_input);
@@ -101,6 +104,24 @@ public class SlopeCalculator extends AppCompatActivity {
         x2input.setLayoutParams(paramsx2);
         y1input.setLayoutParams(paramsy1);
         y2input.setLayoutParams(paramsy2);
+
+        TextView instr = (TextView) findViewById(R.id.instructions);
+        instr.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
+
+
+        Button rbtn = (Button) findViewById(R.id.resetbutton);
+        Button sbtn = (Button) findViewById(R.id.FindSlope);
+        ViewGroup.LayoutParams paramsr = rbtn.getLayoutParams();
+        ViewGroup.LayoutParams paramss = sbtn.getLayoutParams();
+
+        // Set button height
+        paramss.height = (height/8);
+        paramsr.height = (height/8);
+
+        sbtn.setLayoutParams(paramss);
+        sbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        rbtn.setLayoutParams(paramsr);
+        rbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
 
     }
 

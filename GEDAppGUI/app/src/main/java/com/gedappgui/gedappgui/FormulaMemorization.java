@@ -66,26 +66,26 @@ public class FormulaMemorization extends AppCompatActivity {
         TextView volumeformulas = (TextView)findViewById(R.id.volumeformulas);
         TextView wpformulas = (TextView)findViewById(R.id.wpformulas);
 
-        String areas = "Square:\nArea = side * side \n \nRectangle:\nArea = length * width \n \n" +
-                "Parallelogram:\nArea = base * height \n \nTriangle:\nArea = 1/2 * base * height \n \n" +
-                "Trapezoid:\nArea = 1/2 * (base1 + base2) * height \n \nCircle:\nArea = pi * radius<sup><small>2</small></sup>";
+        String areas = "Square:<br />Area = side * side <br /> <br />Rectangle:<br />Area = length * width <br /> <br />" +
+                "Parallelogram:<br />Area = base * height <br /> <br />Triangle:<br />Area = 1/2 * base * height <br /> <br />" +
+                "Trapezoid:<br />Area = 1/2 * (base1 + base2) * height <br /> <br />Circle:<br />Area = pi * radius<sup><small>2</small></sup>";
 
         areaformulas.setText(toHTML(areas));
 
-        String perimeters = "Square:\nPerimeter = 4 * side \n \nRectangle:\nPerimeter = 2 * length + 2 * width" +
-                "\n \nTriangle:\nPerimeter = side1 + side2 + side3 \n \nCircle:\nCircumference = pi * diameter";
+        String perimeters = "Square:<br />Perimeter = 4 * side <br /> <br />Rectangle:<br />Perimeter = 2 * length + 2 * width" +
+                "<br /> <br />Triangle:<br />Perimeter = side1 + side2 + side3 <br /> <br />Circle:<br />Circumference = pi * diameter";
 
         perimeterformulas.setText(toHTML(perimeters));
 
-        String volumes = "Cube:\nVolume = edge<sup><small>3</small></sup> \n \nRectangular Solid:\nVolume = length * width * height" +
-                "\n \nSquare Pyramid:\nVolume = 1/3 * (base edge)<sup><small>2</small></sup> * height \n \nCylinder:\nVolume = pi * radius<sup><small>2</small></sup> * height" +
-                "\n \nCone:\nVolume = 1/3 * pi * radius<sup><small>2</small></sup> * height";
+        String volumes = "Cube:<br />Volume = edge<sup><small>3</small></sup> <br /> <br />Rectangular Solid:<br />Volume = length * width * height" +
+                "<br /> <br />Square Pyramid:<br />Volume = 1/3 * (base edge)<sup><small>2</small></sup> * height <br /> <br />Cylinder:<br />Volume = pi * radius<sup><small>2</small></sup> * height" +
+                "<br /> <br />Cone:<br />Volume = 1/3 * pi * radius<sup><small>2</small></sup> * height";
 
         volumeformulas.setText(toHTML(volumes));
 
-        String wordprobformulas = "Pthagorean:\nleg1<sup><small>2</small></sup> + leg2<sup><small>2</small></sup> = hypotenuse<sup><small>2</small></sup>\n \nSimple Interest" +
-                ":\ninterest = principal * rate * time \n \nDistance:\ndistance = rate * time \n \n" +
-                "Total Cost:\ntotal cost = (number of units) * (price per unit)";
+        String wordprobformulas = "Pthagorean:<br />leg1<sup><small>2</small></sup> + leg2<sup><small>2</small></sup> = hypotenuse<sup><small>2</small></sup><br /> <br />Simple Interest" +
+                ":<br />interest = principal * rate * time <br /> <br />Distance:<br />distance = rate * time <br /> <br />" +
+                "Total Cost:<br />total cost = (number of units) * (price per unit)";
 
         wpformulas.setText(toHTML(wordprobformulas));
 
@@ -101,26 +101,26 @@ public class FormulaMemorization extends AppCompatActivity {
         TextView volumeformulas = (TextView)findViewById(R.id.volumeformulas);
         TextView wpformulas = (TextView)findViewById(R.id.wpformulas);
 
-        String areas = "Square:\nArea = ? * side \n \nRectangle:\nArea = ? * width \n \n" +
-                "Parallelogram:\nArea = ? * height \n \nTriangle:\nArea = 1/2 * base * ? \n \n" +
-                "Trapezoid:\nArea = 1/2 * (base1 + ?) * height \n \nCircle:\nArea = pi * ?<sup><small>2</small></sup>";
+        String areas = "Square:<br />Area = ? * side <br /> <br />Rectangle:<br />Area = ? * width <br /> <br />" +
+                "Parallelogram:<br />Area = ? * height <br /> <br />Triangle:<br />Area = 1/2 * base * ? <br /> <br />" +
+                "Trapezoid:<br />Area = 1/2 * (base1 + ?) * height <br /> <br />Circle:<br />Area = pi * ?<sup><small>2</small></sup>";
 
         areaformulas.setText(toHTML(areas));
 
-        String perimeters = "Square:\nPerimeter = ? * side \n \nRectangle:\nPerimeter = 2 * ? + 2 * width" +
-                "\n \nTriangle:\nPerimeter = ? + side2 + side3 \n \nCircle:\nCircumference = pi * ?";
+        String perimeters = "Square:<br />Perimeter = ? * side <br /> <br />Rectangle:<br />Perimeter = 2 * ? + 2 * width" +
+                "<br /> <br />Triangle:<br />Perimeter = ? + side2 + side3 <br /> <br />Circle:<br />Circumference = pi * ?";
 
         perimeterformulas.setText(toHTML(perimeters));
 
-        String volumes = "Cube:\nVolume = ?<sup><small>3</small></sup> \n \nRectangular Solid:\nVolume = length * ? * height" +
-                "\n \nSquare Pyramid:\nVolume = 1/3 * (?)<sup><small>2</small></sup> * height \n \nCylinder:\nVolume = pi * radius<sup><small>2</small></sup> * ?" +
-                "\n \nCone:\nVolume = 1/3 * pi * radius<sup><small>2</small></sup> * ?";
+        String volumes = "Cube:<br />Volume = ?<sup><small>3</small></sup> <br /> <br />Rectangular Solid:<br />Volume = length * ? * height" +
+                "<br /> <br />Square Pyramid:<br />Volume = 1/3 * (?)<sup><small>2</small></sup> * height <br /> <br />Cylinder:<br />Volume = pi * radius<sup><small>2</small></sup> * ?" +
+                "<br /> <br />Cone:<br />Volume = 1/3 * pi * radius<sup><small>2</small></sup> * ?";
 
         volumeformulas.setText(toHTML(volumes));
 
-        String wordprobformulas = "Pthagorean:\nleg1<sup><small>2</small></sup> + ?<sup><small>2</small></sup> = hypotenuse<sup><small>2</small></sup>\n \nSimple Interest" +
-                ":\ninterest = principal * ? * time \n \nDistance:\ndistance = rate × ? \n \n" +
-                "Total Cost:\ntotal cost = (number of units) * (?)";
+        String wordprobformulas = "Pthagorean:<br />leg1<sup><small>2</small></sup> + ?<sup><small>2</small></sup> = hypotenuse<sup><small>2</small></sup><br /> <br />Simple Interest" +
+                ":<br />interest = principal * ? * time <br /> <br />Distance:<br />distance = rate × ? <br /> <br />" +
+                "Total Cost:<br />total cost = (number of units) * (?)";
 
         wpformulas.setText(toHTML(wordprobformulas));
     }
@@ -135,26 +135,26 @@ public class FormulaMemorization extends AppCompatActivity {
         TextView volumeformulas = (TextView)findViewById(R.id.volumeformulas);
         TextView wpformulas = (TextView)findViewById(R.id.wpformulas);
 
-        String areas = "Square:\nArea = ? * ? \n \nRectangle:\nArea = ? * ? \n \n" +
-                "Parallelogram:\nArea = ? * ? \n \nTriangle:\nArea = ? * base * ? \n \n" +
-                "Trapezoid:\nArea = 1/2 * (base1 + ?) * ? \n \nCircle:\nArea = ? * ?<sup><small>2</small></sup>";
+        String areas = "Square:<br />Area = ? * ? <br /> <br />Rectangle:<br />Area = ? * ? <br /> <br />" +
+                "Parallelogram:<br />Area = ? * ? <br /> <br />Triangle:<br />Area = ? * base * ? <br /> <br />" +
+                "Trapezoid:<br />Area = 1/2 * (base1 + ?) * ? <br /> <br />Circle:<br />Area = ? * ?<sup><small>2</small></sup>";
 
         areaformulas.setText(toHTML(areas));
 
-        String perimeters = "Square:\nPerimeter = ? * ? \n \nRectangle:\nPerimeter = 2 * ? + 2 * ?" +
-                "\n \nTriangle:\nPerimeter = ? + side2 + ? \n \nCircle:\nCircumference = ? * ?";
+        String perimeters = "Square:<br />Perimeter = ? * ? <br /> <br />Rectangle:<br />Perimeter = 2 * ? + 2 * ?" +
+                "<br /> <br />Triangle:<br />Perimeter = ? + side2 + ? <br /> <br />Circle:<br />Circumference = ? * ?";
 
         perimeterformulas.setText(toHTML(perimeters));
 
-        String volumes = "Cube:\nVolume = ?<sup><small>?</small></sup> \n \nRectangular Solid:\nVolume = ? * ? * height" +
-                "\n \nSquare Pyramid:\nVolume = ? * (?)<sup><small>2</small></sup> * height \n \nCylinder:\nVolume = pi * ?<sup><small>2</small></sup> * ?" +
-                "\n \nCone:\nVolume = 1/3 * ? * radius^2 * ?";
+        String volumes = "Cube:<br />Volume = ?<sup><small>?</small></sup> <br /> <br />Rectangular Solid:<br />Volume = ? * ? * height" +
+                "<br /> <br />Square Pyramid:<br />Volume = ? * (?)<sup><small>2</small></sup> * height <br /> <br />Cylinder:<br />Volume = pi * ?<sup><small>2</small></sup> * ?" +
+                "<br /> <br />Cone:<br />Volume = 1/3 * ? * radius^2 * ?";
 
         volumeformulas.setText(toHTML(volumes));
 
-        String wordprobformulas = "Pthagorean:\n?<sup><small>2</small></sup> + ?<sup><small>2</small></sup> = hypotenuse<sup><small>2</small></sup>\n \nSimple Interest" +
-                ":\ninterest = ? * ? * time \n \nDistance:\ndistance = ? * ? \n \n" +
-                "Total Cost:\ntotal cost = (?) * (?)";
+        String wordprobformulas = "Pthagorean:<br />?<sup><small>2</small></sup> + ?<sup><small>2</small></sup> = hypotenuse<sup><small>2</small></sup><br /> <br />Simple Interest" +
+                ":<br />interest = ? * ? * time <br /> <br />Distance:<br />distance = ? * ? <br /> <br />" +
+                "Total Cost:<br />total cost = (?) * (?)";
 
         wpformulas.setText(toHTML(wordprobformulas));
     }

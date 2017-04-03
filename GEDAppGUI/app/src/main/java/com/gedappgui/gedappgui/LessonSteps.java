@@ -25,7 +25,6 @@ import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.media.AudioManager;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -37,18 +36,14 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
 
 public class LessonSteps extends AppCompatActivity {
 
@@ -108,6 +103,7 @@ public class LessonSteps extends AppCompatActivity {
 
         Button nextbtn = (Button) findViewById(R.id.lessonExample);
         //set dynamic text size
+        advice.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
         nextbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
 
     }
