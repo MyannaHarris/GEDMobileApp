@@ -99,9 +99,12 @@ public class Success extends AppCompatActivity {
         accessoryMap = new HashMap<Integer, Integer>();
         makeDictionary();
 
+        TextView pickText = (TextView) findViewById(R.id.accessory_choice);
+        TextView helperText = (TextView) findViewById(R.id.pick_location);
+        TextView congrats = (TextView) findViewById(R.id.congratulations);
+
         // If the next lesson is newly unlocked, the user receives an accessory
         if (!(dbHelper.isLessonAlreadyStarted(lessonID+1))) {
-            TextView pickText = (TextView) findViewById(R.id.accessory_choice);
             pickText.setText("Pick an accessory:");
             // Get random accessories user doesn't have from db and put them in ArrayList
             ArrayList<Integer> ids = dbHelper.getRandomAccessories();
@@ -110,11 +113,20 @@ public class Success extends AppCompatActivity {
                 accessories.add(ids.get(i)); // accessory id
                 accessories.add(accessoryMap.get(ids.get(i))); // accessory image
             }
-            TextView helperText = (TextView) findViewById(R.id.pick_location);
             helperText.setText("Once you decide what accessory you want, choose where you\'d like to go next!");
-
             checkAchievements(totalQuestions, totalCorrect);
         }
+
+        Button toLesson = (Button) findViewById(R.id.to_lesson);
+        Button toConcepts = (Button) findViewById(R.id.to_concepts);
+        Button toSprite = (Button) findViewById(R.id.to_sprite);
+
+        helperText.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/35);
+        pickText.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/35);
+        congrats.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/20);
+        toLesson.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/35);
+        toConcepts.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/35);
+        toSprite.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/35);
 
         dbHelper.lessonCompleted(lessonID);
 

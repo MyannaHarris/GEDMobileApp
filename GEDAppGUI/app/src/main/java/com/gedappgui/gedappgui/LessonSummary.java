@@ -101,6 +101,8 @@ public class LessonSummary extends AppCompatActivity {
         Button nextbtn = (Button) findViewById(R.id.lessonSteps);
 
         nextbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        title.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/20));
+        summary.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
     }
 
     /**

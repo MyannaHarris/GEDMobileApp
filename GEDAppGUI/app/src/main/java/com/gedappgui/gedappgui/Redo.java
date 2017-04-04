@@ -23,10 +23,14 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 public class Redo extends AppCompatActivity {
 
@@ -68,6 +72,19 @@ public class Redo extends AppCompatActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
+
+        // for dynamic sizes
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int height = dm.heightPixels;
+
+        Button toRedo = (Button) findViewById(R.id.to_redoExample);
+        TextView redoInfo = (TextView) findViewById(R.id.redo_info);
+        TextView greatWork = (TextView) findViewById(R.id.great_work);
+
+        toRedo.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/35);
+        redoInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/35);
+        greatWork.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/20);
     }
 
     /*

@@ -102,9 +102,11 @@ public class LessonSteps extends AppCompatActivity {
         int height = dm.heightPixels;
 
         Button nextbtn = (Button) findViewById(R.id.lessonExample);
+        TextView title = (TextView) findViewById(R.id.stepsTitle);
         //set dynamic text size
         advice.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
         nextbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        title.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/20));
 
     }
 

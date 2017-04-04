@@ -72,10 +72,14 @@ public class LessonExample extends AppCompatActivity {
         Button nextbtn = (Button) findViewById(R.id.lessonGame);
         TextView ex_1 = (TextView) findViewById(R.id.example_1);
         TextView ex_2 = (TextView) findViewById(R.id.example_2);
+        TextView title1 = (TextView) findViewById(R.id.example1_header);
+        TextView title2 = (TextView) findViewById(R.id.example2_header);
 
         nextbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
         ex_1.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
         ex_2.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        title1.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/20));
+        title2.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/20));
 
 
     }

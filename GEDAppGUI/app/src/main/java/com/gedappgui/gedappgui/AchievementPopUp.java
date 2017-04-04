@@ -56,7 +56,7 @@ public class AchievementPopUp extends AppCompatActivity {
         if(!db.achievementExists(achievementID)) {
             setContentView(R.layout.activity_pop_up);
 
-            //gets the coresponding achievement information from the db
+            //gets the corresponding achievement information from the db
             String desc = db.selectAchievementDesc(achievementID);
             String img = db.selectAchievementImg(achievementID);
             String name = db.selectAchievementName(achievementID);

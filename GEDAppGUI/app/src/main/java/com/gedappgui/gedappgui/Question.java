@@ -124,18 +124,6 @@ public class Question extends AppCompatActivity {
 
         //clearButton.setLayoutParams(params);
 
-        // Set text size for page
-        /*TextView textView = (TextView)findViewById(R.id.question_textView);
-        textView.setTextSize(height/20);
-        RadioButton radioButton = (RadioButton)findViewById(R.id.question_answer1);
-        radioButton.setTextSize(height/20);
-        radioButton = (RadioButton)findViewById(R.id.question_answer2);
-        radioButton.setTextSize(height/20);
-        radioButton = (RadioButton)findViewById(R.id.question_answer3);
-        radioButton.setTextSize(height/20);
-        radioButton = (RadioButton)findViewById(R.id.question_answer4);
-        radioButton.setTextSize(height/20);*/
-
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
@@ -263,6 +251,18 @@ public class Question extends AppCompatActivity {
                 return true;
             }
         });
+
+        // Set text size for page
+        TextView textView = (TextView)findViewById(R.id.question_textView);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/35);
+        RadioButton radioButton = (RadioButton)findViewById(R.id.question_answer1);
+        radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/35);
+        radioButton = (RadioButton)findViewById(R.id.question_answer2);
+        radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/35);
+        radioButton = (RadioButton)findViewById(R.id.question_answer3);
+        radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/35);
+        radioButton = (RadioButton)findViewById(R.id.question_answer4);
+        radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/35);
     }
 
     /**

@@ -19,7 +19,9 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/congratulations"
-        android:textSize="30sp" />
+        android:textStyle="bold"
+        android:textSize="30sp"
+        android:textColor="@color/colorHeader1"/>
 
     <TextView
         android:text="@string/noNewAccessory"

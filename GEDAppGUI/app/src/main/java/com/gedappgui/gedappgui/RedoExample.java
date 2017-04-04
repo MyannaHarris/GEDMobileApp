@@ -29,6 +29,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -63,20 +64,6 @@ public class RedoExample extends AppCompatActivity {
         totalRetries = mIntent.getIntExtra("totalRetries", 0);
         DatabaseHelper db = new DatabaseHelper(this);
         setRedos(db, lessonID);
-
-        //get screen dimensions
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-        int width = dm.widthPixels;
-        int height = dm.heightPixels;
-
-        TextView redo1 = (TextView)findViewById(R.id.redo1_text);
-        TextView redo2 = (TextView)findViewById(R.id.redo2_text);
-        TextView redo3 = (TextView)findViewById(R.id.redo3_text);
-
-        redo1.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
-        redo2.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
-        redo3.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
     }
 
     /**
@@ -85,14 +72,36 @@ public class RedoExample extends AppCompatActivity {
      * @param lesson_id the current lesson number
      */
     public void setRedos(DatabaseHelper db, int lesson_id){
+        //get screen dimensions
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+
         ArrayList<String> redos = new ArrayList<>();
         redos = db.selectRedos(lesson_id);
         TextView redo_1 = (TextView) findViewById(R.id.redo1_text);
         TextView redo_2 = (TextView) findViewById(R.id.redo2_text);
         TextView redo_3 = (TextView) findViewById(R.id.redo3_text);
+        TextView redoHead1 = (TextView)findViewById(R.id.redo1);
+        TextView redoHead2 = (TextView)findViewById(R.id.redo2);
+        TextView redoHead3 = (TextView)findViewById(R.id.redo3);
+        Button toGame = (Button)findViewById(R.id.redoLessonGame);
+        Button skipGame = (Button)findViewById(R.id.skipLessonGame);
+
         redo_1.setText(redos.get(0));
         redo_2.setText(redos.get(1));
         redo_3.setText(redos.get(2));
+
+        //dynamic text size
+        redo_1.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        redo_2.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        redo_3.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        redoHead1.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/20));
+        redoHead2.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/20));
+        redoHead3.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/20));
+        toGame.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        skipGame.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
     }
 
     /**
