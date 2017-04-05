@@ -21,9 +21,13 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="279dp"
+            android:layout_height="200dp"
             app:srcCompat="@drawable/sprite_dragon"
-            android:id="@+id/prompt_pic" />
+            android:id="@+id/prompt_pic"
+            android:background="@drawable/pic_border"
+            android:padding="2dp"
+            android:layout_gravity="center"
+            />
 
         <TextView
             android:text="Welcome to the tutorial! Use the forward and back buttons to navigate the tutorial. Hit exit to leave at any time."

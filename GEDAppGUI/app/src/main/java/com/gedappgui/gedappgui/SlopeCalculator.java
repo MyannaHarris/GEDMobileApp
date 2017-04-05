@@ -94,10 +94,10 @@ public class SlopeCalculator extends AppCompatActivity {
         ViewGroup.LayoutParams paramsx2 = x2input.getLayoutParams();
         ViewGroup.LayoutParams paramsx1 = x1input.getLayoutParams();
 
-        paramsy2.width = (int) (width/2.2);
-        paramsy1.width = (int) (width/2.2);
-        paramsx1.width = (int) (width/2.2);
-        paramsx2.width = (int) (width/2.2);
+        paramsy2.width = (int) (width/2.3);
+        paramsy1.width = (int) (width/2.3);
+        paramsx1.width = (int) (width/2.3);
+        paramsx2.width = (int) (width/2.3);
 
 
         x1input.setLayoutParams(paramsx1);
@@ -115,8 +115,8 @@ public class SlopeCalculator extends AppCompatActivity {
         ViewGroup.LayoutParams paramss = sbtn.getLayoutParams();
 
         // Set button height
-        paramss.height = (height/8);
-        paramsr.height = (height/8);
+        paramss.height = (height/13);
+        paramsr.height = (height/13);
 
         sbtn.setLayoutParams(paramss);
         sbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));

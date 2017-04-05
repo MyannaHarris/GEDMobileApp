@@ -43,7 +43,9 @@
             android:layout_below="@+id/number_change"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_weight="0.12" />
+            android:layout_weight="0.12"
+            android:maxHeight="1000dp"
+            android:minHeight="0dp"/>
 
         <TextView
             android:text=""

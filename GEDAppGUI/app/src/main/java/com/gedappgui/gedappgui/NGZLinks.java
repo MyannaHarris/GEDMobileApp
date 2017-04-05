@@ -24,6 +24,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -54,17 +56,33 @@ public class NGZLinks extends AppCompatActivity {
         achievement.putExtra("achievementID", 7);
         startActivity(achievement);
 
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+
+        TextView expl_link = (TextView) findViewById(R.id.explanation_link);
+        expl_link.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
+
         //set links for clicking
         TextView home = (TextView) findViewById(R.id.home_link);
         TextView info = (TextView) findViewById(R.id.information);
         TextView job = (TextView) findViewById(R.id.Job);
         TextView passport = (TextView) findViewById(R.id.passport);
         TextView who = (TextView) findViewById(R.id.who);
+        TextView resources = (TextView) findViewById(R.id.Resources);
+        home.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
+        info.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
+        job.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
+        passport.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
+        who.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
+        resources.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
         home.setMovementMethod(LinkMovementMethod.getInstance());
         info.setMovementMethod(LinkMovementMethod.getInstance());
         job.setMovementMethod(LinkMovementMethod.getInstance());
         passport.setMovementMethod(LinkMovementMethod.getInstance());
         who.setMovementMethod(LinkMovementMethod.getInstance());
+        resources.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     /**

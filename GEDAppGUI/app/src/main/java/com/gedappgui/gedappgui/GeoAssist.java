@@ -174,6 +174,14 @@ public class GeoAssist extends AppCompatActivity implements AdapterView.OnItemSe
         Intent achievement = new Intent(this, AchievementPopUp.class);
         achievement.putExtra("achievementID", 7);
         startActivity(achievement);
+
+
+        TextView prompt = (TextView) findViewById(R.id.prompt);
+        prompt.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
+        TextView summ = (TextView) findViewById(R.id.summary);
+        summ.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
+        TextView shape_e = (TextView) findViewById(R.id.shape_examples);
+        shape_e.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
     }
 
     /**

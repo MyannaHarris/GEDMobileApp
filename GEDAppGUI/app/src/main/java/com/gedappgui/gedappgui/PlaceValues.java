@@ -22,10 +22,13 @@ import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -34,7 +37,7 @@ public class PlaceValues extends AppCompatActivity {
     private String[] places = {
             "Millions, can be represented in this number as 1 * 1,000,000",
             "Hundred Thousands, can be represented in this number as 2 * 100,000",
-        "Ten Thousands, can be represented in this number as 3 * 10,000",
+            "Ten Thousands, can be represented in this number as 3 * 10,000",
             "Thousands, can be represented in this number as 4 * 1,000",
             "Hundreds, can be represented in this number as 5 * 100",
             "Tens, can be represented in this number as 6 * 10",
@@ -114,6 +117,25 @@ public class PlaceValues extends AppCompatActivity {
 
             }
         });
+
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+
+        TextView ip = (TextView) findViewById(R.id.instructions_place);
+        ip.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
+        TextView nc = (TextView) findViewById(R.id.number_change);
+        nc.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/25));
+        TextView pt = (TextView) findViewById(R.id.places_text);
+        pt.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
+
+        ViewGroup.LayoutParams paramss = seekbar.getLayoutParams();
+
+        paramss.height = (height/10);
+
+        seekbar.setLayoutParams(paramss);
+
 
     }
 

@@ -24,10 +24,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class FormulaMemorization extends AppCompatActivity {
@@ -55,6 +59,41 @@ public class FormulaMemorization extends AppCompatActivity {
         Intent achievement = new Intent(this, AchievementPopUp.class);
         achievement.putExtra("achievementID", 7);
         startActivity(achievement);
+
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+
+        TextView prompt = (TextView) findViewById(R.id.formulaprompt);
+        prompt.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
+        TextView areaf = (TextView) findViewById(R.id.areaformulas);
+        areaf.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
+        TextView perimeterf = (TextView) findViewById(R.id.perimeterformulas);
+        perimeterf.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
+        TextView volumef = (TextView) findViewById(R.id.volumeformulas);
+        volumef.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
+        TextView wpf = (TextView) findViewById(R.id.wpformulas);
+        wpf.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
+
+        Button hOne = (Button) findViewById(R.id.hideleft);
+        ViewGroup.LayoutParams paramsOne = hOne.getLayoutParams();
+        Button hTwo = (Button) findViewById(R.id.hideright);
+        ViewGroup.LayoutParams paramsTwo = hTwo.getLayoutParams();
+        Button hNone = (Button) findViewById(R.id.hidenone);
+        ViewGroup.LayoutParams paramsNone = hNone.getLayoutParams();
+
+        // Set button height
+        paramsOne.height = (height/13);
+        paramsTwo.height = (height/13);
+        paramsNone.height = (height/13);
+
+        hOne.setLayoutParams(paramsOne);
+        hOne.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        hTwo.setLayoutParams(paramsTwo);
+        hTwo.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        hNone.setLayoutParams(paramsNone);
+        hNone.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
     }
 
     /**

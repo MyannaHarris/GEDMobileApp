@@ -23,16 +23,20 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -88,6 +92,21 @@ public class FractionToDecimalTool extends AppCompatActivity {
         Intent achievement = new Intent(this, AchievementPopUp.class);
         achievement.putExtra("achievementID", 7);
         startActivity(achievement);
+
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+
+
+        Button subbtn = (Button) findViewById(R.id.submitButton);
+        ViewGroup.LayoutParams paramss = subbtn.getLayoutParams();
+
+        // Set button height
+        paramss.height = (height/8);
+
+        subbtn.setLayoutParams(paramss);
+        subbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
     }
 
     /**

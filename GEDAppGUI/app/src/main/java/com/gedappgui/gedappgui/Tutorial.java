@@ -41,24 +41,48 @@ public class Tutorial extends AppCompatActivity {
     private String[] prompts = {
             "Welcome to the tutorial! Use the forward and back buttons to navigate the tutorial. Hit exit to leave at any time.",
             "The Home Screen is the first thing you will see when opening the app. You can use this screen to access all other features.",
-            "By clicking on the dragon, you can go directly to the dragon accessory screen.",
+            "By clicking on the dragon, you can go directly to the dragon's lair.",
             "Here you can choose accessories to put on the sprite by dragging them onto the dragon. You can also remove accessories by clicking on them again.",
-            "Click on the tools button on the home screen to go to the tools section. You can access math tools that will help you with memorization of math rules and solving GED questions on this screen.",
-            "Click on the play button to go to the games screen. You can play the games that you have unlocked by completing lessons on this screen.",
+            "Clicking continue lesson on the home screen will take you to where you left off on the current lesson.",
             "Click on the achievements button to see what achievements you have earned. You can view all of the achievements you have earned on this screen.",
-            "Click on learn to go to the concepts screen.",
+            "Click on the tools button on the home screen to go to the tools section. You can access math tools that will help you with memorization of math rules and solving GED questions on this screen.",
+            "Click on the classroom button to go to the concepts screen.",
             "On this screen you can select from 4 concepts each holding 6 lessons.",
-            "After clicking on a concept, you can select the most recent lesson you have unlocked or any past lesson.",
+            "Each lesson will be unlocked as you complete more lessons. Initially, you will only have access to the first lesson",
             "The first screen in a lesson is a summary that will give you an overview of the lesson.",
             "The next screen has a video, picture, and a short tip on the material in the lesson, we suggest you go through all 3 of these parts before proceeding.",
             "You can view two example problems on this screen that are similar to what will be asked later in the lesson.",
             "The next few screens will have instructions on how to play a short game and the actual game itself.",
             "After the game, you will be asked some questions on the material similar to questions asked on the GED.",
             "After you answer enough questions correctly, you will be able to select an accessory for your sprite and move on.",
-            "Clicking continue lesson on the home screen will take you to where you left off on the current lesson.",
+            "Click on the arcade button to go to the games screen. You can play the games that you have unlocked by completing lessons on this screen.",
             "Thanks for using our app! You can access this tutorial at anytime in Tools! Have fun and good luck!",
             "Thanks for using our app! You can access this tutorial at anytime in Tools! Have fun and good luck!"
     };
+
+    private String[] headings = {
+            "Tutorial",
+            "Home Screen",
+            "Dragon Lair",
+            "Dragon Lair",
+            "Continuing lessons",
+            "Achievements",
+            "Tools",
+            "Classroom",
+            "Concepts Selection",
+            "Lesson Selection",
+            "Summary",
+            "Information",
+            "Examples",
+            "Instructions",
+            "Questions",
+            "Success!",
+            "Arcade",
+            "Have fun!",
+            "Have fun!"
+
+    };
+
 
     // Set pictures for each page of tutorial
     private int[] tutorial_pics = {
@@ -66,9 +90,10 @@ public class Tutorial extends AppCompatActivity {
             R.drawable.home_screen,
             R.drawable.home_screen_sprite,
             R.drawable.closet,
-            R.drawable.home_screen_tools,
-            R.drawable.home_screen_play,
+            R.drawable.home_screen_continue,
             R.drawable.home_screen_achievements,
+
+            R.drawable.home_screen_tools,
             R.drawable.home_screen_learn,
             R.drawable.tutorial_concepts,
             R.drawable.tutorial_lessons,
@@ -78,7 +103,7 @@ public class Tutorial extends AppCompatActivity {
             R.drawable.tutorial_game,
             R.drawable.tutorial_questions,
             R.drawable.tutorial_success,
-            R.drawable.home_screen_continue,
+            R.drawable.home_screen_play,
             R.drawable.sprite_dragon,
             R.drawable.sprite_dragon
     };
@@ -114,10 +139,16 @@ public class Tutorial extends AppCompatActivity {
         forwardbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
         Button exitbtn = (Button)findViewById(R.id.tutorial_exit);
         exitbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        ImageView iview = (ImageView)findViewById(R.id.prompt_pic);
+
 
         ViewGroup.LayoutParams paramsexit = exitbtn.getLayoutParams();
         ViewGroup.LayoutParams paramsforward = forwardbtn.getLayoutParams();
         ViewGroup.LayoutParams paramsback = backbtn.getLayoutParams();
+        ViewGroup.LayoutParams paramsiview = iview.getLayoutParams();
+
+        paramsiview.height = height / 2;
+        paramsiview.width = width / 2;
 
         paramsexit.height = (height/8);
         paramsexit.width = (width/4);
@@ -129,6 +160,7 @@ public class Tutorial extends AppCompatActivity {
         exitbtn.setLayoutParams(paramsexit);
         forwardbtn.setLayoutParams(paramsforward);
         backbtn.setLayoutParams(paramsback);
+        iview.setLayoutParams(paramsiview);
 
         TextView prompt = (TextView)findViewById(R.id.prompt);
         prompt.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
@@ -158,6 +190,7 @@ public class Tutorial extends AppCompatActivity {
             current--;
             prompt.setText(prompts[current]);
             promptImg.setImageResource(tutorial_pics[current]);
+            this.setTitle(headings[current]);
         }
         if (current == 0){
             backer.setVisibility(View.GONE);
@@ -181,6 +214,7 @@ public class Tutorial extends AppCompatActivity {
         }
         prompt.setText(prompts[current]);
         promptImg.setImageResource(tutorial_pics[current]);
+        this.setTitle(headings[current]);
 
         Button backer = (Button)findViewById(R.id.tutorial_back);
         if (current == 0){
