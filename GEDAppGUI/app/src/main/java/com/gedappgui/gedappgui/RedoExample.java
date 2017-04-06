@@ -94,14 +94,14 @@ public class RedoExample extends AppCompatActivity {
         redo_3.setText(redos.get(2));
 
         //dynamic text size
-        redo_1.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
-        redo_2.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
-        redo_3.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        redo_1.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+        redo_2.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+        redo_3.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
         redoHead1.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/20));
         redoHead2.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/20));
         redoHead3.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/20));
-        toGame.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
-        skipGame.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        toGame.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+        skipGame.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
     }
 
     /**

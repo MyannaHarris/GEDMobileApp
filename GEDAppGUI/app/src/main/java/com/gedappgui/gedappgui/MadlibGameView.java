@@ -24,6 +24,7 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -176,6 +177,7 @@ public class MadlibGameView extends RelativeLayout {
 
         submit = new Button(context);
         submit.setText("Submit");
+        submit.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
 
         if (Build.VERSION.SDK_INT < 17) {
             submit.setId(R.id.madlibGameSubmit);
@@ -276,6 +278,7 @@ public class MadlibGameView extends RelativeLayout {
         }
 
         question.setLayoutParams(relativeLay);
+        question.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
 
         this.addView(question);
 
@@ -291,7 +294,7 @@ public class MadlibGameView extends RelativeLayout {
         for (int i = 0; i < radioGroup.getChildCount(); i++) {
             String textAnswer = answerTexts.get(currQuestion).get(i);
             ((RadioButton) radioGroup.getChildAt(i)).setText(textAnswer);
-            ((RadioButton) radioGroup.getChildAt(i)).setTextSize(20);
+            ((RadioButton) radioGroup.getChildAt(i)).setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
             ((RadioButton) radioGroup.getChildAt(i)).setId(i+1);
             ((RadioButton) radioGroup.getChildAt(i)).setOnClickListener(new View.OnClickListener(){
                 @Override
@@ -321,6 +324,7 @@ public class MadlibGameView extends RelativeLayout {
         relativeLay.addRule(RelativeLayout.BELOW, radioGroup.getId());
 
         questionSubmit.setLayoutParams(relativeLay);
+        questionSubmit.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
 
         this.addView(questionSubmit);
 
@@ -426,6 +430,7 @@ public class MadlibGameView extends RelativeLayout {
             relativeLay.addRule(RelativeLayout.BELOW, allUserFills.get(currQuestion).get(allUserFills.get(currQuestion).size() - 1).getId());
 
             submit.setLayoutParams(relativeLay);
+            submit.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
 
             this.addView(submit);
         } else {
@@ -473,6 +478,8 @@ public class MadlibGameView extends RelativeLayout {
         newWord.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
         newWord.setPadding(50,100,10,10);
 
+        newWord.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
+
         return newWord;
     }
 
@@ -504,6 +511,8 @@ public class MadlibGameView extends RelativeLayout {
         relativeLay.addRule(RelativeLayout.BELOW, tViews.get(num).getId());
 
         userWord.setLayoutParams(relativeLay);
+
+        userWord.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
 
         return userWord;
     }

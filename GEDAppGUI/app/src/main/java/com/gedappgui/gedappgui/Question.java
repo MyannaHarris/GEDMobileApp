@@ -106,7 +106,7 @@ public class Question extends AppCompatActivity {
         int height = dm.heightPixels;
 
         Button submitbtn = (Button)findViewById(R.id.submit_answer_button);
-        submitbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        submitbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
 
         // Set heights for button
         //ViewGroup.LayoutParams params = submitbtn.getLayoutParams();
@@ -116,7 +116,7 @@ public class Question extends AppCompatActivity {
 
         // Set dynamic size for clear button
         Button clearButton = (Button)findViewById(R.id.clearCanvas_button);
-        clearButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        clearButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
 
         // Set heights for button
         //params = clearButton.getLayoutParams();
@@ -158,7 +158,6 @@ public class Question extends AppCompatActivity {
         for (int i = 0; i < radioGroup.getChildCount(); i++) {
             String textAnswer = questionText.get(i+2);
             ((RadioButton) radioGroup.getChildAt(i)).setText(toHTML(textAnswer));
-            ((RadioButton) radioGroup.getChildAt(i)).setTextSize(20);
             if (textAnswer.equals(questionText.get(6))) {
                 correctAnswerIdx = i;
             }
@@ -254,15 +253,15 @@ public class Question extends AppCompatActivity {
 
         // Set text size for page
         TextView textView = (TextView)findViewById(R.id.question_textView);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/35);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
         RadioButton radioButton = (RadioButton)findViewById(R.id.question_answer1);
-        radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/35);
+        radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
         radioButton = (RadioButton)findViewById(R.id.question_answer2);
-        radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/35);
+        radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
         radioButton = (RadioButton)findViewById(R.id.question_answer3);
-        radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/35);
+        radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
         radioButton = (RadioButton)findViewById(R.id.question_answer4);
-        radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/35);
+        radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
     }
 
     /**

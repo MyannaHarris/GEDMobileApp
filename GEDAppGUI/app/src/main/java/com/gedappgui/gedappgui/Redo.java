@@ -82,8 +82,8 @@ public class Redo extends AppCompatActivity {
         TextView redoInfo = (TextView) findViewById(R.id.redo_info);
         TextView greatWork = (TextView) findViewById(R.id.great_work);
 
-        toRedo.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/35);
-        redoInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/35);
+        toRedo.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
+        redoInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
         greatWork.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/20);
     }
 

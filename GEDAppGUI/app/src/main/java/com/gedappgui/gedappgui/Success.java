@@ -121,12 +121,12 @@ public class Success extends AppCompatActivity {
         Button toConcepts = (Button) findViewById(R.id.to_concepts);
         Button toSprite = (Button) findViewById(R.id.to_sprite);
 
-        helperText.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/35);
-        pickText.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/35);
+        helperText.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
+        pickText.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
         congrats.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/20);
-        toLesson.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/35);
-        toConcepts.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/35);
-        toSprite.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/35);
+        toLesson.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
+        toConcepts.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
+        toSprite.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
 
         dbHelper.lessonCompleted(lessonID);
 

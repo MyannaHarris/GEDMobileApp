@@ -74,10 +74,10 @@ public class GameEnd extends AppCompatActivity {
         TextView congrats = (TextView) findViewById(R.id.congratulations);
         TextView accomplished = (TextView) findViewById(R.id.accomplished);
         congrats.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/20));
-        accomplished.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        accomplished.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
 
         Button startButton = (Button) findViewById(R.id.move_on);
-        startButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        startButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
     }
 
     /**

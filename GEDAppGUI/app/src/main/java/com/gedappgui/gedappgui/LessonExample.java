@@ -75,9 +75,9 @@ public class LessonExample extends AppCompatActivity {
         TextView title1 = (TextView) findViewById(R.id.example1_header);
         TextView title2 = (TextView) findViewById(R.id.example2_header);
 
-        nextbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
-        ex_1.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
-        ex_2.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        nextbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+        ex_1.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+        ex_2.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
         title1.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/20));
         title2.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/20));
 

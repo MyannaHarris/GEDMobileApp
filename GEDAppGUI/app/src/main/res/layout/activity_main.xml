@@ -32,7 +32,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:padding="4dp"
 
         android:id="@+id/sprite_home_grid"
 
@@ -69,6 +68,26 @@
 
     </android.support.v7.widget.GridLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="See your progress below!"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/sprite_home_grid"
+        android:id="@+id/see_progress"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_below="@id/see_progress"
+        android:padding="12dp"
+        android:layout_centerHorizontal="true"
+        android:maxHeight="11dp"
+        android:max = "24"
+        android:progress = "0" />
+
     <android.support.v7.widget.GridLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -77,9 +96,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
-        android:padding="7dp"
+        android:padding="4dp"
 
-        android:layout_below="@id/sprite_home_grid"
+        android:layout_below="@id/progressBar"
         android:id="@+id/button_home_grid"
 
         grid:alignmentMode="alignBounds"
@@ -100,6 +119,7 @@
             android:columnWidth="60dp">
 
         </GridView>-->
+
 
         <Button
             android:layout_width="0dp"

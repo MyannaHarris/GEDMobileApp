@@ -34,6 +34,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Button;
 
@@ -110,17 +111,30 @@ public class MainActivity extends AppCompatActivity {
 
             //sets a dynamic size for the button text on the main page
             Button toolsButton = (Button) findViewById(R.id.tools_button);
-            toolsButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+            toolsButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
             Button curLessButton = (Button) findViewById(R.id.continue_button);
-            curLessButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+            curLessButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
             Button achievementButton = (Button) findViewById(R.id.achievements_button);
-            achievementButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+            achievementButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
             Button settingsButton = (Button) findViewById(R.id.settings_button);
-            settingsButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+            settingsButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
             Button arcadeButton = (Button) findViewById(R.id.play_button);
-            arcadeButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+            arcadeButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
             Button classroomButton = (Button) findViewById(R.id.learn_button);
-            classroomButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+            classroomButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+
+            //changes to progress bar
+            ProgressBar progress = (ProgressBar)findViewById(R.id.progressBar);
+            TextView seeProgress = (TextView)findViewById(R.id.see_progress);
+            progress.setScaleY(4f);
+            if(db.lessonCount() == 25){
+                progress.setProgress(24);
+                seeProgress.setText("Congratulations! You completed all lessons!");
+            }
+            else{
+                progress.setProgress(db.lessonCount()-1);
+            }
+            seeProgress.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/45));
 
             // Set database for my application
             ((MyApplication) this.getApplication()).setDBHelper(new DatabaseHelper(this));
@@ -179,6 +193,25 @@ public class MainActivity extends AppCompatActivity {
             // Sprite image
             spriteDrawable = ((MyApplication) this.getApplication()).getSpriteDrawable();
             spriteImage.setImageDrawable(spriteDrawable);
+
+            //get metrics of the screen
+            DisplayMetrics dm = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(dm);
+            int width = dm.widthPixels;
+            int height = dm.heightPixels;
+
+            //changes to progress bar
+            ProgressBar progress = (ProgressBar)findViewById(R.id.progressBar);
+            TextView seeProgress = (TextView)findViewById(R.id.see_progress);
+            seeProgress.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/45));
+            progress.setScaleY(4f);
+            if(db.lessonCount() >= 25){
+                progress.setProgress(24);
+                seeProgress.setText("Congratulations! You completed all lessons!");
+            }
+            else{
+                progress.setProgress(db.lessonCount()-1);
+            }
 
             // Read in accessory data
             // accessory_img, layer_id, currently_wearing

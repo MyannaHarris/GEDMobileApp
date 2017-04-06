@@ -154,7 +154,6 @@ public class GameIntro extends AppCompatActivity {
             gridLayoutParam1.setMargins(20, 0, 20, 0);
 
             gridLayoutParam1.setGravity(viewGravity);
-            grid.addView(instructionImage1, gridLayoutParam1);
 
             //if there are to images, add the second to the grid
             if(pics.size() == 2) {
@@ -166,13 +165,14 @@ public class GameIntro extends AppCompatActivity {
                 gridLayoutParam2.setMargins(20, 0, 20, 0);
 
                 gridLayoutParam2.setGravity(viewGravity);
-                grid.addView(instructionImage2, gridLayoutParam2);
 
                 //set the max width and height for the images
                 instructionImage2.setMaxWidth((int)newWidth);
                 instructionImage2.setMaxHeight((int)newHeight);
                 instructionImage2.setAdjustViewBounds(true);
                 instructionImage2.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                grid.addView(instructionImage2, gridLayoutParam2);
+
             }
 
             //set the max width and height for the images
@@ -180,10 +180,11 @@ public class GameIntro extends AppCompatActivity {
             instructionImage1.setMaxHeight((int)newHeight);
             instructionImage1.setAdjustViewBounds(true);
             instructionImage1.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            grid.addView(instructionImage1, gridLayoutParam1);
         }
 
         Button startButton = (Button) findViewById(R.id.play_button);
-        startButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        startButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
     }
 
     /**
