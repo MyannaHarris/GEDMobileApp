@@ -124,11 +124,11 @@ public class PlaceValues extends AppCompatActivity {
         int height = dm.heightPixels;
 
         TextView ip = (TextView) findViewById(R.id.instructions_place);
-        ip.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
+        ip.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
         TextView nc = (TextView) findViewById(R.id.number_change);
-        nc.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/25));
+        nc.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/20));
         TextView pt = (TextView) findViewById(R.id.places_text);
-        pt.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
+        pt.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
 
         ViewGroup.LayoutParams paramss = seekbar.getLayoutParams();
 

@@ -58,11 +58,12 @@ public class NGZLinks extends AppCompatActivity {
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
-        int width = dm.widthPixels;
         int height = dm.heightPixels;
 
         TextView expl_link = (TextView) findViewById(R.id.explanation_link);
-        expl_link.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
+        expl_link.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+        TextView title = (TextView) findViewById(R.id.Links_header);
+        title.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/20));
 
         //set links for clicking
         TextView home = (TextView) findViewById(R.id.home_link);
@@ -71,12 +72,12 @@ public class NGZLinks extends AppCompatActivity {
         TextView passport = (TextView) findViewById(R.id.passport);
         TextView who = (TextView) findViewById(R.id.who);
         TextView resources = (TextView) findViewById(R.id.Resources);
-        home.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
-        info.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
-        job.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
-        passport.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
-        who.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
-        resources.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
+        home.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+        info.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+        job.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+        passport.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+        who.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+        resources.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
         home.setMovementMethod(LinkMovementMethod.getInstance());
         info.setMovementMethod(LinkMovementMethod.getInstance());
         job.setMovementMethod(LinkMovementMethod.getInstance());

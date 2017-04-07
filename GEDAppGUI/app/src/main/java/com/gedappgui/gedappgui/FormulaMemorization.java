@@ -60,40 +60,37 @@ public class FormulaMemorization extends AppCompatActivity {
         achievement.putExtra("achievementID", 7);
         startActivity(achievement);
 
+        //dynamic text
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
-        int width = dm.widthPixels;
         int height = dm.heightPixels;
 
         TextView prompt = (TextView) findViewById(R.id.formulaprompt);
-        prompt.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
+        prompt.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
         TextView areaf = (TextView) findViewById(R.id.areaformulas);
-        areaf.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
+        areaf.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
         TextView perimeterf = (TextView) findViewById(R.id.perimeterformulas);
-        perimeterf.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
+        perimeterf.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
         TextView volumef = (TextView) findViewById(R.id.volumeformulas);
-        volumef.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
+        volumef.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
         TextView wpf = (TextView) findViewById(R.id.wpformulas);
-        wpf.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
+        wpf.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+        TextView area = (TextView) findViewById(R.id.areatitle);
+        area.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+        TextView perim = (TextView) findViewById(R.id.perimetertitle);
+        perim.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+        TextView volume = (TextView) findViewById(R.id.volumetitle);
+        volume.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+        TextView wordprob = (TextView) findViewById(R.id.wptitle);
+        wordprob.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
 
         Button hOne = (Button) findViewById(R.id.hideleft);
-        ViewGroup.LayoutParams paramsOne = hOne.getLayoutParams();
         Button hTwo = (Button) findViewById(R.id.hideright);
-        ViewGroup.LayoutParams paramsTwo = hTwo.getLayoutParams();
         Button hNone = (Button) findViewById(R.id.hidenone);
-        ViewGroup.LayoutParams paramsNone = hNone.getLayoutParams();
 
-        // Set button height
-        paramsOne.height = (height/13);
-        paramsTwo.height = (height/13);
-        paramsNone.height = (height/13);
-
-        hOne.setLayoutParams(paramsOne);
-        hOne.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
-        hTwo.setLayoutParams(paramsTwo);
-        hTwo.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
-        hNone.setLayoutParams(paramsNone);
-        hNone.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        hOne.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+        hTwo.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+        hNone.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
     }
 
     /**

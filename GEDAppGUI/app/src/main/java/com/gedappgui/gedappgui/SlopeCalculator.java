@@ -99,29 +99,24 @@ public class SlopeCalculator extends AppCompatActivity {
         paramsx1.width = (int) (width/2.3);
         paramsx2.width = (int) (width/2.3);
 
-
         x1input.setLayoutParams(paramsx1);
         x2input.setLayoutParams(paramsx2);
         y1input.setLayoutParams(paramsy1);
         y2input.setLayoutParams(paramsy2);
 
         TextView instr = (TextView) findViewById(R.id.instructions);
-        instr.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
-
+        instr.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+        x1input.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+        x2input.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+        y1input.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+        y2input.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
 
         Button rbtn = (Button) findViewById(R.id.resetbutton);
         Button sbtn = (Button) findViewById(R.id.FindSlope);
-        ViewGroup.LayoutParams paramsr = rbtn.getLayoutParams();
-        ViewGroup.LayoutParams paramss = sbtn.getLayoutParams();
 
         // Set button height
-        paramss.height = (height/13);
-        paramsr.height = (height/13);
-
-        sbtn.setLayoutParams(paramss);
-        sbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
-        rbtn.setLayoutParams(paramsr);
-        rbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        sbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+        rbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
 
     }
 

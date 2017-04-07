@@ -59,8 +59,13 @@ public class FractionToDecimalTool extends AppCompatActivity {
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int height = dm.heightPixels;
+
         //listener for Next action on keyboard
         EditText fraction_text = (EditText)findViewById(R.id.FractionInput);
+        fraction_text.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
         fraction_text.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -77,6 +82,7 @@ public class FractionToDecimalTool extends AppCompatActivity {
         });
         //listener for Done action on keyboard
         EditText decimal_text = (EditText)findViewById(R.id.DecimalInput);
+        decimal_text.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
         decimal_text.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -93,20 +99,29 @@ public class FractionToDecimalTool extends AppCompatActivity {
         achievement.putExtra("achievementID", 7);
         startActivity(achievement);
 
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-        int width = dm.widthPixels;
-        int height = dm.heightPixels;
-
 
         Button subbtn = (Button) findViewById(R.id.submitButton);
         ViewGroup.LayoutParams paramss = subbtn.getLayoutParams();
 
         // Set button height
-        paramss.height = (height/8);
+        //paramss.height = (height/8);
 
         subbtn.setLayoutParams(paramss);
-        subbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        subbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+
+        TextView fracConvertT = (TextView) findViewById(R.id.FractionConvertTitle);
+        fracConvertT.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/20));
+        TextView fracConvertH = (TextView) findViewById(R.id.FractionConvertHint);
+        fracConvertH.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+        TextView fractionAns = (TextView) findViewById(R.id.FractionAnswer);
+        fractionAns.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+
+        TextView decimalConvertT = (TextView) findViewById(R.id.decimaltofrac);
+        decimalConvertT.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/20));
+        TextView decimalConvertH = (TextView) findViewById(R.id.DecimalToconverttitle);
+        decimalConvertH.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+        TextView decimalAns = (TextView) findViewById(R.id.DecimalAnswer);
+        decimalAns.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
     }
 
     /**

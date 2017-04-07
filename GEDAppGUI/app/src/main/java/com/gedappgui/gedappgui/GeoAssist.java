@@ -149,7 +149,7 @@ public class GeoAssist extends AppCompatActivity implements AdapterView.OnItemSe
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
                 if (v instanceof TextView)
-                    ((TextView) v).setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+                    ((TextView) v).setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
                 return v;
             }
             @Override
@@ -157,7 +157,7 @@ public class GeoAssist extends AppCompatActivity implements AdapterView.OnItemSe
                                         ViewGroup parent) {
                 View v = super.getDropDownView(position, convertView, parent);
                 if (v instanceof TextView)
-                    ((TextView) v).setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+                    ((TextView) v).setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
                 return v;
             }
         };
@@ -177,11 +177,11 @@ public class GeoAssist extends AppCompatActivity implements AdapterView.OnItemSe
 
 
         TextView prompt = (TextView) findViewById(R.id.prompt);
-        prompt.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
+        prompt.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
         TextView summ = (TextView) findViewById(R.id.summary);
-        summ.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
+        summ.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
         TextView shape_e = (TextView) findViewById(R.id.shape_examples);
-        shape_e.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
+        shape_e.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
     }
 
     /**

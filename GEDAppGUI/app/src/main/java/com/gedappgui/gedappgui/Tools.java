@@ -70,19 +70,19 @@ public class Tools extends AppCompatActivity {
         params.height = (height/8);
         // Apply dynamic button test size and height
         fracbtn.setLayoutParams(params);
-        fracbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        fracbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
         slopebtn.setLayoutParams(params);
-        slopebtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        slopebtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
         membtn.setLayoutParams(params);
-        membtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        membtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
         geobtn.setLayoutParams(params);
-        geobtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        geobtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
         placebtn.setLayoutParams(params);
-        placebtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        placebtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
         linksbtn.setLayoutParams(params);
-        linksbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        linksbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
         tutbtn.setLayoutParams(params);
-        tutbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
+        tutbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
 
     }
 
