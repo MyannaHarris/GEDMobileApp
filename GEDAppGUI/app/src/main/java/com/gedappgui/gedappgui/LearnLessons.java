@@ -27,6 +27,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayout;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -252,7 +253,13 @@ public class LearnLessons extends AppCompatActivity {
             lessonName.setGravity(Gravity.LEFT);
         }
         lessonName.setWidth(maxWidth);
-        lessonName.setTextSize(26);
+
+        //dynamic size
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int height = dm.heightPixels;
+        lessonName.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+
         lessonName.setText(title);
         lessonName.setHorizontallyScrolling(false);
         lessonName.setOnClickListener(new View.OnClickListener() {

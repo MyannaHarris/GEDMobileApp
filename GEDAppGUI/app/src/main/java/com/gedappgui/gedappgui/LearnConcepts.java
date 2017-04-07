@@ -25,6 +25,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayout;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -216,7 +217,13 @@ public class LearnConcepts extends AppCompatActivity {
             conceptName.setGravity(Gravity.LEFT);
         }
         conceptName.setWidth(maxWidth);
-        conceptName.setTextSize(26);
+
+        //dynamic size
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int height = dm.heightPixels;
+        conceptName.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+
         conceptName.setText(title);
         conceptName.setHorizontallyScrolling(false);
         conceptName.setOnClickListener(new View.OnClickListener() {
