@@ -60,6 +60,7 @@ public class BucketNumber {
      * @param heightp Height of screen in pixels
      * @param textString Number text of the number
      * @param questionHeightp Measured height of text from Paint object
+     * @param endButtonSizep The size of the end button if it exists (for the Play page)
      */
     public BucketNumber(int widthp, int heightp, String textString, int questionHeightp,
                         int endButtonSizep) {

@@ -431,7 +431,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
             // Drawing a background color for canvas
             canvas.drawColor(ContextCompat.getColor(context, R.color.bucketGameBG));
 
-            // Draw bitmap to bacjground of game
+            // Draw bitmap to background of game
             Bitmap dragonBG = BitmapFactory.decodeResource(
                     getResources(),R.drawable.game_goldchest);
             Paint alphaPaint = new Paint();
@@ -612,6 +612,8 @@ public class BucketGameView extends SurfaceView implements Runnable  {
 
     /**
      * Thread control
+     * Controls speed to make sure there is a break between each "Frame"
+     *      of the game for changes to show
      */
     private void control() {
         try {

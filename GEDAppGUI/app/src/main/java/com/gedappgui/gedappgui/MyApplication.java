@@ -277,7 +277,7 @@ public class MyApplication extends Application {
 
     /**
      * Getter
-     * Gets the global drawable for he dragon and its layers of accessories
+     * Gets the global drawable for the dragon and its layers of accessories
      * @return spriteDrawable - Layered Drawable for dragon
      */
     public LayerDrawable getSpriteDrawable() {
