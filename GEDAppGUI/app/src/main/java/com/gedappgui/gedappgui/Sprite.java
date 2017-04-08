@@ -263,58 +263,6 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
 
         // First display all accessories
         layout = (LinearLayout) findViewById(R.id.linear_sprite);
-        /*for (int i = 0; i < allAccessories.size(); i++) {
-            ArrayList<Integer> info = accessoryMap.get(allAccessories.get(i));
-            int img = info.get(0);
-            final int icon = info.get(1);
-            int layer = info.get(2);
-
-            // Create new accessory imageview
-            ImageView imageView = new ImageView(this);
-            imageView.setId(i);
-            imageView.setPadding(8, 8, 8, 8);
-            imageView.setLayoutParams(new LinearLayout.LayoutParams((int)(width * 4 / 12),
-                    (int)(width * 4 / 12)));
-            imageView.setImageBitmap(BitmapFactory.decodeResource(
-                    getResources(), icon));
-            imageView.setTag(allAccessories.get(i));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-            // Put accessory imageview in linear layout
-            layout.addView(imageView);
-
-            // Add listener to deal with dragging and clicking accessory
-            imageView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    switch (event.getAction()) {
-                        case MotionEvent.ACTION_DOWN:
-                            dragIcon = (String) v.getTag();
-
-                            int x = (int)event.getX();
-                            int y = (int)event.getY();
-                            System.out.println(x);
-                            System.out.println(y);
-                            int pixel = BitmapFactory.decodeResource(getResources(), icon)
-                                    .getPixel(x,y);
-                            System.out.println(Color.alpha(pixel));
-
-                            //then do what you want with the pixel data, e.g
-                            if (Color.alpha(pixel) == 0) {
-                                dragBool = true;
-                            }
-                            break;
-                        case MotionEvent.ACTION_UP:
-                            ImageView imageView = (ImageView) v;
-                            addAccessory((String) imageView.getTag());
-
-                            dragBool = false;
-                            break;
-                    }
-                    return true;
-                }
-            });
-        }*/
 
         checkAchievements();
 
@@ -356,6 +304,17 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                 return true;
             }
         });
+    }
+
+    /**
+     * Listens for the back button on the bottom navigation bar
+     * Goes to home page
+     */
+    @Override
+    public void onBackPressed() {
+        Intent intentHomeSprite = new Intent(this, MainActivity.class);
+        intentHomeSprite.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intentHomeSprite);
     }
 
     /**
@@ -691,84 +650,32 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
     }
 
     /**
-     * Called from glasses button
-     * Shows glasses accessories
-     * @param view The view that called the method
+     * Called from drop down
+     * Shows selected group of accessories
+     * @param chosenGroup The number corresponding to the chosen group
      */
-    public void showGlasses(View view) {
+    public void show(int chosenGroup) {
         // Empty linear layout
         layout.removeAllViews();
 
-        for (int i = 0; i < glasses.size(); i++) {
-            ArrayList<Integer> info = accessoryMap.get(glasses.get(i));
-            int img = info.get(0);
-            int icon = info.get(1);
-            int layer = info.get(2);
+        ArrayList<String> tempGroup;
 
-            // Create new accessory imageview
-            ImageView imageView = new ImageView(this);
-            imageView.setId(i);
-            imageView.setPadding(8, 8, 8, 8);
-            imageView.setLayoutParams(new LinearLayout.LayoutParams(255, 255));
-            imageView.setImageBitmap(BitmapFactory.decodeResource(
-                    getResources(), icon));
-            imageView.setTag(glasses.get(i));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-            // Put accessory imageview in linear layout
-            layout.addView(imageView);
-
-            // Add listener to deal with dragging and clicking accessory
-            imageView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    switch (event.getAction()) {
-                        case MotionEvent.ACTION_DOWN:
-                            ImageView imgView = (ImageView) v;
-                            String name = imgView.getTag().toString();
-                            ArrayList<Integer> info = accessoryMap.get(name);
-                            int icon = info.get(1);
-                            int imageWidth = ((ImageView) v).getWidth();
-                            int imageHeight = ((ImageView) v).getHeight();
-
-                            int x = (int)event.getX();
-                            int y = (int)event.getY();
-                            x = (int) (((float)x/imageWidth)*100);
-                            y = (int) (((float)y/imageHeight)*100);
-                            System.out.println(x);
-                            System.out.println(y);
-                            int pixel = BitmapFactory.decodeResource(getResources(), icon)
-                                    .getPixel(x,y);
-
-                            if (Color.alpha(pixel) != 0) {
-                                dragIcon = (String) v.getTag();
-                                dragBool = true;
-                            }
-                            break;
-                        case MotionEvent.ACTION_UP:
-                            ImageView imageView = (ImageView) v;
-                            addAccessory((String) imageView.getTag());
-
-                            dragBool = false;
-                            break;
-                    }
-                    return true;
-                }
-            });
+        if (chosenGroup == 0) {
+            tempGroup = allAccessories;
+        } else if (chosenGroup == 1) {
+            tempGroup = glasses;
+        } else if (chosenGroup == 2) {
+            tempGroup = shirts;
+        } else if (chosenGroup == 3) {
+            tempGroup = hats;
+        } else if (chosenGroup == 4) {
+            tempGroup = specials;
+        } else {
+            tempGroup = allAccessories;
         }
-    }
 
-    /**
-     * Called from shirt button
-     * Shows shirt accessories
-     * @param view The view that called the method
-     */
-    public void showShirts(View view) {
-        // Empty linear layout
-        layout.removeAllViews();
-
-        for (int i = 0; i < shirts.size(); i++) {
-            ArrayList<Integer> info = accessoryMap.get(shirts.get(i));
+        for (int i = 0; i < tempGroup.size(); i++) {
+            ArrayList<Integer> info = accessoryMap.get(tempGroup.get(i));
             int img = info.get(0);
             int icon = info.get(1);
             int layer = info.get(2);
@@ -780,211 +687,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             imageView.setLayoutParams(new LinearLayout.LayoutParams(255, 255));
             imageView.setImageBitmap(BitmapFactory.decodeResource(
                     getResources(), icon));
-            imageView.setTag(shirts.get(i));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-            // Put accessory imageview in linear layout
-            layout.addView(imageView);
-
-            // Add listener to deal with dragging and clicking accessory
-            imageView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    switch (event.getAction()) {
-                        case MotionEvent.ACTION_DOWN:
-                            ImageView imgView = (ImageView) v;
-                            String name = imgView.getTag().toString();
-                            ArrayList<Integer> info = accessoryMap.get(name);
-                            int icon = info.get(1);
-                            int imageWidth = ((ImageView) v).getWidth();
-                            int imageHeight = ((ImageView) v).getHeight();
-
-                            int x = (int)event.getX();
-                            int y = (int)event.getY();
-                            x = (int) (((float)x/imageWidth)*100);
-                            y = (int) (((float)y/imageHeight)*100);
-                            System.out.println(x);
-                            System.out.println(y);
-                            int pixel = BitmapFactory.decodeResource(getResources(), icon)
-                                    .getPixel(x,y);
-
-                            if (Color.alpha(pixel) != 0) {
-                                dragIcon = (String) v.getTag();
-                                dragBool = true;
-                            }
-                            break;
-                        case MotionEvent.ACTION_UP:
-                            ImageView imageView = (ImageView) v;
-                            addAccessory((String) imageView.getTag());
-
-                            dragBool = false;
-                            break;
-                    }
-                    return true;
-                }
-            });
-        }
-    }
-
-    /**
-     * Called from special button
-     * Shows special accessories
-     * @param view The view that called the method
-     */
-    public void showSpecial(View view) {
-        // Empty linear layout
-        layout.removeAllViews();
-
-        for (int i = 0; i < specials.size(); i++) {
-            ArrayList<Integer> info = accessoryMap.get(specials.get(i));
-            int img = info.get(0);
-            int icon = info.get(1);
-            int layer = info.get(2);
-
-            // Create new accessory imageview
-            ImageView imageView = new ImageView(this);
-            imageView.setId(i);
-            imageView.setPadding(8, 8, 8, 8);
-            imageView.setLayoutParams(new LinearLayout.LayoutParams(255, 255));
-            imageView.setImageBitmap(BitmapFactory.decodeResource(
-                    getResources(), icon));
-            imageView.setTag(specials.get(i));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-            // Put accessory imageview in linear layout
-            layout.addView(imageView);
-
-            // Add listener to deal with dragging and clicking accessory
-            imageView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    switch (event.getAction()) {
-                        case MotionEvent.ACTION_DOWN:
-                            ImageView imgView = (ImageView) v;
-                            String name = imgView.getTag().toString();
-                            ArrayList<Integer> info = accessoryMap.get(name);
-                            int icon = info.get(1);
-                            int imageWidth = ((ImageView) v).getWidth();
-                            int imageHeight = ((ImageView) v).getHeight();
-
-                            int x = (int)event.getX();
-                            int y = (int)event.getY();
-                            x = (int) (((float)x/imageWidth)*100);
-                            y = (int) (((float)y/imageHeight)*100);
-                            System.out.println(x);
-                            System.out.println(y);
-                            int pixel = BitmapFactory.decodeResource(getResources(), icon)
-                                    .getPixel(x,y);
-
-                            if (Color.alpha(pixel) != 0) {
-                                dragIcon = (String) v.getTag();
-                                dragBool = true;
-                            }
-                            break;
-                        case MotionEvent.ACTION_UP:
-                            ImageView imageView = (ImageView) v;
-                            addAccessory((String) imageView.getTag());
-
-                            dragBool = false;
-                            break;
-                    }
-                    return true;
-                }
-            });
-        }
-    }
-
-    /**
-     * Called from hat button
-     * Shows hat accessories
-     * @param view The view that called the method
-     */
-    public void showHats(View view) {
-        // Empty linear layout
-        layout.removeAllViews();
-
-        for (int i = 0; i < hats.size(); i++) {
-            ArrayList<Integer> info = accessoryMap.get(hats.get(i));
-            int img = info.get(0);
-            int icon = info.get(1);
-            int layer = info.get(2);
-
-            // Create new accessory imageview
-            ImageView imageView = new ImageView(this);
-            imageView.setId(i);
-            imageView.setPadding(8, 8, 8, 8);
-            imageView.setLayoutParams(new LinearLayout.LayoutParams(255, 255));
-            imageView.setImageBitmap(BitmapFactory.decodeResource(
-                    getResources(), icon));
-            imageView.setTag(hats.get(i));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-            // Put accessory imageview in linear layout
-            layout.addView(imageView);
-
-            // Add listener to deal with dragging and clicking accessory
-            imageView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    switch (event.getAction()) {
-                        case MotionEvent.ACTION_DOWN:
-                            ImageView imgView = (ImageView) v;
-                            String name = imgView.getTag().toString();
-                            ArrayList<Integer> info = accessoryMap.get(name);
-                            int icon = info.get(1);
-                            int imageWidth = ((ImageView) v).getWidth();
-                            int imageHeight = ((ImageView) v).getHeight();
-
-                            int x = (int)event.getX();
-                            int y = (int)event.getY();
-                            x = (int) (((float)x/imageWidth)*100);
-                            y = (int) (((float)y/imageHeight)*100);
-                            System.out.println(x);
-                            System.out.println(y);
-                            int pixel = BitmapFactory.decodeResource(getResources(), icon)
-                                    .getPixel(x,y);
-
-                            if (Color.alpha(pixel) != 0) {
-                                dragIcon = (String) v.getTag();
-                                dragBool = true;
-                            }
-                            break;
-                        case MotionEvent.ACTION_UP:
-                            ImageView imageView = (ImageView) v;
-                            addAccessory((String) imageView.getTag());
-
-                            dragBool = false;
-                            break;
-                    }
-                    return true;
-                }
-            });
-        }
-    }
-
-    /**
-     * Called from all button
-     * Shows all accessories
-     * @param view The view that called the method
-     */
-    public void showAll(View view) {
-        // Empty linear layout
-        layout.removeAllViews();
-
-        for (int i = 0; i < allAccessories.size(); i++) {
-            ArrayList<Integer> info = accessoryMap.get(allAccessories.get(i));
-            int img = info.get(0);
-            int icon = info.get(1);
-            int layer = info.get(2);
-
-            // Create new accessory imageview
-            ImageView imageView = new ImageView(this);
-            imageView.setId(i);
-            imageView.setPadding(8, 8, 8, 8);
-            imageView.setLayoutParams(new LinearLayout.LayoutParams(255, 255));
-            imageView.setImageBitmap(BitmapFactory.decodeResource(
-                    getResources(), icon));
-            imageView.setTag(allAccessories.get(i));
+            imageView.setTag(tempGroup.get(i));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
             // Put accessory imageview in linear layout
@@ -1145,26 +848,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
      */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        switch (position) {
-            case 0:
-                showAll(view);
-                break;
-            case 1:
-                showGlasses(view);
-                break;
-            case 2:
-                showShirts(view);
-                break;
-            case 3:
-                showHats(view);
-                break;
-            case 4:
-                showSpecial(view);
-                break;
-            default:
-                showAll(view);
-                break;
-        }
+        show(position);
     }
 
     /**
