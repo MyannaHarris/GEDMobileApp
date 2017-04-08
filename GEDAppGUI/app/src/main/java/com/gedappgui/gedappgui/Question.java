@@ -32,6 +32,9 @@ import android.text.Html;
 import android.text.Spanned;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -312,6 +315,52 @@ public class Question extends AppCompatActivity {
     }
 
     /**
+     * Sets what menu will be in the action bar
+     * @param menu The options menu in which we place the items.
+     * @return true
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // If lesson was previously completed, the user can go to main page or settings
+        if (dbHelper.isLessonAlreadyDone(lessonID)) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.homeonlymenu, menu);
+        }
+
+        return true;
+    }
+
+    /**
+     * Listens for selections from the menu in the action bar
+     * Does action corresponding to selected item
+     * home = goes to homescreen
+     * settings = goes to settings page
+     * android.R.id.home = go to the activity that called the current activity
+     * @param item that is selected from the menu in the action bar
+     * @return true
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // action with ID action_refresh was selected
+            case R.id.action_home:
+                Intent intentHome = new Intent(this, MainActivity.class);
+                intentHome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intentHome);
+                break;
+            // action with ID action_settings was selected
+            case R.id.action_settings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                break;
+            default:
+                break;
+        }
+
+        return true;
+    }
+
+    /**
      * Determines whether or not an answer was correct and shows the correct answer if it was not
      * Called when the user submits an answer
      * @param view current view
@@ -355,7 +404,6 @@ public class Question extends AppCompatActivity {
                 TextView questionTextView = (TextView) findViewById(R.id.question_textView);
                 questionTextView.append(toHTML(" <br />Correct answer: " + correctAnswerStr));
             }
-            System.out.println(correctAnswers);
 
             // Clear out selected answer
             selectedAnswer = 0;
