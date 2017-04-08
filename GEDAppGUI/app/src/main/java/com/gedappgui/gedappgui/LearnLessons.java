@@ -340,67 +340,6 @@ public class LearnLessons extends AppCompatActivity {
                                 }
                             });
 
-                    /*lessonDialog.setItems(new CharSequence[]
-                                    {"Summary - A brief intro",
-                                            "Steps - Further explanation",
-                                            "Examples - Solved problems",
-                                            "Game - Practice game",
-                                            "Questions - Practice problems"},
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Intent activityChangeIntent;
-
-                                    // The 'which' argument contains the index position
-                                    // of the selected item
-                                    switch (which) {
-                                        case 0:
-                                            activityChangeIntent = new Intent(LearnLessons.this,
-                                                    LessonSummary.class);
-                                            activityChangeIntent.putExtra("conceptID",conceptID);
-                                            activityChangeIntent.putExtra("lessonID",lessonID);
-                                            activityChangeIntent.putExtra("lessonTitle",lessonTitle);
-
-                                            LearnLessons.this.startActivity(activityChangeIntent);
-                                            break;
-                                        case 1:
-                                            activityChangeIntent = new Intent(LearnLessons.this,
-                                                    LessonSteps.class);
-                                            activityChangeIntent.putExtra("conceptID",conceptID);
-                                            activityChangeIntent.putExtra("lessonID",lessonID);
-
-                                            LearnLessons.this.startActivity(activityChangeIntent);
-                                            break;
-                                        case 2:
-                                            activityChangeIntent = new Intent(LearnLessons.this,
-                                                    LessonExample.class);
-                                            activityChangeIntent.putExtra("conceptID",conceptID);
-                                            activityChangeIntent.putExtra("lessonID",lessonID);
-
-                                            LearnLessons.this.startActivity(activityChangeIntent);
-                                            break;
-                                        case 3:
-                                            activityChangeIntent = new Intent(LearnLessons.this,
-                                                    GameIntro.class);
-                                            activityChangeIntent.putExtra("next_activity", 0);
-                                            activityChangeIntent.putExtra("conceptID",conceptID);
-                                            activityChangeIntent.putExtra("lessonID",lessonID);
-                                            activityChangeIntent.putExtra("gameName", "");
-
-                                            LearnLessons.this.startActivity(activityChangeIntent);
-                                            break;
-                                        case 4:
-                                            activityChangeIntent = new Intent(LearnLessons.this,
-                                                    Question.class);
-                                            activityChangeIntent.putExtra("conceptID",conceptID);
-                                            activityChangeIntent.putExtra("lessonID",lessonID);
-                                            activityChangeIntent.putExtra("redoComplete", 0);
-
-                                            LearnLessons.this.startActivity(activityChangeIntent);
-                                            break;
-                                    }
-                                }
-                            });*/
-
                     // Add the buttons
                     lessonDialog.setNegativeButton("Cancel",
                             new DialogInterface.OnClickListener()
@@ -516,66 +455,6 @@ public class LearnLessons extends AppCompatActivity {
                             }
                         }
                     });
-
-                    /*lessonDialog.setItems(new CharSequence[]
-                                    {"Summary - A brief intro",
-                                            "Steps - Further explanation",
-                                            "Examples - Solved problems",
-                                            "Game - Practice game",
-                                            "Questions - Practice problems"},
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Intent activityChangeIntent;
-
-                                    // The 'which' argument contains the index position
-                                    // of the selected item
-                                    switch (which) {
-                                        case 0:
-                                            activityChangeIntent = new Intent(LearnLessons.this,
-                                                    LessonSummary.class);
-                                            activityChangeIntent.putExtra("conceptID",conceptID);
-                                            activityChangeIntent.putExtra("lessonID",lessonID);
-                                            activityChangeIntent.putExtra("lessonTitle",lessonTitle);
-                                            LearnLessons.this.startActivity(activityChangeIntent);
-                                            break;
-                                        case 1:
-                                            activityChangeIntent = new Intent(LearnLessons.this,
-                                                    LessonSteps.class);
-                                            activityChangeIntent.putExtra("conceptID",conceptID);
-                                            activityChangeIntent.putExtra("lessonID",lessonID);
-
-                                            LearnLessons.this.startActivity(activityChangeIntent);
-                                            break;
-                                        case 2:
-                                            activityChangeIntent = new Intent(LearnLessons.this,
-                                                    LessonExample.class);
-                                            activityChangeIntent.putExtra("conceptID",conceptID);
-                                            activityChangeIntent.putExtra("lessonID",lessonID);
-
-                                            LearnLessons.this.startActivity(activityChangeIntent);
-                                            break;
-                                        case 3:
-                                            activityChangeIntent = new Intent(LearnLessons.this,
-                                                    GameIntro.class);
-                                            activityChangeIntent.putExtra("next_activity", 0);
-                                            activityChangeIntent.putExtra("conceptID",conceptID);
-                                            activityChangeIntent.putExtra("lessonID",lessonID);
-                                            activityChangeIntent.putExtra("gameName", "");
-
-                                            LearnLessons.this.startActivity(activityChangeIntent);
-                                            break;
-                                        case 4:
-                                            activityChangeIntent = new Intent(LearnLessons.this,
-                                                    Question.class);
-                                            activityChangeIntent.putExtra("conceptID",conceptID);
-                                            activityChangeIntent.putExtra("lessonID",lessonID);
-                                            activityChangeIntent.putExtra("redoComplete", 0);
-
-                                            LearnLessons.this.startActivity(activityChangeIntent);
-                                            break;
-                                    }
-                                }
-                            });*/
 
                     // Add the buttons
                     lessonDialog.setNegativeButton("Cancel",

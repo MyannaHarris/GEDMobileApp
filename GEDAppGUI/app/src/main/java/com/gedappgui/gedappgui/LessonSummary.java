@@ -86,11 +86,9 @@ public class LessonSummary extends AppCompatActivity {
         summary.setText(toHTML(lessonSummary));
 
         //  Make current lesson this one...because we're on it now
-        System.out.println("prev lesson: "+dbHelper.selectCurrentLessonID());
         if (dbHelper.selectCurrentLessonID() != lessonID) {
             dbHelper.updateCurrentLessonID(lessonID);
         }
-        System.out.println("curr lesson: "+dbHelper.selectCurrentLessonID());
 
         // Create button to go to next step, the Lesson Steps page
         DisplayMetrics dm = new DisplayMetrics();

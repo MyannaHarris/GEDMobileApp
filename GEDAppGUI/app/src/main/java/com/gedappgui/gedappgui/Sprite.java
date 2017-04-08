@@ -711,8 +711,6 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                             int y = (int)event.getY();
                             x = (int) (((float)x/imageWidth)*100);
                             y = (int) (((float)y/imageHeight)*100);
-                            System.out.println(x);
-                            System.out.println(y);
                             int pixel = BitmapFactory.decodeResource(getResources(), icon)
                                     .getPixel(x,y);
 
