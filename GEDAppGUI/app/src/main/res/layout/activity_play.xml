@@ -11,7 +11,7 @@
  Jasmine Jans
  Jimmy Sherman
 
- Last Edit: 1-29-17
+ Last Edit: 4-8-17
 -->
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -29,6 +29,174 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         tools:context="com.gedappgui.gedappgui.Play"
         android:weightSum="1">
+
+        <Button
+            android:id="@+id/game1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/game2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/game3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/game4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/game5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/game6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/game7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/game8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/game9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/game10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/game11"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/game12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/game13"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/game14"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/game15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/game16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/game17"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/game18"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/game19"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/game20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/game21"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/game22"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/game23"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/game24"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:visibility="gone"/>
 
     </LinearLayout>
 </ScrollView>

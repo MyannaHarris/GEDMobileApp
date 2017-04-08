@@ -18,10 +18,13 @@
 package com.gedappgui.gedappgui;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.media.AudioManager;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -94,14 +97,18 @@ public class Play extends AppCompatActivity {
                     RelativeLayout.LayoutParams.MATCH_PARENT,
                     (height/8));
 
+            // Get id from string variables
+            Resources res = getResources();
+
             // Actually put in buttons
             for (int i = 0; i < lessonIds.size(); i++) {
-                Button game = new Button(this);
+                int id = res.getIdentifier("game" + Integer.toString(i + 1), "id", this.getPackageName());
+                Button game = (Button) findViewById(id);
                 game.setText(gameNames.get(i));
                 game.setLayoutParams(layoutParams);
                 game.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) (height / 35));
                 game.setTag(lessonIds.get(i));
-                gamesLayout.addView(game);
+                game.setVisibility(View.VISIBLE);
 
                 // Button functionality, a listener for each one
                 game.setOnClickListener(new View.OnClickListener() {

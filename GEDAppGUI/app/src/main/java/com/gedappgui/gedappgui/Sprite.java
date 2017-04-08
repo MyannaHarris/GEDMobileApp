@@ -263,7 +263,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
 
         // First display all accessories
         layout = (LinearLayout) findViewById(R.id.linear_sprite);
-        for (int i = 0; i < allAccessories.size(); i++) {
+        /*for (int i = 0; i < allAccessories.size(); i++) {
             ArrayList<Integer> info = accessoryMap.get(allAccessories.get(i));
             int img = info.get(0);
             final int icon = info.get(1);
@@ -289,7 +289,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                 public boolean onTouch(View v, MotionEvent event) {
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
-                            /*dragIcon = (String) v.getTag();
+                            dragIcon = (String) v.getTag();
 
                             int x = (int)event.getX();
                             int y = (int)event.getY();
@@ -302,7 +302,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                             //then do what you want with the pixel data, e.g
                             if (Color.alpha(pixel) == 0) {
                                 dragBool = true;
-                            } */
+                            }
                             break;
                         case MotionEvent.ACTION_UP:
                             ImageView imageView = (ImageView) v;
@@ -314,7 +314,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                     return true;
                 }
             });
-        }
+        }*/
 
         checkAchievements();
 
@@ -440,10 +440,6 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         Spinner spinner = (Spinner) findViewById(R.id.accessories_spinner);
-
-        // Create an ArrayAdapter using the string array and a special spinner layout
-        //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-        //        R.array.accessories_array, R.layout.spinner_larger_text);
 
         // Create an ArrayAdapter using the string array and a special spinner layout
         // make text dynamically size

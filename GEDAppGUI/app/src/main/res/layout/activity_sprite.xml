@@ -11,7 +11,7 @@
  Jasmine Jans
  Jimmy Sherman
 
- Last Edit: 1-17-17
+ Last Edit: 4-8-17
 -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -65,50 +65,63 @@
         style="@style/Widget.AppCompat.Button.Borderless"
         android:onClick="changeDragonRight"/>
 
-    <Button
-        android:text="Disrobe"
-        android:layout_marginTop="20dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/sprite_spriteScreen"
-        android:id="@+id/sprite_savePhoto"
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:textSize="16sp"
-        android:layout_gravity="center"
-        android:layout_alignParentLeft="true"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:onClick="disrobe"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/spriteButtonLayout"
+        android:gravity="center"
+        android:weightSum="1"
+        android:layout_below="@id/sprite_spriteScreen"
+        android:background="@color/colorButton">
 
-    <Button
-        android:text="Save Photo"
-        android:layout_marginTop="20dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/sprite_removeAll"
-        android:layout_width="wrap_content"
-        android:layout_gravity="center"
-        android:layout_below="@id/sprite_spriteScreen"
-        android:layout_centerHorizontal="true"
-        android:layout_centerInParent="true"
-        android:textSize="16sp"
-        style="@style/Base.Widget.AppCompat.Button.Borderless"
-        android:onClick="savePhoto"/>
+        <Button
+            android:text="Disrobe"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/sprite_savePhoto"
+            android:layout_width="wrap_content"
+            android:textSize="16sp"
+            android:layout_gravity="center"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentLeft="true"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:onClick="disrobe"/>
 
-    <Button
-        android:text="Done"
-        android:layout_marginTop="20dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/sprite_done"
-        android:layout_width="wrap_content"
-        android:layout_gravity="center"
-        android:layout_below="@id/sprite_spriteScreen"
-        android:layout_alignParentRight="true"
-        android:textSize="16sp"
-        style="@style/Base.Widget.AppCompat.Button.Borderless"
-        android:onClick="done"/>
+        <Button
+            android:text="Save Photo"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/sprite_removeAll"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:textSize="16sp"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:onClick="savePhoto"/>
+
+        <Button
+            android:text="Done"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/sprite_done"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentRight="true"
+            android:textSize="16sp"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:onClick="done"/>
+
+    </RelativeLayout>
 
     <Spinner
         android:id="@+id/accessories_spinner"
         android:layout_marginTop="20dp"
-        android:layout_below="@id/sprite_savePhoto"
+        android:layout_below="@id/spriteButtonLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
