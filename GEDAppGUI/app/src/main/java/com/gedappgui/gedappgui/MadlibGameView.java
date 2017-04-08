@@ -19,10 +19,12 @@ package com.gedappgui.gedappgui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -93,6 +95,8 @@ public class MadlibGameView extends RelativeLayout {
     // Size of button to end
     private int endButtonSize = 0;
 
+    AlertDialog.Builder noFillDialog;
+
     /**
      *
      * @param contextp context of the activity
@@ -136,6 +140,9 @@ public class MadlibGameView extends RelativeLayout {
         allUserFills = new ArrayList<>();
 
         currQuestion = 0;
+
+        // Instantiate an AlertDialog.Builder with its constructor
+        noFillDialog = new AlertDialog.Builder(context, R.style.AlertDialogAppearance);
 
         // Get status bar height to deal with on phones that have the status bar showing
         Rect rectangle = new Rect();
@@ -211,12 +218,36 @@ public class MadlibGameView extends RelativeLayout {
         //adds the views for the user input
         addViews(allUserFills.get(currQuestion), allUserInput.get(currQuestion));
 
+
         //sets onclick listener for the submit button to create a question and madlib when
         //the user is done
         submit.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                createMadLib(allUserFills.get(currQuestion),wordFills.get(currQuestion));}});
+                //checks to see if the user has entered all words
+                if(notFilled(allUserFills.get(currQuestion))){
+                    //throw up a dialog box if they haven't added all yet
+                    noFillDialog.setTitle("Oops!");
+                    noFillDialog.setMessage("You must enter a word in each blank before you can continue.");
+                    noFillDialog.setIcon(R.drawable.appicon);
+                    // Add the ok button
+                    noFillDialog.setNegativeButton("OK",
+                            new DialogInterface.OnClickListener()
+                            {
+                                public void onClick(DialogInterface dialog, int id)
+                                {
+                                    dialog.cancel();
+                                }
+                            });
+                    //show the dialog box
+                    AlertDialog dialog = noFillDialog.create();
+                    dialog.show();
+                }
+                //if all input is given, create the madlib
+                else {
+                    createMadLib(allUserFills.get(currQuestion), wordFills.get(currQuestion));
+                }
+                };});
     }
 
     /**
@@ -429,13 +460,28 @@ public class MadlibGameView extends RelativeLayout {
             relativeLay.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
             relativeLay.addRule(RelativeLayout.BELOW, allUserFills.get(currQuestion).get(allUserFills.get(currQuestion).size() - 1).getId());
 
+
             submit.setLayoutParams(relativeLay);
             submit.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
 
             this.addView(submit);
+
         } else {
             endGame();
         }
+    }
+
+    boolean notFilled(ArrayList<EditText> edits){
+        System.out.println("w");
+        System.out.println(edits.get(0).getText());
+        for (int i = 0; i < edits.size(); i++) {
+            System.out.println("w");
+            System.out.println(edits.get(i).getText());
+            if(edits.get(i).getText().toString().equals("")){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
