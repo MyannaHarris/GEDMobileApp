@@ -511,7 +511,7 @@ public class DatabaseHelper{
      * @param achievement_id the id of the achievement we want
      * @return the description of the achievement with the given id
      */
-    String selectAchievementDesc(int achievement_id){
+    public String selectAchievementDesc(int achievement_id){
         open();
 
         Cursor c = myDatabase.rawQuery("SELECT achievements_desc FROM Achievements WHERE achievement_id = " + achievement_id, null);
@@ -530,7 +530,7 @@ public class DatabaseHelper{
      * @param achievement_id the id of the achievement we want
      * @return the image name of the achievement with the given id
      */
-    String selectAchievementImg(int achievement_id){
+    public String selectAchievementImg(int achievement_id){
         open();
 
         Cursor c = myDatabase.rawQuery("SELECT achievement_img FROM Achievements WHERE achievement_id = " + achievement_id, null);
@@ -549,7 +549,7 @@ public class DatabaseHelper{
      * @param achievement_id the id of the achievement we want
      * @return the name of the achievement with the given id
      */
-    String selectAchievementName(int achievement_id){
+    public String selectAchievementName(int achievement_id){
         open();
 
         Cursor c = myDatabase.rawQuery("SELECT achievement_name FROM Achievements WHERE achievement_id = " + achievement_id, null);
@@ -1527,7 +1527,7 @@ public class DatabaseHelper{
      * gets an arraylist of random accessories
      * @return an arraylist of random accessories
      */
-    ArrayList<Integer> getRandomAccessories() {
+    public ArrayList<Integer> getRandomAccessories() {
         open();
         ArrayList<Integer> ids = new ArrayList<>();
         String getAccessories = "SELECT accessory_id FROM accessories WHERE NOT EXISTS (SELECT " +
@@ -1545,7 +1545,7 @@ public class DatabaseHelper{
      * puts an accessory of a certain id
      * @param id if of the accessory
      */
-    void giveAccessory(int id) {
+    public void giveAccessory(int id) {
         open();
         String insertQuery = "INSERT INTO user_accessories(user_id, accessory_id, currently_wearing) VALUES(1,"+id+",0)";
         myDatabase.execSQL(insertQuery);
@@ -1557,7 +1557,7 @@ public class DatabaseHelper{
      * @param id the id of the lesson
      * @return true or false if lesson has already been completed
      */
-    boolean isLessonAlreadyStarted(int id) {
+    public boolean isLessonAlreadyStarted(int id) {
         open();
         boolean isComplete = false;
         Cursor c = myDatabase.rawQuery("SELECT count(lesson_id) FROM user_lessons WHERE lesson_id="
@@ -1575,7 +1575,7 @@ public class DatabaseHelper{
      * query to check whether the selected lesson has been completed
      * @param id of the lesson
      */
-    boolean isLessonAlreadyDone(int id) {
+    public boolean isLessonAlreadyDone(int id) {
         open();
         boolean isComplete = false;
         Cursor c = myDatabase.rawQuery("SELECT count(lesson_id) FROM user_lessons WHERE lesson_id="
@@ -1595,7 +1595,7 @@ public class DatabaseHelper{
      * @param name of the accessory
      * @param groupID of the accessory (so accessories on the same layer don't all stay on)
      */
-    void updateCurrentlyWearing(String name, int groupID) {
+    public void updateCurrentlyWearing(String name, int groupID) {
         open();
         String takeOff = "UPDATE user_accessories SET currently_wearing=0 WHERE accessory_id IN " +
                 "(SELECT accessory_id FROM accessories WHERE group_id=" + groupID +")";
@@ -1611,7 +1611,7 @@ public class DatabaseHelper{
      * query to update what accessory is not on sprite
      * @param name of the accessory
      */
-    void takeOffClothing(String name) {
+    public void takeOffClothing(String name) {
         open();
         String takeOff = "UPDATE user_accessories SET currently_wearing=0 WHERE accessory_id IN " +
                 "(SELECT accessory_id FROM accessories WHERE accessory_img='" + name + "')";
@@ -1624,7 +1624,7 @@ public class DatabaseHelper{
      * query returning the amount of lessons completed + 1
      * @return int, the number of lessons completed + 1
      */
-    int lessonCount() {
+    public int lessonCount() {
         open();
         Cursor c = myDatabase.rawQuery("SELECT count(lesson_id) FROM user_lessons WHERE " +
                 "datetime_finished IS NOT NULL AND datetime_finished != ''",null);
@@ -1632,6 +1632,20 @@ public class DatabaseHelper{
         int test = c.getInt(0);
         close();
         return test+1;
+    }
+
+    /**
+     * Gets the largest lesson id
+     * @return The max lesson id
+     */
+    public int getMaxLessonId() {
+        open();
+        Cursor c = myDatabase.rawQuery("SELECT lesson_id FROM lessons " +
+                "ORDER BY lesson_id DESC LIMIT 1",null);
+        c.moveToFirst();
+        int max = c.getInt(0);
+        close();
+        return max;
     }
 
 }

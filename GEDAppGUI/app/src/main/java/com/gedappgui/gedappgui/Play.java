@@ -121,6 +121,21 @@ public class Play extends AppCompatActivity {
                     }
                 });
             }
+
+            if (currLessonId < (dbHelper.getMaxLessonId() + 1)) {
+                layoutParams = new LinearLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.MATCH_PARENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+                layoutParams.setMargins(20, 20, 20, 20);
+
+                TextView moreGames = new TextView(this);
+                moreGames.setGravity(Gravity.CENTER);
+                moreGames.setText("To unlock more games, complete more lessons!");
+                moreGames.setLayoutParams(layoutParams);
+                moreGames.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) (height / 35));
+                gamesLayout.addView(moreGames);
+            }
+
         }
         // If the user hasn't completed any lessons, add a bit of text into the layout
         else {
