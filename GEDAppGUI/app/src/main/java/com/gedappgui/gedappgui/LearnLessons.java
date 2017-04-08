@@ -103,6 +103,17 @@ public class LearnLessons extends AppCompatActivity {
     }
 
     /**
+     * Listens for the back button on the bottom navigation bar
+     * Goes to concepts
+     */
+    @Override
+    public void onBackPressed() {
+        Intent intentBack = new Intent(this, LearnConcepts.class);
+        intentBack.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intentBack);
+    }
+
+    /**
      * Hides bottom navigation bar
      * Called after onCreate on first creation
      * Called every time this activity gets the focus

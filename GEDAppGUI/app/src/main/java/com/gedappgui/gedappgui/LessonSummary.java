@@ -106,6 +106,17 @@ public class LessonSummary extends AppCompatActivity {
     }
 
     /**
+     * Listens for the back button on the bottom navigation bar
+     * Goes to lessons
+     */
+    @Override
+    public void onBackPressed() {
+        Intent intentLesson = new Intent(this, LearnLessons.class);
+        intentLesson.putExtra("conceptID",conceptID);
+        startActivity(intentLesson);
+    }
+
+    /**
      * Hides bottom navigation bar
      * Called after onCreate on first creation
      * Called every time this activity gets the focus

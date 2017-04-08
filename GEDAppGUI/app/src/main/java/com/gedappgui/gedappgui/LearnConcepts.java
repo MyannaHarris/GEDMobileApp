@@ -72,6 +72,17 @@ public class LearnConcepts extends AppCompatActivity {
     }
 
     /**
+     * Listens for the back button on the bottom navigation bar
+     * Goes to home
+     */
+    @Override
+    public void onBackPressed() {
+        Intent intentHomeConcept = new Intent(this, MainActivity.class);
+        intentHomeConcept.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intentHomeConcept);
+    }
+
+    /**
      * Hides bottom navigation bar
      * Called after onCreate on first creation
      * Called every time this activity gets the focus
