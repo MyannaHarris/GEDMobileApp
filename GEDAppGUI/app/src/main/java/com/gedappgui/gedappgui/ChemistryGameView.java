@@ -512,14 +512,12 @@ public class ChemistryGameView extends RelativeLayout {
         // Writes caught answer to question at the top
         if (currQuestionText.contains("_")) {
             currQuestionText = currQuestionText.replaceFirst("[_]", chosenChildStr);
-            if (currQuestionText.length() > 25) {
-                cauldron.setTextSize(
-                        convertPixelsToDp(height / 25, context));
-            } else if (currQuestionText.length() > 17) {
-                cauldron.setTextSize(
-                        convertPixelsToDp(height / 20, context));
-            }
             cauldron.setText(toHTML(currQuestionText));
+            if (cauldron.getText().length() > 25) {
+                cauldron.setTextSize(convertPixelsToDp(height / 25, context));
+            } else if (cauldron.getText().length() > 17) {
+                cauldron.setTextSize(convertPixelsToDp(height / 20, context));
+            }
         }
 
         numCorrectAnswers += 1;
@@ -626,9 +624,9 @@ public class ChemistryGameView extends RelativeLayout {
             cauldron.setText(toHTML(questionTexts.get(0)));
             currQuestionText = questionTexts.get(0);
             // Set text size based on how long the question is
-            if (questionTexts.get(0).length() > 25) {
+            if (cauldron.getText().length() > 25) {
                 cauldron.setTextSize(convertPixelsToDp(height / 25, context));
-            } else if (questionTexts.get(0).length() > 17) {
+            } else if (cauldron.getText().length() > 17) {
                 cauldron.setTextSize(convertPixelsToDp(height / 20, context));
             } else {
                 cauldron.setTextSize(convertPixelsToDp(height / 17, context));
@@ -637,9 +635,9 @@ public class ChemistryGameView extends RelativeLayout {
             // Set answer texts and potion images
             answer1.setText(toHTML(questionTexts.get(1)));
             answer1.setTag(questionTexts.get(1));
-            if (questionTexts.get(1).length() > 25) {
+            if (answer1.getText().length() > 25) {
                 answer1.setTextSize(convertPixelsToDp(height / 25, context));
-            } else if (questionTexts.get(1).length() > 17) {
+            } else if (answer1.getText().length() > 17) {
                 answer1.setTextSize(convertPixelsToDp(height / 20, context));
             } else {
                 answer1.setTextSize(convertPixelsToDp(height / 17, context));
@@ -647,9 +645,9 @@ public class ChemistryGameView extends RelativeLayout {
             answer1.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.chem_potion1, 0, 0);
             answer2.setText(toHTML(questionTexts.get(2)));
             answer2.setTag(questionTexts.get(2));
-            if (questionTexts.get(2).length() > 25) {
+            if (answer2.getText().length() > 25) {
                 answer2.setTextSize(convertPixelsToDp(height / 25, context));
-            } else if (questionTexts.get(2).length() > 17) {
+            } else if (answer2.getText().length() > 17) {
                 answer2.setTextSize(convertPixelsToDp(height / 20, context));
             } else {
                 answer2.setTextSize(convertPixelsToDp(height / 17, context));
@@ -657,9 +655,9 @@ public class ChemistryGameView extends RelativeLayout {
             answer2.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.chem_potion2, 0, 0);
             answer3.setText(toHTML(questionTexts.get(3)));
             answer3.setTag(questionTexts.get(3));
-            if (questionTexts.get(3).length() > 25) {
+            if (answer3.getText().length() > 25) {
                 answer3.setTextSize(convertPixelsToDp(height / 25, context));
-            } else if (questionTexts.get(3).length() > 17) {
+            } else if (answer3.getText().length() > 17) {
                 answer3.setTextSize(convertPixelsToDp(height / 20, context));
             } else {
                 answer3.setTextSize(convertPixelsToDp(height / 17, context));
@@ -667,9 +665,9 @@ public class ChemistryGameView extends RelativeLayout {
             answer3.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.chem_potion3, 0, 0);
             answer4.setText(toHTML(questionTexts.get(4)));
             answer4.setTag(questionTexts.get(4));
-            if (questionTexts.get(4).length() > 25) {
+            if (answer4.getText().length() > 25) {
                 answer4.setTextSize(convertPixelsToDp(height / 25, context));
-            } else if (questionTexts.get(4).length() > 17) {
+            } else if (answer4.getText().length() > 17) {
                 answer4.setTextSize(convertPixelsToDp(height / 20, context));
             } else {
                 answer4.setTextSize(convertPixelsToDp(height / 17, context));

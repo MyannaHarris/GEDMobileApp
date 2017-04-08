@@ -501,7 +501,16 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                     int x = numbers[i].getText().length();
 
                     // Draw the coin image
-                    if (x > 1) {
+                    if (x > 2) {
+                        // Draw double character answer
+                        canvas.drawBitmap(
+                                coinImg,
+                                numbers[i].getX() - ((int) paint.measureText(numbers[i].getText()) / 7),
+                                numbers[i].getY() - ((float)height / 17),
+                                paint);
+
+                        paint.setTextSize((float)height / 21);
+                    } else if (x > 1) {
                         // Draw double character answer
                         canvas.drawBitmap(
                                 coinImg,
@@ -524,6 +533,8 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                             numbers[i].getY(),
                             paint
                     );
+
+                    paint.setTextSize((float)height / 17);
                 }
             }
 
