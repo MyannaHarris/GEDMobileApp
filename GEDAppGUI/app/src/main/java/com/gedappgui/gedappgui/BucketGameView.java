@@ -299,6 +299,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
 
             // If collision occurs with player
             if (Rect.intersects(bucket.getDetectCollision(), numbers[i].getDetectCollision())) {
+
                 // vibrate when collision
                 myVib.vibrate(100);
 

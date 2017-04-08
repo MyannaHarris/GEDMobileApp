@@ -140,7 +140,12 @@ public class BucketNumber {
      * @param x New x to set x to
      */
     public void setX(int x){
+
         this.x = x;
+        detectCollision.left = x - (int) ((float)height / 60);
+        detectCollision.top = y - (int) ((float)height / 20);
+        detectCollision.right = x + (int) ((float)height / 18);
+        detectCollision.bottom = y + (int) ((float)height / 60);
     }
 
     /**
