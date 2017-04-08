@@ -209,14 +209,18 @@ public class MainActivity extends AppCompatActivity {
             //changes to progress bar
             ProgressBar progress = (ProgressBar)findViewById(R.id.progressBar);
             TextView seeProgress = (TextView)findViewById(R.id.see_progress);
-            seeProgress.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/45));
             progress.setScaleY(4f);
-            if(db.lessonCount() >= 25){
-                progress.setProgress(24);
+            int count = db.lessonCount()-1;
+            progress.setProgress(count);
+            if(count == 24){
                 seeProgress.setText("Congratulations! You completed all lessons!");
             }
+            else if(count != 0){
+                progress.setProgress(count);
+                seeProgress.setText("Great Work! You have completed " + count + "/24 lessons!");
+            }
             else{
-                progress.setProgress(db.lessonCount()-1);
+                progress.setProgress(count);
             }
 
             // Read in accessory data
