@@ -23,6 +23,8 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -89,9 +91,9 @@ public class RedoExample extends AppCompatActivity {
         Button toGame = (Button)findViewById(R.id.redoLessonGame);
         Button skipGame = (Button)findViewById(R.id.skipLessonGame);
 
-        redo_1.setText(redos.get(0));
-        redo_2.setText(redos.get(1));
-        redo_3.setText(redos.get(2));
+        redo_1.setText(toHTML(redos.get(0)));
+        redo_2.setText(toHTML(redos.get(1)));
+        redo_3.setText(toHTML(redos.get(2)));
 
         //dynamic text size
         redo_1.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
@@ -224,5 +226,20 @@ public class RedoExample extends AppCompatActivity {
         intent.putExtra("redoComplete", 1);
         intent.putExtra("totalRetries",totalRetries);
         startActivity(intent);
+    }
+
+    /**
+     * Converts database strings to HTML to support superscripts
+     * @param input the string to be converted
+     * @return Spanned object to be passed into the setText method
+     */
+    public Spanned toHTML(String input) {
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            return Html.fromHtml(input,Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            return Html.fromHtml(input);
+        }
+
     }
 }
