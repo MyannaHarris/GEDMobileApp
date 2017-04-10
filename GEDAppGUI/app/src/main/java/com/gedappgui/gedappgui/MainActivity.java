@@ -191,12 +191,13 @@ public class MainActivity extends AppCompatActivity {
             String[] greetings = {
                     "There's Math to do \n" + name + "!",
                     "Hello \n" + name + "!\nWelcome to the app!",
-                    "Have you checked my closet?",
+                    "Have you checked my Lair?",
                     "Have you played any games recently?",
-                    "Did you know you can change my color? Go to my lair and tap on me!",
+                    "Did you know you can change my color? Go to my Lair and tap on me!",
                     "I love Math! Don't you,\n" + name + "?",
                     "Check out the tools for some cool references!",
-                    "Did you know you can change my name? Go to settings and click 'Change Dragon Name'!"
+                    "Did you know you can change my name? Go to settings and click 'Change Dragon Name'!",
+                    "If you want to get more accessories, try finishing more lessons!"
             };
 
             //sets greeting to a random greeting
