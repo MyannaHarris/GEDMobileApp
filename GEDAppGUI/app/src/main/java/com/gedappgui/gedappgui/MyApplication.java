@@ -146,45 +146,39 @@ public class MyApplication extends Application {
                 // Save new hour
                 setHour(prefs.getInt("hour_number", 15));
 
-                // Restart notification
-                // Cancel notification
-                sendNotification = false;
-                // If the alarm has been set, cancel it.
-                if (alarmManager!= null) {
-                    alarmManager.cancel(pendingIntent);
+                boolean isChecked = prefs.getBoolean("notification_preference",false);
+                if (isChecked) {
+                    // Restart notification
+                    // Cancel notification
+                    sendNotification = false;
+                    // If the alarm has been set, cancel it.
+                    if (alarmManager != null) {
+                        alarmManager.cancel(pendingIntent);
+                    }
+
+                    // Set notification
+                    sendNotification = true;
+                    scheduleNotification(getNotification());
                 }
-
-                // Set notification
-                sendNotification = true;
-                scheduleNotification(getNotification());
-
-                // Gives an achievement if they set a notification for the first time
-                Intent achievement = new Intent(getApplicationContext(), AchievementPopUp.class);
-                achievement.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                achievement.putExtra("achievementID", 3);
-                startActivity(achievement);
 
             } else if (key.equals("minute_number")) {
                 // Save new minute
                 setMinute(prefs.getInt("minute_number", 0));
 
-                // Restart notification
-                // Cancel notification
-                sendNotification = false;
-                // If the alarm has been set, cancel it.
-                if (alarmManager!= null) {
-                    alarmManager.cancel(pendingIntent);
+                boolean isChecked = prefs.getBoolean("notification_preference",false);
+                if (isChecked) {
+                    // Restart notification
+                    // Cancel notification
+                    sendNotification = false;
+                    // If the alarm has been set, cancel it.
+                    if (alarmManager != null) {
+                        alarmManager.cancel(pendingIntent);
+                    }
+
+                    // Set notification
+                    sendNotification = true;
+                    scheduleNotification(getNotification());
                 }
-
-                // Set notification
-                sendNotification = true;
-                scheduleNotification(getNotification());
-
-                // Gives an achievement if they set a notification for the first time
-                Intent achievement = new Intent(getApplicationContext(), AchievementPopUp.class);
-                achievement.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                achievement.putExtra("achievementID", 3);
-                startActivity(achievement);
 
             }
             else if (key.equals("dragonname_preference")) {
@@ -407,7 +401,8 @@ public class MyApplication extends Application {
     private Notification getNotification() {
 
         // Create empty intent to put in notification (required)
-        Intent myIntent = new Intent();
+        Intent myIntent = new Intent(this, MainActivity.class);
+        myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent2 =
                 PendingIntent.getActivity(getApplicationContext(), 0, myIntent,
                         PendingIntent.FLAG_UPDATE_CURRENT);
@@ -420,7 +415,7 @@ public class MyApplication extends Application {
                         new NotificationCompat.Builder(getApplicationContext())
                                 .setSmallIcon(R.drawable.appiconsmall)
                                 .setContentTitle("Dragon Academy - Reminder")
-                                .setContentText("Hey, we haven't seen you in a while.")
+                                .setContentText("Hey, you should come practice.")
                                 .setVibrate(pattern)
                                 .setAutoCancel(true)
                                 .setContentIntent(pendingIntent2);

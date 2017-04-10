@@ -34,6 +34,13 @@
         <item name="android:itemTextAppearance">@style/TextAppearance</item>
         <item name="android:itemBackground">@color/colorMenuBackground</item>
 
+        <item name="actionBarPopupTheme">@style/HardwareOptionMenu</item>
+    </style>
+
+    <!-- Menu colors for phone with hardware menus -->
+    <style name="HardwareOptionMenu" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:textColorSecondary">@color/colorMenuText</item>
+        <item name="android:colorBackground">@color/colorMenuBackground</item>
     </style>
 
     <!--Alert Dialog style-->

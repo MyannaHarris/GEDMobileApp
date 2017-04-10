@@ -91,6 +91,7 @@ public class MinuteNumberPickerPreference extends DialogPreference {
         picker.setMaxValue(MAX_VALUE);
         picker.setWrapSelectorWheel(WRAP_SELECTOR_WHEEL);
         picker.setValue(getValue());
+        picker.setFocusableInTouchMode(true);
         setNumberPickerTextColor(picker);
     }
 
