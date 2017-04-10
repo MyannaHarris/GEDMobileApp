@@ -12,7 +12,7 @@
  * Jimmy Sherman
  * Kristina Spring
  *
- * Last Edit: 3-31-17
+ * Last Edit: 4-10-17
  *
  */
 
@@ -32,7 +32,6 @@ import java.io.OutputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
 
 public class DatabaseHelper{
 
@@ -201,7 +200,7 @@ public class DatabaseHelper{
     public void insertUser(String username){
         open();
 
-        myDatabase.execSQL("INSERT INTO User VALUES ( 1 , '" + username + "', 1, datetime('NOW'), '')");
+        myDatabase.execSQL("INSERT INTO User VALUES ( 1 , '" + username + "', 1, datetime('NOW'), '', 0)");
 
         String insertQuery = "INSERT INTO user_lessons(user_id, lesson_id, datetime_started) VALUES(1,1,date('NOW'))";
         myDatabase.execSQL(insertQuery);
@@ -326,6 +325,39 @@ public class DatabaseHelper{
         myDatabase.execSQL("UPDATE User SET dragon_name = '" + dragonname + "'");
 
         close();
+    }
+
+    /**
+     * Update the users mute setting for the app's sound
+     * @param mute Boolean, true means the app should be muted so 1 is stored
+     */
+    public void updateMute(boolean mute) {
+        open();
+
+        int muteNum = 0;
+
+        if (mute) {
+            muteNum = 1;
+        }
+
+        myDatabase.execSQL("UPDATE User SET mute = " + muteNum);
+
+        close();
+    }
+
+    /**
+     * Query that selects the mute of the user in the user table
+     * @return the users mute setting, 1 is muted
+     */
+    public boolean selectMute(){
+
+        int muted = selectInt("mute", "User");
+
+        if (muted == 1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -1520,6 +1552,7 @@ public class DatabaseHelper{
         }
         //change current lesson
         myDatabase.execSQL("UPDATE user SET current_lesson="+newLessonID);
+        c.close();
         close();
     }
 
@@ -1537,6 +1570,8 @@ public class DatabaseHelper{
         while(c.moveToNext()) {
             ids.add(c.getInt(0));
         }
+
+        c.close();
         close();
         return ids;
     }
@@ -1567,6 +1602,8 @@ public class DatabaseHelper{
         if (test > 0) {
             isComplete = true;
         }
+
+        c.close();
         close();
         return isComplete;
     }
@@ -1586,6 +1623,7 @@ public class DatabaseHelper{
             isComplete = true;
         }
 
+        c.close();
         close();
         return isComplete;
     }
@@ -1630,6 +1668,8 @@ public class DatabaseHelper{
                 "datetime_finished IS NOT NULL AND datetime_finished != ''",null);
         c.moveToFirst();
         int test = c.getInt(0);
+
+        c.close();
         close();
         return test+1;
     }
@@ -1644,6 +1684,8 @@ public class DatabaseHelper{
                 "ORDER BY lesson_id DESC LIMIT 1",null);
         c.moveToFirst();
         int max = c.getInt(0);
+
+        c.close();
         close();
         return max;
     }
