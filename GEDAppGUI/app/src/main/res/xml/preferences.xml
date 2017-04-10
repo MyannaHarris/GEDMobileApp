@@ -51,4 +51,14 @@
         android:title="Send a notification every 24 hours"
         android:key="notification_preference"/>
 
+    <com.gedappgui.gedappgui.NumberPickerPreference
+        android:key="hour_number"
+        android:title="Choose notification Hour"
+        android:defaultValue="0" />
+
+    <com.gedappgui.gedappgui.MinuteNumberPickerPreference
+        android:key="minute_number"
+        android:title="Choose notification Minute"
+        android:defaultValue="0" />
+
 </PreferenceScreen>
