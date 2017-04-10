@@ -96,7 +96,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
-        android:padding="4dp"
+        android:padding="0dp"
 
         android:layout_below="@id/progressBar"
         android:id="@+id/button_home_grid"
@@ -128,7 +128,7 @@
             grid:layout_gravity="fill_horizontal"
             grid:layout_rowWeight="1"
 
-            android:padding="7dp"
+            android:padding="4dp"
 
             android:id="@+id/continue_button"
             android:text="@string/continue_lesson"
@@ -140,7 +140,7 @@
             grid:layout_columnWeight="1"
             grid:layout_rowWeight="1"
             grid:layout_gravity="fill_horizontal"
-            android:padding="7dp"
+            android:padding="4dp"
 
             android:id="@+id/learn_button"
             android:text="@string/learn"
@@ -152,7 +152,7 @@
             grid:layout_columnWeight="1"
             grid:layout_rowWeight="1"
             grid:layout_gravity="fill_horizontal"
-            android:padding="7dp"
+            android:padding="4dp"
 
             android:id="@+id/achievements_button"
             android:text="@string/achievements"
@@ -164,7 +164,7 @@
             grid:layout_columnWeight="1"
             grid:layout_rowWeight="1"
             grid:layout_gravity="fill_horizontal"
-            android:padding="7dp"
+            android:padding="4dp"
 
             android:id="@+id/play_button"
             android:text="@string/play"
@@ -176,7 +176,7 @@
             grid:layout_columnWeight="1"
             grid:layout_rowWeight="1"
             grid:layout_gravity="fill_horizontal"
-            android:padding="7dp"
+            android:padding="4dp"
 
             android:id="@+id/tools_button"
             android:text="@string/tools"
@@ -188,7 +188,7 @@
             grid:layout_columnWeight="1"
             grid:layout_rowWeight="1"
             grid:layout_gravity="fill_horizontal"
-            android:padding="7dp"
+            android:padding="4dp"
 
             android:id="@+id/settings_button"
             android:text="@string/settings"

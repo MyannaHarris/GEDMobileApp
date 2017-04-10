@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
 
             // Layout params
             RelativeLayout.LayoutParams relativeLay = (RelativeLayout.LayoutParams) progress.getLayoutParams();
-            relativeLay.height = height / 30;
+            relativeLay.height = height / 20;
             progress.setLayoutParams(relativeLay);
 
             // Set database for my application
