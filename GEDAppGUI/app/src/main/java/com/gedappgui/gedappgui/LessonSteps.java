@@ -88,7 +88,9 @@ public class LessonSteps extends AppCompatActivity {
         Bitmap lesson_img = getBitmapFromAsset(lessonImg);
 
         ImageView lesson_imageView = (ImageView) findViewById(R.id.example_image_view);
-        lesson_imageView.setImageBitmap(lesson_img);
+        if (lesson_img != null) {
+            lesson_imageView.setImageBitmap(lesson_img);
+        }
 
         // Set text to correct text
         String lessonAdvice = dbHelper.selectLessonAdvice(lessonID);
@@ -127,6 +129,16 @@ public class LessonSteps extends AppCompatActivity {
         }
         Bitmap bitmap = BitmapFactory.decodeStream(istr);
         return bitmap;
+    }
+
+    /**
+     * Gets access to the assets folder
+     * @return Access to the assets
+     */
+    @Override
+    public AssetManager getAssets()
+    {
+        return getResources().getAssets();
     }
 
     /**

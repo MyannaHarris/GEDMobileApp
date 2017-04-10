@@ -139,6 +139,16 @@ public class AchievementPopUp extends AppCompatActivity {
     }
 
     /**
+     * Gets access to the assets folder
+     * @return Access to the assets
+     */
+    @Override
+    public AssetManager getAssets()
+    {
+        return getResources().getAssets();
+    }
+
+    /**
      * Hides bottom navigation bar
      * Called after onCreate on first creation
      * Called every time this activity gets the focus
