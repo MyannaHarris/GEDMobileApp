@@ -418,7 +418,7 @@ public class MyApplication extends Application {
         NotificationCompat.Builder mBuilder =
                 (android.support.v7.app.NotificationCompat.Builder)
                         new NotificationCompat.Builder(getApplicationContext())
-                                .setSmallIcon(R.drawable.appicon)
+                                .setSmallIcon(R.drawable.appiconsmall)
                                 .setContentTitle("Dragon Academy - Reminder")
                                 .setContentText("Hey, we haven't seen you in a while.")
                                 .setVibrate(pattern)
