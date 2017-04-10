@@ -12,4 +12,5 @@
     <item name ="chemistryGameEndButton" type="id"/>
     <item name ="instruct1" type="id"/>
     <item name ="instruct2" type="id"/>
+    <item name ="madlibGameEndButton" type="id"/>
 </resources>

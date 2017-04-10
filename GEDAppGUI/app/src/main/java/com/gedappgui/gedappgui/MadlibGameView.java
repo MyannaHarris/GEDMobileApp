@@ -165,6 +165,12 @@ public class MadlibGameView extends RelativeLayout {
             endButton.setGravity(Gravity.CENTER_HORIZONTAL);
             endButton.setHeight((height - statusBarHeight - 15) / 8 - 20);
 
+            if (Build.VERSION.SDK_INT < 17) {
+                endButton.setId(R.id.madlibGameEndButton);
+            } else {
+                endButton.setId(View.generateViewId());
+            }
+
             endButton.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
@@ -293,21 +299,20 @@ public class MadlibGameView extends RelativeLayout {
             question.setId(View.generateViewId());
         }
 
-
         RelativeLayout.LayoutParams relativeLay;
-
         relativeLay = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         relativeLay.setMargins(10, 10, 10, 10);
         relativeLay.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-        relativeLay.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         question.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
         question.setPadding(10,50,10,50);
-        question.setLayoutParams(relativeLay);
 
-        if (nextActivity == 1) {
+        if(nextActivity == 1){
             this.addView(endButton);
             relativeLay.addRule(RelativeLayout.BELOW,endButton.getId());
+        }
+        else{
+            relativeLay.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         }
 
         question.setLayoutParams(relativeLay);
@@ -522,12 +527,13 @@ public class MadlibGameView extends RelativeLayout {
         if(num != 0){
             relativeLay.addRule(RelativeLayout.BELOW, tEdits.get(num-1).getId());
         }
-        else if(nextActivity != 1){
-            relativeLay.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-        }
-        else{
+        else if(num == 0 && nextActivity == 1){
             relativeLay.addRule(RelativeLayout.BELOW,endButton.getId());
         }
+        else if(num == 0){
+            relativeLay.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        }
+
 
         newWord.setLayoutParams(relativeLay);
 
