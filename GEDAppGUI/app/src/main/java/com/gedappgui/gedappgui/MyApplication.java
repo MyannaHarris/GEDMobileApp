@@ -11,7 +11,7 @@
  *
  * Created by myannaharris on 10/26/16.
  *
- * Last Edit: 3-19-17
+ * Last Edit: 4-10-17
  *
  */
 
@@ -25,9 +25,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.LayerDrawable;
-import android.media.AudioManager;
 import android.support.v7.app.NotificationCompat;
-import android.util.Log;
 
 import java.util.Calendar;
 
@@ -51,7 +49,7 @@ public class MyApplication extends Application {
     private SharedPreferences prefs;
 
     // Saves the current volume for when the app is unmuted
-    private int currVolume = 0;
+    private boolean mute = false;
 
     // Notification objects for notification every 24 hours
     private boolean sendNotification = false;
@@ -109,16 +107,15 @@ public class MyApplication extends Application {
                 boolean isChecked = prefs.getBoolean("sound_preference",false);
                 if (isChecked) {
                     // Mute
-                    AudioManager audioManager =
-                            (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-                    setCurrVolume(audioManager.getStreamVolume(AudioManager.STREAM_RING));
-                    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
+                    setMute(true);
                 }
                 else {
                     // Un-mute
-                    AudioManager audioManager =
-                            (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-                    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, getCurrVolume(), 0);
+                    setMute(false);
+                }
+
+                if (dbHelper != null) {
+                    dbHelper.updateMute(mute);
                 }
             }
             else if (key.equals("notification_preference")) {
@@ -339,20 +336,20 @@ public class MyApplication extends Application {
 
     /**
      * Getter
-     * Gets the current saved volume from before muting
-     * @return currVolume - Save volume level
+     * Gets whether the volume should be muted
+     * @return mute Boolean, true means sound should be muted
      */
-    public int getCurrVolume() {
-        return currVolume;
+    public boolean getMute() {
+        return mute;
     }
 
     /**
      * Setter
-     * Sets the current saved volume from before muting
-     * @param newVolume - New volume level
+     * Sets whether the volume should be muted
+     * @param newMute - Boolean, true means sound should be muted
      */
-    public void setCurrVolume(int newVolume) {
-        this.currVolume = newVolume;
+    public void setMute(boolean newMute) {
+        this.mute = newMute;
     }
 
     /**

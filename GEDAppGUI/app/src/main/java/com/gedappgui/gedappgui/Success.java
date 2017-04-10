@@ -14,23 +14,18 @@
  *
  * Created by jasminejans on 10/29/16.
  *
- * Last Edit: 3-20-17
+ * Last Edit: 4-10-17
  *
  */
 
 package com.gedappgui.gedappgui;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayout;
@@ -41,13 +36,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -81,8 +73,11 @@ public class Success extends AppCompatActivity {
         int totalCorrect = mIntent.getIntExtra("totalCorrect", 0);
         int totalQuestions = mIntent.getIntExtra("totalQuestions", 0);
 
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.long_success);
-        mediaPlayer.start();
+        // Do not play music if app is muted, true = muted
+        if (!((MyApplication) this.getApplication()).getMute()) {
+            MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.long_success);
+            mediaPlayer.start();
+        }
 
 
 

@@ -13,7 +13,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 4-9-16
+ * Last Edit: 4-9-17
  *
  */
 
@@ -33,7 +33,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -82,9 +81,10 @@ public class MainActivity extends AppCompatActivity {
             ((MyApplication) this.getApplication()).setName(db.selectUsername());
 
             // Get dragon name from database
-            if(!((MyApplication) this.getApplication()).getDragonName().equals(db.selectDragonName())) {
-                ((MyApplication) this.getApplication()).setDragonName(db.selectDragonName());
-            }
+            ((MyApplication) this.getApplication()).setDragonName(db.selectDragonName());
+
+            // Get mute setting from database
+            ((MyApplication) this.getApplication()).setMute(db.selectMute());
 
             // Allow user to control audio with volume buttons on phone
             setVolumeControlStream(AudioManager.STREAM_MUSIC);

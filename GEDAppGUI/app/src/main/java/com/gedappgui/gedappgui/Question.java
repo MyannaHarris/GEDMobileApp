@@ -388,7 +388,10 @@ public class Question extends AppCompatActivity {
             // Check if answer is correct
             if (selectedString.equals(correctAnswerStr)) {
 
-                mediaPlayer.start();
+                // Do not play music if app is muted, true = muted
+                if (!((MyApplication) this.getApplication()).getMute()) {
+                    mediaPlayer.start();
+                }
                 correctAnswers += 1;
                 totalCorrect += 1;
                 ((RadioButton) radioGroup.getChildAt(selectedAnswer-1)).setTextColor(
