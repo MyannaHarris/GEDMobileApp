@@ -38,6 +38,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:textSize="50sp"
+        android:textColor="@color/colorBodyText"
         android:text="&lt;"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:onClick="changeDragonLeft"/>
@@ -61,6 +62,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:textSize="50sp"
+        android:textColor="@color/colorBodyText"
         android:text="&gt;"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:onClick="changeDragonRight"/>
