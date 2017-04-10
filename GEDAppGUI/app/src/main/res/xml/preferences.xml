@@ -11,7 +11,7 @@
  Jasmine Jans
  Jimmy Sherman
 
- Last Edit: 10-26-16
+ Last Edit: 4-10-17
 -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
@@ -21,14 +21,12 @@
 
     <CheckBoxPreference
         android:key="sound_preference"
-        android:title="@string/sound_title"
-        android:summary="@string/sound_summary"/>
+        android:title="Mute All App Sounds"/>
 
     <EditTextPreference
         android:key="username_preference"
         android:id="@+id/namePref"
         android:title="@string/username_title"
-        android:summary="@string/username_summary"
         android:hint="Name"
         android:textColor="@color/colorAccent"
         android:maxLength="10"
@@ -39,7 +37,6 @@
         android:key="dragonname_preference"
         android:id="@+id/dragonNamePref"
         android:title="Change Dragon Name"
-        android:summary="Enter new dragon name"
         android:hint="Dragon Name"
         android:textColor="@color/colorAccent"
         android:textColorHint="@color/colorHint"
@@ -48,17 +45,17 @@
 
     <CheckBoxPreference
         android:defaultValue="false"
-        android:title="Send a notification every 24 hours"
+        android:title="Set Notification for Time Chosen"
         android:key="notification_preference"/>
 
     <com.gedappgui.gedappgui.NumberPickerPreference
         android:key="hour_number"
-        android:title="Choose notification Hour"
-        android:defaultValue="0" />
+        android:title="Choose Notification Hour"
+        android:defaultValue="15" />
 
     <com.gedappgui.gedappgui.MinuteNumberPickerPreference
         android:key="minute_number"
-        android:title="Choose notification Minute"
+        android:title="Choose Notification Minute"
         android:defaultValue="0" />
 
 </PreferenceScreen>

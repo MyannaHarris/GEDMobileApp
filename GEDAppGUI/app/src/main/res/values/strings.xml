@@ -9,7 +9,7 @@
  Jasmine Jans
  Jimmy Sherman
 
- Last Edit: 1-17-17
+ Last Edit: 4-10-17
 -->
 
 <resources>
@@ -55,17 +55,12 @@
 
     <string name="setting_title">All Settings</string>
 
-    <!-- Sound -->
-    <string name="sound_title">App Sound</string>
-    <string name="sound_summary">Select to mute all sound from app.</string>
 
     <!-- Reminder -->
     <string name="reminder_title">Reminder</string>
-    <string name="reminder_summary">Choose time for reminder.</string>
 
     <!-- Username -->
     <string name="username_title">Change Username</string>
-    <string name="username_summary">Enter new username.</string>
 
     <!-- Text size-->
     <string name="text_size_title">Change Text Size</string>

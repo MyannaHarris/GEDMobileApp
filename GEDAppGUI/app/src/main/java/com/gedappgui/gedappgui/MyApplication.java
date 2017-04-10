@@ -63,7 +63,7 @@ public class MyApplication extends Application {
     private DatabaseHelper dbHelper;
 
     // Time variables to set notification time
-    private int hour = 0;
+    private int hour = 15;
     private int minute = 0;
 
     // Listens for the preferences changing in the settings
@@ -144,7 +144,7 @@ public class MyApplication extends Application {
                 }
             } else if (key.equals("hour_number")) {
                 // Save new hour
-                setHour(prefs.getInt("hour_number", 0));
+                setHour(prefs.getInt("hour_number", 15));
 
                 // Restart notification
                 // Cancel notification
