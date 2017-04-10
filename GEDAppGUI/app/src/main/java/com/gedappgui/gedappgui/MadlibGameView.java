@@ -11,7 +11,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 3-26-17
+ * Last Edit: 4-10-17
  *
  */
 
@@ -33,6 +33,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -186,6 +187,7 @@ public class MadlibGameView extends RelativeLayout {
         submit.setText("Submit");
         submit.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
 
+
         if (Build.VERSION.SDK_INT < 17) {
             submit.setId(R.id.madlibGameSubmit);
         } else {
@@ -300,7 +302,7 @@ public class MadlibGameView extends RelativeLayout {
         relativeLay.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         relativeLay.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         question.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-        question.setPadding(50, 100, 10, 10);
+        question.setPadding(10,50,10,50);
         question.setLayoutParams(relativeLay);
 
         if (nextActivity == 1) {
@@ -459,24 +461,32 @@ public class MadlibGameView extends RelativeLayout {
             relativeLay.setMargins(50, 10, 10, 10);
             relativeLay.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
             relativeLay.addRule(RelativeLayout.BELOW, allUserFills.get(currQuestion).get(allUserFills.get(currQuestion).size() - 1).getId());
-
-
             submit.setLayoutParams(relativeLay);
             submit.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
 
+            TextView space = new TextView(context);
+            space.setFocusable(false);
+            space.setTextIsSelectable(false);
+            relativeLay = new RelativeLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, 150);
+            relativeLay.addRule(RelativeLayout.BELOW, submit.getId());
+            space.setLayoutParams(relativeLay);
+
             this.addView(submit);
+            this.addView(space);
 
         } else {
             endGame();
         }
     }
 
+    /**
+     * checks to see if any of the edit text views are not filled
+     * @param edits the edittext views with user input
+     * @return true if some of the edit text views are empty
+     */
     boolean notFilled(ArrayList<EditText> edits){
-        System.out.println("w");
-        System.out.println(edits.get(0).getText());
         for (int i = 0; i < edits.size(); i++) {
-            System.out.println("w");
-            System.out.println(edits.get(i).getText());
             if(edits.get(i).getText().toString().equals("")){
                 return true;
             }
@@ -498,7 +508,7 @@ public class MadlibGameView extends RelativeLayout {
         //controls get
         TextView newWord = new TextView(context);
         newWord.setTextSize(convertPixelsToDp(height / 30, context));
-        newWord.setText("Enter an " + word + ":");
+        newWord.setText("Enter a(n) " + word.toLowerCase() + ":");
 
         if (Build.VERSION.SDK_INT < 17) {
             newWord.setId(num);
@@ -559,6 +569,19 @@ public class MadlibGameView extends RelativeLayout {
         userWord.setLayoutParams(relativeLay);
 
         userWord.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
+
+        userWord.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                    //evaluates answer and closes keyboard
+                    InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                    return true;
+                }
+                return false;
+            }
+        });
 
         return userWord;
     }

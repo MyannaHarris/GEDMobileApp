@@ -14,7 +14,7 @@
  *
  * Created by jasminejans on 10/29/16.
  *
- * Last Edit: 3-19-17
+ * Last Edit: 4-10-17
  *
  */
 
@@ -91,6 +91,7 @@ public class Game extends AppCompatActivity {
 
         //checks for which template to use, aka which kind of game
         if (dbHelper.selectGameTemplate(lessonID).equals("bucket_game")) {
+
             ArrayList<ArrayList<String>> gameQuestions;
 
             if (nextActivity == 1) {
@@ -149,41 +150,6 @@ public class Game extends AppCompatActivity {
             setContentView(chemistryGameView);
         }else if (dbHelper.selectGameTemplate(lessonID).equals("madlib_game")){
 
-            /* Create game object
-            ArrayList<ArrayList<String>> texts = new ArrayList<>();
-            ArrayList<String> newA = new ArrayList<>();
-            newA.add("vrb");
-            newA.add("nn");
-            texts.add(newA);
-
-            ArrayList<String> newB = new ArrayList<>();
-            newB.add("Adjective 1");
-            newB.add("Adjective");
-            texts.add(newB);
-
-            ArrayList<String> question = new ArrayList<>();
-            question.add("The #vrb# dog #nn# is fat #vrb#");
-            question.add("The #Adjective 1# dog is #Adjective 1# skinny #Adjective#");
-
-            ArrayList<ArrayList<String>> answerPs = new ArrayList<>();
-            ArrayList<String> newC = new ArrayList<>();
-            newC.add("1");
-            newC.add("2");
-            newC.add("3");
-            newC.add("4");
-            answerPs.add(newC);
-
-            ArrayList<String> newD = new ArrayList<>();
-            newD.add("5");
-            newD.add("6");
-            newD.add("7");
-            newD.add("8");
-            answerPs.add(newD);
-
-            ArrayList<String> answerAs = new ArrayList<>();
-            answerAs.add("1");
-            answerAs.add("7");*/
-
             // Get reference to current activity
             Activity activity = (Activity)this;
             ArrayList<ArrayList<ArrayList<String>>> input = new ArrayList<>();
@@ -192,9 +158,7 @@ public class Game extends AppCompatActivity {
                 input = dbHelper.selectInfiniteMadlibInput(lessonID);
             }
             else{
-                input = dbHelper.selectInfiniteMadlibInput(lessonID);
-                //temporary until more content
-                //input = dbHelper.selectMadlibInput(lessonID);
+                input = dbHelper.selectMadlibInput(lessonID);
             }
 
             madlibGameView = new MadlibGameView(this, activity, (input.get(0)),  input.get(1),
