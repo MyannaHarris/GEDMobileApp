@@ -7,5 +7,5 @@
     android:paddingBottom="10dp"
     android:paddingTop="10dp"
     android:textSize="20sp"
-    android:textColor="@color/colorMenuText"
-    android:background="@color/colorMenuBackground"/>
+    android:textColor="@color/spinnerItemTextColor"
+    android:background="@color/spinnerItemTextBackground"/>

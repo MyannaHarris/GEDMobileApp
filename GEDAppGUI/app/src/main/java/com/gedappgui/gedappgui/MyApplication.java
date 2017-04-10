@@ -64,6 +64,10 @@ public class MyApplication extends Application {
     // Database helper
     private DatabaseHelper dbHelper;
 
+    // Time variables to set notification time
+    private int hour = 0;
+    private int minute = 0;
+
     // Listens for the preferences changing in the settings
     SharedPreferences.OnSharedPreferenceChangeListener listener =
             new SharedPreferences.OnSharedPreferenceChangeListener() {
@@ -141,6 +145,50 @@ public class MyApplication extends Application {
 
 
                 }
+            } else if (key.equals("hour_number")) {
+                // Save new hour
+                setHour(prefs.getInt("hour_number", 0));
+
+                // Restart notification
+                // Cancel notification
+                sendNotification = false;
+                // If the alarm has been set, cancel it.
+                if (alarmManager!= null) {
+                    alarmManager.cancel(pendingIntent);
+                }
+
+                // Set notification
+                sendNotification = true;
+                scheduleNotification(getNotification());
+
+                // Gives an achievement if they set a notification for the first time
+                Intent achievement = new Intent(getApplicationContext(), AchievementPopUp.class);
+                achievement.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                achievement.putExtra("achievementID", 3);
+                startActivity(achievement);
+
+            } else if (key.equals("minute_number")) {
+                // Save new minute
+                setMinute(prefs.getInt("minute_number", 0));
+
+                // Restart notification
+                // Cancel notification
+                sendNotification = false;
+                // If the alarm has been set, cancel it.
+                if (alarmManager!= null) {
+                    alarmManager.cancel(pendingIntent);
+                }
+
+                // Set notification
+                sendNotification = true;
+                scheduleNotification(getNotification());
+
+                // Gives an achievement if they set a notification for the first time
+                Intent achievement = new Intent(getApplicationContext(), AchievementPopUp.class);
+                achievement.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                achievement.putExtra("achievementID", 3);
+                startActivity(achievement);
+
             }
             else if (key.equals("dragonname_preference")) {
                 // Change username
@@ -201,6 +249,38 @@ public class MyApplication extends Application {
      */
     public void setDragonName(String newName) {
         this.dragonName = newName;
+    }
+
+    /**
+     * Getter
+     * Gets the hour for the notification
+     * @return hour Notification hour
+     */
+    public int getHour() { return hour; }
+
+    /**
+     * Getter
+     * Gets the minute for the notification
+     * @return minute Notification minute
+     */
+    public int getMinute() { return minute; }
+
+    /**
+     * Setter
+     * Sets notification hour
+     * @param newHour New notification hour
+     */
+    public void setHour(int newHour) {
+        this.hour = newHour;
+    }
+
+    /**
+     * Setter
+     * Sets notification minute
+     * @param newMinute New notification minute
+     */
+    public void setMinute(int newMinute) {
+        this.minute = newMinute;
     }
 
     /**
@@ -308,17 +388,19 @@ public class MyApplication extends Application {
         // Create time alarm to set off alarm in 24 hours
         Calendar alarm = Calendar.getInstance();
 
-        alarm.add(Calendar.DAY_OF_MONTH, 1);
+        alarm.set(Calendar.HOUR_OF_DAY, getHour());
+        alarm.set(Calendar.MINUTE, getMinute());
+        alarm.set(Calendar.SECOND, 0);
 
         alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         if(alarm.getTimeInMillis() < System.currentTimeMillis()) {
-            // Check if date is wrong
-            Log.d("Error", "Date set in past");
-        } else {
-            // Use repeating alarm to send notification every 24 hours
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarm.getTimeInMillis(),
-                    AlarmManager.INTERVAL_DAY, pendingIntent);
+            // Add a day if time has already passed
+            alarm.add(Calendar.DAY_OF_YEAR, 1);
         }
+
+        // Use repeating alarm to send notification every 24 hours
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarm.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, pendingIntent);
     }
 
     /**
@@ -340,9 +422,8 @@ public class MyApplication extends Application {
                 (android.support.v7.app.NotificationCompat.Builder)
                         new NotificationCompat.Builder(getApplicationContext())
                                 .setSmallIcon(R.drawable.appicon)
-                                .setContentTitle("Math App - Reminder")
-                                .setContentText("Hey, we haven't seen you in a while. " +
-                                        "You should come practice.")
+                                .setContentTitle("Dragon Academy - Reminder")
+                                .setContentText("Hey, we haven't seen you in a while.")
                                 .setVibrate(pattern)
                                 .setAutoCancel(true)
                                 .setContentIntent(pendingIntent2);
