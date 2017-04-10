@@ -112,11 +112,11 @@
     
     <!-- Next Gen Zone Links -->
     <string name="ngzlinks_explanation">This app was made for the Next Generation Zone, an organization in Spokane, WA dedicated to helping young adults complete their education and prepare for a career that suits them.  The following links are specifically for students at the Next Generation Zone, but others may find them helpful as well!</string>
-    <string name="Home"><a href = "http://www.nextgenzone.org/">Home</a></string>
-    <string name="Passport"><a href = "http://www.nextgenzone.org/passport-to-success/">Passport</a></string>
-    <string name="Information"><a href = "http://www.nextgenzone.org/what-we-do/">What We Do</a></string>
-    <string name="Who"><a href = "http://www.nextgenzone.org/who-we-are/">Who We Are</a></string>
-    <string name="Job"><a href = "http://www.nextgenzone.org/find-a-job/">Job Search</a></string>
-    <string name="Resources"><a href = "http://www.nextgenzone.org/resources">Resources</a></string>
+    <string name="Home"><a href = "http://www.nextgenzone.org/">HOME</a></string>
+    <string name="Passport"><a href = "http://www.nextgenzone.org/passport-to-success/">PASSPORT</a></string>
+    <string name="Information"><a href = "http://www.nextgenzone.org/what-we-do/">WHAT WE DO</a></string>
+    <string name="Who"><a href = "http://www.nextgenzone.org/who-we-are/">WHO WE ARE</a></string>
+    <string name="Job"><a href = "http://www.nextgenzone.org/find-a-job/">JOB SEARCH</a></string>
+    <string name="Resources"><a href = "http://www.nextgenzone.org/resources">RESOURCES</a></string>
 
 </resources>

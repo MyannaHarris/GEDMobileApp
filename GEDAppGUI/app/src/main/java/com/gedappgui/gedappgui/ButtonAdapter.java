@@ -19,9 +19,9 @@ package com.gedappgui.gedappgui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Handler;
-import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.Spanned;
 import android.view.View;
@@ -318,7 +318,7 @@ public class ButtonAdapter extends BaseAdapter {
                 }
             });
         }
-        button.setTextColor(ContextCompat.getColor(mContext, R.color.towerGameButtonText));
+        button.setTextColor(Color.WHITE);
 
         return button;
     }
