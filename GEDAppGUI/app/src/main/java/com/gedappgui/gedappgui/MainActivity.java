@@ -33,8 +33,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Button;
 
@@ -141,6 +143,11 @@ public class MainActivity extends AppCompatActivity {
             }
 
             seeProgress.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/45));
+
+            // Layout params
+            RelativeLayout.LayoutParams relativeLay = (RelativeLayout.LayoutParams) progress.getLayoutParams();
+            relativeLay.height = height / 30;
+            progress.setLayoutParams(relativeLay);
 
             // Set database for my application
             ((MyApplication) this.getApplication()).setDBHelper(new DatabaseHelper(this));
