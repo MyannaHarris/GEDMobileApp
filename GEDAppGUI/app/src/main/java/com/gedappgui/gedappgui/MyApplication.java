@@ -415,7 +415,7 @@ public class MyApplication extends Application {
                         new NotificationCompat.Builder(getApplicationContext())
                                 .setSmallIcon(R.drawable.appiconsmall)
                                 .setContentTitle("Dragon Academy - Reminder")
-                                .setContentText("Hey, you should come practice.")
+                                .setContentText("Hey, you should come practice!")
                                 .setVibrate(pattern)
                                 .setAutoCancel(true)
                                 .setContentIntent(pendingIntent2);
