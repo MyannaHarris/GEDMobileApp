@@ -36,7 +36,7 @@
 
     <Button
         android:text="To Next Lesson"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/to_lesson"
         android:textSize="18sp"
@@ -71,7 +71,7 @@
 
     <Button
         android:text="To Lair"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/to_sprite"
         android:textSize="18sp"
@@ -85,7 +85,7 @@
 
     <Button
         android:text="To Concepts"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/to_concepts"
         android:textSize="18sp"
