@@ -136,10 +136,11 @@ public class TextViewAdapter extends BaseAdapter {
                         R.drawable.match_game_unselected));
             }
 
-            textView.setHeight((height - statusBarHeight - 15) / (texts.length / 2) - 20);
+            textView.setHeight((height - statusBarHeight - 20) / (texts.length / 2) - 20);
             textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
             textView.setTextColor(ContextCompat.getColor(mContext, R.color.matchGameText));
-            textView.setPadding(10, 8, 10, 8);
+            textView.setPadding(20, 8, 20, 8);
+            textView.setMaxLines(2);
         } else {
             textView = (TextView) convertView;
             if (Build.VERSION.SDK_INT < 16) {
