@@ -121,7 +121,7 @@ public class GeoAssist extends AppCompatActivity implements AdapterView.OnItemSe
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         //creates a spinner for selection of geometric shapes
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        Spinner spinner = (Spinner) findViewById(R.id.geo_spinner);
 
 
         //creates the list of possible geometric shapes available in the spinner

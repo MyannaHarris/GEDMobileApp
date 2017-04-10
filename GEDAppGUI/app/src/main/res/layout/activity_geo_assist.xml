@@ -1,62 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_geo_assist"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:windowSoftInputMode="adjustResize"
-    tools:context="com.gedappgui.gedappgui.GeoAssist">
+    android:windowSoftInputMode="adjustResize">
 
-    <ScrollView
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context="com.gedappgui.gedappgui.GeoAssist"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:weightSum="1">
 
-        <LinearLayout
+        <TextView
+            android:text="Select a shape in the menu below to see information about that geometric figure. Scroll the screen using your finger! \n \n"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:weightSum="1">
+            android:id="@+id/prompt"
+            android:textSize="20sp"/>
 
-            <TextView
-                android:text="Select a shape in the menu below to see information about that geometric figure. Scroll the screen using your finger! \n \n"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/prompt"
-                android:textSize="20sp"/>
-
+        <RelativeLayout
+            android:id="@+id/relative_geo_spinner"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:layout_centerHorizontal="true"
+            android:background="@color/spinnerBackground">
             <Spinner
+                android:id="@+id/geo_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
-                android:id="@+id/spinner"
                 android:foregroundTint="@color/colorHeader1"
-                android:backgroundTint="@color/colorMenuBackground"/>
+                android:backgroundTint="@color/spinnerItemTextColor"/>
+        </RelativeLayout>
 
-            <TextView
-                android:text=""
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/summary"
-                android:textSize="20sp"/>
+        <TextView
+            android:text=""
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/summary"
+            android:textSize="20sp"/>
 
-            <TextView
-                android:text=""
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/shape_examples"
-                android:textSize="20sp"/>
+        <TextView
+            android:text=""
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/shape_examples"
+            android:textSize="20sp"/>
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/radius"
-                android:id="@+id/shapepicture" />
-        </LinearLayout>
-    </ScrollView>
-</RelativeLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/radius"
+            android:id="@+id/shapepicture" />
+    </LinearLayout>
+</ScrollView>
