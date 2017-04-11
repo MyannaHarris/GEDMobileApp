@@ -213,38 +213,7 @@ public class MadlibGameView extends RelativeLayout {
                 userInput.add(createTextView(wordFills.get(i).get(j), userFills, j));
                 userFills.add(createEditText(wordFills.get(i).get(j), userInput, j));
             }
-            /*sets last edit text entry to move on to madlib when enter is hit unless not all inputs are filed
-            userFills.get(wordFills.get(i).size()-1).setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                @Override
-                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                    if (actionId == EditorInfo.IME_ACTION_DONE) {
-                        if(notFilled(allUserFills.get(currQuestion))){
-                            //throw up a dialog box if they haven't added all yet
-                            noFillDialog.setTitle("Oops!");
-                            noFillDialog.setMessage("You must enter a word in each blank before you can continue.");
-                            noFillDialog.setIcon(R.drawable.appicon);
-                            // Add the ok button
-                            noFillDialog.setNegativeButton("OK",
-                                    new DialogInterface.OnClickListener()
-                                    {
-                                        public void onClick(DialogInterface dialog, int id)
-                                        {
-                                            dialog.cancel();
-                                        }
-                                    });
-                            //show the dialog box
-                            AlertDialog dialog = noFillDialog.create();
-                            dialog.show();
-                        }
-                        //if all input is given, create the madlib
-                        else {
-                            createMadLib(allUserFills.get(currQuestion), wordFills.get(currQuestion));
-                        }
-                    }
-                    return false;
-                }
-            });*/
-
+           
             //add the specific questions textviews and edit text views to all edit text and text views
             allUserInput.add(new ArrayList<>(userInput));
             allUserFills.add(new ArrayList<>(userFills));
