@@ -18,6 +18,9 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <receiver android:name="com.gedappgui.gedappgui.Receiver" ></receiver>
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -190,9 +193,6 @@
             android:label="@string/title_activity_slope_calc_tool"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
-            android:name=".CoordinatePlane"
-            android:label="@string/title_activity_coord_plane_tool" />
-        <activity
             android:name=".FormulaMemorization"
             android:label="@string/title_activity_formula_memorization_tool" />
         <activity
@@ -204,9 +204,6 @@
         <activity
             android:name=".Tutorial"
             android:label="Tutorial" />
-        <activity
-            android:name=".TowerGameView"
-            android:label="Complete the Picture!" />
         <activity
             android:name=".NGZLinks"
             android:label="Links Directory"

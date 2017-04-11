@@ -37,7 +37,6 @@ public class Receiver extends BroadcastReceiver {
      * @param intent Intent that carries notification
      */
     public void onReceive(Context context, Intent intent) {
-
         NotificationManager notificationManager =
                 (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
 

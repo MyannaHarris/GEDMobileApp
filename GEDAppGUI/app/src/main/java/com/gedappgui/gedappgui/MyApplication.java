@@ -53,8 +53,8 @@ public class MyApplication extends Application {
 
     // Notification objects for notification every 24 hours
     private boolean sendNotification = false;
-    private AlarmManager alarmManager;
-    private PendingIntent pendingIntent;
+    private AlarmManager alarmManager = null;
+    private PendingIntent pendingIntent = null;
 
     // sprite layers
     private LayerDrawable spriteDrawable;
@@ -122,6 +122,11 @@ public class MyApplication extends Application {
                 // Set or cancel notification
                 boolean isChecked = prefs.getBoolean("notification_preference",false);
                 if (isChecked) {
+                    // Save new hour
+                    setHour(prefs.getInt("hour_number", 15));
+                    // Save new minute
+                    setMinute(prefs.getInt("minute_number", 0));
+
                     // Set notification
                     sendNotification = true;
                     scheduleNotification(getNotification());
@@ -135,8 +140,20 @@ public class MyApplication extends Application {
                 else {
                     // Cancel notification
                     sendNotification = false;
+
+                    if (alarmManager == null) {
+                        alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+                    }
+
+                    if (pendingIntent == null) {
+                        Intent notificationIntent = new Intent(getApplicationContext(), Receiver.class);
+                        notificationIntent.putExtra(Receiver.NOTIFICATION, getNotification());
+                        pendingIntent = PendingIntent.getBroadcast(
+                                getApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    }
+
                     // If the alarm has been set, cancel it.
-                    if (alarmManager!= null) {
+                    if (alarmManager!= null && pendingIntent != null) {
                         alarmManager.cancel(pendingIntent);
                     }
 
@@ -147,12 +164,27 @@ public class MyApplication extends Application {
                 setHour(prefs.getInt("hour_number", 15));
 
                 boolean isChecked = prefs.getBoolean("notification_preference",false);
-                if (isChecked) {
+                if (isChecked || sendNotification) {
+                    // Save new minute
+                    setMinute(prefs.getInt("minute_number", 0));
+
                     // Restart notification
                     // Cancel notification
                     sendNotification = false;
+
+                    if (alarmManager == null) {
+                        alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+                    }
+
+                    if (pendingIntent == null) {
+                        Intent notificationIntent = new Intent(getApplicationContext(), Receiver.class);
+                        notificationIntent.putExtra(Receiver.NOTIFICATION, getNotification());
+                        pendingIntent = PendingIntent.getBroadcast(
+                                getApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    }
+
                     // If the alarm has been set, cancel it.
-                    if (alarmManager != null) {
+                    if (alarmManager != null && pendingIntent != null) {
                         alarmManager.cancel(pendingIntent);
                     }
 
@@ -166,12 +198,27 @@ public class MyApplication extends Application {
                 setMinute(prefs.getInt("minute_number", 0));
 
                 boolean isChecked = prefs.getBoolean("notification_preference",false);
-                if (isChecked) {
+                if (isChecked || sendNotification) {
+                    // Save new hour
+                    setHour(prefs.getInt("hour_number", 15));
+
                     // Restart notification
                     // Cancel notification
                     sendNotification = false;
+
+                    if (alarmManager == null) {
+                        alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+                    }
+
+                    if (pendingIntent == null) {
+                        Intent notificationIntent = new Intent(getApplicationContext(), Receiver.class);
+                        notificationIntent.putExtra(Receiver.NOTIFICATION, getNotification());
+                        pendingIntent = PendingIntent.getBroadcast(
+                                getApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    }
+
                     // If the alarm has been set, cancel it.
-                    if (alarmManager != null) {
+                    if (alarmManager != null && pendingIntent != null) {
                         alarmManager.cancel(pendingIntent);
                     }
 
@@ -383,7 +430,10 @@ public class MyApplication extends Application {
         alarm.set(Calendar.MINUTE, getMinute());
         alarm.set(Calendar.SECOND, 0);
 
-        alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        if (alarmManager == null) {
+            alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        }
+
         if(alarm.getTimeInMillis() < System.currentTimeMillis()) {
             // Add a day if time has already passed
             alarm.add(Calendar.DAY_OF_YEAR, 1);
@@ -407,8 +457,6 @@ public class MyApplication extends Application {
                 PendingIntent.getActivity(getApplicationContext(), 0, myIntent,
                         PendingIntent.FLAG_UPDATE_CURRENT);
 
-        long[] pattern = {0, 300, 0};
-
         // Build notification with words and icon
         NotificationCompat.Builder mBuilder =
                 (android.support.v7.app.NotificationCompat.Builder)
@@ -416,12 +464,10 @@ public class MyApplication extends Application {
                                 .setSmallIcon(R.drawable.appiconsmall)
                                 .setContentTitle("Dragon Academy - Reminder")
                                 .setContentText("Hey, you should come practice!")
-                                .setVibrate(pattern)
+                                .setDefaults(NotificationCompat.DEFAULT_ALL)
                                 .setAutoCancel(true)
+                                .setWhen(System.currentTimeMillis())
                                 .setContentIntent(pendingIntent2);
-
-        //Required on Gingerbread and below
-        mBuilder.setDefaults(Notification.DEFAULT_SOUND);
 
         return mBuilder.build();
     }
