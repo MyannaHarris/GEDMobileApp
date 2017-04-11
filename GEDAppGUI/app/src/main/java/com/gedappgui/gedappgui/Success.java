@@ -359,8 +359,8 @@ public class Success extends AppCompatActivity {
     public void setAccessoryInfo(ArrayList<Integer> accessories) {
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        int maxWidth = metrics.widthPixels/3;
-        int length = accessories.size()/2;
+        int maxWidth = metrics.widthPixels / 3;
+        int length = accessories.size() / 2;
 
         GridLayout.Spec thisRow = GridLayout.spec(0, 1);
 
@@ -369,7 +369,7 @@ public class Success extends AppCompatActivity {
             GridLayout.Spec col = GridLayout.spec(i+1,1);
             GridLayout.LayoutParams gridLayoutParam0 = new GridLayout.LayoutParams(thisRow, col);
             gridLayoutParam0.setGravity(Gravity.FILL_HORIZONTAL|Gravity.CENTER_VERTICAL);
-            ImageView img = createAccessoryImage(accessories.get(i*2+1), accessories.get(i*2), maxWidth);
+            ImageView img = createAccessoryImage(accessories.get(i*2+1), accessories.get(i * 2), maxWidth);
             gridlayout.addView(img,gridLayoutParam0);
         }
 

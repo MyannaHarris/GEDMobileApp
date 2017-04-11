@@ -33,8 +33,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.io.File;
-import java.util.ArrayList;
 
 public class LessonSummary extends AppCompatActivity {
     // Globals for database access, concept ID, lesson ID, and lesson offset

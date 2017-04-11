@@ -35,6 +35,7 @@ import android.widget.TextView;
 
 public class LessonExample extends AppCompatActivity {
 
+    // passed concept and lesson ids so we know what lesson we are in
     private int conceptID;
     private int lessonID;
 

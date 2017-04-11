@@ -34,7 +34,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.File;
 import java.util.ArrayList;
 
 
@@ -63,7 +62,6 @@ public class LearnConcepts extends AppCompatActivity {
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         gridlayout = (GridLayout) findViewById(R.id.concepts_gridView);
-        //gridlayout.setLayoutParams(WRAP_CONTENT);
         ArrayList<String> concepts = dbHelper.selectUnlockedConcepts();
 
         //put things in the gridlayout
@@ -244,8 +242,6 @@ public class LearnConcepts extends AppCompatActivity {
                 Intent activityChangeIntent = new Intent(LearnConcepts.this, LearnLessons.class);
                 activityChangeIntent.putExtra("conceptID",conceptID);
 
-                // currentContext.startActivity(activityChangeIntent);
-
                 LearnConcepts.this.startActivity(activityChangeIntent);
             }
         });
@@ -277,8 +273,6 @@ public class LearnConcepts extends AppCompatActivity {
 
                 Intent activityChangeIntent = new Intent(LearnConcepts.this, LearnLessons.class);
                 activityChangeIntent.putExtra("conceptID",conceptID);
-
-                // currentContext.startActivity(activityChangeIntent);
 
                 LearnConcepts.this.startActivity(activityChangeIntent);
             }
