@@ -188,8 +188,12 @@ public class ButtonAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v){
                     if (answers[cur + 1].equals("t")){
-                        //circular queue for statements
-                        cur = (cur + 2) % 24;
+                        //questions onneven indexes, answers on odd indexes
+                        //Gets a random even number to put in the current statement
+                        int rand = (int) (Math.random() * 40);
+                        if ((rand % 2) == 1)
+                            rand = rand - 1;
+                        cur = rand;
                         statement.setText(toHTML(answers[cur]));
                         resulter.setText("Correct!");
                         Runnable r = new Runnable(){
@@ -226,7 +230,11 @@ public class ButtonAdapter extends BaseAdapter {
                             } else {
                                 button.setEnabled(true);
                                 pictureindex = 0;
-                                cur = 0;
+                                //randomly pulled from the queue
+                                int rand2 = (int) (Math.random() * 40);
+                                if ((rand2 % 2) == 1)
+                                    rand2 = rand2 - 1;
+                                cur = rand2;
                                 statement.setText(toHTML(answers[cur]));
                                 Runnable r2 = new Runnable(){
                                     @Override
@@ -243,7 +251,11 @@ public class ButtonAdapter extends BaseAdapter {
                     }
                     else{
                         resulter.setText("Incorrect! Try again");
-                        cur = (cur + 2) % 24;
+                        //randomly pulled from the queue
+                        int rand2 = (int) (Math.random() * 40);
+                        if (rand2 % 2 == 1)
+                            rand2 = rand2 - 1;
+                        cur = rand2;
                         statement.setText(toHTML(answers[cur]));
                     }
                 }
@@ -256,7 +268,11 @@ public class ButtonAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v){
                     if (answers[cur + 1].equals("f")){
-                        cur = (cur + 2) % 24;
+                        //randomly pulled from the queue
+                        int rand = (int) (Math.random() * 40);
+                        if ((rand % 2) == 1)
+                            rand = rand - 1;
+                        cur = rand;
                         statement.setText(toHTML(answers[cur]));
                         resulter.setText("Correct!");
                         //changes picture
@@ -293,7 +309,11 @@ public class ButtonAdapter extends BaseAdapter {
                             } else {
                                 button.setEnabled(true);
                                 pictureindex = 0;
-                                cur = 0;
+                                //randomly pulled from the queue
+                                int rand2 = (int) (Math.random() * 41);
+                                if ((rand2 % 2) == 1)
+                                    rand2 = rand2 - 1;
+                                cur = rand2;
                                 statement.setText(toHTML(answers[cur]));
                                 Runnable r2 = new Runnable(){
                                     @Override
@@ -310,8 +330,11 @@ public class ButtonAdapter extends BaseAdapter {
                     }
                     else{
                         resulter.setText(toHTML("Incorrect! Try again"));
-                        //circular queue
-                        cur = (cur + 2) % 24;
+                        //randomly pulled from the queue
+                        int rand2 = (int) (Math.random() * 41);
+                        if ((rand2 % 2) == 1)
+                            rand2 = rand2 - 1;
+                        cur = rand2;
                         statement.setText(toHTML(answers[cur]));
 
                     }

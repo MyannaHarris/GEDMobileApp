@@ -71,9 +71,9 @@ public class GeoAssist extends AppCompatActivity implements AdapterView.OnItemSe
     //creates the global array of example describing how to calculate certain measurements of
     // select geometric shapes
     private String[] examples ={
-            "<br />Circumference = pi * diameter <br /><br />Area = pi * radius^2 <br /><br />interior angle sum = 360 degrees<br /><br />",
+            "<br />Circumference = pi * diameter <br /><br />Area = pi * radius<sup><small>2</small></sup> <br /><br />interior angle sum = 360 degrees<br /><br />",
             "<br />Perimeter = side1 + side2 +side3 <br /><br />Area = 1/2 * base * height <br /><br />Pythagorean Relationship - " +
-                    "<br />a^2 + b^2 = c^2; a and b are both legs and c is the hypotenuse of a right triangle <br /><br />" +
+                    "<br />a<sup><small>2</small></sup> + b<sup><small>2</small></sup> = c<sup><small>2</small></sup>; a and b are both legs and c is the hypotenuse of a right triangle <br /><br />" +
                     "interior angle sum = 360 degrees<br /><br />",
             "<br />Perimeter = 2 * length + 2 * width <br /><br />Area = length * width<br /><br />interior angle sum = 360 degrees<br /><br />",
             "<br />Perimeter = side * 4 <br /><br />Area = side * side<br /><br />interior angle sum = 360 degrees<br /><br />",
@@ -82,9 +82,9 @@ public class GeoAssist extends AppCompatActivity implements AdapterView.OnItemSe
                     "<br />" +
                     "interior angle sum = 360 degrees<br />" +
                     "<br />",
-            "<br />Volume = 1/3 * pi * radius^2 * Height<br /><br />Surface Area = pi * r * Slant Height + pi * radius^2",
-            "<br />Volume = 1/3 * (base side)^2 * Height<br /><br />Surface Area = 2 * base * side + base^2",
-            "<br />Volume = pi * r^2 * Height<br /><br />Surface Area = 2 * pi * r^2 + height * (2 * pi * radius)"
+            "<br />Volume = 1/3 * pi * radius<sup><small>2</small></sup> * Height<br /><br />Surface Area = pi * r * Slant Height + pi * radius<sup><small>2</small></sup>",
+            "<br />Volume = 1/3 * (base side)<sup><small>2</small></sup> * Height<br /><br />Surface Area = 2 * base * side + base<sup><small>2</small></sup>",
+            "<br />Volume = pi * r<sup><small>2</small></sup> * Height<br /><br />Surface Area = 2 * pi * r<sup><small>2</small></sup> + height * (2 * pi * radius)"
     };
 
     //creates the global array of picture of select geometric shapes
