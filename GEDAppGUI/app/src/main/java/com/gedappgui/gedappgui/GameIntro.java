@@ -60,6 +60,10 @@ public class GameIntro extends AppCompatActivity {
     // Database
     private DatabaseHelper dbHelper;
 
+    // Bitmap variable to get game intro bitmap and recycle memory
+    private Bitmap image1;
+    private Bitmap image2;
+
     /**
      * Starts the activity and shows corresponding view on screen
      * @param savedInstanceState If the activity is being re-initialized after previously being
@@ -146,7 +150,12 @@ public class GameIntro extends AppCompatActivity {
             float newHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, (float)(height/2.25), getResources().getDisplayMetrics());
             int viewGravity = Gravity.FILL_HORIZONTAL | Gravity.CENTER_VERTICAL;
 
-            Bitmap image1 = getFromAssets(pics.get(0));
+            if(image1!=null)
+            {
+                image1.recycle();
+                image1=null;
+            }
+            image1 = getFromAssets(pics.get(0));
             instructionImage1.setImageBitmap(image1);
 
             GridLayout.Spec col1 = GridLayout.spec(0, 1);
@@ -157,7 +166,12 @@ public class GameIntro extends AppCompatActivity {
 
             //if there are to images, add the second to the grid
             if(pics.size() == 2) {
-                Bitmap image2 = getFromAssets(pics.get(1));
+                if(image2!=null)
+                {
+                    image2.recycle();
+                    image2=null;
+                }
+                image2 = getFromAssets(pics.get(1));
                 instructionImage2.setImageBitmap(image2);
 
                 GridLayout.Spec col2 = GridLayout.spec(1, 1);
