@@ -506,6 +506,16 @@ public class Question extends AppCompatActivity {
 
             allQuestions.get(currentLevel-1).remove(0);
 
+            // Delete all paths
+            pathList.clear();
+
+            // Draw blank canvas
+            if (surfaceHolder.getSurface().isValid()) {
+                canvas = surfaceHolder.lockCanvas();
+                canvas.drawColor(ContextCompat.getColor(context, R.color.canvasBackground));
+                surfaceHolder.unlockCanvasAndPost(canvas);
+            }
+
         }
     }
 
