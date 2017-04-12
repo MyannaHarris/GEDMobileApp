@@ -113,8 +113,8 @@ public class GameIntro extends AppCompatActivity {
         String welcome = "";
 
 
-        //check for first lesson, special case
-        if(lessonID == 1){
+        //check for first lesson and 18th lesson, special case of name starting with The
+        if(lessonID == 1 || lessonID == 18){
             welcome = "Welcome to " + name + " Game!";
         }
         else{

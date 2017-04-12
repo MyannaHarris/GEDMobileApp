@@ -151,6 +151,13 @@ public class Play extends AppCompatActivity {
             noGame.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) (height / 35));
             gamesLayout.addView(noGame);
         }
+
+        //give the user an achievement if they have unlocked all games
+        if(currLessonId > 24){
+            Intent achievement = new Intent(this, AchievementPopUp.class);
+            achievement.putExtra("achievementID", 4);
+            startActivity(achievement);
+        }
     }
 
     /**

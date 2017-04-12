@@ -1274,7 +1274,7 @@ public class DatabaseHelper{
         ArrayList<String> randA = new ArrayList<String>();
 
         String[] questions;
-        if(lesson_id == 23){
+        if(lesson_id == 23 || lesson_id == 21){
             questions = input.split("[#]");
         }
         else{
@@ -1332,7 +1332,7 @@ public class DatabaseHelper{
         ArrayList<String> allQAndAs = new ArrayList<String>();
 
         String[] questions;
-        if(lesson_id == 23){
+        if(lesson_id == 23 || lesson_id == 21){
             questions = input.split("[#]");
         }
         else{

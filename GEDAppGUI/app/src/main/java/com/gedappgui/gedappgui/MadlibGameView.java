@@ -94,13 +94,15 @@ public class MadlibGameView extends RelativeLayout {
     // Button to end the endless game play
     private Button endButton;
 
+    private Activity activity;
+
     //dialog for if the user doesnt fill all boxes
     AlertDialog.Builder noFillDialog;
 
     /**
      * constructor for madlib game
      * @param contextp context of the activity
-     * @param activity reference to previous activity
+     * @param activityp reference to previous activity
      * @param words the fill in words for the madlib
      * @param question the questions for the game
      * @param answerPs the answer possibilities
@@ -111,13 +113,14 @@ public class MadlibGameView extends RelativeLayout {
      * @param width1 Width of the screen in pixels
      * @param height1 Height of screen in pixels
      */
-    public MadlibGameView(Context contextp, Activity activity, ArrayList<ArrayList<String>> words,
+    public MadlibGameView(Context contextp, Activity activityp, ArrayList<ArrayList<String>> words,
                           ArrayList<ArrayList<String>> question, ArrayList<ArrayList<String>>
                                   answerPs, ArrayList<ArrayList<String>> answerAs, int conceptIDp,
                           int lessonIDp, int nextActivityp, int width1, int height1) {
         super(contextp);
 
         context = contextp;
+        activity = activityp;
 
 
         // IDs for starting next intent after game
@@ -213,7 +216,7 @@ public class MadlibGameView extends RelativeLayout {
                 userInput.add(createTextView(wordFills.get(i).get(j), userFills, j));
                 userFills.add(createEditText(wordFills.get(i).get(j), userInput, j));
             }
-           
+
             //add the specific questions textviews and edit text views to all edit text and text views
             allUserInput.add(new ArrayList<>(userInput));
             allUserFills.add(new ArrayList<>(userFills));
@@ -284,6 +287,17 @@ public class MadlibGameView extends RelativeLayout {
     public void createMadLib(ArrayList<EditText> input, ArrayList<String> titles) {
         this.removeAllViews();
 
+        //hides the nav bar
+        if (Build.VERSION.SDK_INT >= 19) {
+            activity.getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            //View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            //| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            //| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
+
         //setting up the question page views
 
         //starts with the text view for the question
@@ -304,7 +318,7 @@ public class MadlibGameView extends RelativeLayout {
         relativeLay.setMargins(10, 10, 10, 10);
         relativeLay.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         question.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-        question.setPadding(10,50,10,50);
+        question.setPadding(50,50,50,50);
 
         //changes the layout to make room for the end button if accessed from games page
         if(nextActivity == 1){
@@ -592,8 +606,29 @@ public class MadlibGameView extends RelativeLayout {
                     //evaluates answer and closes keyboard
                     InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
+                    //hides the nav bar
+                    if (Build.VERSION.SDK_INT >= 19) {
+                        activity.getWindow().getDecorView().setSystemUiVisibility(
+                                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                                        //View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                                        //| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                                        //| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
                     return true;
                 }
+                //hides the nav bar
+                if (Build.VERSION.SDK_INT >= 19) {
+                    activity.getWindow().getDecorView().setSystemUiVisibility(
+                            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                                    //View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                                    //| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                                    //| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                                    | View.SYSTEM_UI_FLAG_FULLSCREEN
+                                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
                 return false;
             }
         });
