@@ -444,6 +444,7 @@ public class Question extends AppCompatActivity {
                     intent.putExtra("conceptID", conceptID);
                     intent.putExtra("totalQuestions", numQuestion);
                     intent.putExtra("totalCorrect", totalCorrect);
+                    intent.putExtra("redoComplete",redo);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }
