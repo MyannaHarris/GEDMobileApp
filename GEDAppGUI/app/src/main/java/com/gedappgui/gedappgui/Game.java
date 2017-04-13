@@ -314,4 +314,13 @@ public class Game extends AppCompatActivity {
         intent.putExtra("totalRetries",totalRetries);
         startActivity(intent);
     }
+
+    /**
+     * Listens for the back button on the bottom navigation bar
+     * Stops app from allowing the back button to do anything
+     */
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }

@@ -179,6 +179,7 @@ public class GameEnd extends AppCompatActivity {
         //if called from the arcade
         if (nextActivity == 1) {
             Intent intent = new Intent(this, Play.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.putExtra("conceptID",conceptID);
             intent.putExtra("lessonID",lessonID);
             startActivity(intent);

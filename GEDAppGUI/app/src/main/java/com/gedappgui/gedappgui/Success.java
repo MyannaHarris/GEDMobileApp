@@ -349,6 +349,7 @@ public class Success extends AppCompatActivity {
     public void goToSprite(View view) {
         giveUserItem();
         Intent intent = new Intent(this, Sprite.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 

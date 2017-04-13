@@ -288,6 +288,15 @@ public class FormulaMemorization extends AppCompatActivity {
     }
 
     /**
+     * Listens for the back button on the bottom navigation bar
+     * Stops app from allowing the back button to do anything
+     */
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    /**
      * Converts database strings to HTML to support superscripts
      * @param input the string to be converted
      * @return Spanned object to be passed into the setText method

@@ -205,6 +205,7 @@ public class RedoExample extends AppCompatActivity {
      */
     public void gotToLessonGame(View view) {
         Intent intent = new Intent(this, GameIntro.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("lessonID", lessonID);
         intent.putExtra("conceptID", conceptID);
         intent.putExtra("next_activity", 0);
@@ -221,6 +222,7 @@ public class RedoExample extends AppCompatActivity {
      */
     public void skipTheLessonGame(View view) {
         Intent intent = new Intent(this, Question.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("conceptID",conceptID);
         intent.putExtra("lessonID",lessonID);
         intent.putExtra("redoComplete", 1);

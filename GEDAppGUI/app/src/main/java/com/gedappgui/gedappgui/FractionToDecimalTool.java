@@ -312,6 +312,15 @@ public class FractionToDecimalTool extends AppCompatActivity {
     }
 
     /**
+     * Listens for the back button on the bottom navigation bar
+     * Stops app from allowing the back button to do anything
+     */
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    /**
      * Event handler for closing keyboard when users touches outside an edittext
      * @param event the touch event sent by the device
      * @return true if outside the edittext, false otherwise

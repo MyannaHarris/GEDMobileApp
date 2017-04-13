@@ -108,6 +108,7 @@ public class LessonSummary extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intentLesson = new Intent(this, LearnLessons.class);
+        intentLesson.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intentLesson.putExtra("conceptID",conceptID);
         startActivity(intentLesson);
     }
@@ -177,6 +178,7 @@ public class LessonSummary extends AppCompatActivity {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 Intent intentLesson = new Intent(this, LearnLessons.class);
+                intentLesson.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intentLesson.putExtra("conceptID",conceptID);
                 startActivity(intentLesson);
                 return true;

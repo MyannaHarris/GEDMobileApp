@@ -47,6 +47,9 @@ public class Achievements extends AppCompatActivity {
 
     GridView gridview;
 
+    // List of bitmaps used so we can clean this up later
+    private Bitmap[] buttonPictures;
+
     /**
      * Starts the activity and shows corresponding view on screen
      * @param savedInstanceState If the activity is being re-initialized after previously being
@@ -72,7 +75,6 @@ public class Achievements extends AppCompatActivity {
 
         //get a list of all achievement images
         ArrayList<String> images = db.selectAchievementsImgs();
-        Bitmap[] buttonPictures;
 
         //adds the keeping score achievement if it hasn't been earned yet
         if(!db.achievementExists(6)) {
@@ -159,6 +161,18 @@ public class Achievements extends AppCompatActivity {
     }
 
     /**
+     * Listens for the back button on the bottom navigation bar
+     * Stops app from allowing the back button to do anything
+     */
+    @Override
+    public void onBackPressed() {
+        // Go to Home Screen
+        Intent intentHomePlay = new Intent(this, MainActivity.class);
+        intentHomePlay.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intentHomePlay);
+    }
+
+    /**
      * Hides bottom navigation bar
      * Called after onCreate on first creation
      * Called every time this activity gets the focus
@@ -175,6 +189,23 @@ public class Achievements extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
+    }
+
+    /**
+     * When the activity is destroyed
+     */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (buttonPictures != null) {
+            for (int i = 0; i < buttonPictures.length; i++) {
+                if (buttonPictures[i] != null) {
+                    buttonPictures[i].recycle();
+                    buttonPictures[i] = null;
+                }
+            }
+        }
     }
 
     /**

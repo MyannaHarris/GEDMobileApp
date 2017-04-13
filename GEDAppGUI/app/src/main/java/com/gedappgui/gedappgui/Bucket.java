@@ -145,7 +145,11 @@ public class Bucket {
         // For when the it moves
         detectCollision.left = x;
         detectCollision.top = y;
-        detectCollision.right = x + bitmap.getWidth();
+        if (bitmap != null) {
+            detectCollision.right = x + bitmap.getWidth();
+        } else {
+            detectCollision.right = x;
+        }
         detectCollision.bottom = y + 20;
     }
 
@@ -163,9 +167,14 @@ public class Bucket {
      * Gets the bitmap used
      * @return bitmap - The bitmap of the bucket
      */
-    public Bitmap getBitmap() {
-        return bitmap;
-    }
+    public Bitmap getBitmap() { return bitmap; }
+
+    /**
+     * Setter
+     * Sets the bitmap used
+     * @param bitmapNew - The new bitmap value
+     */
+    public void setBitmap(Bitmap bitmapNew) { this.bitmap = bitmapNew; }
 
     /**
      * Getter

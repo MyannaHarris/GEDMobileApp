@@ -221,4 +221,13 @@ public class PlaceValues extends AppCompatActivity {
 
         return true;
     }
+
+    /**
+     * Listens for the back button on the bottom navigation bar
+     * Stops app from allowing the back button to do anything
+     */
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }

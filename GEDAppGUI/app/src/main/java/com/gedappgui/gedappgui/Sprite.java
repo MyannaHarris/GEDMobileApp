@@ -96,9 +96,13 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
 
     // Drag image
     private ImageView currAccessory;
+    private Bitmap currAccessoryBitmap;
     private RelativeLayout spriteLayout;
     private boolean dragBool = false;
     private String dragIcon;
+
+    // List of currently used Bitmaps
+    private ArrayList<Bitmap> accessoryBitmapArray;
 
     /**
      * Starts the activity and shows corresponding view on screen
@@ -121,6 +125,10 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         // Set up for editing sprite
         spriteDrawable = ((MyApplication) this.getApplication()).getSpriteDrawable();
         spriteImage = (ImageView) findViewById(R.id.sprite_spriteScreen);
+
+        // Initialize list of bitmaps for accessory icon images
+        // For being able to recycle the memory to make app more efficient
+        accessoryBitmapArray = new ArrayList<Bitmap>();
 
         // Get screen size
         DisplayMetrics dm = new DisplayMetrics();
@@ -341,8 +349,8 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                     currAccessory = new ImageView(Sprite.this);
                     currAccessory.setPadding(8, 8, 8, 8);
                     currAccessory.setLayoutParams(new RelativeLayout.LayoutParams(255, 255));
-                    currAccessory.setImageBitmap(BitmapFactory.decodeResource(
-                            getResources(), icon));
+                    currAccessoryBitmap = BitmapFactory.decodeResource(getResources(), icon);
+                    currAccessory.setImageBitmap(currAccessoryBitmap);
 
                     // Add imageview to activity layout
                     spriteLayout.addView(currAccessory);
@@ -355,6 +363,12 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                     // Remove dragging imageview from activity layout when it is dropped
                     currAccessory.setVisibility(View.GONE);
                     spriteLayout.removeView(currAccessory);
+                    currAccessory.setImageBitmap(null);
+
+                    if(currAccessoryBitmap!=null) {
+                        currAccessoryBitmap.recycle();
+                        currAccessoryBitmap=null;
+                    }
 
                     // Get rectangle around dragon imageview
                     ImageView dragonImageView = (ImageView)findViewById(R.id.sprite_spriteScreen);
@@ -659,6 +673,20 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         // Empty linear layout
         layout.removeAllViews();
 
+        // Clear the list of bitmaps and recycle memory
+        if (accessoryBitmapArray != null) {
+            for (int i = 0; i < accessoryBitmapArray.size(); i++) {
+                if (accessoryBitmapArray.get(i) != null) {
+                    accessoryBitmapArray.get(i).recycle();
+                    accessoryBitmapArray.set(i, null);
+                }
+            }
+
+            accessoryBitmapArray.clear();
+        } else {
+            accessoryBitmapArray = new ArrayList<Bitmap>();
+        }
+
         ArrayList<String> tempGroup;
 
         if (chosenGroup == 0) {
@@ -687,8 +715,8 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             imageView.setId(i);
             imageView.setPadding(8, 8, 8, 8);
             imageView.setLayoutParams(new LinearLayout.LayoutParams(255, 255));
-            imageView.setImageBitmap(BitmapFactory.decodeResource(
-                    getResources(), iconWhite));
+            accessoryBitmapArray.add(BitmapFactory.decodeResource(getResources(), iconWhite));
+            imageView.setImageBitmap(accessoryBitmapArray.get(accessoryBitmapArray.size() - 1));
             imageView.setTag(tempGroup.get(i));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
@@ -713,12 +741,17 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
                             int y = (int)event.getY();
                             x = (int) (((float)x/imageWidth)*100);
                             y = (int) (((float)y/imageHeight)*100);
-                            int pixel = BitmapFactory.decodeResource(getResources(), icon)
-                                    .getPixel(x,y);
+                            Bitmap iconBitmap = BitmapFactory.decodeResource(getResources(), icon);
+                            int pixel = iconBitmap.getPixel(x,y);
 
                             if (Color.alpha(pixel) != 0) {
                                 dragIcon = (String) v.getTag();
                                 dragBool = true;
+                            }
+
+                            if(iconBitmap!=null) {
+                                iconBitmap.recycle();
+                                iconBitmap=null;
                             }
 
                             break;
@@ -773,6 +806,11 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         // 3. Get the AlertDialog from create()
         AlertDialog dialog = builder.create();
         dialog.show();
+
+        if(b!=null) {
+            b.recycle();
+            b=null;
+        }
     }
 
     /**

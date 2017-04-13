@@ -117,6 +117,12 @@ public class BucketGameView extends SurfaceView implements Runnable  {
     // Count for taps (after 2 taps, arrows disappear)
     private int taps = 0;
 
+    // Coin bitmap
+    private Bitmap coinImg;
+
+    // dragon background image
+    private Bitmap dragonBG;
+
     /**
      * Constructor for game
      * @param contextp Context of the activity
@@ -212,6 +218,17 @@ public class BucketGameView extends SurfaceView implements Runnable  {
             numbers[i] = new BucketNumber(width, height, texts.get(i),
                     questionHeight, endButtonSize);
         }
+
+        // Initialize coin image
+        coinImg = BitmapFactory.decodeResource(getResources(),
+                R.drawable.game_goldcoin);
+        coinImg = Bitmap.createScaledBitmap(coinImg,
+                (int) ((float)height / 12),
+                (int) ((float)height / 12), false);
+
+        // Initialize dragon background image
+        dragonBG = BitmapFactory.decodeResource(
+                getResources(),R.drawable.game_goldchest);
 
         // Save start time to limit fps
         startTime = System.currentTimeMillis();
@@ -433,12 +450,12 @@ public class BucketGameView extends SurfaceView implements Runnable  {
             canvas.drawColor(ContextCompat.getColor(context, R.color.bucketGameBG));
 
             // Draw bitmap to background of game
-            Bitmap dragonBG = BitmapFactory.decodeResource(
-                    getResources(),R.drawable.game_goldchest);
             Paint alphaPaint = new Paint();
             alphaPaint.setAlpha(95);
-            canvas.drawBitmap(dragonBG, width / 2 - dragonBG.getWidth() / 2,
-                    height / 2 - dragonBG.getHeight() / 2, alphaPaint);
+            if (dragonBG != null) {
+                canvas.drawBitmap(dragonBG, width / 2 - dragonBG.getWidth() / 2,
+                        height / 2 - dragonBG.getHeight() / 2, alphaPaint);
+            }
 
             if (nextActivity == 1) {
                 paint.setTextSize((float)height / 17);
@@ -493,38 +510,35 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                     && waitToStartNextGame == 0) {
                 // Drawing the falling numbers
                 for (int i = 0; i < numberCount; i++) {
-                    Bitmap coinImg = BitmapFactory.decodeResource(getResources(),
-                            R.drawable.game_goldcoin);
-                    coinImg = Bitmap.createScaledBitmap(coinImg,
-                            (int) ((float)height / 12),
-                            (int) ((float)height / 12), false);
                     int x = numbers[i].getText().length();
 
-                    // Draw the coin image
-                    if (x > 2) {
-                        // Draw double character answer
-                        canvas.drawBitmap(
-                                coinImg,
-                                numbers[i].getX() - ((int) paint.measureText(numbers[i].getText()) / 7),
-                                numbers[i].getY() - ((float)height / 17),
-                                paint);
+                    if (coinImg != null) {
+                        // Draw the coin image
+                        if (x > 2) {
+                            // Draw double character answer
+                            canvas.drawBitmap(
+                                    coinImg,
+                                    numbers[i].getX() - ((int) paint.measureText(numbers[i].getText()) / 7),
+                                    numbers[i].getY() - ((float) height / 17),
+                                    paint);
 
-                        paint.setTextSize((float)height / 21);
-                    } else if (x > 1) {
-                        // Draw double character answer
-                        canvas.drawBitmap(
-                                coinImg,
-                                numbers[i].getX() - ((int) paint.measureText(numbers[i].getText()) / 6),
-                                numbers[i].getY() - ((float)height / 16),
-                                paint);
-                    } else {
-                        // Draw single character answer
-                        canvas.drawBitmap(
-                                coinImg,
-                                numbers[i].getX() - (int) (paint.measureText(
-                                        numbers[i].getText()) * 0.7),
-                                numbers[i].getY() - ((float)height / 16),
-                                paint);
+                            paint.setTextSize((float) height / 21);
+                        } else if (x > 1) {
+                            // Draw double character answer
+                            canvas.drawBitmap(
+                                    coinImg,
+                                    numbers[i].getX() - ((int) paint.measureText(numbers[i].getText()) / 6),
+                                    numbers[i].getY() - ((float) height / 16),
+                                    paint);
+                        } else {
+                            // Draw single character answer
+                            canvas.drawBitmap(
+                                    coinImg,
+                                    numbers[i].getX() - (int) (paint.measureText(
+                                            numbers[i].getText()) * 0.7),
+                                    numbers[i].getY() - ((float) height / 16),
+                                    paint);
+                        }
                     }
                     // Draw the text
                     canvas.drawText(
@@ -545,23 +559,27 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                     // Show if user catches a correct number or
                     //      if user finishes question correctly
                     paint.setColor(ContextCompat.getColor(context, R.color.gameCorrect));
-                    canvas.drawText(
-                            "CORRECT",
-                            (width / 2 - (int) paint.measureText("CORRECT") / 2),
-                            height / 2 - dragonBG.getHeight() / 2 - 20,
-                            paint
-                    );
+                    if (dragonBG != null) {
+                        canvas.drawText(
+                                "CORRECT",
+                                (width / 2 - (int) paint.measureText("CORRECT") / 2),
+                                height / 2 - dragonBG.getHeight() / 2 - 20,
+                                paint
+                        );
+                    }
                     // Return paint color to black for text falling
                     paint.setColor(ContextCompat.getColor(context, R.color.bucketGameText));
                 } else if(!hideContentToShowAnswer) {
                     // Show if user catches incorrect number
                     paint.setColor(ContextCompat.getColor(context, R.color.gameIncorrect));
-                    canvas.drawText(
-                            "INCORRECT",
-                            (width / 2 - (int) paint.measureText("INCORRECT") / 2),
-                            height / 2 - dragonBG.getHeight() / 2 - 20,
-                            paint
-                    );
+                    if (dragonBG != null) {
+                        canvas.drawText(
+                                "INCORRECT",
+                                (width / 2 - (int) paint.measureText("INCORRECT") / 2),
+                                height / 2 - dragonBG.getHeight() / 2 - 20,
+                                paint
+                        );
+                    }
                     // Return paint color to black for text falling
                     paint.setColor(ContextCompat.getColor(context, R.color.bucketGameText));
                 }
@@ -574,28 +592,30 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                 }
             }
 
-            // Draw arrows to show how to move bucket before game starts
-            if (taps < 2) {
-                Paint arrowPaint = new Paint();
-                arrowPaint.setTextSize((float)height / 10);
+            if (bucket.getBitmap() != null) {
+                // Draw arrows to show how to move bucket before game starts
+                if (taps < 2) {
+                    Paint arrowPaint = new Paint();
+                    arrowPaint.setTextSize((float) height / 10);
 
-                canvas.drawText("<",
-                        bucket.getX() - width / 8 - (int) arrowPaint.measureText("<"),
-                        bucket.getY() + bucket.getBitmap().getWidth() / 2,
-                        arrowPaint);
+                    canvas.drawText("<",
+                            bucket.getX() - width / 8 - (int) arrowPaint.measureText("<"),
+                            bucket.getY() + bucket.getBitmap().getWidth() / 2,
+                            arrowPaint);
 
-                canvas.drawText(">",
-                        bucket.getX() + width / 8 + bucket.getBitmap().getWidth(),
-                        bucket.getY() + bucket.getBitmap().getWidth() / 2,
-                        arrowPaint);
+                    canvas.drawText(">",
+                            bucket.getX() + width / 8 + bucket.getBitmap().getWidth(),
+                            bucket.getY() + bucket.getBitmap().getWidth() / 2,
+                            arrowPaint);
+                }
+
+                // Drawing the player (bucket)
+                canvas.drawBitmap(
+                        bucket.getBitmap(),
+                        bucket.getX(),
+                        bucket.getY(),
+                        paint);
             }
-
-            // Drawing the player (bucket)
-            canvas.drawBitmap(
-                    bucket.getBitmap(),
-                    bucket.getX(),
-                    bucket.getY(),
-                    paint);
 
             // Waits for user to tap button before starting first round
             // Draws only the question, bucket, and button
@@ -717,6 +737,26 @@ public class BucketGameView extends SurfaceView implements Runnable  {
      * Move on to game end page
      */
     private void endGame() {
+        Bitmap bucketBitmap = bucket.getBitmap();
+        if(bucketBitmap!=null)
+        {
+            bucketBitmap.recycle();
+            bucketBitmap=null;
+            bucket.setBitmap(null);
+        }
+
+        if(coinImg!=null)
+        {
+            coinImg.recycle();
+            coinImg=null;
+        }
+
+        if(dragonBG!=null)
+        {
+            dragonBG.recycle();
+            dragonBG=null;
+        }
+
         Intent intent = new Intent(context, GameEnd.class);
         intent.putExtra("next_activity", nextActivity);
         intent.putExtra("conceptID", conceptID);

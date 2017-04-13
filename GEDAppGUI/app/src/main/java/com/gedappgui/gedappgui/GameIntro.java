@@ -66,6 +66,10 @@ public class GameIntro extends AppCompatActivity {
     private Bitmap image1;
     private Bitmap image2;
 
+    // Make imageviews global
+    private ImageView instructionImage1;
+    private ImageView instructionImage2;
+
     /**
      * Starts the activity and shows corresponding view on screen
      * @param savedInstanceState If the activity is being re-initialized after previously being
@@ -107,8 +111,8 @@ public class GameIntro extends AppCompatActivity {
         TextView instructionLabel = (TextView) findViewById(R.id.instruction_label);
 
         //creates the imageviews for the game instructions
-        ImageView instructionImage1 = new ImageView(this);
-        ImageView instructionImage2 = new ImageView(this);
+        instructionImage1 = new ImageView(this);
+        instructionImage2 = new ImageView(this);
         instructionImage1.setId(R.id.instruct1);
         instructionImage2.setId(R.id.instruct2);
 
@@ -153,11 +157,6 @@ public class GameIntro extends AppCompatActivity {
 
             int viewGravity = Gravity.FILL_HORIZONTAL | Gravity.CENTER;
 
-            if(image1!=null)
-            {
-                image1.recycle();
-                image1=null;
-            }
             image1 = getFromAssets(pics.get(0));
             instructionImage1.setImageBitmap(image1);
 
@@ -180,11 +179,6 @@ public class GameIntro extends AppCompatActivity {
             if(pics.size() == 2) {
                 grid.setColumnCount(2);
 
-                if(image2!=null)
-                {
-                    image2.recycle();
-                    image2=null;
-                }
                 image2 = getFromAssets(pics.get(1));
                 instructionImage2.setImageBitmap(image2);
 
@@ -262,6 +256,31 @@ public class GameIntro extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
+    }
+
+    /**
+     * When the activity is destroyed
+     */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (instructionImage1 != null) {
+            instructionImage1.setImageBitmap(null);
+        }
+        if (instructionImage2 != null) {
+            instructionImage2.setImageBitmap(null);
+        }
+
+        if(image1!=null) {
+            image1.recycle();
+            image1=null;
+        }
+
+        if (image2 != null) {
+            image2.recycle();
+            image2 = null;
+        }
     }
 
     /**
@@ -353,6 +372,15 @@ public class GameIntro extends AppCompatActivity {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         float dp = px / (metrics.densityDpi / 160f);
         return dp;
+    }
+
+    /**
+     * Listens for the back button on the bottom navigation bar
+     * Stops app from allowing the back button to do anything
+     */
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }
 

@@ -37,6 +37,12 @@ public class AchievementPopUp extends AppCompatActivity {
     DatabaseHelper db;
     int achievementID;
 
+    // The bitmap
+    private Bitmap achievementImg;
+
+    // ImageView for achievement
+    private ImageView lesson_imageView;
+
     /**
      * Starts the activity and shows corresponding view on screen
      * @param savedInstanceState If the activity is being re-initialized after previously being
@@ -58,7 +64,7 @@ public class AchievementPopUp extends AppCompatActivity {
 
             //gets the corresponding achievement information from the db
             String desc = db.selectAchievementDesc(achievementID);
-            String img = db.selectAchievementImg(achievementID);
+            String imgStr = db.selectAchievementImg(achievementID);
             String name = db.selectAchievementName(achievementID);
 
             //adds the achievement to the user achievements table
@@ -74,7 +80,7 @@ public class AchievementPopUp extends AppCompatActivity {
             getWindow().setLayout(width, popup_height);
 
             //sets up the pop up with the correct image, name and description
-            setUpPopUp(desc, img, name, popup_height, width);
+            setUpPopUp(desc, name, imgStr, popup_height, width);
         }
         //if the achievement has already been earned, finish the activity
         else {
@@ -86,12 +92,12 @@ public class AchievementPopUp extends AppCompatActivity {
      * Adds the correct name, description and image of the achievement
      * from the database to the popup activity
      * @param desc the description string of the achievement
-     * @param img the image name string of the achievement
      * @param name the name string of the achievement
+     * @param imgStr the name of the img of the achievement
      * @param height the height of the popup
      * @param width the width of the popup
      */
-    private void setUpPopUp(String desc, String img, String name, int height, int width){
+    private void setUpPopUp(String desc, String name, String imgStr, int height, int width){
         //sets the description texts
         TextView description = (TextView) findViewById(R.id.achievement_desc);
         description.setText(desc);
@@ -104,12 +110,12 @@ public class AchievementPopUp extends AppCompatActivity {
 
 
         // get correct image from database and adjusts its size
-        ImageView lesson_imageView = (ImageView) findViewById(R.id.achievement_badge);
+        lesson_imageView = (ImageView) findViewById(R.id.achievement_badge);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(width/4, height);
         lesson_imageView.setLayoutParams(layoutParams);
 
         //gets the image from assets
-        Bitmap achievementImg = getFromAssets(img);
+        achievementImg = getFromAssets(imgStr);
         lesson_imageView.setImageBitmap(achievementImg);
 
     }
@@ -165,6 +171,24 @@ public class AchievementPopUp extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
+    }
+
+    /**
+     * When the activity is destroyed
+     */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (lesson_imageView != null) {
+            lesson_imageView.setImageBitmap(null);
+        }
+
+        if(achievementImg!=null)
+        {
+            achievementImg.recycle();
+            achievementImg=null;
+        }
     }
 
     /**

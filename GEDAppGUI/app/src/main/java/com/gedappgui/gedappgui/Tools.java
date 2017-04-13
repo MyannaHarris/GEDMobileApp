@@ -241,4 +241,13 @@ public class Tools extends AppCompatActivity {
 
         return true;
     }
+
+    /**
+     * Listens for the back button on the bottom navigation bar
+     * Only allows it to go back to main page
+     */
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }

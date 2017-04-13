@@ -54,6 +54,13 @@ public class LessonSteps extends AppCompatActivity {
     // Deal with video
     private WebView webView;
 
+    // Lesson image variables
+    private String lessonImg;
+    private Bitmap lesson_img;
+
+    // ImageView for achievement
+    private ImageView lesson_imageView;
+
     /**
      * Starts the activity and shows corresponding view on screen
      * @param savedInstanceState If the activity is being re-initialized after previously being
@@ -84,10 +91,10 @@ public class LessonSteps extends AppCompatActivity {
         webView.loadData(playVideo, "text/html", "utf-8");
 
         // Set image to correct image
-        String lessonImg = dbHelper.selectPictureName(lessonID);
-        Bitmap lesson_img = getBitmapFromAsset(lessonImg);
+        lessonImg = dbHelper.selectPictureName(lessonID);
+        lesson_img = getBitmapFromAsset(lessonImg);
 
-        ImageView lesson_imageView = (ImageView) findViewById(R.id.example_image_view);
+        lesson_imageView = (ImageView) findViewById(R.id.example_image_view);
         if (lesson_img != null) {
             lesson_imageView.setImageBitmap(lesson_img);
         }
@@ -163,15 +170,28 @@ public class LessonSteps extends AppCompatActivity {
     }
 
     /**
-     * hides bottom navigation bar
-     * Called after onCreate on first creation
-     * Called every time this activity gets the focus
+     * Pauses this activity when it is left by a new activity being put on top of it in the stack
      */
     @Override
     protected void onPause() {
         super.onPause();
 
         webView.onPause();
+    }
+
+    /**
+     * When the activity is destroyed
+     */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        lesson_imageView.setImageBitmap(null);
+
+        if(lesson_img!=null) {
+            lesson_img.recycle();
+            lesson_img=null;
+        }
     }
 
     /**
@@ -237,6 +257,15 @@ public class LessonSteps extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    /**
+     * Listens for the back button on the bottom navigation bar
+     * Stops app from allowing the back button to do anything
+     */
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 
     /**

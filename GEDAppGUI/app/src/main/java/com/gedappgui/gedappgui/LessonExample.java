@@ -184,6 +184,15 @@ public class LessonExample extends AppCompatActivity {
     }
 
     /**
+     * Listens for the back button on the bottom navigation bar
+     * Stops app from allowing the back button to do anything
+     */
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    /**
      * Opens Game Intro, passing concept ID and lesson ID information to that class, as
      *     well as a 0 for next_activity to tell the game to go to the question activity after
      * Called when the Next button is pressed
