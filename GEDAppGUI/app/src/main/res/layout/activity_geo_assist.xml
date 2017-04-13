@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:windowSoftInputMode="adjustResize">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context="com.gedappgui.gedappgui.GeoAssist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <TextView
+            android:text="Select a shape in the menu below to see information about that geometric figure. Scroll the screen using your finger! \n \n"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/prompt"
+            android:textSize="20sp"/>
+
+        <RelativeLayout
+            android:id="@+id/relative_geo_spinner"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:layout_centerHorizontal="true"
+            android:background="@color/spinnerBackground">
+            <Spinner
+                android:id="@+id/geo_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:foregroundTint="@color/colorHeader1"
+                android:backgroundTint="@color/spinnerItemTextColor"/>
+        </RelativeLayout>
+
+        <TextView
+            android:text=""
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/summary"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:text=""
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/shape_examples"
+            android:textSize="20sp"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/radius"
+            android:id="@+id/shapepicture" />
+    </LinearLayout>
+</ScrollView>

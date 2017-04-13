@@ -11,7 +11,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 11-6-16
+ * Last Edit: 3-20-17
  *
  */
 
@@ -30,8 +30,11 @@ import android.view.View;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    /*
+    /**
      * Starts the activity and shows corresponding view on screen
+     * @param savedInstanceState If the activity is being re-initialized after previously being
+     *                           shut down then this Bundle contains the data it most recently
+     *                           supplied in onSaveInstanceState(Bundle). Otherwise it is null.
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,14 +48,15 @@ public class SettingsActivity extends AppCompatActivity {
                 .replace(android.R.id.content, new SettingsFragment())
                 .commit();
 
-        // Allow homeAsUpIndicator (back arrow) to desplay on action bar
+        // Allow homeAsUpIndicator (back arrow) to display on action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
     }
 
-    /*
+    /**
+     * Hides bottom navigation bar
      * Sets the sharedpreference listener so the settings changes will be propagated
      * Called after onCreate on first creation
      * Called every time this activity gets the focus
@@ -60,6 +64,17 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        if (Build.VERSION.SDK_INT >= 19) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            //View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            //| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            //| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
+
         ((MyApplication) this.getApplication()).setSharedPreferences(
                 PreferenceManager.getDefaultSharedPreferences(this));
         ((MyApplication) this.getApplication()).getSharedPreferences().
@@ -67,21 +82,10 @@ public class SettingsActivity extends AppCompatActivity {
                         ((MyApplication) this.getApplication()).getSharedPreferenceListener());
     }
 
-    /*
-     * Unsets the sharedpreference listener so it is cleaned up
-     * Called every time this activity loses the focus
-     */
-    @Override
-    protected void onPause() {
-        super.onPause();
-        ((MyApplication) this.getApplication()).getSharedPreferences().
-                unregisterOnSharedPreferenceChangeListener(
-                ((MyApplication) this.getApplication()).getSharedPreferenceListener());
-    }
-
-    /* 
+    /**
      * Shows and hides the bottom navigation bar when user swipes at it on screen
      * Called when the focus of the window changes to this activity
+     * @param hasFocus true or false based on if the focus of the window changes to this activity
      */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -97,9 +101,23 @@ public class SettingsActivity extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /*
+    /**
+     * Unsets the sharedpreference listener so it is cleaned up
+     * Called every time this activity loses the focus
+     */
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ((MyApplication) this.getApplication()).getSharedPreferences().
+                unregisterOnSharedPreferenceChangeListener(
+                ((MyApplication) this.getApplication()).getSharedPreferenceListener());
+    }
+
+    /**
      * Sets what menu will be in the action bar
      * nosettingsmenu has the home button
+     * @param menu The options menu in which we place the items.
+     * @return true
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -108,20 +126,23 @@ public class SettingsActivity extends AppCompatActivity {
         return true;
     }
 
-    /*
+    /**
      * Listens for selections from the menu in the action bar
      * Does action corresponding to selected item
      * home = goes to homescreen
      * android.R.id.home = go to the activity that called the current activity
+     * @param item that is selected from the menu in the action bar
+     * @return true
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 finish();
                 return true;
-            // action with ID action_refresh was selected
+            // action with ID action_home was selected
             case R.id.action_home:
                 Intent intentHome = new Intent(this, MainActivity.class);
                 intentHome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -132,5 +153,14 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    /**
+     * Listens for the back button on the bottom navigation bar
+     * Stops app from allowing the back button to do anything
+     */
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

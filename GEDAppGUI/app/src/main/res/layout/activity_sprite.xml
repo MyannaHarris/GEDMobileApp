@@ -11,164 +11,154 @@
  Jasmine Jans
  Jimmy Sherman
 
- Last Edit: 10-26-16
+ Last Edit: 4-8-17
 -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/sprite_relativeLayout"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:gravity="center"
+    android:layout_gravity="center"
     tools:context="com.gedappgui.gedappgui.Sprite">
+
+    <Button
+        android:layout_marginTop="90dp"
+        android:layout_height="70dp"
+        android:layout_width="50dp"
+        android:id="@+id/sprite_arrow_left"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:textSize="50sp"
+        android:textColor="@color/colorBodyText"
+        android:text="&lt;"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:onClick="changeDragonLeft"/>
 
     <ImageView
         android:id="@+id/sprite_spriteScreen"
-        android:scaleType="centerCrop"
-        android:paddingBottom="@dimen/picture_padding"
+        android:scaleType="fitCenter"
+        android:paddingBottom="10dp"
         android:src="@drawable/layers"
         android:contentDescription="@string/sprite"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"/>
 
     <Button
-        android:text="Glasses"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/sprite_spriteScreen"
-        android:layout_alignLeft="@id/sprite_spriteScreen"
-        android:layout_alignStart="@id/sprite_spriteScreen"
-        android:id="@+id/sprite_glasses"
-        android:layout_width="125dp"
+        android:layout_marginTop="90dp"
+        android:layout_height="70dp"
+        android:layout_width="50dp"
+        android:id="@+id/sprite_arrow_right"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:textSize="50sp"
+        android:textColor="@color/colorBodyText"
+        android:text="&gt;"
         style="@style/Widget.AppCompat.Button.Borderless"
-        android:onClick="showGlasses"/>
+        android:onClick="changeDragonRight"/>
 
-    <Button
-        android:text="Shirts"
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/sprite_shirts"
-        android:layout_width="125dp"
-        android:layout_below="@id/sprite_spriteScreen"
-        android:layout_toRightOf="@id/sprite_glasses"
-        android:layout_toEndOf="@id/sprite_glasses"
-        style="@style/Base.Widget.AppCompat.Button.Borderless"
-        android:onClick="showShirts"/>
-
-    <Button
-        android:text="Bling"
-        android:layout_height="wrap_content"
-        android:id="@+id/sprite_bling"
-        android:layout_width="125dp"
-        android:layout_below="@id/sprite_glasses"
-        android:layout_alignLeft="@id/sprite_glasses"
-        android:layout_alignStart="@id/sprite_glasses"
-        style="@style/Base.Widget.AppCompat.Button.Borderless"
-        android:onClick="showBling"/>
-
-    <Button
-        android:text="Hats"
-        android:layout_height="wrap_content"
-        android:id="@+id/sprite_hats"
-        android:layout_width="125dp"
-        android:layout_alignBaseline="@id/sprite_bling"
-        android:layout_alignBottom="@id/sprite_bling"
-        android:layout_toRightOf="@id/sprite_bling"
-        android:layout_toEndOf="@id/sprite_bling"
-        style="@style/Base.Widget.AppCompat.Button.Borderless"
-        android:onClick="showHats" />
-
-    <GridView
-        android:id="@+id/sprite_gridView"
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/sprite_hats"
-        android:numColumns="3"
+        android:orientation="horizontal"
+        android:id="@+id/spriteButtonLayout"
         android:gravity="center"
-        android:verticalSpacing="10dp"
-        android:stretchMode="columnWidth"
-        android:columnWidth="60dp">
+        android:weightSum="1"
+        android:layout_below="@id/sprite_spriteScreen"
+        android:background="@color/colorButton">
 
-    </GridView>
+        <Button
+            android:text="Disrobe"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/sprite_savePhoto"
+            android:layout_width="wrap_content"
+            android:textSize="16sp"
+            android:layout_gravity="center"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentLeft="true"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:onClick="disrobe"/>
 
-    <!--<ImageButton
-        app:srcCompat="@drawable/squish"
-        android:id="@+id/accessory_1"
-        android:layout_width="50dp"
-        android:cropToPadding="false"
-        android:adjustViewBounds="false"
-        android:layout_marginTop="@dimen/button_vert_margin"
-        android:layout_height="50dp"
-        android:layout_below="@id/sprite_bling"
-        android:layout_alignLeft="@id/sprite_bling"
-        android:layout_alignStart="@id/sprite_bling"
-        android:onClick="addAccessory" />
+        <Button
+            android:text="Save Photo"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/sprite_removeAll"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:textSize="16sp"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:onClick="savePhoto"/>
 
-    <ImageButton
-        app:srcCompat="@drawable/squish"
-        android:id="@+id/accessory_2"
-        android:layout_width="50dp"
-        android:cropToPadding="false"
-        android:layout_marginTop="@dimen/button_vert_margin"
-        android:adjustViewBounds="false"
-        android:layout_height="50dp"
-        android:layout_below="@id/accessory_1"
-        android:layout_alignLeft="@id/accessory_1"
-        android:layout_alignStart="@id/accessory_1"
-        android:onClick="addAccessory"/>
+        <Button
+            android:text="Done"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/sprite_done"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentRight="true"
+            android:textSize="16sp"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:onClick="done"/>
 
-    <ImageButton
-        app:srcCompat="@drawable/squish"
-        android:id="@+id/accessory_4"
-        android:layout_marginTop="@dimen/button_vert_margin"
-        android:layout_width="50dp"
-        android:cropToPadding="false"
-        android:adjustViewBounds="false"
-        android:layout_height="50dp"
-        android:layout_below="@id/accessory_1"
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relative_sprite_spinner"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/spriteButtonLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
         android:layout_centerHorizontal="true"
-        android:onClick="addAccessory"/>
+        android:background="@color/spinnerBackground">
+        <Spinner
+            android:id="@+id/accessories_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:foregroundTint="@color/colorHeader1"
+            android:backgroundTint="@color/spinnerItemTextColor"/>
+    </RelativeLayout>
 
-    <ImageButton
-        app:srcCompat="@drawable/squish"
-        android:id="@+id/accessory_6"
-        android:layout_width="50dp"
-        android:cropToPadding="false"
-        android:adjustViewBounds="false"
-        android:layout_height="50dp"
-        android:layout_alignTop="@id/accessory_4"
-        android:layout_alignRight="@id/sprite_hats"
-        android:layout_alignEnd="@id/sprite_hats"
-        android:onClick="addAccessory"/>
+    <HorizontalScrollView
+        android:id="@+id/horizontal_scroll_sprite"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_below="@id/relative_sprite_spinner"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:fadeScrollbars="false"
+        android:background="@color/spriteAccessoryBG">
 
-    <ImageButton
-        app:srcCompat="@drawable/squish"
-        android:id="@+id/accessory_3"
-        android:layout_width="50dp"
-        android:layout_marginTop="@dimen/button_vert_margin"
-        android:cropToPadding="false"
-        android:adjustViewBounds="false"
-        android:layout_height="50dp"
-        android:layout_below="@id/sprite_bling"
-        android:layout_alignLeft="@id/accessory_4"
-        android:layout_alignStart="@id/accessory_4"
-        android:onClick="addAccessory"/>
+        <LinearLayout
+            android:id="@+id/linear_sprite"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|left"
+            android:layout_gravity="left"
+            android:orientation="horizontal">
+        </LinearLayout>
 
-    <ImageButton
-        app:srcCompat="@drawable/squish"
-        android:id="@+id/accessory_5"
-        android:layout_width="50dp"
-        android:layout_marginTop="@dimen/button_vert_margin"
-        android:cropToPadding="false"
-        android:adjustViewBounds="false"
-        android:layout_height="50dp"
-        android:layout_below="@id/sprite_hats"
-        android:layout_alignLeft="@id/accessory_6"
-        android:layout_alignStart="@id/accessory_6"
-        android:onClick="addAccessory"/>-->
+    </HorizontalScrollView>
 
 </RelativeLayout>

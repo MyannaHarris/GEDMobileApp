@@ -16,8 +16,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:textStyle="bold"
         android:id="@+id/great_work"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:textColor="@color/colorHeader1"/>
 
     <TextView
         android:layout_height="wrap_content"
@@ -25,19 +27,23 @@
         android:layout_below="@id/great_work"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
+        android:id="@+id/redo_info"
         android:text="@string/redo_screen"
         android:textSize="20sp"
         android:textAlignment="center"/>
 
     <Button
-        android:text="To Example"
-        android:layout_width="wrap_content"
+        android:text="@string/next"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/to_redoExample"
         android:textSize="20sp"
         android:onClick="goToRedoExample"
+        android:layout_marginBottom="18dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp" />
+        android:layout_alignLeft="@id/great_work"
+        android:layout_alignStart="@id/great_work"
+        android:layout_alignRight="@id/great_work"
+        android:layout_alignEnd="@id/great_work" />
 
 </RelativeLayout>

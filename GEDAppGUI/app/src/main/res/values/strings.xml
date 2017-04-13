@@ -9,18 +9,18 @@
  Jasmine Jans
  Jimmy Sherman
 
- Last Edit: 10-31-16
+ Last Edit: 4-10-17
 -->
 
 <resources>
     <!-- App name -->
-    <string name="app_name">GEDAppGUI</string>
+    <string name="app_name">Dragon Academy</string>
 
 
     <!-- Home page buttons -->
-    <string name="continue_lesson">Continue Lesson</string>
-    <string name="learn">Learn</string>
-    <string name="play">Play</string>
+    <string name="continue_lesson">Current Lesson</string>
+    <string name="learn">Classroom</string>
+    <string name="play">Arcade</string>
     <string name="achievements">Achievements</string>
     <string name="tools">Tools</string>
     <string name="settings">Settings</string>
@@ -29,19 +29,18 @@
     <string name="toolSample">Tool Sample</string>
 
     <!-- Lesson buttons and text -->
+    <string name="next">Next</string>
     <string name="lessonConcepts">Math Concepts</string>
     <string name="lessonConcept">Open Math Concept 1</string>
     <string name="lessonNames">Math Lessons</string>
-    <string name="lessonName">Open Math Lesson 1</string>
     <string name="lessonSummary">Lesson Summary</string>
-    <string name="lessonSummaryButton">Open Lesson Summary</string>
     <string name="lessonSteps">Explanation</string>
-    <string name="lessonStepsButton">Open Step-by-step Explanation</string>
     <string name="lessonExample">Example</string>
-    <string name="lessonExampleButton">Open Example</string>
     <string name="lessonQuestions">Lesson Questions</string>
-    <string name="lessonQuestionsButton">Open Lesson Questions</string>
     <string name="lessonGameButton">Open Lesson Game</string>
+    <string name="noNewAccessory">You finished the lesson! Unfortunately, you\'ve already received
+        an accessory for this lesson. Complete a new lesson to earn more accessories!</string>
+    <string name="pick">Choose where you\'d like to go next!</string>
 
     <!-- Login page -->
     <string name="login">Login</string>
@@ -56,17 +55,12 @@
 
     <string name="setting_title">All Settings</string>
 
-    <!-- Sound -->
-    <string name="sound_title">App Sound</string>
-    <string name="sound_summary">Select to mute all sound from app.</string>
 
     <!-- Reminder -->
     <string name="reminder_title">Reminder</string>
-    <string name="reminder_summary">Choose time for reminder.</string>
 
     <!-- Username -->
     <string name="username_title">Change Username</string>
-    <string name="username_summary">Enter new username.</string>
 
     <!-- Text size-->
     <string name="text_size_title">Change Text Size</string>
@@ -81,7 +75,7 @@
 
 
     <!-- Sprite -->
-    <string name="sprite">Sprite</string>
+    <string name="sprite">Lair</string>
     <string name="title_activity_settings">Settings</string>
 
     <!-- Notifications -->
@@ -92,5 +86,32 @@
 
     <string name="action_share">Share</string>
     <string name="action_reply">Reply</string>
+
+    <string name="title_activity_achievement_pop_up">AchievementPopUp</string>
+
+    <string name="title_activity_frac_to_dec_tool">Fraction To Decimal Tool</string>
+    <string name="title_activity_geo_assist_tool">Geo Assist</string>
+    <string name="title_activity_slope_calc_tool">Slope Calculator</string>
+    <string name="title_activity_formula_memorization_tool">Formula Memorization</string>
+    <string name="title_activity_place_value_tool">Place Values</string>
+    <string name="title_activity_coord_plane_tool">Coordinate Plane</string>
+
+    <!-- Sprite Page Combo Box -->
+    <string-array name="accessories_array">
+        <item>All</item>
+        <item>Glasses</item>
+        <item>Shirts</item>
+        <item>Hats</item>
+        <item>Specials</item>
+    </string-array>
+    
+    <!-- Next Gen Zone Links -->
+    <string name="ngzlinks_explanation">This app was made for the Next Generation Zone, an organization in Spokane, WA dedicated to helping young adults complete their education and prepare for a career that suits them.  The following links are specifically for students at the Next Generation Zone, but others may find them helpful as well!</string>
+    <string name="Home"><a href = "http://www.nextgenzone.org/">HOME</a></string>
+    <string name="Passport"><a href = "http://www.nextgenzone.org/passport-to-success/">PASSPORT</a></string>
+    <string name="Information"><a href = "http://www.nextgenzone.org/what-we-do/">WHAT WE DO</a></string>
+    <string name="Who"><a href = "http://www.nextgenzone.org/who-we-are/">WHO WE ARE</a></string>
+    <string name="Job"><a href = "http://www.nextgenzone.org/find-a-job/">JOB SEARCH</a></string>
+    <string name="Resources"><a href = "http://www.nextgenzone.org/resources">RESOURCES</a></string>
 
 </resources>

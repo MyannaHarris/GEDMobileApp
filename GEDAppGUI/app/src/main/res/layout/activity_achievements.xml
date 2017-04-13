@@ -11,138 +11,29 @@
  Jasmine Jans
  Jimmy Sherman
 
- Last Edit: 10-26-16
+ Last Edit: 4-8-17
 -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.gedappgui.gedappgui.Tools"
+    android:id="@+id/scroll_achievements"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.gedappgui.gedappgui.Achievements">
+    android:layout_alignParentTop="true"
+    android:fillViewport="true">
 
     <GridView
         android:id="@+id/achievements_gridView"
         android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
+        android:layout_marginBottom="20dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:numColumns="3"
         android:gravity="center"
         android:verticalSpacing="20dp"
         android:stretchMode="columnWidth"
-        android:columnWidth="60dp">
-
-    </GridView>
-
-    <TextView
-        android:hint="Achievement description"
-        android:layout_marginTop="20dp"
-        android:layout_width="400dp"
-        android:layout_below="@id/achievements_gridView"
-        android:id="@+id/achievement_description"
-        android:layout_height="150dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
-
-    <!--<ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/btn_star_big_on"
-        android:layout_marginLeft="18dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="32dp"
-        android:id="@+id/achievement_1"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:onClick="showAchievementDescription"/>
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/btn_star_big_on"
-        android:id="@+id/achievement_2"
-        android:layout_alignTop="@id/achievement_1"
-        android:layout_centerHorizontal="true"
-        android:onClick="showAchievementDescription"/>
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/btn_star_big_on"
-        android:id="@+id/achievement_3"
-        android:layout_alignTop="@id/achievement_2"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="21dp"
-        android:layout_marginEnd="21dp"
-        android:onClick="showAchievementDescription"/>
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/btn_star_big_on"
-        android:layout_marginTop="34dp"
-        android:id="@+id/achievement_4"
-        android:layout_below="@id/achievement_1"
-        android:layout_alignLeft="@id/achievement_1"
-        android:layout_alignStart="@id/achievement_1"
-        android:onClick="showAchievementDescription"/>
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/btn_star_big_on"
-        android:id="@+id/achievement_5"
-        android:layout_alignTop="@id/achievement_4"
-        android:layout_alignLeft="@id/achievement_2"
-        android:layout_alignStart="@id/achievement_2"
-        android:onClick="showAchievementDescription"/>
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/btn_star_big_on"
-        android:id="@+id/achievement_6"
-        android:layout_alignTop="@id/achievement_5"
-        android:layout_alignLeft="@id/achievement_3"
-        android:layout_alignStart="@id/achievement_3"
-        android:onClick="showAchievementDescription"/>
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/btn_star_big_on"
-        android:id="@+id/achievement_7"
-        android:layout_centerVertical="true"
-        android:layout_alignLeft="@id/achievement_4"
-        android:layout_alignStart="@id/achievement_4"
-        android:onClick="showAchievementDescription"/>
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/btn_star_big_on"
-        android:id="@+id/achievement_8"
-        android:layout_alignTop="@id/achievement_7"
-        android:layout_alignLeft="@id/achievement_5"
-        android:layout_alignStart="@id/achievement_5"
-        android:onClick="showAchievementDescription"/>
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/btn_star_big_on"
-        android:id="@+id/achievement_9"
-        android:layout_alignTop="@id/achievement_8"
-        android:layout_alignLeft="@id/achievement_6"
-        android:layout_alignStart="@id/achievement_6"
-        android:onClick="showAchievementDescription"/>-->
-
-</RelativeLayout>
+        android:columnWidth="60dp"/>
+</ScrollView>

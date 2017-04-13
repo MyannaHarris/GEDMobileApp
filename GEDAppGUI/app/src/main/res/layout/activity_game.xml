@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:textStyle="bold"
         android:id="@+id/welcome"
         android:textSize="30sp"/>
 
@@ -24,13 +25,18 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_below="@id/welcome"
-        android:text="This will be a game to help the student solidify their knowledge of the concept." />
+        android:id="@+id/gamePlaceHolder"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp"
+        android:text="This will be a game related to the lesson." />
 
     <Button
-        android:text="Move On"
+        android:text="@string/next"
+        android:layout_marginBottom="@dimen/button_vert_margin"
+        android:layout_marginTop="@dimen/button_vert_margin"
+        android:layout_below="@id/gamePlaceHolder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/move_on"
         android:textSize="18sp"

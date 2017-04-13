@@ -5,20 +5,26 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
+
 
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/appicon"
         android:label="@string/app_name"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <receiver android:name="com.gedappgui.gedappgui.Receiver" ></receiver>
+
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
             <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,7 +45,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
-
         </activity>
         <activity
             android:name=".Play"
@@ -51,19 +56,18 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
-
         </activity>
         <activity
             android:name=".Game"
             android:label="Game"
             android:parentActivityName=".GameIntro"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".GameIntro" />
-
         </activity>
         <activity
             android:name=".GameIntro"
@@ -87,7 +91,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
-
         </activity>
         <activity
             android:name=".Tools"
@@ -99,19 +102,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
-
-        </activity>
-        <activity
-            android:name=".ToolSample"
-            android:label="@string/toolSample"
-            android:parentActivityName=".Tools"
-            android:screenOrientation="portrait">
-
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Tools" />
-
         </activity>
         <activity
             android:name=".Login"
@@ -127,7 +117,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
-
         </activity>
         <activity
             android:name=".LearnLessons"
@@ -139,7 +128,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".LearnConcepts" />
-
         </activity>
         <activity
             android:name=".LessonSummary"
@@ -151,7 +139,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".LearnLessons" />
-
         </activity>
         <activity
             android:name=".LessonSteps"
@@ -163,7 +150,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".LessonSummary" />
-
         </activity>
         <activity
             android:name=".LessonExample"
@@ -175,7 +161,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".LessonSteps" />
-
         </activity>
         <activity
             android:name=".Question"
@@ -183,14 +168,46 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Redo"
-            android:label="Redo"
-            android:screenOrientation="portrait"/>
+            android:label="Review"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".RedoExample"
             android:label="Example"
-            android:screenOrientation="portrait"/>
-        <receiver
-            android:name=".Receiver" />
+            android:screenOrientation="portrait" />
+
+        <receiver android:name=".Receiver" />
+
+        <activity
+            android:name=".AchievementPopUp"
+            android:label="@string/title_activity_achievement_pop_up"
+            android:theme="@style/AppTheme.PopUpNoButtonTheme" />
+        <activity
+            android:name=".AchievementInfo"
+            android:label="AchievementInfo"
+            android:theme="@style/AppTheme.PopUpNoButtonTheme" />
+        <activity
+            android:name=".FractionToDecimalTool"
+            android:label="@string/title_activity_frac_to_dec_tool" />
+        <activity
+            android:name=".SlopeCalculator"
+            android:label="@string/title_activity_slope_calc_tool"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity
+            android:name=".FormulaMemorization"
+            android:label="@string/title_activity_formula_memorization_tool" />
+        <activity
+            android:name=".GeoAssist"
+            android:label="@string/title_activity_geo_assist_tool" />
+        <activity
+            android:name=".PlaceValues"
+            android:label="@string/title_activity_place_value_tool" />
+        <activity
+            android:name=".Tutorial"
+            android:label="Tutorial" />
+        <activity
+            android:name=".NGZLinks"
+            android:label="Links Directory"
+            ></activity>
     </application>
 
 </manifest>

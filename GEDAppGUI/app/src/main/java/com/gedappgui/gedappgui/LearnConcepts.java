@@ -12,21 +12,20 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 11-14-16
+ * Last Edit: 3-20-17
  *
  */
 
 package com.gedappgui.gedappgui;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.media.AudioManager;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayout;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,67 +34,75 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 
 
 public class LearnConcepts extends AppCompatActivity {
 
-    private File file;
-    GridLayout gridlayout;
-    /*
+    private DatabaseHelper dbHelper;
+
+    private GridLayout gridlayout;
+
+    /**
      * Starts the activity and shows corresponding view on screen
-     * TO COME: Gets concept information from the database
-     *   then passes information to setGridInfo, a function to dynamically add to
-     *   the GridLayout
+     * @param savedInstanceState If the activity is being re-initialized after previously being
+     *                           shut down then this Bundle contains the data it most recently
+     *                           supplied in onSaveInstanceState(Bundle). Otherwise it is null.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learn_concepts);
+        dbHelper = new DatabaseHelper(this);
 
-        // Allow homeAsUpIndicator (back arrow) to desplay on action bar
+        // Allow homeAsUpIndicator (back arrow) to display on action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         gridlayout = (GridLayout) findViewById(R.id.concepts_gridView);
-        //gridlayout.setLayoutParams(WRAP_CONTENT);
-        ArrayList<String> conceptNames = new ArrayList<>();
+        ArrayList<String> concepts = dbHelper.selectUnlockedConcepts();
 
         //put things in the gridlayout
-        setGridInfo(conceptNames);
+        setGridInfo(concepts);
 
     }
 
-
-
-    /*
-     * Copy our database into local storage
+    /**
+     * Listens for the back button on the bottom navigation bar
+     * Goes to home
      */
-    public void copy() throws IOException {
-
-        InputStream in = getApplicationContext().getAssets().open("test.db");
-        OutputStream out = new FileOutputStream(file);
-
-        // Transfer bytes from in to out
-        byte[] buf = new byte[1024];
-        int len;
-        while ((len = in.read(buf)) > 0) {
-            out.write(buf, 0, len);
-        }
-        in.close();
-        out.close();
+    @Override
+    public void onBackPressed() {
+        Intent intentHomeConcept = new Intent(this, MainActivity.class);
+        intentHomeConcept.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intentHomeConcept);
     }
 
-    /* 
+    /**
+     * Hides bottom navigation bar
+     * Called after onCreate on first creation
+     * Called every time this activity gets the focus
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (Build.VERSION.SDK_INT >= 19) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            //View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            //| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            //| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
+    }
+
+    /**
      * Shows and hides the bottom navigation bar when user swipes at it on screen
      * Called when the focus of the window changes to this activity
+     * @param hasFocus true or false based on if the focus of the window changes to this activity
      */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -111,9 +118,10 @@ public class LearnConcepts extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
-    /*
+    /**
      * Sets what menu will be in the action bar
-     * homeonlymenu has the settings button and the home button
+     * @param menu The options menu in which we place the items.
+     * @return true
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -122,12 +130,14 @@ public class LearnConcepts extends AppCompatActivity {
         return true;
     }
 
-    /*
+    /**
      * Listens for selections from the menu in the action bar
      * Does action corresponding to selected item
      * home = goes to homescreen
      * settings = goes to settings page
      * android.R.id.home = go to the activity that called the current activity
+     * @param item that is selected from the menu in the action bar
+     * @return true
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -156,21 +166,24 @@ public class LearnConcepts extends AppCompatActivity {
         return true;
     }
 
-    /*
+    /**
      * Dynamically adds views to the GridLayout - one row per concept
      * Each concept has an ImageView, holding the image to create the "path"
      *   and a TextView, holding the concept name; the order of the views is
      *   decided by whether the row is even or not
      * Calls createConceptName and createConceptImg to actually make the views
+     * @param titles each concept that should be on the page
      */
     public void setGridInfo(ArrayList titles) {
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int maxWidth = metrics.widthPixels/2;
 
+        // Add each concept in the list
         int totalConcepts = titles.size();
         for (int row = 0; row < totalConcepts; row++) {
 
+            // Set up layout parameters for items to be inserted into the Grid Layout
             GridLayout.Spec thisRow = GridLayout.spec(row, 1);
             GridLayout.Spec col0 = GridLayout.spec(0, 1);
             GridLayout.Spec col1 = GridLayout.spec(1, 1);
@@ -180,9 +193,10 @@ public class LearnConcepts extends AppCompatActivity {
             gridLayoutParam0.setGravity(viewGravity);
             gridLayoutParam1.setGravity(viewGravity);
 
-            TextView conceptName = createConceptName(titles.get(row).toString(), maxWidth, (row%2));
+            TextView conceptName = createConceptName(row, titles.get(row).toString(), maxWidth, (row%2));
             ImageView conceptImg = createConceptImg(row, (totalConcepts-1), (row%2), maxWidth);
 
+            // If the row is even put the text second else put text first
             if (row % 2 == 0) {
                 gridlayout.addView(conceptName,gridLayoutParam1);
                 gridlayout.addView(conceptImg,gridLayoutParam0);
@@ -194,13 +208,16 @@ public class LearnConcepts extends AppCompatActivity {
         }
     }
 
-    /*
+    /**
      * Creates a TextView for the concept name that links to the lessons page
-     * title is the text that is put into the view,
-     * maxWidth makes sure the text stays on its half of the screen
-     * odd determines if the text is aligned to the left or to the right
+     * @param index Makes the Text View clickable to the correct lessons page
+     * @param title the text put into the TextView
+     * @param maxWidth Ensures the text stays on its half of the screen
+     * @param odd Determines whether the text is left or right aligned
+     * @return the finished TextView, ready to be put into the layout
      */
-    public TextView createConceptName(String title, int maxWidth, int odd) {
+    public TextView createConceptName(int index, String title, int maxWidth, int odd) {
+        final int conceptID = index+1;
         TextView conceptName = new TextView(this);
         if (odd == 1) {
             conceptName.setGravity(Gravity.RIGHT);
@@ -209,7 +226,13 @@ public class LearnConcepts extends AppCompatActivity {
             conceptName.setGravity(Gravity.LEFT);
         }
         conceptName.setWidth(maxWidth);
-        conceptName.setTextSize(26);
+
+        //dynamic size
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int height = dm.heightPixels;
+        conceptName.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+
         conceptName.setText(title);
         conceptName.setHorizontallyScrolling(false);
         conceptName.setOnClickListener(new View.OnClickListener() {
@@ -217,8 +240,7 @@ public class LearnConcepts extends AppCompatActivity {
                 // Perform action on click
 
                 Intent activityChangeIntent = new Intent(LearnConcepts.this, LearnLessons.class);
-
-                // currentContext.startActivity(activityChangeIntent);
+                activityChangeIntent.putExtra("conceptID",conceptID);
 
                 LearnConcepts.this.startActivity(activityChangeIntent);
             }
@@ -226,16 +248,21 @@ public class LearnConcepts extends AppCompatActivity {
         return conceptName;
     }
 
-    /*
+    /**
      * Creates an ImageView for the image that links to the lessons page
-     * What image is used is determined by what row the image is being added to:
+     * The image used is determined by what row the image is being added to:
      *     there is an image for the first row
      *     there is an image for odd middle rows
      *     there is an image for even middle rows
      *     there are two images for the last row, depending on whether it is even or odd
-     * maxWidth is used to make sure the image does not exceed more than half of the screen
+     * @param index Makes the Text View clickable to the correct lesson summary
+     * @param max the index of the last item
+     * @param odd Determines whether the image is left or right aligned
+     * @param maxWidth used to make sure the image does not exceed more than half of the screen
+     * @return an Image View set up with correct parameters to be put onto the page
      */
     public ImageView createConceptImg(int index, int max, int odd, int maxWidth) {
+        final int conceptID = index+1;
         ImageView conceptImg = new ImageView(this);
         conceptImg.setMaxWidth(maxWidth);
         conceptImg.setAdjustViewBounds(true);
@@ -245,29 +272,30 @@ public class LearnConcepts extends AppCompatActivity {
                 // Perform action on click
 
                 Intent activityChangeIntent = new Intent(LearnConcepts.this, LearnLessons.class);
-
-                // currentContext.startActivity(activityChangeIntent);
+                activityChangeIntent.putExtra("conceptID",conceptID);
 
                 LearnConcepts.this.startActivity(activityChangeIntent);
             }
         });
+
+        // Set the correct image depending on the place of the lesson in the list
         if (odd == 0) {
             if (index == 0) {
-                conceptImg.setImageResource(R.drawable.star_start);
+                conceptImg.setImageResource(R.drawable.goldchest_start);
             }
             else if (index == max) {
-                conceptImg.setImageResource(R.drawable.star_end_left);
+                conceptImg.setImageResource(R.drawable.goldchest_end_odd);
             }
             else {
-                conceptImg.setImageResource(R.drawable.star_mid_left);
+                conceptImg.setImageResource(R.drawable.goldchest_mid_odd);
             }
         }
         else {
             if (index == max) {
-                conceptImg.setImageResource(R.drawable.star_end_right);
+                conceptImg.setImageResource(R.drawable.goldchest_end_even);
             }
             else {
-                conceptImg.setImageResource(R.drawable.star_mid_right);
+                conceptImg.setImageResource(R.drawable.goldchest_mid_even);
             }
         }
         return conceptImg;

@@ -11,19 +11,69 @@
  Jasmine Jans
  Jimmy Sherman
 
- Last Edit: 10-26-16
+ Last Edit: 2-5-17
 -->
 
 <resources>
-    <color name="colorPrimary">#1d0c43</color>
+    <color name="colorPrimary">#241f69</color>
     <color name="colorPrimaryDark">#000000</color>
-    <color name="colorAccent">#55aaea</color>
-    <color name="colorBackgroundDark">#4e4a53</color>
-    <color name="colorButton">#3c3445</color>
-    <color name="colorHeader1">#1d0c43</color>
+    <color name="colorAccent">#ca7cff</color>
+    <color name="colorBackgroundDark">#212121</color>
+
+    <color name="colorButton">#bdbdbd</color>
+    <color name="colorHeader1">#ca7cff</color>
     <color name="colorBodyText">#cccccc</color>
-    <color name="colorButtonText">#cccccc</color>
+    <color name="colorButtonText">#160023</color>
+    <color name="colorHint">#55ca7cff</color>
+
     <color name="colorMenuText">#cccccc</color>
-    <color name="colorMenuBackground">#3c3445</color>
+    <color name="colorMenuBackground">#111111</color>
+
     <color name="colorWhite">#ffffff</color>
+
+    <color name="bucketGameBG">#ceaee6</color>
+    <color name="gameCorrect">#015800</color>
+    <color name="gameIncorrect">#961315</color>
+    <color name="bucketGameText">#000000</color>
+    <color name="bucketGameStartText">#ffffff</color>
+    <color name="bucketGameStartButton">#23c438</color>
+    <color name="bucketGameEndButton">#7235ec</color>
+
+    <color name="matchCardBG">#cccccc</color>
+    <color name="matchCardOutline">#160023</color>
+    <color name="matchCardSelectedOutline">#4a0ba4</color>
+    <color name="matchGameText">#000000</color>
+
+    <color name="accessoryHighlight">#b8c4f7</color>
+    <color name="transparent">#00ffffff</color>
+    <color name="spriteAccessoryBG">#313131</color>
+
+    <color name="geospinner">#ca7cff</color>
+    <color name="fracToDecHint">#ca7cff</color>
+    <color name="fractodectext">#b03ffc</color>
+
+    <color name="towerGameButtonText">#ffffff</color>
+
+    <color name="questionCorrect">#00ff00</color>
+    <color name="questionIncorrect">#ff0000</color>
+
+    <color name="chemistryGameBG">#ceaee6</color>
+    <color name="chemistryGameText">#000000</color>
+    <color name="chemistryGameIncorrect">#ff0000</color>
+    <color name="chemistryGameCorrect">#00ff00</color>
+
+    <color name="orderingGameBG">#ceaee6</color>
+    <color name="orderingGameText">#263238</color>
+    <color name="orderingGameTopColor">#ead02a</color>
+    <color name="orderingGameBottomColor">#ca251f</color>
+    <color name="orderingGameMiddleColor">#c95d1e</color>
+    <color name="orderingGameLockedColor">#000000</color>
+
+    <color name="canvasBackground">#ffffff</color>
+    <color name="canvasForeground">#000000</color>
+
+    <color name="spinnerBackground">#bdbdbd</color>
+    <color name="spinnerTitleColor">#160023</color>
+    <color name="spinnerItemTextColor">#160023</color>
+    <color name="spinnerItemTextBackground">#bdbdbd</color>
 </resources>

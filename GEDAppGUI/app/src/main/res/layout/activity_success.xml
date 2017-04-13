@@ -8,7 +8,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.gedappgui.gedappgui.GameIntro">
+    android:id="@+id/successPage"
+    tools:context="com.gedappgui.gedappgui.Success">
 
 
     <TextView
@@ -18,82 +19,82 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/congratulations"
-        android:textSize="30sp" />
+        android:textStyle="bold"
+        android:textSize="30sp"
+        android:textColor="@color/colorHeader1"/>
 
     <TextView
-        android:text="Pick your sprite accessory:"
+        android:text="@string/noNewAccessory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/congratulations"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
+        android:textAlignment="center"
+        android:layout_marginTop="20dp"
         android:id="@+id/accessory_choice"
         android:textSize="18sp" />
 
     <Button
         android:text="To Next Lesson"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/to_lesson"
         android:textSize="18sp"
         android:onClick="goToNextLesson"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="16dp"
+        android:layout_alignLeft="@+id/to_concepts"
+        android:layout_alignStart="@+id/to_concepts"
+        android:layout_alignRight="@+id/to_concepts"
+        android:layout_alignEnd="@+id/to_concepts" />
+
+    <android.support.v7.widget.GridLayout
+        android:id="@+id/accessory_options"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:numColumns="3"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp" />
+        android:layout_below="@id/accessory_choice"></android.support.v7.widget.GridLayout>
+
+    <TextView
+        android:id="@+id/pick_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/accessory_options"
+        android:text="@string/pick"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        android:layout_marginTop="20dp"
+        android:layout_above="@+id/to_sprite"
+        android:textSize="18sp"/>
+
+    <Button
+        android:text="To Lair"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/to_sprite"
+        android:textSize="18sp"
+        android:onClick="goToSprite"
+        android:layout_marginBottom="9dp"
+        android:layout_above="@+id/to_concepts"
+        android:layout_alignRight="@+id/pick_location"
+        android:layout_alignEnd="@+id/pick_location"
+        android:layout_alignLeft="@+id/pick_location"
+        android:layout_alignStart="@+id/pick_location" />
 
     <Button
         android:text="To Concepts"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/to_concepts"
         android:textSize="18sp"
         android:onClick="goToConcepts"
         android:layout_marginBottom="9dp"
-        android:layout_above="@id/to_lesson"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:text="To Sprite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/to_sprite"
-        android:textSize="18sp"
-        android:onClick="goToSprite"
-        android:layout_marginBottom="16dp"
-        android:layout_above="@id/to_concepts"
-        android:layout_centerHorizontal="true" />
-
-    <CheckedTextView
-        android:text="Accessory 1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/accessory_choice_1"
-        android:layout_below="@id/accessory_choice"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="29dp"
-        android:checkMarkTint="@color/colorPrimaryDark"
-        android:checked="false" />
-
-    <CheckedTextView
-        android:text="Accessory 2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/accessory_choice_2"
-        android:layout_below="@id/accessory_choice_1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="19dp"
-        android:checkMarkTint="@color/colorPrimaryDark"
-        android:checked="false" />
-
-    <CheckedTextView
-        android:text="Accessory 3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/accessory_choice_3"
-        android:layout_below="@id/accessory_choice_2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:checked="false"
-        android:checkMarkTint="@color/colorPrimaryDark" />
+        android:layout_above="@+id/to_lesson"
+        android:layout_alignLeft="@+id/pick_location"
+        android:layout_alignStart="@+id/pick_location"
+        android:layout_alignRight="@+id/to_sprite"
+        android:layout_alignEnd="@+id/to_sprite" />
 
 </RelativeLayout>
