@@ -26,6 +26,7 @@ import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayout;
 import android.util.DisplayMetrics;
@@ -149,9 +150,8 @@ public class GameIntro extends AppCompatActivity {
             ArrayList<String> pics = dbHelper.selectGameIntroPics(lessonID);
             float newWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, (float)(width / 2.25), getResources().getDisplayMetrics());
             float newHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, (float)(height / 2.25), getResources().getDisplayMetrics());
-            //float newHeight1 = convertPixelsToDp((float)(height / 2), this);
-            //float newWidth1 = convertPixelsToDp((float)(width / 2), this);
-            int viewGravity = Gravity.FILL_HORIZONTAL | Gravity.CENTER_VERTICAL;
+
+            int viewGravity = Gravity.FILL_HORIZONTAL | Gravity.CENTER;
 
             if(image1!=null)
             {
@@ -161,14 +161,25 @@ public class GameIntro extends AppCompatActivity {
             image1 = getFromAssets(pics.get(0));
             instructionImage1.setImageBitmap(image1);
 
+            grid.setColumnCount(1);
+
             GridLayout.Spec col1 = GridLayout.spec(0, 1);
             GridLayout.LayoutParams gridLayoutParam1 = new GridLayout.LayoutParams(GridLayout.spec(0, 1), col1);
-            gridLayoutParam1.setMargins(20, 0, 20, 0);
 
             gridLayoutParam1.setGravity(viewGravity);
 
+            //set the max width and height for the images
+            instructionImage1.setMaxWidth((int)newWidth);
+            instructionImage1.setMaxHeight((int)newHeight);
+            instructionImage1.setAdjustViewBounds(true);
+            instructionImage1.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+
+            grid.addView(instructionImage1, gridLayoutParam1);
+
             //if there are to images, add the second to the grid
             if(pics.size() == 2) {
+                grid.setColumnCount(2);
+
                 if(image2!=null)
                 {
                     image2.recycle();
@@ -179,7 +190,6 @@ public class GameIntro extends AppCompatActivity {
 
                 GridLayout.Spec col2 = GridLayout.spec(1, 1);
                 GridLayout.LayoutParams gridLayoutParam2 = new GridLayout.LayoutParams(GridLayout.spec(0, 1), col2);
-                gridLayoutParam2.setMargins(20, 0, 20, 0);
                 gridLayoutParam2.setGravity(viewGravity);
 
                 //set the max width and height for the images
@@ -190,13 +200,6 @@ public class GameIntro extends AppCompatActivity {
                 grid.addView(instructionImage2, gridLayoutParam2);
 
             }
-
-            //set the max width and height for the images
-            instructionImage1.setMaxWidth((int)newWidth);
-            instructionImage1.setMaxHeight((int)newHeight);
-            instructionImage1.setAdjustViewBounds(true);
-            instructionImage1.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-            grid.addView(instructionImage1, gridLayoutParam1);
         }
 
         Button startButton = (Button) findViewById(R.id.play_button);

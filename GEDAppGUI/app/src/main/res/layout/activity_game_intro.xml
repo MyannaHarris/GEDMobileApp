@@ -70,6 +70,7 @@
             android:gravity="center"
             android:verticalSpacing="20dp"
             android:stretchMode="columnWidth"
+            android:layout_alignLeft="@id/instructions"
             android:layout_below="@id/instructions">
 
         </android.support.v7.widget.GridLayout>
@@ -84,7 +85,7 @@
             android:id="@+id/play_button"
             android:textSize="18sp"
             android:onClick="goToGame"
-            android:layout_alignLeft="@+id/welcome"
+            android:layout_alignLeft="@id/gameIntro_gridView"
             android:layout_alignStart="@+id/welcome"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
