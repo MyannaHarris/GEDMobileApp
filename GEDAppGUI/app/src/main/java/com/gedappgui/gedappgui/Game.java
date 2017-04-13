@@ -161,8 +161,8 @@ public class Game extends AppCompatActivity {
                 input = dbHelper.selectMadlibInput(lessonID);
             }
 
-            madlibGameView = new MadlibGameView(this, activity, (input.get(0)),  input.get(1),
-                    input.get(2),  input.get(3), conceptID, lessonID,
+            madlibGameView = new MadlibGameView(this, activity, (input.get(0)),  input.get(2),
+                    input.get(3),  input.get(1), input.get(4), conceptID, lessonID,
                     nextActivity, width, height);
             ScrollView scroll = new ScrollView(this);
             madlibGameView.setFocusableInTouchMode(true);

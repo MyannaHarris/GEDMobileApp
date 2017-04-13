@@ -25,6 +25,8 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -65,6 +67,8 @@ public class MadlibGameView extends RelativeLayout {
     private ArrayList<ArrayList<String>> answerTexts;
     //the actual answers to each question
     private ArrayList<ArrayList<String>> answers;
+    //the hints for each question madlib input
+    private ArrayList<ArrayList<String>> hints;
 
     //current user input word fills
     private ArrayList<EditText> userFills;
@@ -114,8 +118,9 @@ public class MadlibGameView extends RelativeLayout {
      * @param height1 Height of screen in pixels
      */
     public MadlibGameView(Context contextp, Activity activityp, ArrayList<ArrayList<String>> words,
-                          ArrayList<ArrayList<String>> question, ArrayList<ArrayList<String>>
-                                  answerPs, ArrayList<ArrayList<String>> answerAs, int conceptIDp,
+                          ArrayList<ArrayList<String>> question, ArrayList<ArrayList<String>> answerPs,
+                          ArrayList<ArrayList<String>> hintp,
+                                  ArrayList<ArrayList<String>> answerAs, int conceptIDp,
                           int lessonIDp, int nextActivityp, int width1, int height1) {
         super(contextp);
 
@@ -133,6 +138,7 @@ public class MadlibGameView extends RelativeLayout {
 
         //holds the game content
         wordFills = words;
+        hints = hintp;
         questionTexts = question;
         answerTexts = answerPs;
         answers = answerAs;
@@ -214,7 +220,8 @@ public class MadlibGameView extends RelativeLayout {
         for(int i = 0; i<wordFills.size(); i++){
             for(int j = 0; j<wordFills.get(i).size(); j++){
                 userInput.add(createTextView(wordFills.get(i).get(j), userFills, j));
-                userFills.add(createEditText(wordFills.get(i).get(j), userInput, j));
+                System.out.println(hints.get(i).get(j));
+                userFills.add(createEditText(wordFills.get(i).get(j), userInput, hints.get(i).get(j), j));
             }
 
             //add the specific questions textviews and edit text views to all edit text and text views
@@ -304,7 +311,7 @@ public class MadlibGameView extends RelativeLayout {
         TextView question = new TextView(context);
 
         String sentence = createSentence(input, titles);
-        question.setText(sentence);
+        question.setText(toHTML(sentence));
 
         if (Build.VERSION.SDK_INT < 17) {
             question.setId(R.id.madlibGameSentence);
@@ -345,9 +352,10 @@ public class MadlibGameView extends RelativeLayout {
 
         for (int i = 0; i < radioGroup.getChildCount(); i++) {
             String textAnswer = answerTexts.get(currQuestion).get(i);
-            ((RadioButton) radioGroup.getChildAt(i)).setText(textAnswer);
+            ((RadioButton) radioGroup.getChildAt(i)).setText(toHTML(textAnswer));
             ((RadioButton) radioGroup.getChildAt(i)).setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
             ((RadioButton) radioGroup.getChildAt(i)).setId(i+1);
+            ((RadioButton) radioGroup.getChildAt(i)).setTextColor(ContextCompat.getColor(context, R.color.colorBodyText));
             ((RadioButton) radioGroup.getChildAt(i)).setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
@@ -575,14 +583,14 @@ public class MadlibGameView extends RelativeLayout {
     * @param num the ith edittext view that has been created
     * @return the edittext view created for the given word
     */
-    public EditText createEditText(String text, ArrayList<TextView> tViews, int num){
+    public EditText createEditText(String text, ArrayList<TextView> tViews, String hint, int num){
         RelativeLayout.LayoutParams relativeLay = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         //sets up a new edit text
         EditText userWord = new EditText(context);
         userWord.setSingleLine(true);
-        userWord.setHint(text);
+        userWord.setHint(hint);
         userWord.setHintTextColor(ContextCompat.getColor(context, R.color.colorHint));
 
         if (Build.VERSION.SDK_INT < 17) {
@@ -647,6 +655,21 @@ public class MadlibGameView extends RelativeLayout {
         intent.putExtra("conceptID", conceptID);
         intent.putExtra("lessonID", lessonID);
         context.startActivity(intent);
+    }
+
+    /**
+     * Converts database strings to HTML to support superscripts
+     * @param input the string to be converted
+     * @return Spanned object to be passed into the setText method
+     */
+    public Spanned toHTML(String input) {
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            return Html.fromHtml(input,Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            return Html.fromHtml(input);
+        }
+
     }
 
     /**

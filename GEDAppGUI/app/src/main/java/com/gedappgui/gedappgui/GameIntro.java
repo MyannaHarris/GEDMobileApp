@@ -18,6 +18,7 @@
 
 package com.gedappgui.gedappgui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
@@ -146,8 +147,10 @@ public class GameIntro extends AppCompatActivity {
         if(dbHelper.gameIntroHasImages(lessonID)) {
             //if there are instruction images, add the first one into the grid
             ArrayList<String> pics = dbHelper.selectGameIntroPics(lessonID);
-            float newWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, (float)(width/2.25), getResources().getDisplayMetrics());
-            float newHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, (float)(height/2.25), getResources().getDisplayMetrics());
+            float newWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, (float)(width / 2.25), getResources().getDisplayMetrics());
+            float newHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, (float)(height / 2.25), getResources().getDisplayMetrics());
+            //float newHeight1 = convertPixelsToDp((float)(height / 2), this);
+            //float newWidth1 = convertPixelsToDp((float)(width / 2), this);
             int viewGravity = Gravity.FILL_HORIZONTAL | Gravity.CENTER_VERTICAL;
 
             if(image1!=null)
@@ -177,7 +180,6 @@ public class GameIntro extends AppCompatActivity {
                 GridLayout.Spec col2 = GridLayout.spec(1, 1);
                 GridLayout.LayoutParams gridLayoutParam2 = new GridLayout.LayoutParams(GridLayout.spec(0, 1), col2);
                 gridLayoutParam2.setMargins(20, 0, 20, 0);
-
                 gridLayoutParam2.setGravity(viewGravity);
 
                 //set the max width and height for the images
@@ -336,6 +338,18 @@ public class GameIntro extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Change pixel measurement into dp measurement
+     * @param px The pixels
+     * @param context The context of the activity
+     * @return dp - The measurement in dp
+     */
+    public static float convertPixelsToDp(float px, Context context){
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        float dp = px / (metrics.densityDpi / 160f);
+        return dp;
     }
 }
 

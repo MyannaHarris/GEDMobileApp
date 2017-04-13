@@ -1156,6 +1156,7 @@ public class DatabaseHelper{
         ArrayList<ArrayList<String>> question = new ArrayList<>();
         ArrayList<ArrayList<String>> answerps = new ArrayList<>();
         ArrayList<ArrayList<String>> answers = new ArrayList<>();
+        ArrayList<ArrayList<String>> hints = new ArrayList<>();
 
         ArrayList<ArrayList<ArrayList<String>>> randQAndAs = new ArrayList<>();
 
@@ -1163,22 +1164,25 @@ public class DatabaseHelper{
         questions = input.split("[&]");
 
         for(int i = 0; i<questions.length;i++){
-            if(i%4 == 0) {
+            if(i%5 == 0) {
                 finalTexts.add(new ArrayList<>(Arrays.asList(questions[i].split("[/]"))));
 
+                hints.add(new ArrayList<>(Arrays.asList(questions[i+1].split("[/]"))));
+
                 placeholder.clear();
-                placeholder.add(questions[i + 1]);
+                placeholder.add(questions[i + 2]);
                 question.add(new ArrayList<>(placeholder));
 
-                answerps.add(new ArrayList<>(Arrays.asList(questions[i + 2].split("[/]"))));
+                answerps.add(new ArrayList<>(Arrays.asList(questions[i + 3].split("[/]"))));
 
                 placeholder.clear();
-                placeholder.add(questions[i + 3]);
+                placeholder.add(questions[i + 4]);
                 answers.add(new ArrayList<>(placeholder));
             }
         }
 
         randQAndAs.add(finalTexts);
+        randQAndAs.add(hints);
         randQAndAs.add(question);
         randQAndAs.add(answerps);
         randQAndAs.add(answers);
@@ -1208,43 +1212,56 @@ public class DatabaseHelper{
         ArrayList<ArrayList<String>> question = new ArrayList<>();
         ArrayList<ArrayList<String>> answerps = new ArrayList<>();
         ArrayList<ArrayList<String>> answers = new ArrayList<>();
+        ArrayList<ArrayList<String>> hints = new ArrayList<>();
 
         ArrayList<ArrayList<String>> randFinal = new ArrayList<>();
         ArrayList<ArrayList<String>> randQuestion = new ArrayList<>();
         ArrayList<ArrayList<String>> randAnswerps = new ArrayList<>();
         ArrayList<ArrayList<String>> randAnswers = new ArrayList<>();
+        ArrayList<ArrayList<String>> randHints = new ArrayList<>();
 
         ArrayList<ArrayList<ArrayList<String>>> randQAndAs = new ArrayList<>();
 
         String[] questions;
         questions = input.split("[&]");
+        System.out.println(questions.length);
 
 
         for(int i = 0; i<questions.length;i++){
-            if(i%4 == 0) {
+            if(i%5 == 0) {
                 finalTexts.add(new ArrayList<>(Arrays.asList(questions[i].split("[/]"))));
+                hints.add(new ArrayList<>(Arrays.asList(questions[i+1].split("[/]"))));
+
+                System.out.println(hints);
 
                 placeholder.clear();
-                placeholder.add(questions[i + 1]);
+                placeholder.add(questions[i + 2]);
                 question.add(new ArrayList<>(placeholder));
 
-                answerps.add(new ArrayList<>(Arrays.asList(questions[i + 2].split("[/]"))));
+                System.out.println(question);
+
+                answerps.add(new ArrayList<>(Arrays.asList(questions[i + 3].split("[/]"))));
+
+                System.out.println(answerps);
 
                 placeholder.clear();
-                placeholder.add(questions[i + 3]);
+                placeholder.add(questions[i + 4]);
                 answers.add(new ArrayList<>(placeholder));
+                System.out.println(answers);
             }
         }
 
         for(int i = 3; i<6; i++){
             double rand = Math.abs(Math.round(Math.random() * 11-i));
             randFinal.add(finalTexts.remove((int) rand));
+            randHints.add(hints.remove((int)rand));
             randQuestion.add(question.remove((int) rand));
             randAnswerps.add(answerps.remove((int) rand));
             randAnswers.add(answers.remove((int) rand));
         }
 
         randQAndAs.add(randFinal);
+        randQAndAs.add(randHints);
         randQAndAs.add(randQuestion);
         randQAndAs.add(randAnswerps);
         randQAndAs.add(randAnswers);
