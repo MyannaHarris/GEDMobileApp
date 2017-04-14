@@ -132,7 +132,7 @@ public class PictureGameView extends LinearLayout {
 
         statement.setText(toHTML(init[0]));
         statement.setTextSize(25);
-        statement.setTextColor(Color.WHITE);
+        statement.setTextColor(ContextCompat.getColor(context, R.color.colorWhite));
         statement.setGravity(Gravity.CENTER);
         //adding statement to top of view
         this.addView(statement);
@@ -169,14 +169,14 @@ public class PictureGameView extends LinearLayout {
         result.setLayoutParams(layoutParams);
         result.setText("");
         result.setTextSize(20);
-        result.setTextColor(Color.WHITE);
+        result.setTextColor(ContextCompat.getColor(context, R.color.colorWhite));
         result.setGravity(Gravity.CENTER);
 
         end = new Button(context);
         end.setLayoutParams(linearLayout);
         end.setText("End Game");
         end.setTextSize(20);
-        end.setTextColor(Color.WHITE);
+        end.setTextColor(ContextCompat.getColor(context, R.color.colorWhite));
         end.setGravity(Gravity.CENTER);
 
         end.setOnClickListener(new View.OnClickListener(){
