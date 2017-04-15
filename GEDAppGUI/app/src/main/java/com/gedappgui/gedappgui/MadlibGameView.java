@@ -503,7 +503,7 @@ public class MadlibGameView extends RelativeLayout {
             space.setFocusable(false);
             space.setTextIsSelectable(false);
             relativeLay = new RelativeLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, 150);
+                    ViewGroup.LayoutParams.MATCH_PARENT, 400);
             relativeLay.addRule(RelativeLayout.BELOW, submit.getId());
             space.setLayoutParams(relativeLay);
 
