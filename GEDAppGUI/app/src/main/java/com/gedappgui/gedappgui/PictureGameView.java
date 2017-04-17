@@ -19,6 +19,7 @@ package com.gedappgui.gedappgui;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Vibrator;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
@@ -33,6 +34,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import static android.content.Context.VIBRATOR_SERVICE;
 
 /**
  * Created by James on 2/17/2017.
@@ -109,7 +112,6 @@ public class PictureGameView extends LinearLayout {
         result = new TextView(context);
         int[] pass_pics;
         splits = passer;
-
 
         //Change layout to vertical view
         this.setOrientation(LinearLayout.VERTICAL);

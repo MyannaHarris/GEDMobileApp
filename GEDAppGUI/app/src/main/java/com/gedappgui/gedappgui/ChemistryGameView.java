@@ -24,6 +24,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.Spanned;
@@ -37,6 +38,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import static android.content.Context.VIBRATOR_SERVICE;
 
 public class ChemistryGameView extends RelativeLayout {
 
@@ -100,6 +103,9 @@ public class ChemistryGameView extends RelativeLayout {
     // Stop use from moving potion after Incorrect is shown
     private boolean movePotion;
 
+    // For Haptic Feedback
+    private Vibrator myVib;
+
     /**
      * Constructor for game
      * @param contextp Context of the activity
@@ -127,6 +133,9 @@ public class ChemistryGameView extends RelativeLayout {
 
         // Don't stop moving potion at the beginning
         movePotion = true;
+
+        // Set up vibrator service
+        myVib = (Vibrator) context.getSystemService(VIBRATOR_SERVICE);
 
         // List of textViews that have already been used
         doneTextViews = new ArrayList<Integer>();
@@ -387,9 +396,16 @@ public class ChemistryGameView extends RelativeLayout {
                                 // Check if the answer is correct
                                 if (answerTexts.contains(chosenChildStr)) {
 
+                                    // vibrate when correct
+                                    myVib.vibrate(100);
+
                                     // Answer was correct
                                     correctAnswer();
                                 } else {
+
+                                    // incorrect vibrate
+                                    long[] incorrectBuzz = {0,40,20,40};
+                                    myVib.vibrate(incorrectBuzz, -1); // vibrate
 
                                     // Answer was incorrect
                                     incorrectAnswer();

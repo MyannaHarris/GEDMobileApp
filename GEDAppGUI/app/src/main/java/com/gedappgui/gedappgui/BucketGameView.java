@@ -317,14 +317,14 @@ public class BucketGameView extends SurfaceView implements Runnable  {
             // If collision occurs with player
             if (Rect.intersects(bucket.getDetectCollision(), numbers[i].getDetectCollision())) {
 
-                // vibrate when collision
-                myVib.vibrate(100);
 
                 // Moving enemy outside the left edge
                 numbers[i].setX(-200);
 
                 // Check if it is a correct answer
                 if (answers.contains(numbers[i].getText())) {
+                    // correct vibrate
+                    myVib.vibrate(100);
 
                     // Remove number from answers if correct so only the
                     //      correct answers not yet gotten count from now on
@@ -354,6 +354,10 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                     }
 
                     correctAnswers += 1;
+                } else {
+                    // incorrect vibrate
+                    long[] incorrectBuzz = {0,40,20,40};
+                    myVib.vibrate(incorrectBuzz, -1); // vibrate
                 }
 
                 // Show if user got answer correct or incorrect

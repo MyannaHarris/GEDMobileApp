@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.Spanned;
@@ -34,6 +35,8 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import static android.content.Context.VIBRATOR_SERVICE;
 
 public class ButtonAdapter extends BaseAdapter {
 
@@ -52,6 +55,8 @@ public class ButtonAdapter extends BaseAdapter {
     private int concept;
     private int nextActivity;
 
+    // For Haptic Feedback
+    private Vibrator myVib;
 
     /**
      * Constructor for PictureGameView buttons
@@ -82,6 +87,8 @@ public class ButtonAdapter extends BaseAdapter {
         nextActivity = nextAct;
         concept = conceptID;
 
+        // Set up vibrator service
+        myVib = (Vibrator) c.getSystemService(VIBRATOR_SERVICE);
     }
 
     /**
@@ -189,6 +196,8 @@ public class ButtonAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v){
                     if (answers[cur + 1].equals("t")){
+                        // vibrate when correct
+                        myVib.vibrate(100);
                         //questions onneven indexes, answers on odd indexes
                         //Gets a random even number to put in the current statement
                         int rand = (int) (Math.random() * 40);
@@ -251,6 +260,10 @@ public class ButtonAdapter extends BaseAdapter {
 
                     }
                     else{
+                        // incorrect vibrate
+                        long[] incorrectBuzz = {0,40,20,40};
+                        myVib.vibrate(incorrectBuzz, -1); // vibrate
+
                         resulter.setText("Incorrect! Try again");
                         //randomly pulled from the queue
                         int rand2 = (int) (Math.random() * 40);
@@ -269,6 +282,8 @@ public class ButtonAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v){
                     if (answers[cur + 1].equals("f")){
+                        // vibrate when correct
+                        myVib.vibrate(100);
                         //randomly pulled from the queue
                         int rand = (int) (Math.random() * 40);
                         if ((rand % 2) == 1)
@@ -330,6 +345,10 @@ public class ButtonAdapter extends BaseAdapter {
 
                     }
                     else{
+                        // incorrect vibrate
+                        long[] incorrectBuzz = {0,40,20,40};
+                        myVib.vibrate(incorrectBuzz, -1); // vibrate
+
                         resulter.setText(toHTML("Incorrect! Try again"));
                         //randomly pulled from the queue
                         int rand2 = (int) (Math.random() * 41);

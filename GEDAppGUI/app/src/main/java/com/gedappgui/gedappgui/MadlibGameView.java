@@ -23,6 +23,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Build;
+import android.os.Vibrator;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
@@ -46,6 +47,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.regex.*;
+
+import static android.content.Context.VIBRATOR_SERVICE;
 
 public class MadlibGameView extends RelativeLayout {
     private Context context;
@@ -103,6 +106,9 @@ public class MadlibGameView extends RelativeLayout {
     //dialog for if the user doesnt fill all boxes
     AlertDialog.Builder noFillDialog;
 
+    // For Haptic Feedback
+    private Vibrator myVib;
+
     /**
      * constructor for madlib game
      * @param contextp context of the activity
@@ -150,6 +156,9 @@ public class MadlibGameView extends RelativeLayout {
         //for all text views and edit text views
         allUserInput = new ArrayList<>();
         allUserFills = new ArrayList<>();
+
+        // Set up vibrator service
+        myVib = (Vibrator) context.getSystemService(VIBRATOR_SERVICE);
 
         //current question
         currQuestion = 0;
@@ -416,6 +425,9 @@ public class MadlibGameView extends RelativeLayout {
 
             // Check if answer is correct
             if (selectedString.equals(answers.get(currQuestion).get(0))) {
+                // vibrate when correct
+                myVib.vibrate(100);
+
                 ((RadioButton) radioGroup.getChildAt(selectedAnswer-1)).setTextColor(
                         ContextCompat.getColor(context, R.color.questionCorrect)
                 );
@@ -447,6 +459,10 @@ public class MadlibGameView extends RelativeLayout {
                 //if the answer is wrong, change button text, make wrong answer red and let the user
                 //try again
             } else {
+                // incorrect vibrate
+                long[] incorrectBuzz = {0,40,20,40};
+                myVib.vibrate(incorrectBuzz, -1); // vibrate
+
                 ((RadioButton) radioGroup.getChildAt(selectedAnswer-1)).setTextColor(
                         ContextCompat.getColor(context, R.color.questionIncorrect)
                 );

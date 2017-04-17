@@ -20,6 +20,7 @@ package com.gedappgui.gedappgui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.Spanned;
@@ -32,6 +33,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import static android.content.Context.VIBRATOR_SERVICE;
 
 public class OrderingGameView extends LinearLayout {
 
@@ -83,6 +86,9 @@ public class OrderingGameView extends LinearLayout {
     // List of textviews that are locked in
     private ArrayList<Integer> lockedTextViews;
 
+    // For Haptic Feedback
+    private Vibrator myVib;
+
     public OrderingGameView(Context contextp, ArrayList<ArrayList<String>> textsp,
                             int conceptIDp, int lessonIDp, final int nextActivityp,
                             int width, int heightp) {
@@ -100,6 +106,9 @@ public class OrderingGameView extends LinearLayout {
 
         // Get texts
         texts = textsp;
+
+        // Set up vibrator service
+        myVib = (Vibrator) context.getSystemService(VIBRATOR_SERVICE);
 
         // Set up text views so no null exception happens
         lastTextView = new TextView(context);
@@ -314,7 +323,16 @@ public class OrderingGameView extends LinearLayout {
                                 TextView child = (TextView) linearLayout.getChildAt(i);
                                 if (!((String) child.getTag().toString()).equals(answerTexts.get(i - start))) {
                                     questionDone = false;
+
+                                    // incorrect vibrate
+                                    long[] incorrectBuzz = {0,40,20,40};
+                                    myVib.vibrate(incorrectBuzz, -1); // vibrate
+
                                 } else {
+                                    
+                                    // vibrate when correct
+                                    myVib.vibrate(100);
+
                                     lockedTextViews.add(i);
                                     child.setTextColor(ContextCompat.getColor(context,
                                             R.color.orderingGameLockedColor));
