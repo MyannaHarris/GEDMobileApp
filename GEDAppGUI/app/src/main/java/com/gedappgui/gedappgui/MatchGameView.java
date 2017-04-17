@@ -458,7 +458,7 @@ public class MatchGameView extends LinearLayout{
      * Check if the round is done
      */
     private void answerCorrect() {
-        myVib.vibrate(100); // vibrate
+        myVib.vibrate(150); // vibrate
         // Change background of card to reflect it is correct
         // Different for different SDK versions
         if (Build.VERSION.SDK_INT < 16) {
@@ -523,7 +523,7 @@ public class MatchGameView extends LinearLayout{
      * Change background of card to show that answer is not correct then return cards to unselected
      */
     private void answerIncorrect() {
-        long[] incorrectBuzz = {0,40,20,40};
+        long[] incorrectBuzz = {0,55,40,55};
         myVib.vibrate(incorrectBuzz, -1); // vibrate
         // Return BGs to normal if answer is wrong
 

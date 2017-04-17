@@ -324,7 +324,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                 // Check if it is a correct answer
                 if (answers.contains(numbers[i].getText())) {
                     // correct vibrate
-                    myVib.vibrate(100);
+                    myVib.vibrate(150);
 
                     // Remove number from answers if correct so only the
                     //      correct answers not yet gotten count from now on
@@ -356,7 +356,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                     correctAnswers += 1;
                 } else {
                     // incorrect vibrate
-                    long[] incorrectBuzz = {0,40,20,40};
+                    long[] incorrectBuzz = {0,55,40,55};
                     myVib.vibrate(incorrectBuzz, -1); // vibrate
                 }
 

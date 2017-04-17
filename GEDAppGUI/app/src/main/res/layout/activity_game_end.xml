@@ -41,10 +41,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/move_on"
         android:textSize="20sp"
-        android:onClick="goToNext"
-        android:layout_alignLeft="@+id/congratulations"
-        android:layout_alignStart="@+id/congratulations"
-        android:layout_alignRight="@+id/accomplished"
-        android:layout_alignEnd="@+id/accomplished" />
+        android:onClick="goToNext" />
 
 </RelativeLayout>

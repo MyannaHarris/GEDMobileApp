@@ -426,7 +426,7 @@ public class MadlibGameView extends RelativeLayout {
             // Check if answer is correct
             if (selectedString.equals(answers.get(currQuestion).get(0))) {
                 // vibrate when correct
-                myVib.vibrate(100);
+                myVib.vibrate(150);
 
                 ((RadioButton) radioGroup.getChildAt(selectedAnswer-1)).setTextColor(
                         ContextCompat.getColor(context, R.color.questionCorrect)
@@ -460,7 +460,7 @@ public class MadlibGameView extends RelativeLayout {
                 //try again
             } else {
                 // incorrect vibrate
-                long[] incorrectBuzz = {0,40,20,40};
+                long[] incorrectBuzz = {0,55,40,55};
                 myVib.vibrate(incorrectBuzz, -1); // vibrate
 
                 ((RadioButton) radioGroup.getChildAt(selectedAnswer-1)).setTextColor(

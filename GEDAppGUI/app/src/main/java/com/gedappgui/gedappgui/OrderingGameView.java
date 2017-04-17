@@ -325,13 +325,13 @@ public class OrderingGameView extends LinearLayout {
                                     questionDone = false;
 
                                     // incorrect vibrate
-                                    long[] incorrectBuzz = {0,40,20,40};
+                                    long[] incorrectBuzz = {0,55,40,55};
                                     myVib.vibrate(incorrectBuzz, -1); // vibrate
 
                                 } else {
-                                    
+
                                     // vibrate when correct
-                                    myVib.vibrate(100);
+                                    myVib.vibrate(150);
 
                                     lockedTextViews.add(i);
                                     child.setTextColor(ContextCompat.getColor(context,

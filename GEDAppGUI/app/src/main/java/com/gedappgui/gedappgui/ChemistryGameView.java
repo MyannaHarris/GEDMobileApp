@@ -397,14 +397,14 @@ public class ChemistryGameView extends RelativeLayout {
                                 if (answerTexts.contains(chosenChildStr)) {
 
                                     // vibrate when correct
-                                    myVib.vibrate(100);
+                                    myVib.vibrate(150);
 
                                     // Answer was correct
                                     correctAnswer();
                                 } else {
 
                                     // incorrect vibrate
-                                    long[] incorrectBuzz = {0,40,20,40};
+                                    long[] incorrectBuzz = {0,55,40,55};
                                     myVib.vibrate(incorrectBuzz, -1); // vibrate
 
                                     // Answer was incorrect

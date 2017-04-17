@@ -62,7 +62,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/lessonGame"
-            android:layout_marginRight="@dimen/button_horiz_margin"
             android:layout_marginBottom="@dimen/button_vert_margin"
             android:layout_marginTop="@dimen/button_vert_margin"
             android:layout_gravity="center"

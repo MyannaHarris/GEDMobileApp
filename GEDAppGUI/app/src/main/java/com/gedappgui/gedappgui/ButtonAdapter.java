@@ -197,7 +197,7 @@ public class ButtonAdapter extends BaseAdapter {
                 public void onClick(View v){
                     if (answers[cur + 1].equals("t")){
                         // vibrate when correct
-                        myVib.vibrate(100);
+                        myVib.vibrate(150);
                         //questions onneven indexes, answers on odd indexes
                         //Gets a random even number to put in the current statement
                         int rand = (int) (Math.random() * 40);
@@ -261,7 +261,7 @@ public class ButtonAdapter extends BaseAdapter {
                     }
                     else{
                         // incorrect vibrate
-                        long[] incorrectBuzz = {0,40,20,40};
+                        long[] incorrectBuzz = {0,55,40,55};
                         myVib.vibrate(incorrectBuzz, -1); // vibrate
 
                         resulter.setText("Incorrect! Try again");
@@ -283,7 +283,7 @@ public class ButtonAdapter extends BaseAdapter {
                 public void onClick(View v){
                     if (answers[cur + 1].equals("f")){
                         // vibrate when correct
-                        myVib.vibrate(100);
+                        myVib.vibrate(150);
                         //randomly pulled from the queue
                         int rand = (int) (Math.random() * 40);
                         if ((rand % 2) == 1)
@@ -346,7 +346,7 @@ public class ButtonAdapter extends BaseAdapter {
                     }
                     else{
                         // incorrect vibrate
-                        long[] incorrectBuzz = {0,40,20,40};
+                        long[] incorrectBuzz = {0,55,40,55};
                         myVib.vibrate(incorrectBuzz, -1); // vibrate
 
                         resulter.setText(toHTML("Incorrect! Try again"));
