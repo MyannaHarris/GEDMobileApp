@@ -35,7 +35,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/prompt"
             android:textSize="20dp"
-            android:paddingBottom="15sp"/>
+            android:paddingBottom="15sp"
+            android:paddingTop="15sp"/>
 
     </LinearLayout>
 
@@ -67,7 +68,7 @@
             android:layout_centerHorizontal="true" />
 
         <Button
-            android:text="Forward"
+            android:text="Next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tutorial_forward"
