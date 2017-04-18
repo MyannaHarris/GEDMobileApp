@@ -222,7 +222,7 @@ public class Success extends AppCompatActivity {
         }
 
         // Give an achievement if the user completes the final concept
-        if(lessonID == 24 && !dbHelper.achievementExists(11)){
+        if(lessonID == dbHelper.getMaxLessonId() && !dbHelper.achievementExists(11)){
             Intent achievement = new Intent(this, AchievementPopUp.class);
             achievement.putExtra("achievementID", 11);
             startActivity(achievement);
@@ -254,7 +254,7 @@ public class Success extends AppCompatActivity {
 
 
         // Gives an achievement if the user earns all accessories use >= if on sprite page
-            if(dbHelper.countAccessoriesEarned() == 24) {
+            if(dbHelper.countAccessoriesEarned() == dbHelper.getMaxLessonId()) {
                 Intent achievement = new Intent(this, AchievementPopUp.class);
                 achievement.putExtra("achievementID", 17);
                 startActivity(achievement);

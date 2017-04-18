@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
             progress.setScaleY(4f);
             int count = db.lessonCount()-1;
             progress.setProgress(count);
-            if(count == 24){
+            if(count == db.getMaxLessonId()){
                 seeProgress.setText("Congratulations! You completed all lessons!");
             }
             else if(count != 0){
@@ -220,16 +220,14 @@ public class MainActivity extends AppCompatActivity {
             progress.setScaleY(4f);
             int count = db.lessonCount()-1;
             progress.setProgress(count);
-            if(count == 24){
+            if(count == db.getMaxLessonId()){
                 seeProgress.setText("Congratulations! You completed all lessons!");
-            }
-            else if(count != 0){
-                progress.setProgress(count);
-                seeProgress.setText("Great Work! You have completed " + count + "/24 lessons!");
             }
             else{
                 progress.setProgress(count);
+                seeProgress.setText("Great Work! You have completed " + count + "/24 lessons!");
             }
+
 
             // Read in accessory data
             // accessory_img, layer_id, currently_wearing
