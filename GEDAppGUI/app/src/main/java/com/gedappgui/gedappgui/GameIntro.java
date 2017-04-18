@@ -175,7 +175,7 @@ public class GameIntro extends AppCompatActivity {
 
             grid.addView(instructionImage1, gridLayoutParam1);
 
-            //if there are to images, add the second to the grid
+            //if there are two images, add the second to the grid
             if(pics.size() == 2) {
                 grid.setColumnCount(2);
 
