@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ScrollView;
 
@@ -161,11 +162,14 @@ public class Game extends AppCompatActivity {
                 input = dbHelper.selectMadlibInput(lessonID);
             }
 
+            ScrollView scroll = new ScrollView(this);
+            scroll.setFocusableInTouchMode(true);
+            scroll.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
+
             madlibGameView = new MadlibGameView(this, activity, (input.get(0)),  input.get(2),
                     input.get(3),  input.get(1), input.get(4), conceptID, lessonID,
-                    nextActivity, width, height);
-            ScrollView scroll = new ScrollView(this);
-            madlibGameView.setFocusableInTouchMode(true);
+                    nextActivity, width, height, scroll);
+
             scroll.addView(madlibGameView);
 
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
