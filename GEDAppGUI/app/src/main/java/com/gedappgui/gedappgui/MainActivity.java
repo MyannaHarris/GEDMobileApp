@@ -238,7 +238,6 @@ public class MainActivity extends AppCompatActivity {
                 for (int i = 0; i < accessories.size(); i++) {
                     if (accessories.get(i).get(2).equals("1")) {
                         addSavedAccessory(accessories.get(i).get(0));
-                        System.out.println(accessories.get(i).get(0));
                     }
                 }
             }
@@ -431,15 +430,10 @@ public class MainActivity extends AppCompatActivity {
         //gets the current lesson id
         final int lessonID = db.selectCurrentLessonID();
 
-        //for test purposes
-        System.out.println(lessonID);
-
         //check to see if it is a valid lesson
         if (lessonID < 25) {
             final String lessonTitle = db.selectLessonTitle(lessonID);
-            System.out.println(lessonTitle);
             final int conceptID = db.selectConceptID(lessonID);
-            System.out.println(conceptID);
 
             intentSummary.putExtra("lessonTitle", lessonTitle);
             intentSummary.putExtra("conceptID", conceptID);
