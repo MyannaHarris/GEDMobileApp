@@ -20,14 +20,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/prompt"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            android:padding="15dp"/>
 
         <RelativeLayout
             android:id="@+id/relative_geo_spinner"
             android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="4dp"
+            android:padding="15dp"
             android:layout_centerHorizontal="true"
             android:background="@color/spinnerBackground">
             <Spinner
@@ -44,19 +45,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/summary"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            android:padding="15dp"/>
 
         <TextView
             android:text=""
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/shape_examples"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            android:padding="15dp"/>
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/radius"
-            android:id="@+id/shapepicture" />
+            android:id="@+id/shapepicture"
+            android:padding="15dp"/>
     </LinearLayout>
 </ScrollView>

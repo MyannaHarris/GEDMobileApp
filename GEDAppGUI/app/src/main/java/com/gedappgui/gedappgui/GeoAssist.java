@@ -74,13 +74,13 @@ public class GeoAssist extends AppCompatActivity implements AdapterView.OnItemSe
             "<br />Circumference = pi * diameter <br /><br />Area = pi * radius<sup><small>2</small></sup> <br /><br />interior angle sum = 360 degrees<br /><br />",
             "<br />Perimeter = side1 + side2 +side3 <br /><br />Area = 1/2 * base * height <br /><br />Pythagorean Relationship - " +
                     "<br />a<sup><small>2</small></sup> + b<sup><small>2</small></sup> = c<sup><small>2</small></sup>; a and b are both legs and c is the hypotenuse of a right triangle <br /><br />" +
-                    "interior angle sum = 360 degrees<br /><br />",
+                    "Interior Angle Sum = 360 degrees<br /><br />",
             "<br />Perimeter = 2 * length + 2 * width <br /><br />Area = length * width<br /><br />interior angle sum = 360 degrees<br /><br />",
-            "<br />Perimeter = side * 4 <br /><br />Area = side * side<br /><br />interior angle sum = 360 degrees<br /><br />",
-            "<br />Perimeter = 2 * length + 2 * width <br /><br />Area = base * height <br /><br />interior angle sum = 360 degrees<br /><br />",
+            "<br />Perimeter = side * 4 <br /><br />Area = side * side<br /><br />iInterior Angle Sum = 360 degrees<br /><br />",
+            "<br />Perimeter = 2 * length + 2 * width <br /><br />Area = base * height <br /><br />Interior Angle Sum = 360 degrees<br /><br />",
             "<br />Perimeter = side1 + side2 + side3 + side4<br /><br />Area = 1/2 * height(base1 + base2)<br />" +
                     "<br />" +
-                    "interior angle sum = 360 degrees<br />" +
+                    "Interior Angle Sum = 360 degrees<br />" +
                     "<br />",
             "<br />Volume = 1/3 * pi * radius<sup><small>2</small></sup> * Height<br /><br />Surface Area = pi * r * Slant Height + pi * radius<sup><small>2</small></sup>",
             "<br />Volume = 1/3 * (base side)<sup><small>2</small></sup> * Height<br /><br />Surface Area = 2 * base * side + base<sup><small>2</small></sup>",

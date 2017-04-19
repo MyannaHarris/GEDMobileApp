@@ -39,7 +39,7 @@ public class Tutorial extends AppCompatActivity {
 
     // Set prompts for each page of tutorial
     private String[] prompts = {
-            "Welcome to the tutorial for Dragon Academy! Use the next and back buttons to navigate the tutorial. Hit exit to leave at any time.",
+            "Welcome to the tutorial for Dragon Academy! Use the next and back buttons to navigate the tutorial. Hit exit to leave at any time. The tutorial can be accessed any time in the tools section.",
             "The Home Screen is the first thing you will see when opening the app. You can use this screen to access all other features.",
             "By clicking on the dragon, you can go directly to the dragon's lair.",
             "Here you can choose accessories to put on the sprite by dragging them onto the dragon. You can also remove accessories by clicking on them again.",
