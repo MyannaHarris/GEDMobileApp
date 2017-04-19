@@ -1224,7 +1224,7 @@ public class DatabaseHelper{
 
         String[] questions;
         questions = input.split("[&]");
-        System.out.println(questions.length);
+        
 
 
         for(int i = 0; i<questions.length;i++){
@@ -1232,22 +1232,15 @@ public class DatabaseHelper{
                 finalTexts.add(new ArrayList<>(Arrays.asList(questions[i].split("[/]"))));
                 hints.add(new ArrayList<>(Arrays.asList(questions[i+1].split("[/]"))));
 
-                System.out.println(hints);
-
                 placeholder.clear();
                 placeholder.add(questions[i + 2]);
                 question.add(new ArrayList<>(placeholder));
 
-                System.out.println(question);
-
                 answerps.add(new ArrayList<>(Arrays.asList(questions[i + 3].split("[/]"))));
-
-                System.out.println(answerps);
 
                 placeholder.clear();
                 placeholder.add(questions[i + 4]);
                 answers.add(new ArrayList<>(placeholder));
-                System.out.println(answers);
             }
         }
 
