@@ -106,6 +106,9 @@ public class ChemistryGameView extends RelativeLayout {
     // For Haptic Feedback
     private Vibrator myVib;
 
+    // Drawable for cauldron
+    private Drawable cauldronDraw;
+
     /**
      * Constructor for game
      * @param contextp Context of the activity
@@ -341,10 +344,28 @@ public class ChemistryGameView extends RelativeLayout {
 
         // Make sure cauldron is the correct size
         // Draw cauldron
-        Drawable cauldronDraw = ContextCompat.getDrawable(context, R.drawable.chem_cauldron);
+        cauldronDraw = ContextCompat.getDrawable(context, R.drawable.chem_cauldron);
         cauldronDraw.setBounds(new Rect(0, 0, (height - 70 - endButtonSize) * 2 / 8 + 40,
-                (height - 70 - endButtonSize) * 2 / 8 + 40));
+                (height - 70 - endButtonSize) / 4 + 40));
         cauldron.setCompoundDrawables(null, cauldronDraw, null, null);
+
+        // Make room for 2 lines of text if necessary
+        if (questionTexts.get(0).contains("<br") || questionTexts.get(0).contains("<Br")) {
+            // Get height of text
+            Rect bounds = new Rect();
+
+            cauldron.getPaint().getTextBounds(cauldron.getText().toString(), 0,
+                    cauldron.getText().length(), bounds);
+
+            // Make sure cauldron is the correct size
+            // Draw cauldron
+                cauldronDraw = ContextCompat.getDrawable(context, R.drawable.chem_cauldron);
+                cauldronDraw.setBounds(new Rect(0, 0,
+                        (height - 70 - endButtonSize) / 6 + 40,
+                        (height - 70 - endButtonSize) / 6 + 40));
+                cauldron.setCompoundDrawables(null, cauldronDraw, null, null);
+            //cauldron.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.chem_cauldron, 0, 0);
+        }
 
         // Set touch listener on this layout
         this.setOnTouchListener(new View.OnTouchListener() {
@@ -646,6 +667,24 @@ public class ChemistryGameView extends RelativeLayout {
                 cauldron.setTextSize(convertPixelsToDp(height / 20, context));
             } else {
                 cauldron.setTextSize(convertPixelsToDp(height / 17, context));
+            }
+
+            // Make room for 2 lines of text if necessary
+            if (questionTexts.get(0).contains("<br") || questionTexts.get(0).contains("<Br")) {
+                // Get height of text
+                Rect bounds = new Rect();
+
+                cauldron.getPaint().getTextBounds(cauldron.getText().toString(), 0,
+                        cauldron.getText().length(), bounds);
+
+                // Make sure cauldron is the correct size
+                // Draw cauldron
+                cauldronDraw = ContextCompat.getDrawable(context, R.drawable.chem_cauldron);
+                cauldronDraw.setBounds(new Rect(0, 0,
+                        (height - 70 - endButtonSize) / 6 + 40,
+                        (height - 70 - endButtonSize) / 6 + 40));
+                cauldron.setCompoundDrawables(null, cauldronDraw, null, null);
+                //cauldron.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.chem_cauldron, 0, 0);
             }
 
             // Set answer texts and potion images

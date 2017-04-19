@@ -135,7 +135,7 @@ public class OrderingGameView extends LinearLayout {
             endButton = new Button(context);
             endButton.setLayoutParams(linearLayoutButton);
             endButton.setTextSize(convertPixelsToDp(height / 17, context));
-            endButton.setTextColor(ContextCompat.getColor(context, R.color.orderingGameText));
+            endButton.setTextColor(ContextCompat.getColor(context, R.color.orderingGameLockedColor));
             endButton.setText("End Game");
             endButton.setHeight((height - (30 + 10 * 5)) / 8);
 
@@ -162,14 +162,14 @@ public class OrderingGameView extends LinearLayout {
         // Set up topLabel
         topLabel.setLayoutParams(linearParams);
         topLabel.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-        topLabel.setTextColor(ContextCompat.getColor(context, R.color.orderingGameText));
+        topLabel.setTextColor(ContextCompat.getColor(context, R.color.orderingGameLockedColor));
         topLabel.setTextSize(convertPixelsToDp(height / 17, context));
         topLabel.setBackgroundColor(ContextCompat.getColor(context, R.color.orderingGameTopColor));
 
         // Set up bottomLabel
         bottomLabel.setLayoutParams(linearParams);
         bottomLabel.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-        bottomLabel.setTextColor(ContextCompat.getColor(context, R.color.orderingGameText));
+        bottomLabel.setTextColor(ContextCompat.getColor(context, R.color.orderingGameLockedColor));
         bottomLabel.setTextSize(convertPixelsToDp(height / 17, context));
         bottomLabel.setBackgroundColor(ContextCompat.getColor(context, R.color.orderingGameBottomColor));
 
