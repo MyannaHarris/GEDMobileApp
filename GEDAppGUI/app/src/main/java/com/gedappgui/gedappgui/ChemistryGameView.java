@@ -38,6 +38,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static android.content.Context.VIBRATOR_SERVICE;
 
@@ -63,7 +64,7 @@ public class ChemistryGameView extends RelativeLayout {
     private TextView cauldron;
 
     // Game texts
-    private ArrayList<ArrayList<String>>texts;
+    private ArrayList<ArrayList<ArrayList<String>>> texts;
     private int currQuestion = 0;
     private ArrayList<String> questionTexts;
     private ArrayList<String> answerTexts;
@@ -154,7 +155,18 @@ public class ChemistryGameView extends RelativeLayout {
         }
 
         // Get texts
-        texts = textsp;
+        texts = new ArrayList<ArrayList<ArrayList<String>>>();
+
+        // Make list to combine answers and questions to allow for more randomization
+        for(int x = 0; x < textsp.size(); x += 2) {
+            ArrayList<ArrayList<String>> tempQuestion = new ArrayList<ArrayList<String>>();
+            tempQuestion.add(textsp.get(x));
+            tempQuestion.add(textsp.get(x + 1));
+            texts.add(tempQuestion);
+        }
+
+        // Shuffle question order
+        Collections.shuffle(texts);
 
         // Layout params
         RelativeLayout.LayoutParams relativeLay = new RelativeLayout.LayoutParams(
@@ -346,7 +358,7 @@ public class ChemistryGameView extends RelativeLayout {
         // Draw cauldron
         cauldronDraw = ContextCompat.getDrawable(context, R.drawable.chem_cauldron);
         cauldronDraw.setBounds(new Rect(0, 0, (height - 70 - endButtonSize) * 2 / 8 + 40,
-                (height - 70 - endButtonSize) / 4 + 40));
+                (height - 70 - endButtonSize) / 5 + 40));
         cauldron.setCompoundDrawables(null, cauldronDraw, null, null);
 
         // Make room for 2 lines of text if necessary
@@ -415,7 +427,7 @@ public class ChemistryGameView extends RelativeLayout {
                                 // Potion dropped in cauldron
 
                                 // Check if the answer is correct
-                                if (answerTexts.contains(chosenChildStr)) {
+                                if (savedAnswerTexts.contains(chosenChildStr)) {
 
                                     // vibrate when correct
                                     myVib.vibrate(150);
@@ -541,7 +553,7 @@ public class ChemistryGameView extends RelativeLayout {
      */
     private void correctAnswer() {
         // Remove answer string if correct so it wont be recognized as an answer again
-        answerTexts.remove(chosenChildStr);
+        savedAnswerTexts.remove(chosenChildStr);
 
         // Add the textview to the done list so it can't be dragged anymore
         doneTextViews.add(chosenChildIdx);
@@ -580,7 +592,7 @@ public class ChemistryGameView extends RelativeLayout {
                         }
                     }, 800);
                 }
-            }, 800);
+            }, 1200);
         }
     }
 
@@ -605,9 +617,9 @@ public class ChemistryGameView extends RelativeLayout {
                 currQuestionText = questionTexts.get(0);
 
                 // Reset answers
-                answerTexts.clear();
-                for (String text : savedAnswerTexts) {
-                    answerTexts.add(text);
+                savedAnswerTexts.clear();
+                for (String text : answerTexts) {
+                    savedAnswerTexts.add(text);
                 }
                 numAnswers = savedAnswerTexts.size();
                 doneTextViews.clear();
@@ -635,15 +647,18 @@ public class ChemistryGameView extends RelativeLayout {
      * Set up question and answer text
      */
     private void setUp() {
-        if (currQuestion * 2 < texts.size() || nextActivity == 1) {
+        if (currQuestion < texts.size() || nextActivity == 1) {
 
-            if (nextActivity == 1 && currQuestion * 2 >= texts.size()) {
+            if (nextActivity == 1 && currQuestion >= texts.size()) {
                 currQuestion = 0;
+
+                // Shuffle question order
+                Collections.shuffle(texts);
             }
 
             // Set up current question
-            questionTexts = texts.get(currQuestion * 2);
-            answerTexts = texts.get(currQuestion * 2 + 1);
+            questionTexts = texts.get(currQuestion).get(0);
+            answerTexts = texts.get(currQuestion).get(1);
             savedAnswerTexts.clear();
             for (String text : answerTexts) {
                 savedAnswerTexts.add(text);

@@ -33,6 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static android.content.Context.VIBRATOR_SERVICE;
 
@@ -50,7 +51,7 @@ public class OrderingGameView extends LinearLayout {
     private Context context;
 
     // Save current question info
-    private ArrayList<ArrayList<String>>texts;
+    private ArrayList<ArrayList<ArrayList<String>>> texts;
     private int currQuestion = 0;
     private ArrayList<String> questionTexts;
     private ArrayList<String> answerTexts;
@@ -105,7 +106,18 @@ public class OrderingGameView extends LinearLayout {
         height = heightp;
 
         // Get texts
-        texts = textsp;
+        texts = new ArrayList<ArrayList<ArrayList<String>>>();
+
+        // Make list to combine answers and questions to allow for more randomization
+        for(int x = 0; x < textsp.size(); x += 2) {
+            ArrayList<ArrayList<String>> tempQuestion = new ArrayList<ArrayList<String>>();
+            tempQuestion.add(textsp.get(x));
+            tempQuestion.add(textsp.get(x + 1));
+            texts.add(tempQuestion);
+        }
+
+        // Shuffle question order
+        Collections.shuffle(texts);
 
         // Set up vibrator service
         myVib = (Vibrator) context.getSystemService(VIBRATOR_SERVICE);
@@ -348,7 +360,7 @@ public class OrderingGameView extends LinearLayout {
                                         currQuestion += 1;
                                         setUp();
                                     }
-                                }, 800);
+                                }, 1200);
                             }
 
                             // Delete moving textView from layout
@@ -368,10 +380,13 @@ public class OrderingGameView extends LinearLayout {
      * Set up question and answer text
      */
     private void setUp() {
-        if (currQuestion * 2 < texts.size() || nextActivity == 1) {
+        if (currQuestion < texts.size() || nextActivity == 1) {
 
-            if (nextActivity == 1 && currQuestion * 2 >= texts.size()) {
+            if (nextActivity == 1 && currQuestion >= texts.size()) {
                 currQuestion = 0;
+
+                // Shuffle question order
+                Collections.shuffle(texts);
             }
 
             // Clear locked textviews for next round
@@ -380,8 +395,8 @@ public class OrderingGameView extends LinearLayout {
             // If there are more questions left
 
             // Set up item texts
-            questionTexts = texts.get(currQuestion * 2);
-            answerTexts = texts.get(currQuestion * 2 + 1);
+            questionTexts = texts.get(currQuestion).get(0);
+            answerTexts = texts.get(currQuestion).get(1);
 
             // Set up label heights
             topLabel.setHeight((height - endButtonSize - (30 + 10 * answerTexts.size())) / (answerTexts.size() + 2));
