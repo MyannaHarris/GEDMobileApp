@@ -48,7 +48,6 @@ Last Edit: 4-8-17
             android:layout_height="wrap_content"
             android:text="Slope Calculator"
             android:onClick="goToSlopeCalculator"
-            android:layout_below="@+id/fracdectool"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
@@ -57,7 +56,6 @@ Last Edit: 4-8-17
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Formula Memorization"
-            android:layout_below="@id/slopeCalculator"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:onClick="goToFormulas" />
@@ -67,7 +65,6 @@ Last Edit: 4-8-17
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/geoassist"
-            android:layout_below="@+id/FormMem"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentRight="true"
@@ -78,7 +75,6 @@ Last Edit: 4-8-17
             android:text="Place values"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/geoassist"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:id="@+id/placevalues"
@@ -98,7 +94,6 @@ Last Edit: 4-8-17
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tutorial_button"
-            android:layout_below="@+id/placevalues"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:onClick="goToTutorial"/>
