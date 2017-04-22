@@ -132,6 +132,9 @@ public class SlopeCalculator extends AppCompatActivity {
         sbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
         rbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
 
+        TextView stepbystep = (TextView)findViewById(R.id.stepbystep);
+        stepbystep.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+
     }
 
     /*
