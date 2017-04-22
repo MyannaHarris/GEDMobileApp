@@ -411,7 +411,7 @@ public class MadlibGameView extends RelativeLayout {
 
         relativeLay = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        relativeLay.setMargins(25,35,25,100);
+        relativeLay.setMargins(35,35,35,100);
         relativeLay.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         relativeLay.addRule(RelativeLayout.BELOW, radioGroup.getId());
 
@@ -556,7 +556,7 @@ public class MadlibGameView extends RelativeLayout {
             space.setFocusable(false);
             space.setTextIsSelectable(false);
             relativeLay = new RelativeLayout.LayoutParams(
-                    MATCH_PARENT, 400);
+                    MATCH_PARENT, 600);
             relativeLay.addRule(RelativeLayout.BELOW, submit.getId());
             space.setLayoutParams(relativeLay);
 
@@ -621,7 +621,7 @@ public class MadlibGameView extends RelativeLayout {
 
 
         newWord.setLayoutParams(relativeLay);
-        newWord.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+        //newWord.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
         newWord.setPadding(25,100,25,10);
         newWord.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
 
