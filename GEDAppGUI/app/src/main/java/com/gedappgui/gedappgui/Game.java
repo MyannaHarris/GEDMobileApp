@@ -155,19 +155,21 @@ public class Game extends AppCompatActivity {
             Activity activity = (Activity)this;
             ArrayList<ArrayList<ArrayList<String>>> input = new ArrayList<>();
 
+            boolean inf;
             if(nextActivity == 1){
+                inf = true;
                 input = dbHelper.selectInfiniteMadlibInput(lessonID);
             }
             else{
                 input = dbHelper.selectMadlibInput(lessonID);
+                inf = false;
             }
 
             ScrollView scroll = new ScrollView(this);
             scroll.setFocusableInTouchMode(true);
             scroll.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
 
-            madlibGameView = new MadlibGameView(this, activity, (input.get(0)),  input.get(2),
-                    input.get(3),  input.get(1), input.get(4), conceptID, lessonID,
+            madlibGameView = new MadlibGameView(this, activity, inf, input, conceptID, lessonID,
                     nextActivity, width, height, scroll);
 
             scroll.addView(madlibGameView);

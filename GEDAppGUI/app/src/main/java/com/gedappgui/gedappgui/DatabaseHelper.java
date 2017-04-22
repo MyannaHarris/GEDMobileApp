@@ -189,7 +189,6 @@ public class DatabaseHelper{
         c.close();
         close();
 
-        System.out.println(count);
         return count == 0;
     }
 
@@ -470,11 +469,10 @@ public class DatabaseHelper{
         c.moveToFirst();
         String input = c.getString(0);
         String[] imagesA = input.split("[,]");
-        System.out.println(input);
+
 
 
         for(int i = 0; i<imagesA.length; i++){
-            System.out.println(imagesA[i]);
             images.add(imagesA[i]);
         }
 
@@ -1125,7 +1123,7 @@ public class DatabaseHelper{
             for(int j = k+5; j<k+7;  j++) {
                 questionsAndAnswers.add(questions[j]);
             }
-            //deep copies the array lists of possible answers and qeustions and answer
+            //deep copies the array lists of possible answers and questions and answer
             allQAndAs.add(new ArrayList<String>(possibleAnswers));
             allQAndAs.add(new ArrayList<String>(questionsAndAnswers));
 
@@ -1158,6 +1156,12 @@ public class DatabaseHelper{
         ArrayList<ArrayList<String>> answers = new ArrayList<>();
         ArrayList<ArrayList<String>> hints = new ArrayList<>();
 
+        ArrayList<ArrayList<String>> randFinal = new ArrayList<>();
+        ArrayList<ArrayList<String>> randQuestion = new ArrayList<>();
+        ArrayList<ArrayList<String>> randAnswerps = new ArrayList<>();
+        ArrayList<ArrayList<String>> randAnswers = new ArrayList<>();
+        ArrayList<ArrayList<String>> randHints = new ArrayList<>();
+
         ArrayList<ArrayList<ArrayList<String>>> randQAndAs = new ArrayList<>();
 
         String[] questions;
@@ -1181,11 +1185,20 @@ public class DatabaseHelper{
             }
         }
 
-        randQAndAs.add(finalTexts);
-        randQAndAs.add(hints);
-        randQAndAs.add(question);
-        randQAndAs.add(answerps);
-        randQAndAs.add(answers);
+        for(int i = 0; i<9; i++){
+            int rand = (int)(Math.random() * (8-i));
+            randFinal.add(finalTexts.remove((int) rand));
+            randHints.add(hints.remove((int)rand));
+            randQuestion.add(question.remove((int) rand));
+            randAnswerps.add(answerps.remove((int) rand));
+            randAnswers.add(answers.remove((int) rand));
+        }
+
+        randQAndAs.add(randFinal);
+        randQAndAs.add(randHints);
+        randQAndAs.add(randQuestion);
+        randQAndAs.add(randAnswerps);
+        randQAndAs.add(randAnswers);
 
         return randQAndAs;
     }
@@ -1224,7 +1237,7 @@ public class DatabaseHelper{
 
         String[] questions;
         questions = input.split("[&]");
-        
+
 
 
         for(int i = 0; i<questions.length;i++){

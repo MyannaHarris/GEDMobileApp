@@ -113,26 +113,26 @@ public class MadlibGameView extends RelativeLayout {
 
     private ScrollView scroll;
 
+    private DatabaseHelper db;
+
+    private boolean inf;
+
     /**
      * constructor for madlib game
      * @param contextp context of the activity
      * @param activityp reference to previous activity
-     * @param words the fill in words for the madlib
-     * @param question the questions for the game
-     * @param answerPs the answer possibilities
-     * @param answerAs the answer for each questions
+     * @param infp true or false whether its infinite play or not
+     * @param input all the question information
      * @param conceptIDp ID of the current concept
      * @param lessonIDp ID of the current lesson
      * @param nextActivityp Number indicating what the activity after the game should be
      * @param width1 Width of the screen in pixels
      * @param height1 Height of screen in pixels
      */
-    public MadlibGameView(Context contextp, Activity activityp, ArrayList<ArrayList<String>> words,
-                          ArrayList<ArrayList<String>> question, ArrayList<ArrayList<String>> answerPs,
-                          ArrayList<ArrayList<String>> hintp,
-                                  ArrayList<ArrayList<String>> answerAs, int conceptIDp,
+    public MadlibGameView(Context contextp, Activity activityp, boolean infp, ArrayList<ArrayList<ArrayList<String>>> input, int conceptIDp,
                           int lessonIDp, int nextActivityp, int width1, int height1, ScrollView scrollp) {
         super(contextp);
+        db = new DatabaseHelper(contextp);
 
         context = contextp;
         activity = activityp;
@@ -148,11 +148,11 @@ public class MadlibGameView extends RelativeLayout {
         width = width1;
 
         //holds the game content
-        wordFills = words;
-        hints = hintp;
-        questionTexts = question;
-        answerTexts = answerPs;
-        answers = answerAs;
+        wordFills = input.get(0);
+        hints = input.get(1);
+        questionTexts = input.get(2);
+        answerTexts = input.get(3);
+        answers = input.get(4);
 
         //for current text views and edit text views
         userInput = new ArrayList<>();
@@ -167,6 +167,7 @@ public class MadlibGameView extends RelativeLayout {
 
         //current question
         currQuestion = 0;
+        inf = infp;
 
         // Instantiate an AlertDialog.Builder with its constructor
         noFillDialog = new AlertDialog.Builder(context, R.style.AlertDialogAppearance);
@@ -238,7 +239,6 @@ public class MadlibGameView extends RelativeLayout {
         for(int i = 0; i<wordFills.size(); i++){
             for(int j = 0; j<wordFills.get(i).size(); j++){
                 userInput.add(createTextView(wordFills.get(i).get(j), userFills, j));
-                System.out.println(hints.get(i).get(j));
                 userFills.add(createEditText(wordFills.get(i).get(j), userInput, hints.get(i).get(j), j));
             }
 
@@ -484,12 +484,25 @@ public class MadlibGameView extends RelativeLayout {
                     });
                 }
                 //if it is the last question, end the game
-                else{
+                else if(!inf){
                     //end the game
                     questionSubmit.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             endGame();
+                        }
+                    });
+                }
+                else{
+                    // Get new question
+                    questionSubmit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //rescroll back to the top
+                            scroll.scrollTo(0,0);
+
+                            //add new views
+                            resetForInf();
                         }
                     });
                 }
@@ -564,11 +577,49 @@ public class MadlibGameView extends RelativeLayout {
             this.addView(space);
 
             //no more questions left, ends game
-        } else {
-            endGame();
         }
     }
 
+    /**
+     * Resets and gets more random questions if in infinite plat
+     */
+    void resetForInf(){
+        currQuestion = 0;
+        ArrayList<ArrayList<ArrayList<String>>> input = db.selectInfiniteMadlibInput(lessonID);
+
+        //holds the game content
+        wordFills = input.get(0);
+        hints = input.get(1);
+        questionTexts = input.get(2);
+        answerTexts = input.get(3);
+        answers = input.get(4);
+
+        //for current text views and edit text views
+        userInput.clear();
+        userFills.clear();
+
+        //for all text views and edit text views
+        allUserInput.clear();
+        allUserFills.clear();
+
+        //goes through all the word gathering data and  creates the right amount of text and
+        //edit text views for the current problem
+        for(int i = 0; i<wordFills.size(); i++){
+            for(int j = 0; j<wordFills.get(i).size(); j++){
+                userInput.add(createTextView(wordFills.get(i).get(j), userFills, j));
+                userFills.add(createEditText(wordFills.get(i).get(j), userInput, hints.get(i).get(j), j));
+            }
+
+            //add the specific questions textviews and edit text views to all edit text and text views
+            allUserInput.add(new ArrayList<>(userInput));
+            allUserFills.add(new ArrayList<>(userFills));
+            userInput.clear();
+            userFills.clear();
+        }
+
+        //adds the views for the user input
+        addViews(allUserFills.get(currQuestion), allUserInput.get(currQuestion));
+    }
     /**
      * checks to see if any of the edit text views are not filled
      * @param edits the edittext views with user input
