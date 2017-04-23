@@ -1075,7 +1075,7 @@ public class DatabaseHelper{
         //choose 5 random questions of the 20 to give to the user in the game
         for(int r = 0; r < 5; r++) {
             //randomly generate 1s and zeroes
-            double rand = Math.abs(Math.round(Math.random() * 20-r));
+            double rand = Math.abs(Math.round(Math.random() * (questions.length-r)));
             if(rand%2 == 0) {
                 randQAndAs.add(allQAndAs.remove((int) rand));
                 randQAndAs.add(allQAndAs.remove((int) rand));
@@ -1185,8 +1185,10 @@ public class DatabaseHelper{
             }
         }
 
-        for(int i = 0; i<9; i++){
-            int rand = (int)(Math.random() * (8-i));
+        int size = answers.size();
+
+        for(int i = 0; i<size; i++){
+            int rand = (int)(Math.random() * ((size-1)-i));
             randFinal.add(finalTexts.remove((int) rand));
             randHints.add(hints.remove((int)rand));
             randQuestion.add(question.remove((int) rand));
@@ -1257,8 +1259,9 @@ public class DatabaseHelper{
             }
         }
 
-        for(int i = 3; i<6; i++){
-            double rand = Math.abs(Math.round(Math.random() * 11-i));
+        int size = answers.size();
+        for(int i = 0; i<3; i++){
+            double rand = Math.abs(Math.round(Math.random() * (size-1)-i));
             randFinal.add(finalTexts.remove((int) rand));
             randHints.add(hints.remove((int)rand));
             randQuestion.add(question.remove((int) rand));
@@ -1311,9 +1314,9 @@ public class DatabaseHelper{
         //choose 3 random questions of the 20 to give to the user in the game
         for(int r = 0; r < 3; r++) {
             //randomly generate 1s and zeroes
-            double rand = Math.abs(Math.round(Math.random() * 19-r));
+            double rand = Math.abs(Math.round(Math.random() * ((questions.length-1)-r)));
             randQ.add(allQAndAs.remove((int) rand));
-            randA.add(allQAndAs.remove((int)(rand + (19-r))));
+            randA.add(allQAndAs.remove((int)(rand + ((questions.length-1)-r))));
         }
 
         randQ.addAll(randA);
@@ -1324,9 +1327,9 @@ public class DatabaseHelper{
         //choose 3 random questions of the 20 to give to the user in the game
         for(int r = 3; r < 6; r++) {
             //randomly generate 1s and zeroes
-            double rand = Math.abs(Math.round(Math.random() * 19-r));
+            double rand = Math.abs(Math.round(Math.random() * ((questions.length-1)-r)));
             randQ.add(allQAndAs.remove((int) rand));
-            randA.add(allQAndAs.remove((int)(rand + (19-r))));
+            randA.add(allQAndAs.remove((int)(rand + (((questions.length-1)-r)))));
         }
 
         randQ.addAll(randA);
