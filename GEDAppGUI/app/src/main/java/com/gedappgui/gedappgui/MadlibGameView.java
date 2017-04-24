@@ -183,15 +183,15 @@ public class MadlibGameView extends RelativeLayout {
         //if accessed from arcade
         if(nextActivityp == 1){
             //create new end game button
-            LinearLayout.LayoutParams linearLayoutButton = new LinearLayout.LayoutParams(
+            RelativeLayout.LayoutParams relativeLayoutButton = new RelativeLayout.LayoutParams(
                     MATCH_PARENT, (height - statusBarHeight - 15) / 8 - 20);
 
-            linearLayoutButton.setMargins(0, 5, 0, 5);
+            relativeLayoutButton.setMargins(25, 20, 25, 0);
 
             endButton = new Button(context);
-            endButton.setLayoutParams(linearLayoutButton);
+            endButton.setLayoutParams(relativeLayoutButton);
             endButton.setTextSize(convertPixelsToDp(height / 20, context));
-            endButton.setTextColor(ContextCompat.getColor(context, R.color.matchGameText));
+            endButton.setTextColor(ContextCompat.getColor(context, R.color.colorButtonText));
             endButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorButton));
             endButton.setText("End Game");
             endButton.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -389,6 +389,7 @@ public class MadlibGameView extends RelativeLayout {
             ((RadioButton) radioGroup.getChildAt(i)).setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
             ((RadioButton) radioGroup.getChildAt(i)).setId(i+1);
             ((RadioButton) radioGroup.getChildAt(i)).setTextColor(ContextCompat.getColor(context, R.color.colorBodyText));
+            ((RadioButton) radioGroup.getChildAt(i)).setBackgroundColor(ContextCompat.getColor(context, R.color.colorButton));
             ((RadioButton) radioGroup.getChildAt(i)).setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
