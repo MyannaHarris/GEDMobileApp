@@ -192,6 +192,7 @@ public class MadlibGameView extends RelativeLayout {
             endButton.setLayoutParams(linearLayoutButton);
             endButton.setTextSize(convertPixelsToDp(height / 20, context));
             endButton.setTextColor(ContextCompat.getColor(context, R.color.matchGameText));
+            endButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorButton));
             endButton.setText("End Game");
             endButton.setGravity(Gravity.CENTER_HORIZONTAL);
             endButton.setHeight((height - statusBarHeight - 15) / 8 - 20);
@@ -410,7 +411,7 @@ public class MadlibGameView extends RelativeLayout {
         questionSubmit.setText("SUBMIT");
 
         relativeLay = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         relativeLay.setMargins(35,35,35,100);
         relativeLay.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         relativeLay.addRule(RelativeLayout.BELOW, radioGroup.getId());
@@ -557,7 +558,7 @@ public class MadlibGameView extends RelativeLayout {
 
             //sets up submit button
             RelativeLayout.LayoutParams relativeLay = new RelativeLayout.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             relativeLay.setMargins(25, 100, 25, 10);
             relativeLay.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
             relativeLay.addRule(RelativeLayout.BELOW, allUserFills.get(currQuestion).get(allUserFills.get(currQuestion).size() - 1).getId());
