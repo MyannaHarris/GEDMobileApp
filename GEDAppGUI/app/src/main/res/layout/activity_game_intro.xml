@@ -79,8 +79,6 @@
             android:layout_marginBottom="@dimen/button_vert_margin"
             android:layout_marginTop="@dimen/button_vert_margin"
             android:layout_below="@id/gameIntro_gridView"
-            android:layout_alignStart="@id/instructions"
-            android:layout_alignLeft="@id/instructions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/play_button"

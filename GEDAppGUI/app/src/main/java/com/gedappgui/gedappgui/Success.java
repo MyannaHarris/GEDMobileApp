@@ -100,7 +100,13 @@ public class Success extends AppCompatActivity {
 
         // If the next lesson is newly unlocked, the user receives an accessory
         if (!(dbHelper.isLessonAlreadyStarted(lessonID+1))) {
-            pickText.setText("Pick an accessory:");
+            if (dbHelper.isLastLesson(lessonID)) {
+                pickText.setText("Here's your last accessory!");
+                helperText.setText("Choose where you\'d like to go next!");
+            } else {
+                pickText.setText("Pick an accessory:");
+                helperText.setText("Once you decide what accessory you want, choose where you\'d like to go next!");
+            }
             // Get random accessories user doesn't have from db and put them in ArrayList
             ArrayList<Integer> ids = dbHelper.getRandomAccessories();
             for (int i=0; i<ids.size(); i++) {
@@ -108,7 +114,6 @@ public class Success extends AppCompatActivity {
                 accessories.add(ids.get(i)); // accessory id
                 accessories.add(accessoryMap.get(ids.get(i))); // accessory image
             }
-            helperText.setText("Once you decide what accessory you want, choose where you\'d like to go next!");
             checkAchievements(totalQuestions, totalCorrect);
         }
 
