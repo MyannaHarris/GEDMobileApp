@@ -49,13 +49,8 @@
         android:key="notification_preference"/>
 
     <com.gedappgui.gedappgui.NumberPickerPreference
-        android:key="hour_number"
-        android:title="Choose Notification Hour"
+        android:key="time_numbers"
+        android:title="Set Notification Time"
         android:defaultValue="15" />
-
-    <com.gedappgui.gedappgui.MinuteNumberPickerPreference
-        android:key="minute_number"
-        android:title="Choose Notification Minute"
-        android:defaultValue="0" />
 
 </PreferenceScreen>
