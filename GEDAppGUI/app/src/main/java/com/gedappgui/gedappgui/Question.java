@@ -83,6 +83,9 @@ public class Question extends AppCompatActivity {
     // for playing sound
     MediaPlayer mediaPlayer;
 
+    // Height of screen
+    private int height;
+
     /**
      * Starts the activity and shows corresponding view on screen
      * @param savedInstanceState If the activity is being re-initialized after previously being
@@ -106,7 +109,7 @@ public class Question extends AppCompatActivity {
         // Create buttons of dynamic size
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
-        int height = dm.heightPixels;
+        height = dm.heightPixels;
 
         Button submitbtn = (Button)findViewById(R.id.submit_answer_button);
         submitbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
@@ -256,7 +259,11 @@ public class Question extends AppCompatActivity {
 
         // Set text size for page
         TextView textView = (TextView)findViewById(R.id.question_textView);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
+        if (textView.getText().length() > 100){
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) height / 40);
+        } else {
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) height / 30);
+        }
         RadioButton radioButton = (RadioButton)findViewById(R.id.question_answer1);
         radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
         radioButton = (RadioButton)findViewById(R.id.question_answer2);
@@ -488,6 +495,11 @@ public class Question extends AppCompatActivity {
             }
             TextView questionTextView = (TextView) findViewById(R.id.question_textView);
             questionTextView.setText(toHTML(question));
+            if (questionTextView.getText().length() > 100){
+                questionTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) height / 40);
+            } else {
+                questionTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) height / 30);
+            }
 
             // Set radio buttons
             RadioGroup radioGroup = (RadioGroup) findViewById(R.id.question_answer_group);
