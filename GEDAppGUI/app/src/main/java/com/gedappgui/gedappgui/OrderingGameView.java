@@ -336,14 +336,8 @@ public class OrderingGameView extends LinearLayout {
                                 if (!((String) child.getTag().toString()).equals(answerTexts.get(i - start))) {
                                     questionDone = false;
 
-                                    // incorrect vibrate
-                                    long[] incorrectBuzz = {0,55,40,55};
-                                    myVib.vibrate(incorrectBuzz, -1); // vibrate
 
                                 } else {
-
-                                    // vibrate when correct
-                                    myVib.vibrate(150);
 
                                     lockedTextViews.add(i);
                                     child.setTextColor(ContextCompat.getColor(context,
@@ -353,6 +347,8 @@ public class OrderingGameView extends LinearLayout {
 
                             // Move on to next question if ordered correctly
                             if (questionDone) {
+                                // vibrate when correct
+                                myVib.vibrate(150);
                                 // Pause if correct so user can see answer
                                 new Handler().postDelayed(new Runnable() {
                                     public void run() {
@@ -361,6 +357,10 @@ public class OrderingGameView extends LinearLayout {
                                         setUp();
                                     }
                                 }, 1200);
+                            } else {
+                                // incorrect vibrate
+                                long[] incorrectBuzz = {0,55,40,55};
+                                myVib.vibrate(incorrectBuzz, -1); // vibrate
                             }
 
                             // Delete moving textView from layout
