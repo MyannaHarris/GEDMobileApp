@@ -123,9 +123,11 @@ public class MyApplication extends Application {
                 boolean isChecked = prefs.getBoolean("notification_preference",false);
                 if (isChecked) {
                     // Save new hour
-                    setHour(prefs.getInt("hour_number", 15));
                     // Save new minute
-                    setMinute(prefs.getInt("minute_number", 0));
+                    String[] vals = (prefs.getString("time_numbers", "15-0")).split("[-]");
+
+                    setHour(Integer.parseInt(vals[0]));
+                    setMinute(Integer.parseInt(vals[1]));
 
                     // Set notification
                     sendNotification = true;
@@ -159,15 +161,19 @@ public class MyApplication extends Application {
 
 
                 }
-            } else if (key.equals("hour_number")) {
-                // Save new hour
-                setHour(prefs.getInt("hour_number", 15));
+            } else if (key.equals("time_numbers")) {
+
+                String[] vals = (prefs.getString("time_numbers", "15-0")).split("[-]");
+
+                // Save hour and minute
+                setHour(Integer.parseInt(vals[0]));
+                setMinute(Integer.parseInt(vals[1]));
+
+                System.out.println(hour);
+                System.out.println(minute);
 
                 boolean isChecked = prefs.getBoolean("notification_preference",false);
                 if (isChecked || sendNotification) {
-                    // Save new minute
-                    setMinute(prefs.getInt("minute_number", 0));
-
                     // Restart notification
                     // Cancel notification
                     sendNotification = false;
@@ -193,42 +199,7 @@ public class MyApplication extends Application {
                     scheduleNotification(getNotification());
                 }
 
-            } else if (key.equals("minute_number")) {
-                // Save new minute
-                setMinute(prefs.getInt("minute_number", 0));
-
-                boolean isChecked = prefs.getBoolean("notification_preference",false);
-                if (isChecked || sendNotification) {
-                    // Save new hour
-                    setHour(prefs.getInt("hour_number", 15));
-
-                    // Restart notification
-                    // Cancel notification
-                    sendNotification = false;
-
-                    if (alarmManager == null) {
-                        alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-                    }
-
-                    if (pendingIntent == null) {
-                        Intent notificationIntent = new Intent(getApplicationContext(), Receiver.class);
-                        notificationIntent.putExtra(Receiver.NOTIFICATION, getNotification());
-                        pendingIntent = PendingIntent.getBroadcast(
-                                getApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                    }
-
-                    // If the alarm has been set, cancel it.
-                    if (alarmManager != null && pendingIntent != null) {
-                        alarmManager.cancel(pendingIntent);
-                    }
-
-                    // Set notification
-                    sendNotification = true;
-                    scheduleNotification(getNotification());
-                }
-
-            }
-            else if (key.equals("dragonname_preference")) {
+            } else if (key.equals("dragonname_preference")) {
                 // Change username
                 String newName = prefs.getString("dragonname_preference", "");
                 if (!newName.equals("") && newName.length() > 0) {
