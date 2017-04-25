@@ -389,7 +389,6 @@ public class MadlibGameView extends RelativeLayout {
             ((RadioButton) radioGroup.getChildAt(i)).setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
             ((RadioButton) radioGroup.getChildAt(i)).setId(i+1);
             ((RadioButton) radioGroup.getChildAt(i)).setTextColor(ContextCompat.getColor(context, R.color.colorBodyText));
-            ((RadioButton) radioGroup.getChildAt(i)).setBackgroundColor(ContextCompat.getColor(context, R.color.colorButton));
             ((RadioButton) radioGroup.getChildAt(i)).setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
@@ -518,21 +517,18 @@ public class MadlibGameView extends RelativeLayout {
                 ((RadioButton) radioGroup.getChildAt(selectedAnswer-1)).setTextColor(
                         ContextCompat.getColor(context, R.color.questionIncorrect)
                 );
-                questionSubmit.setText("TRY AGAIN!");
+
+                radioGroup.clearCheck();
+                // enable radio buttons
+                for (int i = 0; i < radioGroup.getChildCount(); i++) {
+                    ((RadioButton) radioGroup.getChildAt(i)).setEnabled(true);
+                }
+
+                questionSubmit.setText("SUBMIT");
             }
 
             // Clear out selected answer
             selectedAnswer = 0;
-        }
-        //if its set to try again, let the user try again and renable buttons
-        else if(questionSubmit.getText().equals("TRY AGAIN!")) {
-            // enable radio buttons
-
-            RadioGroup radioGroup = (RadioGroup) findViewById(R.id.madlibGameRButtons);
-            for (int i = 0; i < radioGroup.getChildCount(); i++) {
-                ((RadioButton) radioGroup.getChildAt(i)).setEnabled(true);
-            }
-            questionSubmit.setText("SUBMIT");
         }
     }
 
