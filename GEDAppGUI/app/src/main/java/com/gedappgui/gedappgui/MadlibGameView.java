@@ -556,7 +556,7 @@ public class MadlibGameView extends RelativeLayout {
             //sets up submit button
             RelativeLayout.LayoutParams relativeLay = new RelativeLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            relativeLay.setMargins(25, 100, 25, 10);
+            relativeLay.setMargins(35, 100, 35, 10);
             relativeLay.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
             relativeLay.addRule(RelativeLayout.BELOW, allUserFills.get(currQuestion).get(allUserFills.get(currQuestion).size() - 1).getId());
             submit.setLayoutParams(relativeLay);
