@@ -39,25 +39,25 @@ public class Tutorial extends AppCompatActivity {
 
     // Set prompts for each page of tutorial
     private String[] prompts = {
-            "Welcome to the tutorial for Dragon Academy! Use the next and back buttons to navigate the tutorial. Hit exit to leave at any time. The tutorial can be accessed any time in the tools section.",
-            "The Home Screen is the first thing you will see when opening the app. You can use this screen to access all other features.",
-            "By clicking on the dragon, you can go directly to the dragon's lair.",
-            "Here you can choose accessories to put on the sprite by dragging them onto the dragon. You can also remove accessories by clicking on them again.",
-            "Clicking continue lesson on the home screen will take you to where you left off on the current lesson.",
-            "Click on the achievements button to see what achievements you have earned. You can view all of the achievements you have earned on this screen.",
-            "Click on the tools button on the home screen to go to the tools section. You can access math tools that will help you with memorization of math rules and solving GED questions on this screen.",
-            "Click on the classroom button to go to the concepts screen.",
-            "On this screen you can select from 4 concepts each holding 6 lessons.",
-            "Each lesson will be unlocked as you complete more lessons. Initially, you will only have access to the first lesson",
+            "Welcome to Dragon Academy! Use the next and back buttons to navigate the tutorial, and tap exit to leave. You can view the tutorial at any time in the tools section.",
+            "The Home Screen can be used to access all other features.",
+            "Tapping on the dragon will take you to the Dragon's Lair.",
+            "Here you can dress and undress your dragon by tapping clothes or dragging clothes onto them. You can remove all accessories with the Disrobe button.",
+            "Tapping Continue Lesson on the home screen will take you to the lesson you were last working on.",
+            "Tap the Achievements button to see all achievements you have earned.",
+            "Tap on the Tools button to access math tools like a slope calculator or list of math formulas.",
+            "Tap on the Classroom button to go to the concepts screen.",
+            "On this screen you can select from your unlocked concepts to work on the lessons within them.",
+            "As you complete lessons, new ones will be unlocked! Initially, you will have access to the first lesson.",
             "The first screen in a lesson is a summary that will give you an overview of the lesson.",
-            "The next screen has a video, picture, and a short tip on the material in the lesson, we suggest you go through all 3 of these parts before proceeding.",
-            "You can view two example problems on this screen that are similar to what will be asked later in the lesson.",
+            "The next screen has a video, picture, and a short tip on the material in the lesson.",
+            "On this screen, two examples show steps to solve the problems that this lesson focuses on.",
             "The next few screens will have instructions on how to play a short game and the actual game itself.",
-            "After the game, you will be asked some questions on the material similar to questions asked on the GED.",
-            "After you answer enough questions correctly, you will be able to select an accessory for your sprite and move on.",
-            "Click on the arcade button to go to the games screen. You can play the games that you have unlocked by completing lessons on this screen.",
-            "Thanks for using our app! You can access this tutorial at anytime in Tools! Have fun and good luck!",
-            "Thanks for using our app! You can access this tutorial at anytime in Tools! Have fun and good luck!"
+            "After the game, you will be asked similar questions to those asked on the GED.",
+            "After you answer enough questions correctly, you will be able to select an accessory for your dragon and move on.",
+            "Click on the Arcade button to play games from completed lessons.",
+            "Thanks for using our app! Have fun and good luck!",
+            "Thanks for using our app! Have fun and good luck!"
     };
 
     private String[] headings = {
