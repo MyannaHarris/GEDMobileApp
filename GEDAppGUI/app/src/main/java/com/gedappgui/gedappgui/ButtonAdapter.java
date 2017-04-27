@@ -46,6 +46,7 @@ public class ButtonAdapter extends BaseAdapter {
     private ImageView changer;
     private String[] answers;
     private TextView statement;
+    private TextView inc_counter;
     private int cur = 0;
     private int pictureindex = 0;
     private int[] pictures;
@@ -53,6 +54,7 @@ public class ButtonAdapter extends BaseAdapter {
     private int lesson;
     private int concept;
     private int nextActivity;
+    private int num_qs = 0;
 
     // For Haptic Feedback
     private Vibrator myVib;
@@ -73,13 +75,14 @@ public class ButtonAdapter extends BaseAdapter {
      */
     public ButtonAdapter(Context c, String[] buttonNamesp, ImageView change, String splitter,
                          TextView state, int[] pics, TextView result, int lessonID,
-                         int conceptID, int nextAct) {
+                         int conceptID, int nextAct, TextView counter) {
 
         mContext = c;
         buttonNames = buttonNamesp;
         changer = change;
         answers = splitter.split(";");
         statement = state;
+        inc_counter = counter;
         pictures = pics;
         resulter = result;
         lesson = lessonID;
@@ -177,6 +180,7 @@ public class ButtonAdapter extends BaseAdapter {
 
 
         final Button button;
+
         if (convertView == null) {
              //if it's not recycled, initialize some attributes
             button = new Button(mContext);
@@ -196,6 +200,9 @@ public class ButtonAdapter extends BaseAdapter {
                 public void onClick(View v){
                  if (!statement.getText().equals("Congratulations!")){
                     if (answers[cur + 1].equals("t")){
+                        if (nextActivity != 0){
+                            inc_counter.setText("Correct Questions: " + Integer.toString(++num_qs));
+                        }
                         // vibrate when correct
                         myVib.vibrate(150);
                         //questions onneven indexes, answers on odd indexes
@@ -239,6 +246,12 @@ public class ButtonAdapter extends BaseAdapter {
                                 h2.postDelayed(r2, 2750);
                             } else {
                                 button.setEnabled(true);
+                                Runnable r3 = new Runnable(){
+                                    @Override
+                                    public void run(){
+                                        ImageViewAnimatedChange(mContext,changer,pictures[5]);
+                                    }
+                                };
                                 pictureindex = 0;
                                 //randomly pulled from the queue
                                 int rand2 = (int) (Math.random() * 40);
@@ -254,7 +267,8 @@ public class ButtonAdapter extends BaseAdapter {
                                 };
                                 Handler h2 = new Handler();
                                 //Delay picture change by .75 secs
-                                h.postDelayed(r,750);
+                                h2.postDelayed(r3,750);
+                                h2.postDelayed(r2,2500);
                             }
                         }
 
@@ -288,6 +302,9 @@ public class ButtonAdapter extends BaseAdapter {
                 public void onClick(View v){
                     if (!statement.getText().equals("Congratulations!")){
                         if (answers[cur + 1].equals("f")){
+                            if (nextActivity != 0){
+                                inc_counter.setText("Correct Questions: " + Integer.toString(++num_qs));
+                            }
                             // vibrate when correct
                             myVib.vibrate(150);
                             //randomly pulled from the queue
@@ -330,6 +347,12 @@ public class ButtonAdapter extends BaseAdapter {
                                     h2.postDelayed(r2, 2750);
                                 } else {
                                     button.setEnabled(true);
+                                    Runnable r3 = new Runnable(){
+                                        @Override
+                                        public void run(){
+                                            ImageViewAnimatedChange(mContext,changer,pictures[5]);
+                                        }
+                                    };
                                     pictureindex = 0;
                                     //randomly pulled from the queue
                                     int rand2 = (int) (Math.random() * 41);
@@ -345,7 +368,8 @@ public class ButtonAdapter extends BaseAdapter {
                                     };
                                     Handler h2 = new Handler();
                                     //Delay picture change by .75 secs
-                                    h.postDelayed(r,750);
+                                    h2.postDelayed(r3, 750);
+                                    h2.postDelayed(r2,2500);
                                 }
                             }
 

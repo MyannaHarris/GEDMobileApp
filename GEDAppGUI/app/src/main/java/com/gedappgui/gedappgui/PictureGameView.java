@@ -45,6 +45,8 @@ public class PictureGameView extends LinearLayout {
 
     private TextView statement;
     private TextView result;
+    private TextView counter;
+    private TextView counter_title;
     private GridView buttons;
     private Context context;
     private ImageView changer;
@@ -110,6 +112,8 @@ public class PictureGameView extends LinearLayout {
         context = contextp;
         statement = new TextView(context);
         result = new TextView(context);
+        counter = new TextView(context);
+        //counter_title = new TextView(context)
         int[] pass_pics;
         splits = passer;
 
@@ -138,6 +142,13 @@ public class PictureGameView extends LinearLayout {
         statement.setGravity(Gravity.CENTER);
         //adding statement to top of view
         this.addView(statement);
+
+        //counter for endless play
+        counter.setText("Correct Questions: 0");
+        counter.setTextSize(20);
+        counter.setTextColor(ContextCompat.getColor(context, R.color.colorWhite));
+        counter.setGravity(Gravity.CENTER);
+        counter.setLayoutParams(linearLayout);
 
         changer = new ImageView(context);
         //determines initial picture based on lessonid
@@ -196,11 +207,13 @@ public class PictureGameView extends LinearLayout {
         buttons.setLayoutParams(linearLayout);
         //call button adapter to put buttons in gridview and create listeners for the buttons
         buttons.setAdapter(new ButtonAdapter(context, texts, changer, splits, statement, pass_pics,result,
-        lessonid,conceptid,nextActivity));
+        lessonid,conceptid,nextActivity,counter));
         //add gridview to layout
         this.addView(buttons);
-        if (nextActivity != 0)
+        if (nextActivity != 0) {
             this.addView(end);
+            this.addView(counter);
+        }
         //add result string to layout
         this.addView(result);
         //add imageview to layout
