@@ -783,8 +783,6 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
         Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         spriteDrawable.draw(new Canvas(b));
 
-        //values.put(MediaStore.Images.Media.DATE_MODIFIED, System.currentTimeMillis()/1000);
-
         MediaStore.Images.Media.insertImage(getContentResolver(), b, "Dragon", "Dragon");
 
         // Instantiate an AlertDialog.Builder with its constructor
@@ -803,7 +801,7 @@ public class Sprite extends AppCompatActivity implements AdapterView.OnItemSelec
             }
         });
 
-        // 3. Get the AlertDialog from create()
+        // Get the AlertDialog from create()
         AlertDialog dialog = builder.create();
         dialog.show();
 

@@ -155,7 +155,7 @@ public class GameIntro extends AppCompatActivity {
             float newWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, (float)(width / 2.25), getResources().getDisplayMetrics());
             float newHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, (float)(height / 2.25), getResources().getDisplayMetrics());
 
-            int viewGravity = Gravity.FILL_HORIZONTAL | Gravity.CENTER;
+            int viewGravity = Gravity.CENTER;
 
             image1 = getFromAssets(pics.get(0));
             instructionImage1.setImageBitmap(image1);
@@ -163,7 +163,8 @@ public class GameIntro extends AppCompatActivity {
             grid.setColumnCount(1);
 
             GridLayout.Spec col1 = GridLayout.spec(0, 1);
-            GridLayout.LayoutParams gridLayoutParam1 = new GridLayout.LayoutParams(GridLayout.spec(0, 1), col1);
+            GridLayout.LayoutParams gridLayoutParam1 = new GridLayout.LayoutParams(
+                    GridLayout.spec(0, 1), col1);
 
             gridLayoutParam1.setGravity(viewGravity);
 
@@ -172,6 +173,7 @@ public class GameIntro extends AppCompatActivity {
             instructionImage1.setMaxHeight((int)newHeight);
             instructionImage1.setAdjustViewBounds(true);
             instructionImage1.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            instructionImage1.setPadding(10,0,10,0);
 
             grid.addView(instructionImage1, gridLayoutParam1);
 
@@ -183,7 +185,8 @@ public class GameIntro extends AppCompatActivity {
                 instructionImage2.setImageBitmap(image2);
 
                 GridLayout.Spec col2 = GridLayout.spec(1, 1);
-                GridLayout.LayoutParams gridLayoutParam2 = new GridLayout.LayoutParams(GridLayout.spec(0, 1), col2);
+                GridLayout.LayoutParams gridLayoutParam2 = new GridLayout.LayoutParams(
+                        GridLayout.spec(0, 1), col2);
                 gridLayoutParam2.setGravity(viewGravity);
 
                 //set the max width and height for the images
@@ -191,6 +194,7 @@ public class GameIntro extends AppCompatActivity {
                 instructionImage2.setMaxHeight((int)newHeight);
                 instructionImage2.setAdjustViewBounds(true);
                 instructionImage2.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                instructionImage2.setPadding(10,0,10,0);
                 grid.addView(instructionImage2, gridLayoutParam2);
 
             }

@@ -64,13 +64,12 @@
         <android.support.v7.widget.GridLayout
             android:id="@+id/gameIntro_gridView"
             android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:numColumns="2"
+            android:layout_centerHorizontal="true"
             android:gravity="center"
             android:stretchMode="columnWidth"
-            android:layout_alignStart="@id/instructions"
-            android:layout_alignLeft="@id/instructions"
             android:layout_below="@id/instructions" />
 
         <Button
