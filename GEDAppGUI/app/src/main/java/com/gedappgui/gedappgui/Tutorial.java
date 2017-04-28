@@ -42,12 +42,12 @@ public class Tutorial extends AppCompatActivity {
             "Welcome to Dragon Academy! Use the next and back buttons to navigate the tutorial, and tap exit to leave. You can view the tutorial at any time in the tools section.",
             "The Home Screen can be used to access all other features.",
             "Tapping on the dragon will take you to the Dragon's Lair.",
-            "Here you can dress and undress your dragon by tapping clothes or dragging clothes onto them. You can remove all accessories with the Disrobe button.",
+            "Here you can dress and undress your dragon by tapping the clothes or dragging the clothes onto him. You can remove all accessories with the Disrobe button.",
             "Tapping Continue Lesson on the home screen will take you to the lesson you were last working on.",
             "Tap the Achievements button to see all achievements you have earned.",
             "Tap on the Tools button to access math tools like a slope calculator or list of math formulas.",
             "Tap on the Classroom button to go to the concepts screen.",
-            "On this screen you can select from your unlocked concepts to work on the lessons within them.",
+            "On this screen you can select one of your unlocked concepts which will take you to unlocked lessons within them.",
             "As you complete lessons, new ones will be unlocked! Initially, you will have access to the first lesson.",
             "The first screen in a lesson is a summary that will give you an overview of the lesson.",
             "The next screen has a video, picture, and a short tip on the material in the lesson.",
@@ -55,7 +55,7 @@ public class Tutorial extends AppCompatActivity {
             "The next few screens will have instructions on how to play a short game and the actual game itself.",
             "After the game, you will be asked similar questions to those asked on the GED.",
             "After you answer enough questions correctly, you will be able to select an accessory for your dragon and move on.",
-            "Click on the Arcade button to play games from completed lessons.",
+            "Click on the Arcade button to play games from your unlocked lessons.",
             "Thanks for using our app! Have fun and good luck!",
             "Thanks for using our app! Have fun and good luck!"
     };

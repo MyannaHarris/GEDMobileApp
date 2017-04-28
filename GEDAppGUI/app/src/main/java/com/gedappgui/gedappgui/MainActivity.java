@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
             }
             else if(count != 0){
                 progress.setProgress(count);
-                seeProgress.setText("Great Work! You have completed " + count + "/24 lessons!");
+                seeProgress.setText("Great Work! You have completed " + count + "/" + db.getMaxLessonId() + " lessons!");
             }
             else{
                 progress.setProgress(count);
@@ -225,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
             }
             else{
                 progress.setProgress(count);
-                seeProgress.setText("Great Work! You have completed " + count + "/24 lessons!");
+                seeProgress.setText("Great Work! You have completed " + count + "/" + db.getMaxLessonId() + " lessons!");
             }
 
 
