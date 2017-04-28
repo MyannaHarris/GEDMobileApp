@@ -162,6 +162,7 @@ public class Tutorial extends AppCompatActivity {
 
         TextView prompt = (TextView)findViewById(R.id.prompt);
         prompt.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/40));
+        prompt.setText(prompts[current]);
 
         Button backer = (Button)findViewById(R.id.tutorial_back);
         backer.setVisibility(View.GONE);

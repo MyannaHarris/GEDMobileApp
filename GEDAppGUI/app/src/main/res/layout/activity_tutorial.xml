@@ -30,7 +30,7 @@
             />
 
         <TextView
-            android:text="Welcome to the tutorial! Use the forward and back buttons to navigate the tutorial. Hit exit to leave at any time."
+            android:text="Welcome to Dragon Academy! Use the next and back buttons to navigate the tutorial, and tap exit to leave. You can view the tutorial at any time in the tools section."
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/prompt"
