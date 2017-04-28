@@ -137,6 +137,11 @@ public class Question extends AppCompatActivity {
         dbHelper = new DatabaseHelper(this);
         allQuestions = dbHelper.getAllQuestions(lessonID);
 
+        //  Make current lesson this one...because we're on it now
+        if (dbHelper.selectCurrentLessonID() != lessonID) {
+            dbHelper.updateCurrentLessonID(lessonID);
+        }
+
         // Save context for surface holder
         context = this;
 

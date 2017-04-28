@@ -101,6 +101,11 @@ public class GameIntro extends AppCompatActivity {
         // Database to get game instructions
         dbHelper = new DatabaseHelper(this);
 
+        //  Make current lesson this one...because we're on it now
+        if (nextActivity == 0 && dbHelper.selectCurrentLessonID() != lessonID) {
+            dbHelper.updateCurrentLessonID(lessonID);
+        }
+
         layout = (RelativeLayout) findViewById(R.id.gameIntro);
         grid = (GridLayout) findViewById(R.id.gameIntro_gridView);
 

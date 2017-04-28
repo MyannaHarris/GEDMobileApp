@@ -201,7 +201,8 @@ public class DatabaseHelper{
 
         myDatabase.execSQL("INSERT INTO User VALUES ( 1 , '" + username + "', 1, datetime('NOW'), '', 0)");
 
-        String insertQuery = "INSERT INTO user_lessons(user_id, lesson_id, datetime_started) VALUES(1,1,date('NOW'))";
+        String insertQuery = "INSERT INTO user_lessons(user_id, lesson_id, datetime_started) " +
+                "VALUES(1, 1, date('NOW'))";
         myDatabase.execSQL(insertQuery);
 
         close();
@@ -603,7 +604,8 @@ public class DatabaseHelper{
         open();
 
         Cursor c = myDatabase.rawQuery("SELECT lesson_name FROM user_lessons JOIN lessons " +
-                "ON lessons.lesson_id = user_lessons.lesson_id WHERE concept_id = " + concept_id, null);
+                "ON lessons.lesson_id = user_lessons.lesson_id WHERE concept_id = " + concept_id +
+                " ORDER BY `order`", null);
         ArrayList<String> lessonNames = new ArrayList<>();
 
         while(c.moveToNext()){
@@ -626,7 +628,7 @@ public class DatabaseHelper{
         open();
 
         Cursor c = myDatabase.rawQuery("SELECT lesson_id FROM lessons WHERE concept_id = " +
-                concept_id + " LIMIT 1 OFFSET " + offset, null);
+                concept_id + " ORDER BY `order` LIMIT 1 OFFSET " + offset, null);
         c.moveToFirst();
         int id = c.getInt(0);
 
@@ -864,11 +866,16 @@ public class DatabaseHelper{
      */
     public boolean isLastLesson(int currLesson) {
         open();
-        Cursor c = myDatabase.rawQuery("SELECT max(lesson_id) from lessons", null);
+        Cursor c = myDatabase.rawQuery("SELECT max(`order`) from lessons", null);
         c.moveToFirst();
-        int lastLesson = c.getInt(0);
+        int lastLessonOrder = c.getInt(0);
+        c.close();
+        c = myDatabase.rawQuery("SELECT `order` from lessons WHERE lesson_id=" + currLesson, null);
+        c.moveToFirst();
+        int currLessonOrder = c.getInt(0);
+        c.close();
         close();
-        return (lastLesson == currLesson);
+        return (lastLessonOrder == currLessonOrder);
     }
 
     /**
@@ -1560,17 +1567,33 @@ public class DatabaseHelper{
             }
     }
 
+    public int getNextLesson(int lessonID) {
+        open();
+        // get next lesson id
+        Cursor c = myDatabase.rawQuery("SELECT `order` FROM lessons WHERE lesson_id=" + lessonID, null);
+        c.moveToFirst();
+        int currOrder = c.getInt(0);
+        c.close();
+        c = myDatabase.rawQuery("SELECT lesson_id FROM lessons WHERE `order`>"
+                + currOrder + " ORDER BY `order` ASC LIMIT 1",null);
+        c.moveToFirst();
+        int newLessonID = c.getInt(0);
+        c.close();
+        close();
+        return newLessonID;
+    }
+
     /**
      * Method to update user_lessons to unlock next lesson, also sets current lesson to next lesson
      * @param lessonID of the lesson completed
+     * @param newLessonID , id of the next lesson
      */
-    public void lessonCompleted(int lessonID) {
+    public void lessonCompleted(int lessonID, int newLessonID) {
         open();
         // set time for completed lesson
         String updateQuery = "UPDATE user_lessons SET datetime_finished=date('now') WHERE lesson_id="
                 + lessonID;
         myDatabase.execSQL(updateQuery);
-        int newLessonID = lessonID + 1;
         // if next lesson is not already in user_lessons, add it
         Cursor c = myDatabase.rawQuery("SELECT count(lesson_id) FROM user_lessons WHERE lesson_id="
                 + newLessonID,null);

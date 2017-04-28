@@ -76,20 +76,28 @@ public class LessonSteps extends AppCompatActivity {
         conceptID = mIntent.getIntExtra("conceptID", 0);
         lessonID = mIntent.getIntExtra("lessonID", 0);
 
+        //System.out.println("test 1");
         // Allow homeAsUpIndicator (back arrow) to desplay on action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        //System.out.println("test 2");
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
+        //System.out.println("test 3");
         // Play youtube video from lesson
         String videoURL = dbHelper.selectVideoURL(lessonID);
         webView = (WebView) findViewById(R.id.example_web_view);
+        //System.out.println("test 4");
         webView.getSettings().setJavaScriptEnabled(true);
+       // System.out.println("test 5");
         webView.setWebChromeClient(new WebChromeClient());
+        //System.out.println("test 6");
         String playVideo= "<html><body><iframe class=\"youtube-player\" type=\"text/html\" width=\"100%\" height=\"400\" src=\"http://www.youtube.com/embed/" + videoURL + "/?vq=small\" frameborder=\"0\"></body></html>";
+       // System.out.println("test 7");
         webView.loadData(playVideo, "text/html", "utf-8");
 
+       // System.out.println("test 8");
         // Set image to correct image
         lessonImg = dbHelper.selectPictureName(lessonID);
         lesson_img = getBitmapFromAsset(lessonImg);
@@ -104,18 +112,25 @@ public class LessonSteps extends AppCompatActivity {
         TextView advice = (TextView) findViewById(R.id.advice_text);
         advice.setText(toHTML(lessonAdvice));
 
+        //System.out.println("test 9");
         //get screen dimensions
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
+        //System.out.println("test 10");
         Button nextbtn = (Button) findViewById(R.id.lessonExample);
         TextView title = (TextView) findViewById(R.id.stepsTitle);
         //set dynamic text size
         advice.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
         nextbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
         title.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/20));
+
+        //  Make current lesson this one...because we're on it now
+        if (dbHelper.selectCurrentLessonID() != lessonID) {
+            dbHelper.updateCurrentLessonID(lessonID);
+        }
 
     }
 

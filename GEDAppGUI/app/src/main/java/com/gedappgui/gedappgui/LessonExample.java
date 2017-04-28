@@ -64,6 +64,11 @@ public class LessonExample extends AppCompatActivity {
         DatabaseHelper db = new DatabaseHelper(this);
         setExamples(db, lessonID);
 
+        //  Make current lesson this one...because we're on it now
+        if (db.selectCurrentLessonID() != lessonID) {
+            db.updateCurrentLessonID(lessonID);
+        }
+
         // Create button to go to next step, the Game Intro page
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -81,7 +86,6 @@ public class LessonExample extends AppCompatActivity {
         ex_2.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
         title1.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/20));
         title2.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/20));
-
 
     }
 

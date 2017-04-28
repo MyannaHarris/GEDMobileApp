@@ -49,6 +49,7 @@ public class Success extends AppCompatActivity {
 
     private DatabaseHelper dbHelper;
     private int lessonID;
+    private int newLessonID;
     private int conceptID;
     private int redo;
     private GridLayout gridlayout;
@@ -79,8 +80,6 @@ public class Success extends AppCompatActivity {
             mediaPlayer.start();
         }
 
-
-
         // Get screen dimensions
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -89,6 +88,8 @@ public class Success extends AppCompatActivity {
         ArrayList<Integer> accessories = new ArrayList<>();
 
         dbHelper = new DatabaseHelper(this);
+
+        newLessonID = dbHelper.getNextLesson(lessonID);
 
         // Make dictionary of image ids
         accessoryMap = new HashMap<Integer, Integer>();
@@ -99,7 +100,7 @@ public class Success extends AppCompatActivity {
         TextView congrats = (TextView) findViewById(R.id.congratulations);
 
         // If the next lesson is newly unlocked, the user receives an accessory
-        if (!(dbHelper.isLessonAlreadyStarted(lessonID+1))) {
+        if (!(dbHelper.isLessonAlreadyStarted(newLessonID))) {
             if (dbHelper.isLastLesson(lessonID)) {
                 pickText.setText("Here's your last accessory!");
                 helperText.setText("Choose where you\'d like to go next!");
@@ -117,6 +118,8 @@ public class Success extends AppCompatActivity {
             checkAchievements(totalQuestions, totalCorrect);
         }
 
+        dbHelper.lessonCompleted(lessonID, newLessonID);
+
         Button toLesson = (Button) findViewById(R.id.to_lesson);
         Button toConcepts = (Button) findViewById(R.id.to_concepts);
         Button toSprite = (Button) findViewById(R.id.to_sprite);
@@ -128,7 +131,6 @@ public class Success extends AppCompatActivity {
         toConcepts.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
         toSprite.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
 
-        dbHelper.lessonCompleted(lessonID);
 
 
         // Allow user to control audio with volume buttons on phone
@@ -138,7 +140,7 @@ public class Success extends AppCompatActivity {
 
         // Put things in the grid layout
         setAccessoryInfo(accessories);
-        if (dbHelper.isLastLesson(lessonID)) {
+        if (dbHelper.isLastLesson(newLessonID)) {
             RelativeLayout page = (RelativeLayout) findViewById(R.id.successPage);
             page.removeView(findViewById(R.id.to_lesson));
         }
@@ -337,11 +339,11 @@ public class Success extends AppCompatActivity {
      * @param view current view
      */
     public void goToNextLesson(View view) {
-        final String lessonTitle = dbHelper.selectLessonTitle(lessonID+1);
+        final String lessonTitle = dbHelper.selectLessonTitle(newLessonID);
         giveUserItem();
         Intent intent = new Intent(this, LessonSummary.class);
         intent.putExtra("conceptID",conceptID);
-        intent.putExtra("lessonID",lessonID+1);
+        intent.putExtra("lessonID",newLessonID);
         intent.putExtra("lessonTitle", lessonTitle);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
