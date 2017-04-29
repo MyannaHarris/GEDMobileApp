@@ -100,7 +100,7 @@ public class Tutorial extends AppCompatActivity {
             R.drawable.tutorial_example1,
             R.drawable.tutorial_game1,
             R.drawable.tutorial_questions1,
-            R.drawable.tutorial_success,
+            R.drawable.success1,
             R.drawable.home_screen_play1,
             R.drawable.sprite_dragon,
             R.drawable.sprite_dragon
