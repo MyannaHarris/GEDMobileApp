@@ -19,6 +19,7 @@ package com.gedappgui.gedappgui;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Vibrator;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
@@ -34,6 +35,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import static android.content.Context.VIBRATOR_SERVICE;
+
 /**
  * Created by James on 2/17/2017.
  */
@@ -42,6 +45,8 @@ public class PictureGameView extends LinearLayout {
 
     private TextView statement;
     private TextView result;
+    private TextView counter;
+    private TextView counter_title;
     private GridView buttons;
     private Context context;
     private ImageView changer;
@@ -107,9 +112,10 @@ public class PictureGameView extends LinearLayout {
         context = contextp;
         statement = new TextView(context);
         result = new TextView(context);
+        counter = new TextView(context);
+        //counter_title = new TextView(context)
         int[] pass_pics;
         splits = passer;
-
 
         //Change layout to vertical view
         this.setOrientation(LinearLayout.VERTICAL);
@@ -132,10 +138,17 @@ public class PictureGameView extends LinearLayout {
 
         statement.setText(toHTML(init[0]));
         statement.setTextSize(25);
-        statement.setTextColor(Color.WHITE);
+        statement.setTextColor(ContextCompat.getColor(context, R.color.colorWhite));
         statement.setGravity(Gravity.CENTER);
         //adding statement to top of view
         this.addView(statement);
+
+        //counter for endless play
+        counter.setText("Correct Questions: 0");
+        counter.setTextSize(20);
+        counter.setTextColor(ContextCompat.getColor(context, R.color.colorWhite));
+        counter.setGravity(Gravity.CENTER);
+        counter.setLayoutParams(linearLayout);
 
         changer = new ImageView(context);
         //determines initial picture based on lessonid
@@ -169,14 +182,14 @@ public class PictureGameView extends LinearLayout {
         result.setLayoutParams(layoutParams);
         result.setText("");
         result.setTextSize(20);
-        result.setTextColor(Color.WHITE);
+        result.setTextColor(ContextCompat.getColor(context, R.color.colorWhite));
         result.setGravity(Gravity.CENTER);
 
         end = new Button(context);
         end.setLayoutParams(linearLayout);
         end.setText("End Game");
         end.setTextSize(20);
-        end.setTextColor(Color.WHITE);
+        end.setTextColor(ContextCompat.getColor(context, R.color.colorWhite));
         end.setGravity(Gravity.CENTER);
 
         end.setOnClickListener(new View.OnClickListener(){
@@ -194,11 +207,13 @@ public class PictureGameView extends LinearLayout {
         buttons.setLayoutParams(linearLayout);
         //call button adapter to put buttons in gridview and create listeners for the buttons
         buttons.setAdapter(new ButtonAdapter(context, texts, changer, splits, statement, pass_pics,result,
-        lessonid,conceptid,nextActivity));
+        lessonid,conceptid,nextActivity,counter));
         //add gridview to layout
         this.addView(buttons);
-        if (nextActivity != 0)
+        if (nextActivity != 0) {
             this.addView(end);
+            this.addView(counter);
+        }
         //add result string to layout
         this.addView(result);
         //add imageview to layout

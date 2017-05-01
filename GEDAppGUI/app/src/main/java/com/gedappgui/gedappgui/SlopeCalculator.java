@@ -22,6 +22,8 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -85,6 +87,12 @@ public class SlopeCalculator extends AppCompatActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
+        String intro = "The slope formula can be written as: <br /> <br /> m = (y<sub><small>2</small></sub> " +
+                "- y<sub><small>1</small></sub>) / (x<sub><small>2</small></sub> - x<sub><small>1</small></sub>) " +
+                "<br /> <br />For any ordered pair (x<sub><small>1</small></sub>,y<sub><small>1</small></sub>) and " +
+                "(x<sub><small>2</small></sub>,y<sub><small>2</small></sub>). Input values for the ordered pairs " +
+                "below to see the slope and the steps that were taken to find the slope.";
+
         EditText y1input = (EditText)findViewById(R.id.y1_input);
         EditText x1input = (EditText)findViewById(R.id.x1_input);
         EditText x2input = (EditText)findViewById(R.id.x2_input);
@@ -105,11 +113,17 @@ public class SlopeCalculator extends AppCompatActivity {
         y2input.setLayoutParams(paramsy2);
 
         TextView instr = (TextView) findViewById(R.id.instructions);
+        instr.setText(toHTML(intro));
         instr.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+
         x1input.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+        x1input.setHint(toHTML("Input x<sub><small>1</small></sub> value"));
         x2input.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+        x2input.setHint(toHTML("Input x<sub><small>2</small></sub> value"));
         y1input.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+        y1input.setHint(toHTML("Input y<sub><small>1</small></sub> value"));
         y2input.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+        y2input.setHint(toHTML("Input y<sub><small>2</small></sub> value"));
 
         Button rbtn = (Button) findViewById(R.id.resetbutton);
         Button sbtn = (Button) findViewById(R.id.FindSlope);
@@ -117,6 +131,9 @@ public class SlopeCalculator extends AppCompatActivity {
         // Set button height
         sbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
         rbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
+
+        TextView stepbystep = (TextView)findViewById(R.id.stepbystep);
+        stepbystep.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
 
     }
 
@@ -165,17 +182,19 @@ public class SlopeCalculator extends AppCompatActivity {
         String ordered1 = "(" + x1 + "," + y1 + ")";
         String ordered2 = "(" + x2 + "," + y2 + ")";
         steps = "The ordered pairs you put in are: " + ordered1 + " and " + ordered2 +
-                "\n\nThe slope of the line is: \n \nm = " + slope + " \n \nThe first step is to " +
-                "remember our slope formula as: \n \nm = (y2 - y1) / (x2 - x1). \n \nThe next step is " +
+                "<br /> <br />The slope of the line is: <br /> <br />m = " + slope + " <br /> <br />The first step is to " +
+                "remember our slope formula as: <br /> <br />m = (y<sub><small>2</small></sub> - y<sub><small>1</small></sub>) / " +
+                "(x<sub><small>2</small></sub> - x<sub><small>1</small></sub>). <br /> <br />The next step is " +
                 "to substitute each variable with our ordered pairs. Lets do this one at a time: " +
-                "\n \n y2 = " + y2 + " which goes into our formula as the y2 variable: \n \n" +
-                "m = (" + y2 + " - y1) / (x2 - x1). \n \nNow we plug in the value for y1 which is " +
-                y1 + ": \n \nm = (" + y2 + " - "+ y1 + ") / (x2 - x1). \n \nNow we can put the remaining " +
-                "two variables in, x1 and x2, which are: " + x1 + " and " + x2 + ": \n \n" +
-                "m = (" + y2 + " - "+ y1 + ") / (" + x2 + " - " + x1 + "). \n \nNow we simplify, " +
-                "subtracting above and below the divide sign: " + (y2 - y1) + " / " + (x2 - x1) + "\n \n" +
-                "And now we divide to give us our answer: \n \nm = " + slope + "\n";
-        stepbystep.setText(steps);
+                "<br /> <br /> y<sub><small>2</small></sub> = " + y2 + " which goes into our formula as the y<sub><small>2</small></sub> variable: <br /> <br />" +
+                "m = (" + y2 + " - y<sub><small>1</small></sub>) / (x<sub><small>2</small></sub> - x<sub><small>1</small></sub>). <br /> <br />Now we plug " +
+                "in the value for y<sub><small>1</small></sub> which is " +
+                y1 + ": <br /> <br />m = (" + y2 + " - "+ y1 + ") / (x<sub><small>2</small></sub> - x<sub><small>1</small></sub>). <br /> <br />Now we can put the remaining " +
+                "two variables in, x<sub><small>1</small></sub> and x<sub><small>2</small></sub>, which are: " + x1 + " and " + x2 + ": <br /> <br />" +
+                "m = (" + y2 + " - "+ y1 + ") / (" + x2 + " - " + x1 + "). <br /><br />Now we simplify, " +
+                "subtracting above and below the divide sign: " + (y2 - y1) + " / " + (x2 - x1) + "<br /> <br />" +
+                "And now we divide to give us our answer: <br /> <br />m = " + slope + "<br />";
+        stepbystep.setText(toHTML(steps));
         onResume();
     }
 
@@ -309,5 +328,19 @@ public class SlopeCalculator extends AppCompatActivity {
             }
         }
         return ret;
+    }
+
+    /**
+     * Converts database strings to HTML to support superscripts
+     * @param input the string to be converted
+     * @return Spanned object to be passed into the setText method
+     */
+    public Spanned toHTML(String input) {
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            return Html.fromHtml(input, Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            return Html.fromHtml(input);
+        }
     }
 }

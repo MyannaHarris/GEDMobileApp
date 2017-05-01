@@ -9,7 +9,7 @@
  * Class
  * http://stackoverflow.com/questions/20758986/android-preferenceactivity-dialog-with-number-picker
  *
- * Last Edit: 4-9-17
+ * Last Edit: 4-23-17
  *
  */
 
@@ -18,6 +18,7 @@ package com.gedappgui.gedappgui;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Paint;
+import android.graphics.drawable.GradientDrawable;
 import android.preference.DialogPreference;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
@@ -26,20 +27,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 
 import java.lang.reflect.Field;
 
 public class NumberPickerPreference extends DialogPreference {
 
-    // allowed range
-    public static final int MAX_VALUE = 23;
-    public static final int MIN_VALUE = 0;
+    // Default string
+    public static final String DEFAULT_VALUE = "15-0";
+
     // enable or disable the 'circular behavior'
     public static final boolean WRAP_SELECTOR_WHEEL = true;
 
-    private NumberPicker picker;
-    private int value;
+    private NumberPicker pickerMin;
+    private NumberPicker pickerHr;
+    private String value;
 
     /**
      * Constructor
@@ -67,15 +70,25 @@ public class NumberPickerPreference extends DialogPreference {
      */
     @Override
     protected View onCreateDialogView() {
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.gravity = Gravity.CENTER;
+        layoutParams.setMargins(20,0,20,0);
 
-        picker = new NumberPicker(getContext());
-        picker.setLayoutParams(layoutParams);
+        pickerHr = new NumberPicker(getContext());
+        pickerHr.setLayoutParams(layoutParams);
 
-        FrameLayout dialogView = new FrameLayout(getContext());
-        dialogView.addView(picker);
+        pickerMin = new NumberPicker(getContext());
+        pickerMin.setLayoutParams(layoutParams);
+
+        LinearLayout dialogView = new LinearLayout(getContext());
+        dialogView.setOrientation(LinearLayout.HORIZONTAL);
+        dialogView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+        dialogView.setPadding(10,0,10,0);
+        dialogView.setGravity(Gravity.CENTER);
+        dialogView.addView(pickerHr);
+        dialogView.addView(pickerMin);
 
 
         return dialogView;
@@ -88,12 +101,22 @@ public class NumberPickerPreference extends DialogPreference {
     @Override
     protected void onBindDialogView(View view) {
         super.onBindDialogView(view);
-        picker.setMinValue(MIN_VALUE);
-        picker.setMaxValue(MAX_VALUE);
-        picker.setWrapSelectorWheel(WRAP_SELECTOR_WHEEL);
-        picker.setValue(getValue());
-        picker.setFocusableInTouchMode(true);
-        setNumberPickerTextColor(picker);
+
+        String[] vals = value.split("[-]");
+
+        pickerHr.setMinValue(0);
+        pickerHr.setMaxValue(23);
+        pickerHr.setWrapSelectorWheel(WRAP_SELECTOR_WHEEL);
+        pickerHr.setValue(Integer.parseInt(vals[0]));
+        pickerHr.setFocusableInTouchMode(true);
+        setNumberPickerTextColor(pickerHr);
+
+        pickerMin.setMinValue(0);
+        pickerMin.setMaxValue(59);
+        pickerMin.setWrapSelectorWheel(WRAP_SELECTOR_WHEEL);
+        pickerMin.setValue(Integer.parseInt(vals[1]));
+        pickerMin.setFocusableInTouchMode(true);
+        setNumberPickerTextColor(pickerMin);
     }
 
     /**
@@ -105,10 +128,13 @@ public class NumberPickerPreference extends DialogPreference {
     @Override
     protected void onDialogClosed(boolean positiveResult) {
         if (positiveResult) {
-            picker.clearFocus();
-            int newValue = picker.getValue();
-            if (callChangeListener(newValue)) {
-                setValue(newValue);
+            pickerHr.clearFocus();
+            pickerMin.clearFocus();
+
+            value = Integer.toString(pickerHr.getValue()) + "-" +
+                    Integer.toString(pickerMin.getValue());
+            if (callChangeListener(value)) {
+                setValue(value);
             }
         }
     }
@@ -121,7 +147,7 @@ public class NumberPickerPreference extends DialogPreference {
      */
     @Override
     protected Object onGetDefaultValue(TypedArray a, int index) {
-        return a.getInt(index, MIN_VALUE);
+        return a.getInt(index, 0);
     }
 
     /**
@@ -131,7 +157,7 @@ public class NumberPickerPreference extends DialogPreference {
      */
     @Override
     protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {
-        setValue(restorePersistedValue ? getPersistedInt(MIN_VALUE) : (Integer) defaultValue);
+        setValue(restorePersistedValue ? getPersistedString(DEFAULT_VALUE) : (String) DEFAULT_VALUE);
     }
 
     /**
@@ -139,9 +165,9 @@ public class NumberPickerPreference extends DialogPreference {
      * Sets the chosen value
      * @param value The chosen value
      */
-    public void setValue(int value) {
+    public void setValue(String value) {
         this.value = value;
-        persistInt(this.value);
+        persistString(this.value);
     }
 
     /**
@@ -149,7 +175,7 @@ public class NumberPickerPreference extends DialogPreference {
      * Gets the chosen value
      * @return The chosen value
      */
-    public int getValue() {
+    public String getValue() {
         return this.value;
     }
 

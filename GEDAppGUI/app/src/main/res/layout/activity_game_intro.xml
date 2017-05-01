@@ -63,33 +63,26 @@
 
         <android.support.v7.widget.GridLayout
             android:id="@+id/gameIntro_gridView"
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:numColumns="2"
+            android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:verticalSpacing="20dp"
             android:stretchMode="columnWidth"
-            android:layout_alignLeft="@id/instructions"
-            android:layout_below="@id/instructions">
-
-        </android.support.v7.widget.GridLayout>
+            android:layout_below="@id/instructions" />
 
         <Button
             android:text="Play"
+            android:paddingTop="10dp"
             android:layout_marginBottom="@dimen/button_vert_margin"
             android:layout_marginTop="@dimen/button_vert_margin"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@id/gameIntro_gridView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/play_button"
             android:textSize="18sp"
-            android:onClick="goToGame"
-            android:layout_alignLeft="@id/gameIntro_gridView"
-            android:layout_alignStart="@+id/welcome"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@id/gameIntro_gridView"/>
+            android:onClick="goToGame" />
 
 </RelativeLayout>
 

@@ -67,7 +67,7 @@ public class Login extends AppCompatActivity {
         EditText editText = (EditText) findViewById(R.id.username_editText);
         TextView instruct = (TextView) findViewById(R.id.login_text);
         TextView title = (TextView) findViewById(R.id.login_title);
-        title.setPadding(0,(int)(height/3.5),0,0);
+        title.setPadding(0,(int)(height/4),0,0);
 
         // Set dynamic size of text for instructions and button
         editText.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));

@@ -83,6 +83,9 @@ public class Question extends AppCompatActivity {
     // for playing sound
     MediaPlayer mediaPlayer;
 
+    // Height of screen
+    private int height;
+
     /**
      * Starts the activity and shows corresponding view on screen
      * @param savedInstanceState If the activity is being re-initialized after previously being
@@ -106,7 +109,7 @@ public class Question extends AppCompatActivity {
         // Create buttons of dynamic size
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
-        int height = dm.heightPixels;
+        height = dm.heightPixels;
 
         Button submitbtn = (Button)findViewById(R.id.submit_answer_button);
         submitbtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/30));
@@ -134,6 +137,11 @@ public class Question extends AppCompatActivity {
         dbHelper = new DatabaseHelper(this);
         allQuestions = dbHelper.getAllQuestions(lessonID);
 
+        //  Make current lesson this one...because we're on it now
+        if (dbHelper.selectCurrentLessonID() != lessonID) {
+            dbHelper.updateCurrentLessonID(lessonID);
+        }
+
         // Save context for surface holder
         context = this;
 
@@ -155,12 +163,20 @@ public class Question extends AppCompatActivity {
         TextView questionTextView = (TextView) findViewById(R.id.question_textView);
         questionTextView.setText(toHTML(question));
         questionTextView.setTextSize(20);
+        // Set text size for page
+        if (questionTextView.getText().length() > 100){
+            questionTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) height / 40);
+        } else {
+            questionTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) height / 30);
+        }
 
         // Set radio buttons
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.question_answer_group);
         for (int i = 0; i < radioGroup.getChildCount(); i++) {
             String textAnswer = questionText.get(i+2);
             ((RadioButton) radioGroup.getChildAt(i)).setText(toHTML(textAnswer));
+            ((RadioButton) radioGroup.getChildAt(i)).setTextSize(
+                    TypedValue.COMPLEX_UNIT_PX, (float)height/30);
             if (textAnswer.equals(questionText.get(6))) {
                 correctAnswerIdx = i;
             }
@@ -253,18 +269,6 @@ public class Question extends AppCompatActivity {
                 return true;
             }
         });
-
-        // Set text size for page
-        TextView textView = (TextView)findViewById(R.id.question_textView);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
-        RadioButton radioButton = (RadioButton)findViewById(R.id.question_answer1);
-        radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
-        radioButton = (RadioButton)findViewById(R.id.question_answer2);
-        radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
-        radioButton = (RadioButton)findViewById(R.id.question_answer3);
-        radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
-        radioButton = (RadioButton)findViewById(R.id.question_answer4);
-        radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
     }
 
     /**
@@ -437,84 +441,89 @@ public class Question extends AppCompatActivity {
 
             // If user gets two correct answers, difficulty increases or they are done, depending
             //      on what their level is
-            if (correctAnswers > 1) {
-                if (currentLevel > 2) {
-                    Intent intent = new Intent(this, Success.class);
-                    intent.putExtra("lessonID", lessonID);
-                    intent.putExtra("conceptID", conceptID);
-                    intent.putExtra("totalQuestions", numQuestion);
-                    intent.putExtra("totalCorrect", totalCorrect);
-                    intent.putExtra("redoComplete",redo);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                }
-                else {
+            if (correctAnswers > 1 && currentLevel > 2) {
+                Intent intent = new Intent(this, Success.class);
+                intent.putExtra("lessonID", lessonID);
+                intent.putExtra("conceptID", conceptID);
+                intent.putExtra("totalQuestions", numQuestion);
+                intent.putExtra("totalCorrect", totalCorrect);
+                intent.putExtra("redoComplete",redo);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            } else {
+
+                if (correctAnswers > 1) {
                     currentLevel += 1;
                     incorrectAnswers = 0;
                     correctAnswers = 0;
                 }
-            }
 
-            // If user has answered twenty questions and still hasn't passed the lesson, send them
-            //      to Redo page
-            if (numQuestion > 19) {
-                Intent intent = new Intent(this, Redo.class);
-                intent.putExtra("conceptID",conceptID);
-                intent.putExtra("lessonID",lessonID);
-                intent.putExtra("totalRetries",totalRetries);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            }
-
-            // Get new question
-            if (allQuestions.get(currentLevel-1).size() < 1) {
-                allQuestions = dbHelper.getAllQuestions(lessonID);
-            }
-            questionText = allQuestions.get(currentLevel-1).get(0);
-
-            // Put new question text up
-            String question = "";
-            String[] template = questionText.get(0).split("%NUM%");
-            String[] text =  questionText.get(1).split(";");
-            int j=0;
-            while (j<template.length || j<text.length) {
-                if (j<template.length) {
-                    question += template[j];
+                // If user has answered twenty questions and still hasn't passed the lesson, send them
+                //      to Redo page
+                if (numQuestion > 19) {
+                    Intent intent = new Intent(this, Redo.class);
+                    intent.putExtra("conceptID", conceptID);
+                    intent.putExtra("lessonID", lessonID);
+                    intent.putExtra("totalRetries", totalRetries);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
                 }
-                if (j<text.length) {
-                    question += text[j];
+
+                // Get new question
+                if (allQuestions.get(currentLevel - 1).size() < 1) {
+                    allQuestions = dbHelper.getAllQuestions(lessonID);
                 }
-                j++;
-            }
-            TextView questionTextView = (TextView) findViewById(R.id.question_textView);
-            questionTextView.setText(toHTML(question));
+                questionText = allQuestions.get(currentLevel - 1).get(0);
 
-            // Set radio buttons
-            RadioGroup radioGroup = (RadioGroup) findViewById(R.id.question_answer_group);
-            radioGroup.clearCheck();
-            for (int i = 0; i < radioGroup.getChildCount(); i++) {
-                String textAnswer = questionText.get(i+2);
-                ((RadioButton) radioGroup.getChildAt(i)).setText(toHTML(textAnswer));
-                ((RadioButton) radioGroup.getChildAt(i)).setEnabled(true);
-                ((RadioButton) radioGroup.getChildAt(i)).setTextColor(
-                        ContextCompat.getColor(this, R.color.colorBodyText));
-            }
+                // Put new question text up
+                String question = "";
+                String[] template = questionText.get(0).split("%NUM%");
+                String[] text = questionText.get(1).split(";");
+                int j = 0;
+                while (j < template.length || j < text.length) {
+                    if (j < template.length) {
+                        question += template[j];
+                    }
+                    if (j < text.length) {
+                        question += text[j];
+                    }
+                    j++;
+                }
+                TextView questionTextView = (TextView) findViewById(R.id.question_textView);
+                questionTextView.setText(toHTML(question));
+                if (questionTextView.getText().length() > 100) {
+                    questionTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) height / 40);
+                } else {
+                    questionTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) height / 30);
+                }
 
-            // Save what the new correct answer should be
-            correctAnswerStr = questionText.get(6);
+                // Set radio buttons
+                RadioGroup radioGroup = (RadioGroup) findViewById(R.id.question_answer_group);
+                radioGroup.clearCheck();
+                for (int i = 0; i < radioGroup.getChildCount(); i++) {
+                    String textAnswer = questionText.get(i + 2);
+                    ((RadioButton) radioGroup.getChildAt(i)).setText(toHTML(textAnswer));
+                    ((RadioButton) radioGroup.getChildAt(i)).setEnabled(true);
+                    ((RadioButton) radioGroup.getChildAt(i)).setTextColor(
+                            ContextCompat.getColor(this, R.color.colorBodyText));
+                }
 
-            submitButton.setText("Submit");
+                // Save what the new correct answer should be
+                correctAnswerStr = questionText.get(6);
 
-            allQuestions.get(currentLevel-1).remove(0);
+                submitButton.setText("Submit");
 
-            // Delete all paths
-            pathList.clear();
+                allQuestions.get(currentLevel - 1).remove(0);
 
-            // Draw blank canvas
-            if (surfaceHolder.getSurface().isValid()) {
-                canvas = surfaceHolder.lockCanvas();
-                canvas.drawColor(ContextCompat.getColor(context, R.color.canvasBackground));
-                surfaceHolder.unlockCanvasAndPost(canvas);
+                // Delete all paths
+                pathList.clear();
+
+                // Draw blank canvas
+                if (surfaceHolder.getSurface().isValid()) {
+                    canvas = surfaceHolder.lockCanvas();
+                    canvas.drawColor(ContextCompat.getColor(context, R.color.canvasBackground));
+                    surfaceHolder.unlockCanvasAndPost(canvas);
+                }
             }
 
         }

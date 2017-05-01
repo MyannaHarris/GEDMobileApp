@@ -189,7 +189,6 @@ public class DatabaseHelper{
         c.close();
         close();
 
-        System.out.println(count);
         return count == 0;
     }
 
@@ -202,7 +201,8 @@ public class DatabaseHelper{
 
         myDatabase.execSQL("INSERT INTO User VALUES ( 1 , '" + username + "', 1, datetime('NOW'), '', 0)");
 
-        String insertQuery = "INSERT INTO user_lessons(user_id, lesson_id, datetime_started) VALUES(1,1,date('NOW'))";
+        String insertQuery = "INSERT INTO user_lessons(user_id, lesson_id, datetime_started) " +
+                "VALUES(1, 1, date('NOW'))";
         myDatabase.execSQL(insertQuery);
 
         close();
@@ -470,11 +470,10 @@ public class DatabaseHelper{
         c.moveToFirst();
         String input = c.getString(0);
         String[] imagesA = input.split("[,]");
-        System.out.println(input);
+
 
 
         for(int i = 0; i<imagesA.length; i++){
-            System.out.println(imagesA[i]);
             images.add(imagesA[i]);
         }
 
@@ -605,7 +604,8 @@ public class DatabaseHelper{
         open();
 
         Cursor c = myDatabase.rawQuery("SELECT lesson_name FROM user_lessons JOIN lessons " +
-                "ON lessons.lesson_id = user_lessons.lesson_id WHERE concept_id = " + concept_id, null);
+                "ON lessons.lesson_id = user_lessons.lesson_id WHERE concept_id = " + concept_id +
+                " ORDER BY `order`", null);
         ArrayList<String> lessonNames = new ArrayList<>();
 
         while(c.moveToNext()){
@@ -628,7 +628,7 @@ public class DatabaseHelper{
         open();
 
         Cursor c = myDatabase.rawQuery("SELECT lesson_id FROM lessons WHERE concept_id = " +
-                concept_id + " LIMIT 1 OFFSET " + offset, null);
+                concept_id + " ORDER BY `order` LIMIT 1 OFFSET " + offset, null);
         c.moveToFirst();
         int id = c.getInt(0);
 
@@ -866,11 +866,16 @@ public class DatabaseHelper{
      */
     public boolean isLastLesson(int currLesson) {
         open();
-        Cursor c = myDatabase.rawQuery("SELECT max(lesson_id) from lessons", null);
+        Cursor c = myDatabase.rawQuery("SELECT max(`order`) from lessons", null);
         c.moveToFirst();
-        int lastLesson = c.getInt(0);
+        int lastLessonOrder = c.getInt(0);
+        c.close();
+        c = myDatabase.rawQuery("SELECT `order` from lessons WHERE lesson_id=" + currLesson, null);
+        c.moveToFirst();
+        int currLessonOrder = c.getInt(0);
+        c.close();
         close();
-        return (lastLesson == currLesson);
+        return (lastLessonOrder == currLessonOrder);
     }
 
     /**
@@ -1074,10 +1079,12 @@ public class DatabaseHelper{
 
         }
 
+        int length = allQAndAs.size()/2;
+
         //choose 5 random questions of the 20 to give to the user in the game
         for(int r = 0; r < 5; r++) {
             //randomly generate 1s and zeroes
-            double rand = Math.abs(Math.round(Math.random() * 20-r));
+            double rand = Math.abs(Math.round(Math.random() * (length-r)));
             if(rand%2 == 0) {
                 randQAndAs.add(allQAndAs.remove((int) rand));
                 randQAndAs.add(allQAndAs.remove((int) rand));
@@ -1125,7 +1132,7 @@ public class DatabaseHelper{
             for(int j = k+5; j<k+7;  j++) {
                 questionsAndAnswers.add(questions[j]);
             }
-            //deep copies the array lists of possible answers and qeustions and answer
+            //deep copies the array lists of possible answers and questions and answer
             allQAndAs.add(new ArrayList<String>(possibleAnswers));
             allQAndAs.add(new ArrayList<String>(questionsAndAnswers));
 
@@ -1158,6 +1165,12 @@ public class DatabaseHelper{
         ArrayList<ArrayList<String>> answers = new ArrayList<>();
         ArrayList<ArrayList<String>> hints = new ArrayList<>();
 
+        ArrayList<ArrayList<String>> randFinal = new ArrayList<>();
+        ArrayList<ArrayList<String>> randQuestion = new ArrayList<>();
+        ArrayList<ArrayList<String>> randAnswerps = new ArrayList<>();
+        ArrayList<ArrayList<String>> randAnswers = new ArrayList<>();
+        ArrayList<ArrayList<String>> randHints = new ArrayList<>();
+
         ArrayList<ArrayList<ArrayList<String>>> randQAndAs = new ArrayList<>();
 
         String[] questions;
@@ -1181,11 +1194,22 @@ public class DatabaseHelper{
             }
         }
 
-        randQAndAs.add(finalTexts);
-        randQAndAs.add(hints);
-        randQAndAs.add(question);
-        randQAndAs.add(answerps);
-        randQAndAs.add(answers);
+        int size = answers.size();
+
+        for(int i = 0; i<size; i++){
+            int rand = (int)(Math.random() * ((size-1)-i));
+            randFinal.add(finalTexts.remove((int) rand));
+            randHints.add(hints.remove((int)rand));
+            randQuestion.add(question.remove((int) rand));
+            randAnswerps.add(answerps.remove((int) rand));
+            randAnswers.add(answers.remove((int) rand));
+        }
+
+        randQAndAs.add(randFinal);
+        randQAndAs.add(randHints);
+        randQAndAs.add(randQuestion);
+        randQAndAs.add(randAnswerps);
+        randQAndAs.add(randAnswers);
 
         return randQAndAs;
     }
@@ -1224,7 +1248,7 @@ public class DatabaseHelper{
 
         String[] questions;
         questions = input.split("[&]");
-        System.out.println(questions.length);
+
 
 
         for(int i = 0; i<questions.length;i++){
@@ -1232,27 +1256,21 @@ public class DatabaseHelper{
                 finalTexts.add(new ArrayList<>(Arrays.asList(questions[i].split("[/]"))));
                 hints.add(new ArrayList<>(Arrays.asList(questions[i+1].split("[/]"))));
 
-                System.out.println(hints);
-
                 placeholder.clear();
                 placeholder.add(questions[i + 2]);
                 question.add(new ArrayList<>(placeholder));
 
-                System.out.println(question);
-
                 answerps.add(new ArrayList<>(Arrays.asList(questions[i + 3].split("[/]"))));
-
-                System.out.println(answerps);
 
                 placeholder.clear();
                 placeholder.add(questions[i + 4]);
                 answers.add(new ArrayList<>(placeholder));
-                System.out.println(answers);
             }
         }
 
-        for(int i = 3; i<6; i++){
-            double rand = Math.abs(Math.round(Math.random() * 11-i));
+        int size = answers.size();
+        for(int i = 0; i<3; i++){
+            double rand = Math.abs(Math.round(Math.random() * (size-1)-i));
             randFinal.add(finalTexts.remove((int) rand));
             randHints.add(hints.remove((int)rand));
             randQuestion.add(question.remove((int) rand));
@@ -1302,12 +1320,14 @@ public class DatabaseHelper{
             allQAndAs.add(questions[i]);
         }
 
+        int length = allQAndAs.size()/2;
+
         //choose 3 random questions of the 20 to give to the user in the game
         for(int r = 0; r < 3; r++) {
             //randomly generate 1s and zeroes
-            double rand = Math.abs(Math.round(Math.random() * 19-r));
+            double rand = Math.abs(Math.round(Math.random() * ((length-1)-r)));
             randQ.add(allQAndAs.remove((int) rand));
-            randA.add(allQAndAs.remove((int)(rand + (19-r))));
+            randA.add(allQAndAs.remove((int)(rand + ((length-1)-r))));
         }
 
         randQ.addAll(randA);
@@ -1318,9 +1338,9 @@ public class DatabaseHelper{
         //choose 3 random questions of the 20 to give to the user in the game
         for(int r = 3; r < 6; r++) {
             //randomly generate 1s and zeroes
-            double rand = Math.abs(Math.round(Math.random() * 19-r));
+            double rand = Math.abs(Math.round(Math.random() * ((length-1)-r)));
             randQ.add(allQAndAs.remove((int) rand));
-            randA.add(allQAndAs.remove((int)(rand + (19-r))));
+            randA.add(allQAndAs.remove((int)(rand + (((length-1)-r)))));
         }
 
         randQ.addAll(randA);
@@ -1547,17 +1567,33 @@ public class DatabaseHelper{
             }
     }
 
+    public int getNextLesson(int lessonID) {
+        open();
+        // get next lesson id
+        Cursor c = myDatabase.rawQuery("SELECT `order` FROM lessons WHERE lesson_id=" + lessonID, null);
+        c.moveToFirst();
+        int currOrder = c.getInt(0);
+        c.close();
+        c = myDatabase.rawQuery("SELECT lesson_id FROM lessons WHERE `order`>"
+                + currOrder + " ORDER BY `order` ASC LIMIT 1",null);
+        c.moveToFirst();
+        int newLessonID = c.getInt(0);
+        c.close();
+        close();
+        return newLessonID;
+    }
+
     /**
      * Method to update user_lessons to unlock next lesson, also sets current lesson to next lesson
      * @param lessonID of the lesson completed
+     * @param newLessonID , id of the next lesson
      */
-    public void lessonCompleted(int lessonID) {
+    public void lessonCompleted(int lessonID, int newLessonID) {
         open();
         // set time for completed lesson
         String updateQuery = "UPDATE user_lessons SET datetime_finished=date('now') WHERE lesson_id="
                 + lessonID;
         myDatabase.execSQL(updateQuery);
-        int newLessonID = lessonID + 1;
         // if next lesson is not already in user_lessons, add it
         Cursor c = myDatabase.rawQuery("SELECT count(lesson_id) FROM user_lessons WHERE lesson_id="
                 + newLessonID,null);

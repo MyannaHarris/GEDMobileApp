@@ -20,6 +20,7 @@ package com.gedappgui.gedappgui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.Spanned;
@@ -32,6 +33,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+
+import static android.content.Context.VIBRATOR_SERVICE;
 
 public class OrderingGameView extends LinearLayout {
 
@@ -47,7 +51,7 @@ public class OrderingGameView extends LinearLayout {
     private Context context;
 
     // Save current question info
-    private ArrayList<ArrayList<String>>texts;
+    private ArrayList<ArrayList<ArrayList<String>>> texts;
     private int currQuestion = 0;
     private ArrayList<String> questionTexts;
     private ArrayList<String> answerTexts;
@@ -83,6 +87,9 @@ public class OrderingGameView extends LinearLayout {
     // List of textviews that are locked in
     private ArrayList<Integer> lockedTextViews;
 
+    // For Haptic Feedback
+    private Vibrator myVib;
+
     public OrderingGameView(Context contextp, ArrayList<ArrayList<String>> textsp,
                             int conceptIDp, int lessonIDp, final int nextActivityp,
                             int width, int heightp) {
@@ -99,7 +106,21 @@ public class OrderingGameView extends LinearLayout {
         height = heightp;
 
         // Get texts
-        texts = textsp;
+        texts = new ArrayList<ArrayList<ArrayList<String>>>();
+
+        // Make list to combine answers and questions to allow for more randomization
+        for(int x = 0; x < textsp.size(); x += 2) {
+            ArrayList<ArrayList<String>> tempQuestion = new ArrayList<ArrayList<String>>();
+            tempQuestion.add(textsp.get(x));
+            tempQuestion.add(textsp.get(x + 1));
+            texts.add(tempQuestion);
+        }
+
+        // Shuffle question order
+        Collections.shuffle(texts);
+
+        // Set up vibrator service
+        myVib = (Vibrator) context.getSystemService(VIBRATOR_SERVICE);
 
         // Set up text views so no null exception happens
         lastTextView = new TextView(context);
@@ -126,7 +147,7 @@ public class OrderingGameView extends LinearLayout {
             endButton = new Button(context);
             endButton.setLayoutParams(linearLayoutButton);
             endButton.setTextSize(convertPixelsToDp(height / 17, context));
-            endButton.setTextColor(ContextCompat.getColor(context, R.color.orderingGameText));
+            endButton.setTextColor(ContextCompat.getColor(context, R.color.orderingGameLockedColor));
             endButton.setText("End Game");
             endButton.setHeight((height - (30 + 10 * 5)) / 8);
 
@@ -153,14 +174,14 @@ public class OrderingGameView extends LinearLayout {
         // Set up topLabel
         topLabel.setLayoutParams(linearParams);
         topLabel.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-        topLabel.setTextColor(ContextCompat.getColor(context, R.color.orderingGameText));
+        topLabel.setTextColor(ContextCompat.getColor(context, R.color.orderingGameLockedColor));
         topLabel.setTextSize(convertPixelsToDp(height / 17, context));
         topLabel.setBackgroundColor(ContextCompat.getColor(context, R.color.orderingGameTopColor));
 
         // Set up bottomLabel
         bottomLabel.setLayoutParams(linearParams);
         bottomLabel.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-        bottomLabel.setTextColor(ContextCompat.getColor(context, R.color.orderingGameText));
+        bottomLabel.setTextColor(ContextCompat.getColor(context, R.color.orderingGameLockedColor));
         bottomLabel.setTextSize(convertPixelsToDp(height / 17, context));
         bottomLabel.setBackgroundColor(ContextCompat.getColor(context, R.color.orderingGameBottomColor));
 
@@ -314,7 +335,10 @@ public class OrderingGameView extends LinearLayout {
                                 TextView child = (TextView) linearLayout.getChildAt(i);
                                 if (!((String) child.getTag().toString()).equals(answerTexts.get(i - start))) {
                                     questionDone = false;
+
+
                                 } else {
+
                                     lockedTextViews.add(i);
                                     child.setTextColor(ContextCompat.getColor(context,
                                             R.color.orderingGameLockedColor));
@@ -323,6 +347,8 @@ public class OrderingGameView extends LinearLayout {
 
                             // Move on to next question if ordered correctly
                             if (questionDone) {
+                                // vibrate when correct
+                                myVib.vibrate(150);
                                 // Pause if correct so user can see answer
                                 new Handler().postDelayed(new Runnable() {
                                     public void run() {
@@ -330,7 +356,11 @@ public class OrderingGameView extends LinearLayout {
                                         currQuestion += 1;
                                         setUp();
                                     }
-                                }, 800);
+                                }, 1200);
+                            } else {
+                                // incorrect vibrate
+                                long[] incorrectBuzz = {0,55,40,55};
+                                myVib.vibrate(incorrectBuzz, -1); // vibrate
                             }
 
                             // Delete moving textView from layout
@@ -350,10 +380,13 @@ public class OrderingGameView extends LinearLayout {
      * Set up question and answer text
      */
     private void setUp() {
-        if (currQuestion * 2 < texts.size() || nextActivity == 1) {
+        if (currQuestion < texts.size() || nextActivity == 1) {
 
-            if (nextActivity == 1 && currQuestion * 2 >= texts.size()) {
+            if (nextActivity == 1 && currQuestion >= texts.size()) {
                 currQuestion = 0;
+
+                // Shuffle question order
+                Collections.shuffle(texts);
             }
 
             // Clear locked textviews for next round
@@ -362,8 +395,8 @@ public class OrderingGameView extends LinearLayout {
             // If there are more questions left
 
             // Set up item texts
-            questionTexts = texts.get(currQuestion * 2);
-            answerTexts = texts.get(currQuestion * 2 + 1);
+            questionTexts = texts.get(currQuestion).get(0);
+            answerTexts = texts.get(currQuestion).get(1);
 
             // Set up label heights
             topLabel.setHeight((height - endButtonSize - (30 + 10 * answerTexts.size())) / (answerTexts.size() + 2));

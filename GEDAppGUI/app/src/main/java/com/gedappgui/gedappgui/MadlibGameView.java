@@ -23,6 +23,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Build;
+import android.os.Vibrator;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
@@ -42,10 +43,14 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.regex.*;
+
+import static android.content.Context.VIBRATOR_SERVICE;
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 public class MadlibGameView extends RelativeLayout {
     private Context context;
@@ -103,26 +108,31 @@ public class MadlibGameView extends RelativeLayout {
     //dialog for if the user doesnt fill all boxes
     AlertDialog.Builder noFillDialog;
 
+    // For Haptic Feedback
+    private Vibrator myVib;
+
+    private ScrollView scroll;
+
+    private DatabaseHelper db;
+
+    private boolean inf;
+
     /**
      * constructor for madlib game
      * @param contextp context of the activity
      * @param activityp reference to previous activity
-     * @param words the fill in words for the madlib
-     * @param question the questions for the game
-     * @param answerPs the answer possibilities
-     * @param answerAs the answer for each questions
+     * @param infp true or false whether its infinite play or not
+     * @param input all the question information
      * @param conceptIDp ID of the current concept
      * @param lessonIDp ID of the current lesson
      * @param nextActivityp Number indicating what the activity after the game should be
      * @param width1 Width of the screen in pixels
      * @param height1 Height of screen in pixels
      */
-    public MadlibGameView(Context contextp, Activity activityp, ArrayList<ArrayList<String>> words,
-                          ArrayList<ArrayList<String>> question, ArrayList<ArrayList<String>> answerPs,
-                          ArrayList<ArrayList<String>> hintp,
-                                  ArrayList<ArrayList<String>> answerAs, int conceptIDp,
-                          int lessonIDp, int nextActivityp, int width1, int height1) {
+    public MadlibGameView(Context contextp, Activity activityp, boolean infp, ArrayList<ArrayList<ArrayList<String>>> input, int conceptIDp,
+                          int lessonIDp, int nextActivityp, int width1, int height1, ScrollView scrollp) {
         super(contextp);
+        db = new DatabaseHelper(contextp);
 
         context = contextp;
         activity = activityp;
@@ -132,16 +142,17 @@ public class MadlibGameView extends RelativeLayout {
         conceptID = conceptIDp;
         lessonID = lessonIDp;
         nextActivity = nextActivityp;
+        scroll = scrollp;
 
         height = height1;
         width = width1;
 
         //holds the game content
-        wordFills = words;
-        hints = hintp;
-        questionTexts = question;
-        answerTexts = answerPs;
-        answers = answerAs;
+        wordFills = input.get(0);
+        hints = input.get(1);
+        questionTexts = input.get(2);
+        answerTexts = input.get(3);
+        answers = input.get(4);
 
         //for current text views and edit text views
         userInput = new ArrayList<>();
@@ -151,8 +162,12 @@ public class MadlibGameView extends RelativeLayout {
         allUserInput = new ArrayList<>();
         allUserFills = new ArrayList<>();
 
+        // Set up vibrator service
+        myVib = (Vibrator) context.getSystemService(VIBRATOR_SERVICE);
+
         //current question
         currQuestion = 0;
+        inf = infp;
 
         // Instantiate an AlertDialog.Builder with its constructor
         noFillDialog = new AlertDialog.Builder(context, R.style.AlertDialogAppearance);
@@ -168,15 +183,16 @@ public class MadlibGameView extends RelativeLayout {
         //if accessed from arcade
         if(nextActivityp == 1){
             //create new end game button
-            LinearLayout.LayoutParams linearLayoutButton = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT, (height - statusBarHeight - 15) / 8 - 20);
+            RelativeLayout.LayoutParams relativeLayoutButton = new RelativeLayout.LayoutParams(
+                    MATCH_PARENT, (height - statusBarHeight - 15) / 8 - 20);
 
-            linearLayoutButton.setMargins(0, 5, 0, 5);
+            relativeLayoutButton.setMargins(25, 20, 25, 0);
 
             endButton = new Button(context);
-            endButton.setLayoutParams(linearLayoutButton);
+            endButton.setLayoutParams(relativeLayoutButton);
             endButton.setTextSize(convertPixelsToDp(height / 20, context));
-            endButton.setTextColor(ContextCompat.getColor(context, R.color.matchGameText));
+            endButton.setTextColor(ContextCompat.getColor(context, R.color.colorButtonText));
+            endButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorButton));
             endButton.setText("End Game");
             endButton.setGravity(Gravity.CENTER_HORIZONTAL);
             endButton.setHeight((height - statusBarHeight - 15) / 8 - 20);
@@ -203,9 +219,13 @@ public class MadlibGameView extends RelativeLayout {
         } else {
             questionSubmit.setId(View.generateViewId());
         }
+        questionSubmit.setTextColor(ContextCompat.getColor(context, R.color.colorButtonText));
+        questionSubmit.setBackgroundColor(ContextCompat.getColor(context, R.color.colorButton));
 
         submit = new Button(context);
-        submit.setText("Submit");
+        submit.setText("SUBMIT");
+        submit.setTextColor(ContextCompat.getColor(context, R.color.colorButtonText));
+        submit.setBackgroundColor(ContextCompat.getColor(context, R.color.colorButton));
         submit.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
 
 
@@ -220,7 +240,6 @@ public class MadlibGameView extends RelativeLayout {
         for(int i = 0; i<wordFills.size(); i++){
             for(int j = 0; j<wordFills.get(i).size(); j++){
                 userInput.add(createTextView(wordFills.get(i).get(j), userFills, j));
-                System.out.println(hints.get(i).get(j));
                 userFills.add(createEditText(wordFills.get(i).get(j), userInput, hints.get(i).get(j), j));
             }
 
@@ -241,6 +260,11 @@ public class MadlibGameView extends RelativeLayout {
             public void onClick(View v){
                 //checks to see if the user has entered all words
                 if(notFilled(allUserFills.get(currQuestion))){
+                    InputMethodManager inputManager = (InputMethodManager)
+                            activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(),
+                            InputMethodManager.HIDE_NOT_ALWAYS);
+
                     //throw up a dialog box if they haven't added all yet
                     noFillDialog.setTitle("Oops!");
                     noFillDialog.setMessage("You must enter a word in each blank before you can continue.");
@@ -260,6 +284,13 @@ public class MadlibGameView extends RelativeLayout {
                 }
                 //if all input is given, create the madlib
                 else {
+                    InputMethodManager inputManager = (InputMethodManager)
+                            activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(),
+                            InputMethodManager.HIDE_NOT_ALWAYS);
+
+                    //rescroll back to the top
+                    scroll.scrollTo(0,0);
                     createMadLib(allUserFills.get(currQuestion), wordFills.get(currQuestion));
                 }
                 };});
@@ -325,7 +356,7 @@ public class MadlibGameView extends RelativeLayout {
         relativeLay.setMargins(10, 10, 10, 10);
         relativeLay.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         question.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-        question.setPadding(50,50,50,50);
+        question.setPadding(25,25,25,25);
 
         //changes the layout to make room for the end button if accessed from games page
         if(nextActivity == 1){
@@ -345,9 +376,11 @@ public class MadlibGameView extends RelativeLayout {
         RadioGroup radioGroup = new RadioGroup(context);
         final RadioButton[] rb = new RadioButton[4];
         radioGroup.setOrientation(RadioGroup.VERTICAL);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+
         for(int i=0; i<4; i++){
             rb[i]  = new RadioButton(context);
-            radioGroup.addView(rb[i]); //the RadioButtons are added to the radioGroup instead of the layout
+            radioGroup.addView(rb[i], layoutParams); //the RadioButtons are added to the radioGroup instead of the layout
         }
 
         for (int i = 0; i < radioGroup.getChildCount(); i++) {
@@ -365,28 +398,38 @@ public class MadlibGameView extends RelativeLayout {
 
 
         relativeLay = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        relativeLay.setMargins(10, 20, 10, 20);
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        relativeLay.setMargins(10, 10, 10, 10);
         relativeLay.addRule(RelativeLayout.BELOW, question.getId());
-        radioGroup.setPadding(50,10,10,50);
+        radioGroup.setPadding(25,25,25,25);
 
         radioGroup.setLayoutParams(relativeLay);
 
         this.addView(radioGroup);
 
         //sets up the submit button
-        questionSubmit.setText("Submit");
+        questionSubmit.setText("SUBMIT");
 
         relativeLay = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        relativeLay.setMargins(50,10,10,10);
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        relativeLay.setMargins(35,35,35,100);
         relativeLay.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         relativeLay.addRule(RelativeLayout.BELOW, radioGroup.getId());
 
         questionSubmit.setLayoutParams(relativeLay);
         questionSubmit.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
 
+        //adds empty padding at the bottom to help the scroll
+        TextView space = new TextView(context);
+        space.setFocusable(false);
+        space.setTextIsSelectable(false);
+        relativeLay = new RelativeLayout.LayoutParams(
+                MATCH_PARENT, 100);
+        relativeLay.addRule(RelativeLayout.BELOW, questionSubmit.getId());
+        space.setLayoutParams(relativeLay);
+
         this.addView(questionSubmit);
+        this.addView(space);
 
         //adds listener so when submit is clicked it will check the answer the user entered
         questionSubmit.setOnClickListener(new View.OnClickListener(){
@@ -402,7 +445,7 @@ public class MadlibGameView extends RelativeLayout {
      */
     public void evalAnswer(){
         // Make sure an answer is selected and submit button says Submit
-        if (selectedAnswer > 0 && questionSubmit.getText().equals("Submit")) {
+        if (selectedAnswer > 0 && questionSubmit.getText().equals("SUBMIT")) {
             // If answer has been selected, submit and check it
 
             // Disable radio buttons
@@ -416,11 +459,14 @@ public class MadlibGameView extends RelativeLayout {
 
             // Check if answer is correct
             if (selectedString.equals(answers.get(currQuestion).get(0))) {
+                // vibrate when correct
+                myVib.vibrate(150);
+
                 ((RadioButton) radioGroup.getChildAt(selectedAnswer-1)).setTextColor(
                         ContextCompat.getColor(context, R.color.questionCorrect)
                 );
                 //change button to say continue and increase current question
-                questionSubmit.setText("Continue");
+                questionSubmit.setText("CONTINUE");
                 currQuestion++;
 
                 //if this is isnt the last question, set up views for user input page and new question
@@ -429,13 +475,17 @@ public class MadlibGameView extends RelativeLayout {
                     questionSubmit.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            //rescroll back to the top
+                            scroll.scrollTo(0,0);
+
+                            //add new views
                             addViews(allUserFills.get(currQuestion),
                                     allUserInput.get(currQuestion));
                         }
                     });
                 }
                 //if it is the last question, end the game
-                else{
+                else if(!inf){
                     //end the game
                     questionSubmit.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -444,27 +494,41 @@ public class MadlibGameView extends RelativeLayout {
                         }
                     });
                 }
+                else{
+                    // Get new question
+                    questionSubmit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //rescroll back to the top
+                            scroll.scrollTo(0,0);
+
+                            //add new views
+                            resetForInf();
+                        }
+                    });
+                }
                 //if the answer is wrong, change button text, make wrong answer red and let the user
                 //try again
             } else {
+                // incorrect vibrate
+                long[] incorrectBuzz = {0,55,40,55};
+                myVib.vibrate(incorrectBuzz, -1); // vibrate
+
                 ((RadioButton) radioGroup.getChildAt(selectedAnswer-1)).setTextColor(
                         ContextCompat.getColor(context, R.color.questionIncorrect)
                 );
-                questionSubmit.setText("Try Again!");
+
+                radioGroup.clearCheck();
+                // enable radio buttons
+                for (int i = 0; i < radioGroup.getChildCount(); i++) {
+                    ((RadioButton) radioGroup.getChildAt(i)).setEnabled(true);
+                }
+
+                questionSubmit.setText("SUBMIT");
             }
 
             // Clear out selected answer
             selectedAnswer = 0;
-        }
-        //if its set to try again, let the user try again and renable buttons
-        else if(questionSubmit.getText().equals("Try Again!")) {
-            // enable radio buttons
-
-            RadioGroup radioGroup = (RadioGroup) findViewById(R.id.madlibGameRButtons);
-            for (int i = 0; i < radioGroup.getChildCount(); i++) {
-                ((RadioButton) radioGroup.getChildAt(i)).setEnabled(true);
-            }
-            questionSubmit.setText("Submit");
         }
     }
 
@@ -491,8 +555,8 @@ public class MadlibGameView extends RelativeLayout {
 
             //sets up submit button
             RelativeLayout.LayoutParams relativeLay = new RelativeLayout.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            relativeLay.setMargins(50, 10, 10, 10);
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            relativeLay.setMargins(35, 100, 35, 10);
             relativeLay.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
             relativeLay.addRule(RelativeLayout.BELOW, allUserFills.get(currQuestion).get(allUserFills.get(currQuestion).size() - 1).getId());
             submit.setLayoutParams(relativeLay);
@@ -503,7 +567,7 @@ public class MadlibGameView extends RelativeLayout {
             space.setFocusable(false);
             space.setTextIsSelectable(false);
             relativeLay = new RelativeLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, 150);
+                    MATCH_PARENT, 600);
             relativeLay.addRule(RelativeLayout.BELOW, submit.getId());
             space.setLayoutParams(relativeLay);
 
@@ -511,11 +575,49 @@ public class MadlibGameView extends RelativeLayout {
             this.addView(space);
 
             //no more questions left, ends game
-        } else {
-            endGame();
         }
     }
 
+    /**
+     * Resets and gets more random questions if in infinite plat
+     */
+    void resetForInf(){
+        currQuestion = 0;
+        ArrayList<ArrayList<ArrayList<String>>> input = db.selectInfiniteMadlibInput(lessonID);
+
+        //holds the game content
+        wordFills = input.get(0);
+        hints = input.get(1);
+        questionTexts = input.get(2);
+        answerTexts = input.get(3);
+        answers = input.get(4);
+
+        //for current text views and edit text views
+        userInput.clear();
+        userFills.clear();
+
+        //for all text views and edit text views
+        allUserInput.clear();
+        allUserFills.clear();
+
+        //goes through all the word gathering data and  creates the right amount of text and
+        //edit text views for the current problem
+        for(int i = 0; i<wordFills.size(); i++){
+            for(int j = 0; j<wordFills.get(i).size(); j++){
+                userInput.add(createTextView(wordFills.get(i).get(j), userFills, j));
+                userFills.add(createEditText(wordFills.get(i).get(j), userInput, hints.get(i).get(j), j));
+            }
+
+            //add the specific questions textviews and edit text views to all edit text and text views
+            allUserInput.add(new ArrayList<>(userInput));
+            allUserFills.add(new ArrayList<>(userFills));
+            userInput.clear();
+            userFills.clear();
+        }
+
+        //adds the views for the user input
+        addViews(allUserFills.get(currQuestion), allUserInput.get(currQuestion));
+    }
     /**
      * checks to see if any of the edit text views are not filled
      * @param edits the edittext views with user input
@@ -568,8 +670,8 @@ public class MadlibGameView extends RelativeLayout {
 
 
         newWord.setLayoutParams(relativeLay);
-        newWord.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-        newWord.setPadding(50,100,10,10);
+        //newWord.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+        newWord.setPadding(25,100,25,10);
         newWord.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
 
         //returns text view
@@ -599,7 +701,7 @@ public class MadlibGameView extends RelativeLayout {
             userWord.setId(View.generateViewId());
         }
 
-        relativeLay.setMargins(50,10,10,10);
+        relativeLay.setMargins(25,10,25,10);
         relativeLay.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         relativeLay.addRule(RelativeLayout.BELOW, tViews.get(num).getId());
 

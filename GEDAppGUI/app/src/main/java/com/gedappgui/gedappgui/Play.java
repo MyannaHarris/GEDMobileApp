@@ -153,7 +153,7 @@ public class Play extends AppCompatActivity {
         }
 
         //give the user an achievement if they have unlocked all games
-        if(currLessonId > 24){
+        if(currLessonId > dbHelper.getMaxLessonId()){
             Intent achievement = new Intent(this, AchievementPopUp.class);
             achievement.putExtra("achievementID", 4);
             startActivity(achievement);

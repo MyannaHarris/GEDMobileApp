@@ -131,12 +131,12 @@ public class MainActivity extends AppCompatActivity {
             progress.setScaleY(4f);
             int count = db.lessonCount()-1;
             progress.setProgress(count);
-            if(count == 24){
+            if(count == db.getMaxLessonId()){
                 seeProgress.setText("Congratulations! You completed all lessons!");
             }
             else if(count != 0){
                 progress.setProgress(count);
-                seeProgress.setText("Great Work! You have completed " + count + "/24 lessons!");
+                seeProgress.setText("Great Work! You have completed " + count + "/" + db.getMaxLessonId() + " lessons!");
             }
             else{
                 progress.setProgress(count);
@@ -220,16 +220,14 @@ public class MainActivity extends AppCompatActivity {
             progress.setScaleY(4f);
             int count = db.lessonCount()-1;
             progress.setProgress(count);
-            if(count == 24){
+            if(count == db.getMaxLessonId()){
                 seeProgress.setText("Congratulations! You completed all lessons!");
-            }
-            else if(count != 0){
-                progress.setProgress(count);
-                seeProgress.setText("Great Work! You have completed " + count + "/24 lessons!");
             }
             else{
                 progress.setProgress(count);
+                seeProgress.setText("Great Work! You have completed " + count + "/" + db.getMaxLessonId() + " lessons!");
             }
+
 
             // Read in accessory data
             // accessory_img, layer_id, currently_wearing
@@ -240,7 +238,6 @@ public class MainActivity extends AppCompatActivity {
                 for (int i = 0; i < accessories.size(); i++) {
                     if (accessories.get(i).get(2).equals("1")) {
                         addSavedAccessory(accessories.get(i).get(0));
-                        System.out.println(accessories.get(i).get(0));
                     }
                 }
             }
@@ -433,15 +430,10 @@ public class MainActivity extends AppCompatActivity {
         //gets the current lesson id
         final int lessonID = db.selectCurrentLessonID();
 
-        //for test purposes
-        System.out.println(lessonID);
-
         //check to see if it is a valid lesson
         if (lessonID < 25) {
             final String lessonTitle = db.selectLessonTitle(lessonID);
-            System.out.println(lessonTitle);
             final int conceptID = db.selectConceptID(lessonID);
-            System.out.println(conceptID);
 
             intentSummary.putExtra("lessonTitle", lessonTitle);
             intentSummary.putExtra("conceptID", conceptID);

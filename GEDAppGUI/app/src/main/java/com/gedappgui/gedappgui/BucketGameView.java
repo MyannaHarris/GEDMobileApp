@@ -40,6 +40,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static android.content.Context.VIBRATOR_SERVICE;
 
@@ -91,7 +92,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
     private long endTime;
 
     // Current question tracking
-    private ArrayList<ArrayList<String>> gameQuestions;
+    private ArrayList<ArrayList<ArrayList<String>>> gameQuestions;
     private int currentQuestion = 0;
 
     // For Haptic Feedback
@@ -144,15 +145,26 @@ public class BucketGameView extends SurfaceView implements Runnable  {
         // Set up vibrator service
         myVib = (Vibrator) context.getSystemService(VIBRATOR_SERVICE);
 
-        // gameQuestions has all the info for the game
+        // gameQuestionsp has all the info for the game
         // 0 - texts
         // 1 - answers (0 - question)
-        gameQuestions = gameQuestionsp;
+        gameQuestions = new ArrayList<ArrayList<ArrayList<String>>>();
+
+        // Make list to combine answers and questions to allow for more randomization
+        for(int x = 0; x < gameQuestionsp.size(); x += 2) {
+            ArrayList<ArrayList<String>> tempQuestion = new ArrayList<ArrayList<String>>();
+            tempQuestion.add(gameQuestionsp.get(x));
+            tempQuestion.add(gameQuestionsp.get(x + 1));
+            gameQuestions.add(tempQuestion);
+        }
+
+        // Shuffle question order
+        Collections.shuffle(gameQuestions);
 
         // The text to fall from the sky
-        ArrayList<String> texts = gameQuestions.get(currentQuestion);
+        ArrayList<String> texts = gameQuestions.get(currentQuestion).get(0);
         // The question and answers
-        ArrayList<String> answersStr = gameQuestions.get(currentQuestion + 1);
+        ArrayList<String> answersStr = gameQuestions.get(currentQuestion).get(1);
 
         // Info for dynamically making size of game parts
         numberCount = texts.size();
@@ -169,10 +181,14 @@ public class BucketGameView extends SurfaceView implements Runnable  {
         if (lessonID == 3) {
             question = question.replaceAll("[_]", "?");
         }
-        answersStr.remove(0);
 
         // Save the answers list
-        answers = answersStr;
+        answers = new ArrayList<String>();
+        // Copy answers
+        // Skip question in index 0
+        for (int x = 1; x < answersStr.size(); x++) {
+            answers.add(answersStr.get(x));
+        }
         numAnswers = answers.size();
 
         // Initializing drawing objects
@@ -317,14 +333,14 @@ public class BucketGameView extends SurfaceView implements Runnable  {
             // If collision occurs with player
             if (Rect.intersects(bucket.getDetectCollision(), numbers[i].getDetectCollision())) {
 
-                // vibrate when collision
-                myVib.vibrate(100);
 
                 // Moving enemy outside the left edge
                 numbers[i].setX(-200);
 
                 // Check if it is a correct answer
                 if (answers.contains(numbers[i].getText())) {
+                    // correct vibrate
+                    myVib.vibrate(150);
 
                     // Remove number from answers if correct so only the
                     //      correct answers not yet gotten count from now on
@@ -354,6 +370,10 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                     }
 
                     correctAnswers += 1;
+                } else {
+                    // incorrect vibrate
+                    long[] incorrectBuzz = {0,55,40,55};
+                    myVib.vibrate(incorrectBuzz, -1); // vibrate
                 }
 
                 // Show if user got answer correct or incorrect
@@ -369,23 +389,26 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                 // Wait so user can see their answers
                 if (showFinishedGameTimer == 0) {
                     // Go to next question if there is another question left to go to
-                    if (currentQuestion + 3 <= gameQuestions.size() - 1 || nextActivity == 1) {
+                    if (currentQuestion + 1 < gameQuestions.size() || nextActivity == 1) {
 
-                        if (nextActivity == 1 && currentQuestion + 3 > gameQuestions.size() - 1) {
-                            currentQuestion = -2;
+                        if (nextActivity == 1 && currentQuestion + 1 >= gameQuestions.size()) {
+                            currentQuestion = 0;
+                            // Shuffle question order
+                            Collections.shuffle(gameQuestions);
+                        } else {
+
+                            // Increment question by 2 since every 2 lists in the master list
+                            //      are for a single question
+                            currentQuestion += 1;
                         }
-
-                        // Increment question by 2 since every 2 lists in the master list
-                        //      are for a single question
-                        currentQuestion += 2;
                         // Reset number of correct answers for this round to 0
                         correctAnswers = 0;
 
                         // The lists of information from the master list
                         // Evens are numbers to drop
                         // Odds are the question and answers
-                        ArrayList<String> texts = gameQuestions.get(currentQuestion);
-                        ArrayList<String> answersStr = gameQuestions.get(currentQuestion + 1);
+                        ArrayList<String> texts = gameQuestions.get(currentQuestion).get(0);
+                        ArrayList<String> answersStr = gameQuestions.get(currentQuestion).get(1);
 
                         // Get next question information
                         numberCount = texts.size(); // Number of falling numbers
@@ -393,8 +416,13 @@ public class BucketGameView extends SurfaceView implements Runnable  {
                         if (lessonID == 3) {
                             question = question.replaceAll("[_]", "?");
                         }
-                        answersStr.remove(0); // Remove question from list
-                        answers = answersStr; // Save all of the answers in a global list
+
+                        answers.clear(); // Save all of the answers in a global list
+                        // Copy answers
+                        // Skip question in index 0
+                        for (int x = 1; x < answersStr.size(); x++) {
+                            answers.add(answersStr.get(x));
+                        }
                         numAnswers = answers.size(); // Number of answers for the question
 
                         //initializing drawing objects

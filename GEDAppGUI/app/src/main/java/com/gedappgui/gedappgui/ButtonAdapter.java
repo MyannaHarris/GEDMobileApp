@@ -19,9 +19,10 @@ package com.gedappgui.gedappgui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Handler;
+import android.os.Vibrator;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.Spanned;
 import android.view.View;
@@ -34,6 +35,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import static android.content.Context.VIBRATOR_SERVICE;
+
 public class ButtonAdapter extends BaseAdapter {
 
     // Hold context of activity that called adapter
@@ -43,6 +46,7 @@ public class ButtonAdapter extends BaseAdapter {
     private ImageView changer;
     private String[] answers;
     private TextView statement;
+    private TextView inc_counter;
     private int cur = 0;
     private int pictureindex = 0;
     private int[] pictures;
@@ -50,7 +54,10 @@ public class ButtonAdapter extends BaseAdapter {
     private int lesson;
     private int concept;
     private int nextActivity;
+    private int num_qs = 0;
 
+    // For Haptic Feedback
+    private Vibrator myVib;
 
     /**
      * Constructor for PictureGameView buttons
@@ -68,19 +75,22 @@ public class ButtonAdapter extends BaseAdapter {
      */
     public ButtonAdapter(Context c, String[] buttonNamesp, ImageView change, String splitter,
                          TextView state, int[] pics, TextView result, int lessonID,
-                         int conceptID, int nextAct) {
+                         int conceptID, int nextAct, TextView counter) {
 
         mContext = c;
         buttonNames = buttonNamesp;
         changer = change;
         answers = splitter.split(";");
         statement = state;
+        inc_counter = counter;
         pictures = pics;
         resulter = result;
         lesson = lessonID;
         nextActivity = nextAct;
         concept = conceptID;
 
+        // Set up vibrator service
+        myVib = (Vibrator) c.getSystemService(VIBRATOR_SERVICE);
     }
 
     /**
@@ -170,6 +180,7 @@ public class ButtonAdapter extends BaseAdapter {
 
 
         final Button button;
+
         if (convertView == null) {
              //if it's not recycled, initialize some attributes
             button = new Button(mContext);
@@ -187,7 +198,13 @@ public class ButtonAdapter extends BaseAdapter {
             button.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
+                 if (!statement.getText().equals("Congratulations!")){
                     if (answers[cur + 1].equals("t")){
+                        if (nextActivity != 0){
+                            inc_counter.setText("Correct Questions: " + Integer.toString(++num_qs));
+                        }
+                        // vibrate when correct
+                        myVib.vibrate(150);
                         //questions onneven indexes, answers on odd indexes
                         //Gets a random even number to put in the current statement
                         int rand = (int) (Math.random() * 40);
@@ -229,6 +246,12 @@ public class ButtonAdapter extends BaseAdapter {
                                 h2.postDelayed(r2, 2750);
                             } else {
                                 button.setEnabled(true);
+                                Runnable r3 = new Runnable(){
+                                    @Override
+                                    public void run(){
+                                        ImageViewAnimatedChange(mContext,changer,pictures[5]);
+                                    }
+                                };
                                 pictureindex = 0;
                                 //randomly pulled from the queue
                                 int rand2 = (int) (Math.random() * 40);
@@ -244,12 +267,17 @@ public class ButtonAdapter extends BaseAdapter {
                                 };
                                 Handler h2 = new Handler();
                                 //Delay picture change by .75 secs
-                                h.postDelayed(r,750);
+                                h2.postDelayed(r3,750);
+                                h2.postDelayed(r2,2500);
                             }
                         }
 
                     }
                     else{
+                        // incorrect vibrate
+                        long[] incorrectBuzz = {0,55,40,55};
+                        myVib.vibrate(incorrectBuzz, -1); // vibrate
+
                         resulter.setText("Incorrect! Try again");
                         //randomly pulled from the queue
                         int rand2 = (int) (Math.random() * 40);
@@ -258,6 +286,11 @@ public class ButtonAdapter extends BaseAdapter {
                         cur = rand2;
                         statement.setText(toHTML(answers[cur]));
                     }
+                 }
+                 else
+                 {
+                   // do nothing if at end of game
+                 }
                 }
             });
         }
@@ -267,81 +300,102 @@ public class ButtonAdapter extends BaseAdapter {
             button.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
-                    if (answers[cur + 1].equals("f")){
-                        //randomly pulled from the queue
-                        int rand = (int) (Math.random() * 40);
-                        if ((rand % 2) == 1)
-                            rand = rand - 1;
-                        cur = rand;
-                        statement.setText(toHTML(answers[cur]));
-                        resulter.setText("Correct!");
-                        //changes picture
-                        Runnable r = new Runnable(){
-                            @Override
-                            public void run(){
-                                ImageViewAnimatedChange(mContext,changer,pictures[pictureindex]);
+                    if (!statement.getText().equals("Congratulations!")){
+                        if (answers[cur + 1].equals("f")){
+                            if (nextActivity != 0){
+                                inc_counter.setText("Correct Questions: " + Integer.toString(++num_qs));
                             }
-                        };
-                        Handler h = new Handler();
-                        //Delay picture change by .75 secs
-                        h.postDelayed(r,750);
-                        pictureindex++;
-                        //once 5 statements are answered correctly
-                        if (pictureindex > 4){
-                            statement.setText("Congratulations!");
-                            button.setEnabled(false);
-                            if (nextActivity != 1) {
-                                Runnable r2 = new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        //starts GameEnd activity
-                                        Context context = mContext;
-                                        Intent intent = new Intent(context, GameEnd.class);
-                                        intent.putExtra("next_activity", nextActivity);
-                                        intent.putExtra("conceptID", concept);
-                                        intent.putExtra("lessonID", lesson);
-                                        context.startActivity(intent);
-                                    }
-                                };
-                                Handler h2 = new Handler();
-                                //Delay transition to game end by 2.75 secs
-                                h2.postDelayed(r2, 2750);
-                            } else {
-                                button.setEnabled(true);
-                                pictureindex = 0;
-                                //randomly pulled from the queue
-                                int rand2 = (int) (Math.random() * 41);
-                                if ((rand2 % 2) == 1)
-                                    rand2 = rand2 - 1;
-                                cur = rand2;
-                                statement.setText(toHTML(answers[cur]));
-                                Runnable r2 = new Runnable(){
-                                    @Override
-                                    public void run(){
-                                        ImageViewAnimatedChange(mContext,changer,pictures[pictureindex]);
-                                    }
-                                };
-                                Handler h2 = new Handler();
-                                //Delay picture change by .75 secs
-                                h.postDelayed(r,750);
+                            // vibrate when correct
+                            myVib.vibrate(150);
+                            //randomly pulled from the queue
+                            int rand = (int) (Math.random() * 40);
+                            if ((rand % 2) == 1)
+                                rand = rand - 1;
+                            cur = rand;
+                            statement.setText(toHTML(answers[cur]));
+                            resulter.setText("Correct!");
+                            //changes picture
+                            Runnable r = new Runnable(){
+                                @Override
+                                public void run(){
+                                    ImageViewAnimatedChange(mContext,changer,pictures[pictureindex]);
+                                }
+                            };
+                            Handler h = new Handler();
+                            //Delay picture change by .75 secs
+                            h.postDelayed(r,750);
+                            pictureindex++;
+                            //once 5 statements are answered correctly
+                            if (pictureindex > 4){
+                                statement.setText("Congratulations!");
+                                button.setEnabled(false);
+                                if (nextActivity != 1) {
+                                    Runnable r2 = new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            //starts GameEnd activity
+                                            Context context = mContext;
+                                            Intent intent = new Intent(context, GameEnd.class);
+                                            intent.putExtra("next_activity", nextActivity);
+                                            intent.putExtra("conceptID", concept);
+                                            intent.putExtra("lessonID", lesson);
+                                            context.startActivity(intent);
+                                        }
+                                    };
+                                    Handler h2 = new Handler();
+                                    //Delay transition to game end by 2.75 secs
+                                    h2.postDelayed(r2, 2750);
+                                } else {
+                                    button.setEnabled(true);
+                                    Runnable r3 = new Runnable(){
+                                        @Override
+                                        public void run(){
+                                            ImageViewAnimatedChange(mContext,changer,pictures[5]);
+                                        }
+                                    };
+                                    pictureindex = 0;
+                                    //randomly pulled from the queue
+                                    int rand2 = (int) (Math.random() * 41);
+                                    if ((rand2 % 2) == 1)
+                                        rand2 = rand2 - 1;
+                                    cur = rand2;
+                                    statement.setText(toHTML(answers[cur]));
+                                    Runnable r2 = new Runnable(){
+                                        @Override
+                                        public void run(){
+                                            ImageViewAnimatedChange(mContext,changer,pictures[pictureindex]);
+                                        }
+                                    };
+                                    Handler h2 = new Handler();
+                                    //Delay picture change by .75 secs
+                                    h2.postDelayed(r3, 750);
+                                    h2.postDelayed(r2,2500);
+                                }
                             }
-                        }
 
+                        }
+                        else{
+                            // incorrect vibrate
+                            long[] incorrectBuzz = {0,55,40,55};
+                            myVib.vibrate(incorrectBuzz, -1); // vibrate
+
+                            resulter.setText(toHTML("Incorrect! Try again"));
+                            //randomly pulled from the queue
+                            int rand2 = (int) (Math.random() * 41);
+                            if ((rand2 % 2) == 1)
+                                rand2 = rand2 - 1;
+                            cur = rand2;
+                            statement.setText(toHTML(answers[cur]));
+
+                        }
                     }
                     else{
-                        resulter.setText(toHTML("Incorrect! Try again"));
-                        //randomly pulled from the queue
-                        int rand2 = (int) (Math.random() * 41);
-                        if ((rand2 % 2) == 1)
-                            rand2 = rand2 - 1;
-                        cur = rand2;
-                        statement.setText(toHTML(answers[cur]));
-
+                       //do nothing if at end of game
                     }
                 }
             });
         }
-        button.setTextColor(Color.WHITE);
+        button.setTextColor(ContextCompat.getColor(mContext, R.color.colorWhite));
 
         return button;
     }

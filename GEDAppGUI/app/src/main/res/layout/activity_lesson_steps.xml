@@ -62,11 +62,7 @@
             android:layout_marginBottom="@dimen/button_vert_margin"
             android:layout_marginTop="@dimen/button_vert_margin"
             android:text="@string/next"
-            android:onClick="gotToLessonExample"
-            android:layout_alignLeft="@+id/stepsTitle"
-            android:layout_alignStart="@+id/stepsTitle"
-            android:layout_alignRight="@+id/stepsTitle"
-            android:layout_alignEnd="@+id/stepsTitle" />
+            android:onClick="gotToLessonExample" />
 
     </RelativeLayout>
 </ScrollView>
