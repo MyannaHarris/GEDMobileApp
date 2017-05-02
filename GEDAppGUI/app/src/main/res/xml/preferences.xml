@@ -11,7 +11,7 @@
  Jasmine Jans
  Jimmy Sherman
 
- Last Edit: 4-10-17
+ Last Edit: 5-1-17
 -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
@@ -27,7 +27,7 @@
         android:key="username_preference"
         android:id="@+id/namePref"
         android:title="@string/username_title"
-        android:hint="Name"
+        android:hint="Username"
         android:textColor="@color/colorAccent"
         android:maxLength="10"
         android:textColorHint="@color/colorHint"
