@@ -11,7 +11,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 4-8-17
+ * Last Edit: 5-1-17
  *
  */
 
@@ -44,9 +44,11 @@ import static android.content.Context.VIBRATOR_SERVICE;
 
 public class MatchGameView extends LinearLayout{
 
-    // ID's for the learn cycle
+    // Next intent information
     private int conceptID;
     private int lessonID;
+    private int redo;
+    private int totalRetries;
 
     // int to hold whether to go to questions or play next
     // 0 = questions, 1 = play
@@ -115,7 +117,7 @@ public class MatchGameView extends LinearLayout{
     public MatchGameView(Context contextp, Activity activity,
                          ArrayList<ArrayList<String>> textsp,
                          int conceptIDp, int lessonIDp, int nextActivityp,
-                         int widthp, int heightp) {
+                         int widthp, int heightp, int redop, int totalRetriesp) {
         super(contextp);
 
         // Set context
@@ -132,6 +134,8 @@ public class MatchGameView extends LinearLayout{
         conceptID = conceptIDp;
         lessonID = lessonIDp;
         nextActivity = nextActivityp;
+        redo = redop;
+        totalRetries = totalRetriesp;
 
         // Screen size
         width = widthp;
@@ -624,6 +628,8 @@ public class MatchGameView extends LinearLayout{
         intent.putExtra("next_activity", nextActivity);
         intent.putExtra("conceptID", conceptID);
         intent.putExtra("lessonID", lessonID);
+        intent.putExtra("redoComplete", redo);
+        intent.putExtra("totalRetries",totalRetries);
         context.startActivity(intent);
     }
 

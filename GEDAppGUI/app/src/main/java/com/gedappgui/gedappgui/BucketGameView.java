@@ -13,7 +13,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 3-19-17
+ * Last Edit: 5-1-17
  *
  */
 
@@ -46,9 +46,11 @@ import static android.content.Context.VIBRATOR_SERVICE;
 
 public class BucketGameView extends SurfaceView implements Runnable  {
 
-    // ID's for the learn cycle
+    // Next intent information
     private int conceptID;
     private int lessonID;
+    private int redo;
+    private int totalRetries;
 
     // int to hold whether to go to questions or play next
     // 0 = questions, 1 = play
@@ -136,7 +138,7 @@ public class BucketGameView extends SurfaceView implements Runnable  {
      */
     public BucketGameView(Context contextp, int widthp, int heightp,
                           ArrayList<ArrayList<String>> gameQuestionsp, int conceptIDp,
-                          int lessonIDp, int nextActivityp) {
+                          int lessonIDp, int nextActivityp, int redop, int totalRetriesp) {
         super(contextp);
 
         // Save context
@@ -175,6 +177,8 @@ public class BucketGameView extends SurfaceView implements Runnable  {
         conceptID = conceptIDp;
         lessonID = lessonIDp;
         nextActivity = nextActivityp;
+        redo = redop;
+        totalRetries = totalRetriesp;
 
         // Save the question
         question = answersStr.get(0);
@@ -789,6 +793,8 @@ public class BucketGameView extends SurfaceView implements Runnable  {
         intent.putExtra("next_activity", nextActivity);
         intent.putExtra("conceptID", conceptID);
         intent.putExtra("lessonID", lessonID);
+        intent.putExtra("redoComplete", redo);
+        intent.putExtra("totalRetries",totalRetries);
         context.startActivity(intent);
     }
 }

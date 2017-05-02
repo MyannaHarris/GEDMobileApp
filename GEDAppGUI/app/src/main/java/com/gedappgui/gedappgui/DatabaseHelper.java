@@ -1269,7 +1269,7 @@ public class DatabaseHelper{
         }
 
         int size = answers.size();
-        for(int i = 0; i<3; i++){
+        for(int i = 0; i<2; i++){
             double rand = Math.abs(Math.round(Math.random() * (size-1)-i));
             randFinal.add(finalTexts.remove((int) rand));
             randHints.add(hints.remove((int)rand));

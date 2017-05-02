@@ -11,7 +11,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 2-17-17
+ * Last Edit: 5-1-17
  *
  */
 
@@ -51,10 +51,14 @@ public class ButtonAdapter extends BaseAdapter {
     private int pictureindex = 0;
     private int[] pictures;
     private TextView resulter;
-    private int lesson;
-    private int concept;
-    private int nextActivity;
     private int num_qs = 0;
+
+    // Next intent information
+    private int conceptID;
+    private int lessonID;
+    private int redo;
+    private int totalRetries;
+    private int nextActivity;
 
     // For Haptic Feedback
     private Vibrator myVib;
@@ -69,13 +73,17 @@ public class ButtonAdapter extends BaseAdapter {
      * @param state the initial equation at the top
      * @param pics the set of pictures to go through
      * @param result the Textview that tells the user if they are right or wrong
-     * @param lessonID the current lesson index
-     * @param conceptID the current concept index
+     * @param lessonIDp the current lesson index
+     * @param conceptIDp the current concept index
      * @param nextAct the GameEnd activity to be launched when the game is completed. 1 if from arcade 0 if from lessons
+     * @param counter the counter
+     * @param redop the redo variable
+     * @param totalRetriesp the number of times retry was visited
      */
     public ButtonAdapter(Context c, String[] buttonNamesp, ImageView change, String splitter,
-                         TextView state, int[] pics, TextView result, int lessonID,
-                         int conceptID, int nextAct, TextView counter) {
+                         TextView state, int[] pics, TextView result, int lessonIDp,
+                         int conceptIDp, int nextAct, TextView counter, int redop,
+                         int totalRetriesp) {
 
         mContext = c;
         buttonNames = buttonNamesp;
@@ -85,9 +93,11 @@ public class ButtonAdapter extends BaseAdapter {
         inc_counter = counter;
         pictures = pics;
         resulter = result;
-        lesson = lessonID;
+        lessonID = lessonIDp;
         nextActivity = nextAct;
-        concept = conceptID;
+        conceptID = conceptIDp;
+        redo = redop;
+        totalRetries = totalRetriesp;
 
         // Set up vibrator service
         myVib = (Vibrator) c.getSystemService(VIBRATOR_SERVICE);
@@ -236,8 +246,10 @@ public class ButtonAdapter extends BaseAdapter {
                                         Context context = mContext;
                                         Intent intent = new Intent(context, GameEnd.class);
                                         intent.putExtra("next_activity", nextActivity);
-                                        intent.putExtra("conceptID", concept);
-                                        intent.putExtra("lessonID", lesson);
+                                        intent.putExtra("conceptID", conceptID);
+                                        intent.putExtra("lessonID", lessonID);
+                                        intent.putExtra("redoComplete", redo);
+                                        intent.putExtra("totalRetries",totalRetries);
                                         context.startActivity(intent);
                                     }
                                 };
@@ -263,6 +275,7 @@ public class ButtonAdapter extends BaseAdapter {
                                     @Override
                                     public void run(){
                                         ImageViewAnimatedChange(mContext,changer,pictures[pictureindex]);
+                                        resulter.setText("");
                                     }
                                 };
                                 Handler h2 = new Handler();
@@ -328,6 +341,7 @@ public class ButtonAdapter extends BaseAdapter {
                             //once 5 statements are answered correctly
                             if (pictureindex > 4){
                                 statement.setText("Congratulations!");
+
                                 button.setEnabled(false);
                                 if (nextActivity != 1) {
                                     Runnable r2 = new Runnable() {
@@ -337,8 +351,10 @@ public class ButtonAdapter extends BaseAdapter {
                                             Context context = mContext;
                                             Intent intent = new Intent(context, GameEnd.class);
                                             intent.putExtra("next_activity", nextActivity);
-                                            intent.putExtra("conceptID", concept);
-                                            intent.putExtra("lessonID", lesson);
+                                            intent.putExtra("conceptID", conceptID);
+                                            intent.putExtra("lessonID", lessonID);
+                                            intent.putExtra("redoComplete", redo);
+                                            intent.putExtra("totalRetries",totalRetries);
                                             context.startActivity(intent);
                                         }
                                     };
@@ -364,6 +380,7 @@ public class ButtonAdapter extends BaseAdapter {
                                         @Override
                                         public void run(){
                                             ImageViewAnimatedChange(mContext,changer,pictures[pictureindex]);
+                                            resulter.setText("");
                                         }
                                     };
                                     Handler h2 = new Handler();
