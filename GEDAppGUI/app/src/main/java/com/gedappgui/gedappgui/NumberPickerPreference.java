@@ -18,7 +18,6 @@ package com.gedappgui.gedappgui;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Paint;
-import android.graphics.drawable.GradientDrawable;
 import android.preference.DialogPreference;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
@@ -26,7 +25,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 
