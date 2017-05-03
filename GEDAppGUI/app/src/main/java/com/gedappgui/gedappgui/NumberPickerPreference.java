@@ -78,6 +78,12 @@ public class NumberPickerPreference extends DialogPreference {
 
         pickerMin = new NumberPicker(getContext());
         pickerMin.setLayoutParams(layoutParams);
+        pickerMin.setFormatter(new NumberPicker.Formatter() {
+            @Override
+            public String format(int i) {
+                return String.format("%02d", i);
+            }
+        });
 
         LinearLayout dialogView = new LinearLayout(getContext());
         dialogView.setOrientation(LinearLayout.HORIZONTAL);
