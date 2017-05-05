@@ -429,6 +429,9 @@ public class DatabaseHelper{
         c.close();
         close();
 
+        if (lessonName == null) {
+            return "";
+        }
         return lessonName;
     }
 
@@ -866,16 +869,17 @@ public class DatabaseHelper{
      */
     public boolean isLastLesson(int currLesson) {
         open();
-        Cursor c = myDatabase.rawQuery("SELECT max(`order`) from lessons", null);
+       /* Cursor c = myDatabase.rawQuery("SELECT max(`order`) from lessons", null);
         c.moveToFirst();
         int lastLessonOrder = c.getInt(0);
-        c.close();
-        c = myDatabase.rawQuery("SELECT `order` from lessons WHERE lesson_id=" + currLesson, null);
+        c.close();*/
+        Cursor c = myDatabase.rawQuery("SELECT `order` from lessons WHERE lesson_id=" + currLesson, null);
         c.moveToFirst();
         int currLessonOrder = c.getInt(0);
+        System.out.println(currLessonOrder);
         c.close();
         close();
-        return (lastLessonOrder == currLessonOrder);
+        return (getMaxLessonId() == currLessonOrder);
     }
 
     /**
@@ -1269,7 +1273,7 @@ public class DatabaseHelper{
         }
 
         int size = answers.size();
-        for(int i = 0; i<2; i++){
+        for(int i = 0; i<3; i++){
             double rand = Math.abs(Math.round(Math.random() * (size-1)-i));
             randFinal.add(finalTexts.remove((int) rand));
             randHints.add(hints.remove((int)rand));
@@ -1580,6 +1584,7 @@ public class DatabaseHelper{
         int newLessonID = c.getInt(0);
         c.close();
         close();
+        System.out.println(newLessonID);
         return newLessonID;
     }
 
@@ -1594,17 +1599,22 @@ public class DatabaseHelper{
         String updateQuery = "UPDATE user_lessons SET datetime_finished=date('now') WHERE lesson_id="
                 + lessonID;
         myDatabase.execSQL(updateQuery);
-        // if next lesson is not already in user_lessons, add it
+
         Cursor c = myDatabase.rawQuery("SELECT count(lesson_id) FROM user_lessons WHERE lesson_id="
-                + newLessonID,null);
-        c.moveToFirst();
-        int test = c.getInt(0);
-        if (test < 1) {
-            String insertQuery = "INSERT INTO user_lessons(user_id, lesson_id, datetime_started) VALUES(1,"+newLessonID+",date('now'))";
-            myDatabase.execSQL(insertQuery);
+                + newLessonID, null);
+        // if there is a next lesson and it is not already in user_lessons, add it
+        if(!isLastLesson(lessonID)) {
+            open();
+            c.moveToFirst();
+            int test = c.getInt(0);
+
+            if (test < 1) {
+                String insertQuery = "INSERT INTO user_lessons(user_id, lesson_id, datetime_started) VALUES(1," + newLessonID + ",date('now'))";
+                myDatabase.execSQL(insertQuery);
+            }
+            //change current lesson
+            myDatabase.execSQL("UPDATE user SET current_lesson="+newLessonID);
         }
-        //change current lesson
-        myDatabase.execSQL("UPDATE user SET current_lesson="+newLessonID);
         c.close();
         close();
     }
