@@ -89,7 +89,12 @@ public class Success extends AppCompatActivity {
 
         dbHelper = new DatabaseHelper(this);
 
-        newLessonID = dbHelper.getNextLesson(lessonID);
+        if(!dbHelper.isLastLesson(lessonID)) {
+            newLessonID = dbHelper.getNextLesson(lessonID);
+        }
+        else{
+            newLessonID = lessonID;
+        }
 
         // Make dictionary of image ids
         accessoryMap = new HashMap<Integer, Integer>();
@@ -99,25 +104,41 @@ public class Success extends AppCompatActivity {
         TextView helperText = (TextView) findViewById(R.id.pick_location);
         TextView congrats = (TextView) findViewById(R.id.congratulations);
 
-        // If the next lesson is newly unlocked, the user receives an accessory
-        if (!(dbHelper.isLessonAlreadyStarted(newLessonID))) {
-            if (dbHelper.isLastLesson(lessonID)) {
+
+        if(dbHelper.isLastLesson(lessonID)){
+            if(!dbHelper.isLessonAlreadyDone(lessonID)){
                 pickText.setText("Here's your last accessory!");
                 helperText.setText("Choose where you\'d like to go next!");
-            } else {
-                pickText.setText("Pick an accessory:");
-                helperText.setText("Once you decide what accessory you want, choose where you\'d like to go next!");
+                ArrayList<Integer> ids = dbHelper.getRandomAccessories();
+                if(!ids.isEmpty())
+                {
+                    for (int i=0; i<ids.size(); i++) {
+                        accessoryGiven = ids.get(i);
+                        accessories.add(ids.get(i)); // accessory id
+                        accessories.add(accessoryMap.get(ids.get(i))); // accessory image
+                    }
+                }
             }
+        }
+        // If the next lesson is newly unlocked, the user receives an accessory
+        else if (!(dbHelper.isLessonAlreadyStarted(newLessonID))) {
+            pickText.setText("Pick an accessory:");
+            helperText.setText("Once you decide what accessory you want, choose where you\'d like to go next!");
             // Get random accessories user doesn't have from db and put them in ArrayList
+            // if there are any remaining accesorries
             ArrayList<Integer> ids = dbHelper.getRandomAccessories();
-            for (int i=0; i<ids.size(); i++) {
-                accessoryGiven = ids.get(i);
-                accessories.add(ids.get(i)); // accessory id
-                accessories.add(accessoryMap.get(ids.get(i))); // accessory image
+            if(!ids.isEmpty())
+            {
+                for (int i=0; i<ids.size(); i++) {
+                    accessoryGiven = ids.get(i);
+                    accessories.add(ids.get(i)); // accessory id
+                    accessories.add(accessoryMap.get(ids.get(i))); // accessory image
+                }
             }
-            checkAchievements(totalQuestions, totalCorrect);
+
         }
 
+        checkAchievements(totalQuestions, totalCorrect);
         dbHelper.lessonCompleted(lessonID, newLessonID);
 
         Button toLesson = (Button) findViewById(R.id.to_lesson);
@@ -132,7 +153,6 @@ public class Success extends AppCompatActivity {
         toSprite.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)height/30);
 
 
-
         // Allow user to control audio with volume buttons on phone
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
@@ -140,7 +160,7 @@ public class Success extends AppCompatActivity {
 
         // Put things in the grid layout
         setAccessoryInfo(accessories);
-        if (dbHelper.isLastLesson(newLessonID)) {
+        if (dbHelper.isLastLesson(lessonID)) {
             RelativeLayout page = (RelativeLayout) findViewById(R.id.successPage);
             page.removeView(findViewById(R.id.to_lesson));
         }

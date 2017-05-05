@@ -137,12 +137,6 @@ public class SlopeCalculator extends AppCompatActivity {
 
     }
 
-    /*
-     * Listener for the Find slope button
-     * Makes a string that shows the steps to find the slope if valid inputs are made
-     * If not, throws an error string and exits.
-     */
-
     /**
      * Listener for the Find slope button
      * Makes a string that shows the steps to find the slope if valid inputs are made
@@ -209,7 +203,7 @@ public class SlopeCalculator extends AppCompatActivity {
         onResume();
     }
 
-    /*
+    /**
      * hides bottom navigation bar
      * Called after onCreate on first creation
      * Called every time this activity gets the focus

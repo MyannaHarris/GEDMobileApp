@@ -11,7 +11,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 3-20-17
+ * Last Edit: 5-1-17
  *
  */
 
@@ -39,9 +39,11 @@ import static android.content.Context.VIBRATOR_SERVICE;
 
 public class OrderingGameView extends LinearLayout {
 
-    // ID's for the learn cycle
+    // Next intent information
     private int conceptID;
     private int lessonID;
+    private int redo;
+    private int totalRetries;
 
     // int to hold whether to go to questions or play next
     // 0 = questions, 1 = play
@@ -92,7 +94,7 @@ public class OrderingGameView extends LinearLayout {
 
     public OrderingGameView(Context contextp, ArrayList<ArrayList<String>> textsp,
                             int conceptIDp, int lessonIDp, final int nextActivityp,
-                            int width, int heightp) {
+                            int width, int heightp, int redop, int totalRetriesp) {
         super(contextp);
 
         context = contextp;
@@ -101,6 +103,8 @@ public class OrderingGameView extends LinearLayout {
         conceptID = conceptIDp;
         lessonID = lessonIDp;
         nextActivity = nextActivityp;
+        redo = redop;
+        totalRetries = totalRetriesp;
 
         // Save screen info
         height = heightp;
@@ -454,6 +458,8 @@ public class OrderingGameView extends LinearLayout {
         intent.putExtra("next_activity", nextActivity);
         intent.putExtra("conceptID", conceptID);
         intent.putExtra("lessonID", lessonID);
+        intent.putExtra("redoComplete", redo);
+        intent.putExtra("totalRetries",totalRetries);
         context.startActivity(intent);
     }
 

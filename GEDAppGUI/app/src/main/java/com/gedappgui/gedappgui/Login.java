@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -76,7 +77,10 @@ public class Login extends AppCompatActivity {
         Button loginButton = (Button) findViewById(R.id.login_button);
         loginButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(height/35));
 
-        // Exits keyboard when user hits enter on it
+        // Exits keyboard when user taps anywhere else besides edittext area
+
+
+        // Exits keyboard when user hits enter on it and sets the login
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -87,6 +91,30 @@ public class Login extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    /**
+     * Sends event to listener then processes touch itself
+     * @param event Motion event
+     * @return super.dispatchTouchEvent(event) send event to other listeners
+     */
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        switch(event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                View view = getCurrentFocus();
+
+                if ((view instanceof EditText)) {
+                    InputMethodManager inputManager = (InputMethodManager)
+                            getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                    inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                            InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+                break;
+        }
+
+        return super.dispatchTouchEvent(event);
     }
 
     /**

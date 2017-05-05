@@ -13,35 +13,31 @@ package com.gedappgui.gedappgui;
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 2-19-17
+ * Last Edit: 5-1-17
  *
  */
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Vibrator;
-import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.Spanned;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import static android.content.Context.VIBRATOR_SERVICE;
-
-/**
- * Created by James on 2/17/2017.
- */
-
 public class PictureGameView extends LinearLayout {
+
+    // Next intent information
+    private int conceptID;
+    private int lessonID;
+    private int redo;
+    private int totalRetries;
+    private int nextActivity;
 
     private TextView statement;
     private TextView result;
@@ -51,9 +47,6 @@ public class PictureGameView extends LinearLayout {
     private Context context;
     private ImageView changer;
     private Button end;
-    private int conceptid;
-    private int lessonid;
-    private int nextActivity;
     private String[] texts = {
             "TRUE",
             "FALSE"
@@ -102,12 +95,16 @@ public class PictureGameView extends LinearLayout {
      * @param nextActivityp the next activity index
      * @param passer the data for the game
      */
-    public PictureGameView(Context contextp, int conceptIDp, int lessonIDp, int nextActivityp, String passer){
+    public PictureGameView(Context contextp, int conceptIDp, int lessonIDp, int nextActivityp,
+                           String passer, int redop, int totalRetriesp){
         super(contextp);
 
-        conceptid = conceptIDp;
-        lessonid = lessonIDp;
+        // IDs for starting next intent after game
+        conceptID = conceptIDp;
+        lessonID = lessonIDp;
         nextActivity = nextActivityp;
+        redo = redop;
+        totalRetries = totalRetriesp;
 
         context = contextp;
         statement = new TextView(context);
@@ -152,15 +149,15 @@ public class PictureGameView extends LinearLayout {
 
         changer = new ImageView(context);
         //determines initial picture based on lessonid
-        if (lessonid == 5){
+        if (lessonID == 5){
             pass_pics = L5_pics;
             changer.setImageResource(R.drawable.lesson5game_0);
         }
-        else if (lessonid == 12){
+        else if (lessonID == 12){
             pass_pics = L12_pics;
             changer.setImageResource(R.drawable.lesson12game_0);
         }
-        else if (lessonid == 16){
+        else if (lessonID == 16){
             pass_pics = L16_pics;
             changer.setImageResource(R.drawable.lesson16game_0);
         }
@@ -198,8 +195,10 @@ public class PictureGameView extends LinearLayout {
                 //starts GameEnd activity
                 Intent intent = new Intent(context, GameEnd.class);
                 intent.putExtra("next_activity", nextActivity);
-                intent.putExtra("conceptID", conceptid);
-                intent.putExtra("lessonID", lessonid);
+                intent.putExtra("conceptID", conceptID);
+                intent.putExtra("lessonID", lessonID);
+                intent.putExtra("redoComplete", redo);
+                intent.putExtra("totalRetries",totalRetries);
                 context.startActivity(intent);
             }
         });
@@ -207,7 +206,7 @@ public class PictureGameView extends LinearLayout {
         buttons.setLayoutParams(linearLayout);
         //call button adapter to put buttons in gridview and create listeners for the buttons
         buttons.setAdapter(new ButtonAdapter(context, texts, changer, splits, statement, pass_pics,result,
-        lessonid,conceptid,nextActivity,counter));
+        lessonID,conceptID,nextActivity,counter, redo, totalRetries));
         //add gridview to layout
         this.addView(buttons);
         if (nextActivity != 0) {

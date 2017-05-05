@@ -11,7 +11,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 4-11-17
+ * Last Edit: 5-1-17
  *
  */
 
@@ -55,9 +55,11 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 public class MadlibGameView extends RelativeLayout {
     private Context context;
 
-    // ID's for the learn cycle
+    // Next intent information
     private int conceptID;
     private int lessonID;
+    private int redo;
+    private int totalRetries;
 
     // int to hold whether to go to questions or play next
     // 0 = questions, 1 = play
@@ -129,8 +131,10 @@ public class MadlibGameView extends RelativeLayout {
      * @param width1 Width of the screen in pixels
      * @param height1 Height of screen in pixels
      */
-    public MadlibGameView(Context contextp, Activity activityp, boolean infp, ArrayList<ArrayList<ArrayList<String>>> input, int conceptIDp,
-                          int lessonIDp, int nextActivityp, int width1, int height1, ScrollView scrollp) {
+    public MadlibGameView(Context contextp, Activity activityp, boolean infp,
+                          ArrayList<ArrayList<ArrayList<String>>> input, int conceptIDp,
+                          int lessonIDp, int nextActivityp, int width1, int height1,
+                          ScrollView scrollp, int redop, int totalRetriesp) {
         super(contextp);
         db = new DatabaseHelper(contextp);
 
@@ -142,6 +146,8 @@ public class MadlibGameView extends RelativeLayout {
         conceptID = conceptIDp;
         lessonID = lessonIDp;
         nextActivity = nextActivityp;
+        redo = redop;
+        totalRetries = totalRetriesp;
         scroll = scrollp;
 
         height = height1;
@@ -756,6 +762,8 @@ public class MadlibGameView extends RelativeLayout {
         intent.putExtra("next_activity", nextActivity);
         intent.putExtra("conceptID", conceptID);
         intent.putExtra("lessonID", lessonID);
+        intent.putExtra("redoComplete", redo);
+        intent.putExtra("totalRetries",totalRetries);
         context.startActivity(intent);
     }
 

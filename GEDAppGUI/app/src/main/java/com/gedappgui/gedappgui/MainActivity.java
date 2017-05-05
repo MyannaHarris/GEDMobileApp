@@ -128,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
             //changes to progress bar
             ProgressBar progress = (ProgressBar)findViewById(R.id.progressBar);
             TextView seeProgress = (TextView)findViewById(R.id.see_progress);
+            progress.setMax(db.getMaxLessonId());
             progress.setScaleY(4f);
             int count = db.lessonCount()-1;
             progress.setProgress(count);
@@ -217,6 +218,7 @@ public class MainActivity extends AppCompatActivity {
             //changes to progress bar
             ProgressBar progress = (ProgressBar)findViewById(R.id.progressBar);
             TextView seeProgress = (TextView)findViewById(R.id.see_progress);
+            progress.setMax(db.getMaxLessonId());
             progress.setScaleY(4f);
             int count = db.lessonCount()-1;
             progress.setProgress(count);

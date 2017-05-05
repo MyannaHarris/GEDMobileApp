@@ -14,7 +14,7 @@
  *
  * Created by jasminejans on 10/29/16.
  *
- * Last Edit: 4-10-17
+ * Last Edit: 5-1-17
  *
  */
 
@@ -105,7 +105,7 @@ public class Game extends AppCompatActivity {
 
             // Create game object
             bucketGameView = new BucketGameView(this, width, height, gameQuestions,
-                    conceptID, lessonID, nextActivity);
+                    conceptID, lessonID, nextActivity, redo, totalRetries);
 
             // Set the game as the view
             setContentView(bucketGameView);
@@ -127,7 +127,7 @@ public class Game extends AppCompatActivity {
 
             // Create game object
             matchGameView = new MatchGameView(this, activity, texts, conceptID,
-                    lessonID, nextActivity, width, height);
+                    lessonID, nextActivity, width, height, redo, totalRetries);
 
             // Set the game as the view
             setContentView(matchGameView);
@@ -145,7 +145,7 @@ public class Game extends AppCompatActivity {
 
             // Create game object
             chemistryGameView = new ChemistryGameView(this, texts, conceptID,
-                    lessonID, nextActivity, width, height);
+                    lessonID, nextActivity, width, height, redo, totalRetries);
 
             // Set the game as the view
             setContentView(chemistryGameView);
@@ -170,7 +170,7 @@ public class Game extends AppCompatActivity {
             scroll.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
 
             madlibGameView = new MadlibGameView(this, activity, inf, input, conceptID, lessonID,
-                    nextActivity, width, height, scroll);
+                    nextActivity, width, height, scroll, redo, totalRetries);
 
             scroll.addView(madlibGameView);
 
@@ -184,7 +184,8 @@ public class Game extends AppCompatActivity {
             String pass_string = dbHelper.selectPicGameInput(lessonID);
 
             // Create game object
-            pictureGameView = new PictureGameView(this,conceptID,lessonID,nextActivity,pass_string);
+            pictureGameView = new PictureGameView(this,conceptID,lessonID,nextActivity,
+                    pass_string, redo, totalRetries);
 
             // Set the game as the view
             setContentView(pictureGameView);
@@ -202,51 +203,19 @@ public class Game extends AppCompatActivity {
 
             // Create game object
             orderingGameView = new OrderingGameView(this, texts, conceptID,
-                    lessonID, nextActivity, width, height);
+                    lessonID, nextActivity, width, height, redo, totalRetries);
 
             // Set the game as the view
             setContentView(orderingGameView);
         } else{
-            // Made up bucket game content to run when no game is specified
-
-            ArrayList<ArrayList<String>> gameQuestions = new ArrayList<ArrayList<String>>();
-
-            ArrayList<String> texts = new ArrayList<String>();
-            texts.add("1");
-            texts.add("2");
-            texts.add("3");
-            texts.add("4");
-            texts.add("5");
-            texts.add("7");
-            ArrayList<String> answers = new ArrayList<String>();
-            String question = "4 * (x-1) = 24";
-            answers.add(question);
-            answers.add("7");
-
-            gameQuestions.add(texts);
-            gameQuestions.add(answers);
-
-            texts = new ArrayList<String>();
-            texts.add("11");
-            texts.add("7");
-            texts.add("8");
-            texts.add("9");
-            texts.add("10");
-            texts.add("5");
-            answers = new ArrayList<String>();
-            question = "1 + 7x = 36";
-            answers.add(question);
-            answers.add("5");
-
-            gameQuestions.add(texts);
-            gameQuestions.add(answers);
-
-            // Create game object
-            bucketGameView = new BucketGameView(this, width, height, gameQuestions,
-                    conceptID, lessonID, nextActivity);
-
-            // Set the game as the view
-            setContentView(bucketGameView);
+            // Move on
+            Intent intent = new Intent(this, GameEnd.class);
+            intent.putExtra("next_activity", nextActivity);
+            intent.putExtra("conceptID",conceptID);
+            intent.putExtra("lessonID",lessonID);
+            intent.putExtra("redoComplete", redo);
+            intent.putExtra("totalRetries",totalRetries);
+            startActivity(intent);
         }
     }
 

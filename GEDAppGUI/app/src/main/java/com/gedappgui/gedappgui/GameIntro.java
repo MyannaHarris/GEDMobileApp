@@ -12,7 +12,7 @@
  * Jasmine Jans
  * Jimmy Sherman
  *
- * Last Edit: 3-31-17
+ * Last Edit: 5-1-17
  *
  */
 
@@ -26,7 +26,6 @@ import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayout;
 import android.util.DisplayMetrics;
@@ -36,7 +35,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -104,6 +102,15 @@ public class GameIntro extends AppCompatActivity {
         //  Make current lesson this one...because we're on it now
         if (nextActivity == 0 && dbHelper.selectCurrentLessonID() != lessonID) {
             dbHelper.updateCurrentLessonID(lessonID);
+        }
+
+        if (dbHelper.selectGameTemplate(lessonID).equals("")) {
+            Intent intent = new Intent(this, Question.class);
+            intent.putExtra("conceptID",conceptID);
+            intent.putExtra("lessonID",lessonID);
+            intent.putExtra("redoComplete", redo);
+            intent.putExtra("totalRetries",totalRetries);
+            startActivity(intent);
         }
 
         layout = (RelativeLayout) findViewById(R.id.gameIntro);
