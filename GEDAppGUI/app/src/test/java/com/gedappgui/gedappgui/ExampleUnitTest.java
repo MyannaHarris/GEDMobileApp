@@ -1,3 +1,36 @@
+/*
+ * ExampleUnitTest.java
+ *
+ * Example UnitTests
+ *
+ * Worked on by:
+ * Myanna Harris
+ * Kristina Spring
+ * Jasmine Jans
+ * Jimmy Sherman
+ *
+ * Last Edit: 5-6-17
+ *
+ * Copyright 2017 Myanna Harris, Jasmine Jans, James Sherman, Kristina Spring
+ *
+ * This file is part of DragonAcademy.
+ *
+ * DragonAcademy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3 of the License. All redistributions
+ * of the app or modifications of the app are to remain free in accordance
+ * with the GNU General Public License.
+ *
+ * DragonAcademy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with DragonAcademy.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 package com.gedappgui.gedappgui;
 
 import android.app.Activity;
@@ -13,7 +46,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.io.File;
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
@@ -92,66 +124,6 @@ public class ExampleUnitTest {
         myApp.setName("testIncorrect");
         String test = myApp.getName();
         assertEquals(test, "testIncorrect");
-    }
-
-    /*@Test
-    public void testHandleIntent_HomeToSprite_works() throws InterruptedException {
-        try {
-            mainActivity.gotToSprite(view);
-            TimeUnit.SECONDS.sleep(10);
-        } catch (InterruptedException e) {
-            fail("Waiting for the worker thread took too long.");
-        }
-    }
-
-    @Test
-    public void testHandleIntent_HomeToLearnConcepts_works() throws InterruptedException {
-        try {
-            mainActivity.gotToLearn(view);
-            TimeUnit.SECONDS.sleep(10);
-        } catch (InterruptedException e) {
-            fail("Waiting for the worker thread took too long.");
-        }
-    }
-
-    @Test
-    public void testHandleIntent_HomeToPlay_works() throws InterruptedException {
-        try {
-            mainActivity.gotToPlay(view);
-            TimeUnit.SECONDS.sleep(10);
-        } catch (InterruptedException e) {
-            fail("Waiting for the worker thread took too long.");
-        }
-    }
-
-    @Test
-    public void testHandleIntent_HomeToContinueLesson_works() throws InterruptedException {
-        try {
-            mainActivity.gotToContinueLesson(view);
-            TimeUnit.SECONDS.sleep(10);
-        } catch (InterruptedException e) {
-            fail("Waiting for the worker thread took too long.");
-        }
-    }*/
-
-    @Test
-    public void testHandleIntent_HomeToAchievements_works() throws InterruptedException {
-        try {
-            mainActivity.gotToAchievements(view);
-            TimeUnit.SECONDS.sleep(10);
-        } catch (InterruptedException e) {
-            fail("Waiting for the worker thread took too long.");
-        }
-    }
-
-    @Test
-    public void testHandleIntent_HomeToTools_works() throws InterruptedException {
-        try {
-            mainActivity.gotToTools(view);
-            TimeUnit.SECONDS.sleep(10);
-        } catch (InterruptedException e) {
-            fail("Waiting for the worker thread took too long.");
-        }
     }
 
     @Test
