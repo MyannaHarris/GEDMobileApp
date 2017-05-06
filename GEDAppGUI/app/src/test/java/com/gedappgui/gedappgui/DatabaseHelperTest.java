@@ -1,9 +1,6 @@
 package com.gedappgui.gedappgui;
 
 import org.junit.Test;
-import android.support.
-
-import static org.junit.Assert.*;
 
 
 /**
