@@ -42,6 +42,7 @@ import android.os.Vibrator;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -501,11 +502,15 @@ public class OrderingGameView extends LinearLayout {
      * @return Spanned object to be passed into the setText method
      */
     public Spanned toHTML(String input) {
+        String[] split1 = input.split("&gt");
+        String correctGt = TextUtils.join("&gt;", split1);
+        String[] split2 = correctGt.split("&lt");
+        String correctString = TextUtils.join("&lt;", split2);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            return Html.fromHtml(input,Html.FROM_HTML_MODE_LEGACY);
+            return Html.fromHtml(correctString,Html.FROM_HTML_MODE_LEGACY);
         } else {
-            return Html.fromHtml(input);
+            return Html.fromHtml(correctString);
         }
 
     }
